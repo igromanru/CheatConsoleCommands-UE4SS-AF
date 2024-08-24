@@ -10,6 +10,8 @@ Settings = {
     NoContinence = false,
     FreeCrafting = false,
     NoFallDamage = false,
-    NoClip = false
+    NoClip = false,
+    SetMoney = false,
+    MoneyValue = -1
 }
 

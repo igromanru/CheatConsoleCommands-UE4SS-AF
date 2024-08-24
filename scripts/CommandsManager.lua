@@ -27,114 +27,207 @@ function WriteToConsoleDebug(OutputDevice, Message)
     end
 end
 
-local function StructCommand(CommandNames, FeatureName, Description)
+local function StructCommand(CommandNames, FeatureName, Description, Parameters)
     if type(CommandNames) == "string" then
         CommandNames = { CommandNames }
     end
+    if type(CommandNames) ~= "table" then
+        error('StructCommand: Invalid "CommandNames" parameter')
+    end
+    if not FeatureName then
+        error('StructCommand: Invalid "FeatureName" parameter')
+    end
+    Description = Description or ""
+    Parameters = Parameters or ""
     return {
-        CommandNames = CommandNames,
+        Aliases = CommandNames,
         Name = FeatureName,
-        Description = Description
+        Description = Description,
+        Parameters = Parameters
     }
 end
 
 local Commands = {
     Help = StructCommand("help", "Help", "Shows mod details and possible commands"),
-    God = StructCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
-    InfiniteHealth = StructCommand({"health", "infhp", "infhealth"}, "Infinite Health", "Infinite Health"),
-    InfiniteStamina = StructCommand({"stamina", "infsp", "infstamina"}, "Infinite Stamina", "Infinite Stamina"),
-    NoHunger = StructCommand({"hunger", "nohunger"}, "No Hunger", "No Hunger"),
-    NoThirst = StructCommand({"thirst", "nothirst"}, "No Thirst", "No Thirst"),
-    NoFatigue = StructCommand({"fat", "fatigue", "nofatigue"}, "No Fatigue", "No Fatigue"),
-    NoContinence = StructCommand({"con", "continence", "nocontinence"}, "No Continence", "No Continence"),
-    Money = StructCommand({"money"}, "Set Money"),
-    FreeCrafting = StructCommand({"freecraft", "freecrafting", "crafting"}, "Free Crafting", "Free Crafting"),
-    NoFallDamage = StructCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "No Fall Damage"),
+    GodMode = StructCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
+    InfiniteHealth = StructCommand({"health", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed becomes Invisible"),
+    InfiniteStamina = StructCommand({"stamina", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina"),
+    NoHunger = StructCommand({"hunger", "nohunger"}, "No Hunger", "Player won't be hungry"),
+    NoThirst = StructCommand({"thirst", "nothirst"}, "No Thirst", "Player won't be Ttirsty"),
+    NoFatigue = StructCommand({"fat", "fatigue", "nofatigue"}, "No Fatigue", "Player won't be tired"),
+    NoContinence = StructCommand({"con", "continence", "nocontinence"}, "No Continence", "Player won't need to go to the toilet"),
+    Money = StructCommand({"money"}, "Set Money", "Set money to desired value", "value"),
+    FreeCrafting = StructCommand({"freecraft", "freecrafting", "crafting"}, "Free Crafting", "Allows player to craft for free"),
+    NoFallDamage = StructCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
     NoClip = StructCommand({"noclip"}, "No Clip", "Disables player's collision and makes him fly"),
 }
 
+function PrintGenerateMarkdownTable()
+    local function GetCommandAlias(Command)
+        local result = ""
+        for i, alias in ipairs(Command.Aliases) do
+           if i > 1 then
+            result = result .. " \\| "
+           end 
+           result = result .. alias
+        end
+        return result
+    end
+
+    print("------- Markdown Table -----------")
+    print("Command | Aliases | Parameters | Description")
+    print("------- | ------- | ---------- | -----------")
+    for _, command in pairs(Commands) do
+        print(string.format("%s | %s | %s | %s", command.Name, GetCommandAlias(command), command.Parameters, command.Description))
+    end
+    print("----------------------------------")
+end
+
 local function RegisterConsoleCommand(Command, Callback)
-    if type(Command) == "table" and Command.CommandNames and type(Callback) == "function" then
-        for _, commandName in ipairs(Command.CommandNames) do
+    if type(Command) == "table" and Command.Aliases and type(Callback) == "function" then
+        for _, commandName in ipairs(Command.Aliases) do
             if type(commandName) == "string" then
-                RegisterConsoleCommandHandler(commandName, Callback)
-                LogDebug("RegisterConsoleCommand: Registered command: "..commandName)
+                RegisterConsoleCommandGlobalHandler (commandName, Callback)
+                LogDebug("RegisterConsoleCommand: Registered command: " .. commandName)
             end
         end 
     else
-        LogError("RegisterConsoleCommand: Failed to register: "..Command)
+        LogError("RegisterConsoleCommand: Failed to register: " .. Command.Name)
     end
 end 
 
----comment
+---
 ---@param State boolean
 ---@param CommandName string
 ---@param OutputDevice FOutputDevice
 local function PrintCommandState(State, CommandName, OutputDevice)
-    local stateText = CommandName .. " was "
+    local stateText = CommandName .. " "
     if State then
         stateText = stateText .. "Enabled"
     else
         stateText = stateText .. "Disabled"
     end
-    LogDebug(stateText)
-    OutputDevice:Log(stateText)
-end
-
-local function MatchCommand(Command, Parameters)
-    local parameter = Parameters[1]
-    for i, value in ipairs(Command.CommandNames) do
-        if parameter == value then
-            return true
-        end
-    end
-    return false
+    WriteToConsoleDebug(OutputDevice, stateText)
 end
 
 -- Help Command
-local function HelpCommand(Parameters, OutputDevice)
-    if MatchCommand(Commands.Help, Parameters) then
-        WriteToConsoleDebug("Help called", OutputDevice)
-        return true
+local function HelpCommand(FullCommand, Parameters, OutputDevice)
+    local function GetCommandAlias(Command)
+        local result = ""
+        for i, alias in ipairs(Command.Aliases) do
+           if i > 1 then
+            result = result .. " | "
+           end 
+           result = result .. alias
+        end
+        return result
     end
-    return false
+    WriteToConsole(OutputDevice, ModName .. " list:")
+    for _, command in pairs(Commands) do
+        WriteToConsole(OutputDevice, "------------------------------")
+        WriteToConsole(OutputDevice, "Command: " .. command.Name)
+        WriteToConsole(OutputDevice, "Aliases: " .. GetCommandAlias(command))
+        if command.Parameters and command.Parameters ~= "" then
+            WriteToConsole(OutputDevice, "Parameters: " .. command.Parameters)
+        end
+        WriteToConsole(OutputDevice, "Description: " .. command.Description)
+    end
+    WriteToConsole(OutputDevice, "------------------------------")
+
+    return true
 end
+RegisterConsoleCommand(Commands.Help, HelpCommand)
+
+-- GodMode Command
+local function GodModeCommand(FullCommand, Parameters, OutputDevice)
+    Settings.GodMode = not Settings.GodMode
+    PrintCommandState(Settings.GodMode, Commands.NoClip.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.GodMode, GodModeCommand)
+
+-- InfiniteHealth Command
+local function InfiniteHealthCommand(FullCommand, Parameters, OutputDevice)
+    Settings.InfiniteHealth = not Settings.InfiniteHealth
+    PrintCommandState(Settings.InfiniteHealth, Commands.InfiniteHealth.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.InfiniteHealth, InfiniteHealthCommand)
+
+-- InfiniteStamina Command
+local function InfiniteStaminaCommand(FullCommand, Parameters, OutputDevice)
+    Settings.InfiniteStamina = not Settings.InfiniteStamina
+    PrintCommandState(Settings.InfiniteStamina, Commands.InfiniteStamina.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.InfiniteStamina, InfiniteStaminaCommand)
+
+-- NoHunger Command
+local function NoHungerCommand(FullCommand, Parameters, OutputDevice)
+    Settings.NoHunger = not Settings.NoHunger
+    PrintCommandState(Settings.NoHunger, Commands.NoHunger.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.NoHunger, NoHungerCommand)
+
+-- NoThirst Command
+local function NoThirstCommand(FullCommand, Parameters, OutputDevice)
+    Settings.NoThirst = not Settings.NoThirst
+    PrintCommandState(Settings.NoThirst, Commands.NoThirst.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.NoThirst, NoThirstCommand)
+
+-- NoFatigue Command
+local function NoFatigueCommand(FullCommand, Parameters, OutputDevice)
+    Settings.NoFatigue = not Settings.NoFatigue
+    PrintCommandState(Settings.NoFatigue, Commands.NoFatigue.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.NoFatigue, NoFatigueCommand)
+
+-- NoContinence Command
+local function NoContinenceCommand(FullCommand, Parameters, OutputDevice)
+    Settings.NoContinence = not Settings.NoContinence
+    PrintCommandState(Settings.NoContinence, Commands.NoContinence.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.NoContinence, NoContinenceCommand)
+
+-- FreeCrafting Command
+local function FreeCraftingCommand(FullCommand, Parameters, OutputDevice)
+    Settings.FreeCrafting = not Settings.FreeCrafting
+    PrintCommandState(Settings.FreeCrafting, Commands.FreeCrafting.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.FreeCrafting, FreeCraftingCommand)
+
+-- NoFallDamage Command
+local function NoFallDamageCommand(FullCommand, Parameters, OutputDevice)
+    Settings.NoFallDamage = not Settings.NoFallDamage
+    PrintCommandState(Settings.NoFallDamage, Commands.NoFallDamage.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.NoFallDamage, NoFallDamageCommand)
 
 -- NoClip Command
-local function NoClipCommand(Parameters, OutputDevice)
-    if MatchCommand(Commands.NoClip, Parameters) then
-        Settings.NoClip = not Settings.NoClip
-        WriteToConsoleDebug("NoClip: " .. tostring(Settings.NoClip), OutputDevice)
-        return true
-    end
-    return false
+local function NoClipCommand(FullCommand, Parameters, OutputDevice)
+    Settings.NoClip = not Settings.NoClip
+    PrintCommandState(Settings.NoClip, Commands.NoClip.Name, OutputDevice)
+    return true
 end
+RegisterConsoleCommand(Commands.NoClip, NoClipCommand)
 
+-- Set Money Command
+local function MoneyCommand(FullCommand, Parameters, OutputDevice)
+    if #Parameters < 1 then
+        WriteToConsole(OutputDevice, Commands.Money.Name..": Invalud command call")
+        WriteToConsole(OutputDevice, Commands.Money.Name..": Invalud command call")
+    end
 
--- RegisterConsoleCommandGlobalHandler("god", function(FullCommand, Parameters, OutputDevice)
---     LogDebug("[ConsoleCommandGlobalHandler] god:")
---     LogDebug("FullCommand: " .. FullCommand)
---     LogDebug("Parameters count: " .. #Parameters)
---     for i, value in ipairs(Parameters) do
---         LogDebug(i .. ": " .. value)
---     end
---     LogDebug("OutputDevice: " .. OutputDevice:type())
---     LogDebug("------------------------------")
+    Settings.Money = true
+    PrintCommandState(Settings.Money, Commands.Money.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.Money, MoneyCommand)
 
---     return true
--- end)
-
--- RegisterConsoleCommandHandler(Settings.ModCommand, function(FullCommand, Parameters, OutputDevice)
---     if #Parameters < 1 then return false end
-
---     WriteToConsoleDebug("FullCommand: " .. FullCommand, OutputDevice)
---     WriteToConsoleDebug("Parameters count: " .. #Parameters, OutputDevice)
---     for i, value in ipairs(Parameters) do
---         LogDebug(i .. ": " .. value)
---     end
---     if HelpCommand(Parameters, OutputDevice) then
---     elseif NoClipCommand(Parameters, OutputDevice) then
---     end
-
---     return true
--- end)
