@@ -1,7 +1,7 @@
 
 
-require("Settings")
 local AFUtils = require("AFUtils.AFUtils")
+local Settings = require("Settings")
 
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
@@ -48,13 +48,14 @@ end
 local Commands = {
     Help = StructCommand("help", "Help", "Shows mod details and possible commands"),
     -- GodMode = StructCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
-    Heal = StructCommand({"heal"}, "Heal", "Player gets fully healed"),
+    Heal = StructCommand({"heal"}, "Heal", "Player gets fully healed once"),
     InfiniteHealth = StructCommand({"health", "hp", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible"),
     InfiniteStamina = StructCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina"),
     NoHunger = StructCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry"),
     NoThirst = StructCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Ttirsty"),
-    NoFatigue = StructCommand({"fat", "nofat", "fatigue", "nofatigue", "sleep"}, "No Fatigue", "Player won't be tired"),
+    NoFatigue = StructCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired"),
     NoContinence = StructCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
+    NoRadiation = StructCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation"),
     Money = StructCommand({"money"}, "Set Money", "Set money to desired value", "value"),
     FreeCrafting = StructCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: You will have to rejoin the game after disabling!)"),
     NoFallDamage = StructCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
@@ -200,6 +201,14 @@ local function NoContinenceCommand(FullCommand, Parameters, OutputDevice)
     return true
 end
 RegisterConsoleCommand(Commands.NoContinence, NoContinenceCommand)
+
+-- NoRadiation Command
+local function NoRadiationCommand(FullCommand, Parameters, OutputDevice)
+    Settings.NoRadiation = not Settings.NoRadiation
+    PrintCommandState(Settings.NoRadiation, Commands.NoRadiation.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.NoRadiation, NoRadiationCommand)
 
 -- FreeCrafting Command
 local function FreeCraftingCommand(FullCommand, Parameters, OutputDevice)

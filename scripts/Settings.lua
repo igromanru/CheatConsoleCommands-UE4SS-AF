@@ -1,5 +1,5 @@
 
-Settings = {
+local Settings = {
     GodMode = false,
     Heal = false,
     InfiniteHealth = false,
@@ -8,6 +8,7 @@ Settings = {
     NoThirst = false,
     NoFatigue = false,
     NoContinence = false,
+    NoRadiation = false,
     FreeCrafting = false,
     NoFallDamage = false,
     NoClip = false,
@@ -15,3 +16,4 @@ Settings = {
     MoneyValue = -1
 }
 
+return Settings

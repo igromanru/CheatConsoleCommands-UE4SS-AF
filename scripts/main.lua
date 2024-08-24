@@ -14,42 +14,28 @@ ModVersion = "1.0.0"
 DebugMode = true
 
 LogInfo("Starting mod initialization")
-require("Settings")
 require("Features")
 require("CommandsManager") -- Executes CommandsManager functions
 
-local function IsAnyFeatureEnabled()
-    if type(Settings) == "table" then
-        for _, value in pairs(Settings) do
-            if value == true then
-                return true
-            end
-        end
-    end
-
-    return false
-end
-
 -- Main loop
-LoopAsync(1000, function()
-    if IsAnyFeatureEnabled() then
-        ExecuteInGameThread(function() 
-            local myPlayer = AFUtils.GetMyPlayer()
-            if myPlayer then
-                GodMode(myPlayer)
-                InfiniteHealth(myPlayer)
-                InfiniteStamina(myPlayer)
-                NoHunger(myPlayer)
-                NoThirst(myPlayer)
-                NoFatigue(myPlayer)
-                NoContinence(myPlayer)
-                FreeCrafting(myPlayer)
-                NoFallDamage(myPlayer)
-                NoClip(myPlayer)
-                SetMoney(myPlayer)
-            end
-        end)
-    end
+LoopAsync(500, function()
+    ExecuteInGameThread(function() 
+        local myPlayer = AFUtils.GetMyPlayer()
+        if myPlayer then
+            Heal(myPlayer)
+            InfiniteHealth(myPlayer)
+            InfiniteStamina(myPlayer)
+            NoHunger(myPlayer)
+            NoThirst(myPlayer)
+            NoFatigue(myPlayer)
+            NoContinence(myPlayer)
+            NoRadiation(myPlayer)
+            FreeCrafting(myPlayer)
+            NoFallDamage(myPlayer)
+            NoClip(myPlayer)
+            SetMoney(myPlayer)
+        end
+    end)
 end)
 
 if DebugMode then
