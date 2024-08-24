@@ -98,7 +98,7 @@ local Commands = {
     Money = CreateCommand({"money"}, "Set Money", "Set money to desired value", "value"),
     FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: Might require to rejoin the game to disable completly!)"),
     NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
-    NoClip = CreateCommand({"noclip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
+    NoClip = CreateCommand({"noclip"}, "No Clip", "Disables player's collision and makes him fly"),
 }
 
 function PrintCommansAaMarkdownTable()
@@ -123,6 +123,7 @@ function PrintCommansAaMarkdownTable()
     print("----------------------------------")
 end
 
+local ConsoleCommandRegistrationsCount = 0
 ---Registers a ConsoleCommandGlobalHandler for each alias of a command
 ---@param Command CommandStruct
 ---@param Callback function
@@ -133,6 +134,7 @@ local function RegisterConsoleCommand(Command, Callback)
         for _, commandName in ipairs(Command.Aliases) do
             if type(commandName) == "string" then
                 RegisterConsoleCommandGlobalHandler(commandName, Callback)
+                ConsoleCommandRegistrationsCount = ConsoleCommandRegistrationsCount + 1
                 if aliases ~= nil then
                     aliases = aliases .. ", "
                 end
@@ -316,3 +318,4 @@ local function MoneyCommand(FullCommand, Parameters, OutputDevice)
 end
 RegisterConsoleCommand(Commands.Money, MoneyCommand)
 
+LogDebug("Console Command Registrations Count: " .. ConsoleCommandRegistrationsCount)
