@@ -4,5 +4,7 @@
         "undefined-global",
         "undefined-doc-name",
         "undefined-field"
-    ]
+    ],
+    "Lua.codeLens.enable": false,
+    "Lua.diagnostics.libraryFiles": "Enable"
 }
