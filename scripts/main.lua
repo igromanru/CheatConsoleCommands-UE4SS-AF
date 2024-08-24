@@ -53,7 +53,7 @@ LoopAsync(1000, function()
 end)
 
 if DebugMode then
-    PrintGenerateMarkdownTable()
+    PrintCommansAaMarkdownTable()
 end
 
 LogInfo("Mod loaded successfully")

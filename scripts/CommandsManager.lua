@@ -57,12 +57,12 @@ local Commands = {
     NoFatigue = StructCommand({"fat", "fatigue", "nofatigue"}, "No Fatigue", "Player won't be tired"),
     NoContinence = StructCommand({"con", "continence", "nocontinence"}, "No Continence", "Player won't need to go to the toilet"),
     Money = StructCommand({"money"}, "Set Money", "Set money to desired value", "value"),
-    FreeCrafting = StructCommand({"freecraft", "freecrafting", "crafting"}, "Free Crafting", "Allows player to craft for free"),
+    FreeCrafting = StructCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: You will have to rejoin the game after disabling!)"),
     NoFallDamage = StructCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
     NoClip = StructCommand({"noclip"}, "No Clip", "Disables player's collision and makes him fly"),
 }
 
-function PrintGenerateMarkdownTable()
+function PrintCommansAaMarkdownTable()
     local function GetCommandAlias(Command)
         local result = ""
         for i, alias in ipairs(Command.Aliases) do
