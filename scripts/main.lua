@@ -11,7 +11,7 @@ local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "CheatConsoleCommands"
 ModVersion = "1.0.0"
-DebugMode = false
+DebugMode = true
 
 LogInfo("Starting mod initialization")
 require("Features")
@@ -38,8 +38,8 @@ LoopAsync(500, function()
     end)
 end)
 
-if DebugMode then
-    PrintCommansAaMarkdownTable()
-end
+-- if DebugMode then
+--     PrintCommansAaMarkdownTable()
+-- end
 
 LogInfo("Mod loaded successfully")

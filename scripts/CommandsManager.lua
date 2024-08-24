@@ -3,10 +3,17 @@
 local AFUtils = require("AFUtils.AFUtils")
 local Settings = require("Settings")
 
+---@class CommandStruct
+---@field Aliases {}
+---@field Name string
+---@field Description string
+---@field Parameters string
+local CommandStruct = {}
+
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
 ---@param Message string
-function WriteToConsole(OutputDevice, Message)
+local function WriteToConsole(OutputDevice, Message)
     LogInfo(Message)
     if OutputDevice then
         OutputDevice:Log(Message)
@@ -16,7 +23,7 @@ end
 ---Write to lua console and the OutputDevice only in DebugMode
 ---@param OutputDevice FOutputDevice
 ---@param Message string
-function WriteToConsoleDebug(OutputDevice, Message)
+local function WriteToConsoleDebug(OutputDevice, Message)
     if DebugMode then
         LogInfo(Message)
         if OutputDevice then
@@ -25,18 +32,48 @@ function WriteToConsoleDebug(OutputDevice, Message)
     end
 end
 
-local function StructCommand(CommandNames, FeatureName, Description, Parameters)
+local function AliasToString(Alias)
+    if type(Alias) == "string" then
+        return Alias
+    end
+
+    if type(Alias) ~= "table" then
+        return "ERROR"
+    end
+
+    local result = ""
+    for _, alias in ipairs(Alias) do
+       if result ~= "" then
+        result = result .. " | "
+       end 
+       result = result .. alias
+    end
+    return result
+end
+
+local function GetCommandAlias(Command)
+    return AliasToString(Command.Aliases)
+end
+
+---Creats a new CommandStruct out of parameters
+---@param CommandNames string|array
+---@param FeatureName string
+---@param Description string?
+---@param Parameters string?
+---@return CommandStruct
+local function CreateCommand(CommandNames, FeatureName, Description, Parameters)
     if type(CommandNames) == "string" then
         CommandNames = { CommandNames }
     end
     if type(CommandNames) ~= "table" then
-        error('StructCommand: Invalid "CommandNames" parameter')
+        error('CreateCommand: Invalid "CommandNames" parameter')
     end
     if not FeatureName then
-        error('StructCommand: Invalid "FeatureName" parameter')
+        error('CreateCommand: Invalid "FeatureName" parameter')
     end
     Description = Description or ""
     Parameters = Parameters or ""
+    LogDebug("CreateCommand: Aliases type: " .. AliasToString(CommandNames) .. ", Name: " .. FeatureName .. ", Description: " .. Description .. ", Parameters: " .. Parameters)
     return {
         Aliases = CommandNames,
         Name = FeatureName,
@@ -46,27 +83,27 @@ local function StructCommand(CommandNames, FeatureName, Description, Parameters)
 end
 
 local Commands = {
-    Help = StructCommand("help", "Help", "Shows mod details and possible commands"),
+    Help = CreateCommand("help", "Help", "Shows mod details and possible commands"),
     -- GodMode = StructCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
-    Heal = StructCommand({"heal"}, "Heal", "Player gets fully healed once"),
-    InfiniteHealth = StructCommand({"health", "hp", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible"),
-    InfiniteStamina = StructCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina"),
-    NoHunger = StructCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry"),
-    NoThirst = StructCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Ttirsty"),
-    NoFatigue = StructCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired"),
-    NoContinence = StructCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
-    NoRadiation = StructCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation"),
-    Money = StructCommand({"money"}, "Set Money", "Set money to desired value", "value"),
-    FreeCrafting = StructCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: Might require to rejoin the game to disable completly!)"),
-    NoFallDamage = StructCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
-    NoClip = StructCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
+    Heal = CreateCommand({"heal"}, "Heal", "Player gets fully healed once"),
+    InfiniteHealth = CreateCommand({"health", "hp", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible"),
+    InfiniteStamina = CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina"),
+    NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry"),
+    NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Ttirsty"),
+    NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired"),
+    NoContinence = CreateCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
+    NoRadiation = CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation"),
+    Money = CreateCommand({"money"}, "Set Money", "Set money to desired value", "value"),
+    FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: Might require to rejoin the game to disable completly!)"),
+    NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
+    NoClip = CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
 }
 
 function PrintCommansAaMarkdownTable()
-    local function GetCommandAlias(Command)
+    local function GetCommandAliasForTable(Command)
         local result = ""
-        for i, alias in ipairs(Command.Aliases) do
-           if i > 1 then
+        for _, alias in ipairs(Command.Aliases) do
+           if result ~= "" then
             result = result .. " \\| "
            end 
            result = result .. alias
@@ -79,21 +116,32 @@ function PrintCommansAaMarkdownTable()
     print("Command | Aliases | Parameters | Description")
     print("------- | ------- | ---------- | -----------")
     for _, command in pairs(Commands) do
-        print(string.format("%s | %s | %s | %s", command.Name, GetCommandAlias(command), command.Parameters, command.Description))
+        print(string.format("%s | %s | %s | %s", command.Name, GetCommandAliasForTable(command), command.Parameters, command.Description))
     end
     print("----------------------------------")
 end
 
+---Registers a ConsoleCommandGlobalHandler for each alias of a command
+---@param Command CommandStruct
+---@param Callback function
 local function RegisterConsoleCommand(Command, Callback)
-    if type(Command) == "table" and Command.Aliases and type(Callback) == "function" then
+    if type(Command) == "table" and type(Command.Aliases) == "table" and type(Callback) == "function" then
+        -- LogDebug('RegisterConsoleCommand: ' .. Command.Name .. ' command, aliases to register: ' .. AliasToString(Command.Aliases))
+        local aliases = ""
         for _, commandName in ipairs(Command.Aliases) do
             if type(commandName) == "string" then
-                RegisterConsoleCommandGlobalHandler (commandName, Callback)
-                LogDebug("RegisterConsoleCommand: Registered command: " .. commandName)
+                RegisterConsoleCommandGlobalHandler(commandName, Callback)
+                if aliases ~= nil then
+                    aliases = aliases .. ", "
+                end
+                aliases = aliases .. commandName
+            else
+                error("RegisterConsoleCommand: alias has the wrong type: " .. type(commandName))
             end
         end 
+        LogInfo('Registered command "' .. Command.Name .. '" with aliases: ' .. aliases)
     else
-        LogError("RegisterConsoleCommand: Failed to register: " .. Command.Name)
+        error("RegisterConsoleCommand: Failed to register command: " .. Command.Name)
     end
 end 
 
@@ -113,16 +161,6 @@ end
 
 -- Help Command
 local function HelpCommand(FullCommand, Parameters, OutputDevice)
-    local function GetCommandAlias(Command)
-        local result = ""
-        for i, alias in ipairs(Command.Aliases) do
-           if i > 1 then
-            result = result .. " | "
-           end 
-           result = result .. alias
-        end
-        return result
-    end
     WriteToConsole(OutputDevice, ModName .. " list:")
     for _, command in pairs(Commands) do
         WriteToConsole(OutputDevice, "------------------------------")
