@@ -86,17 +86,19 @@ local Commands = {
     Help = CreateCommand("help", "Help", "Shows mod details and possible commands"),
     -- GodMode = StructCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
     Heal = CreateCommand({"heal"}, "Heal", "Player gets fully healed once"),
-    InfiniteHealth = CreateCommand({"health", "hp", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible"),
+    InfiniteHealth = CreateCommand({"health", "hp", "inv", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible"),
     InfiniteStamina = CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina"),
+    InfiniteDurability = CreateCommand({"durability", "infdur"}, "Infinite Durability", "Player's Held Item won't lose durability"),
+    InfiniteEnergy = CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Player's Held Item won't lose charge"),
     NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry"),
     NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Ttirsty"),
-    NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired"),
-    NoContinence = CreateCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
+    NoFatigue = CreateCommand({"nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired"),
+    NoContinence = CreateCommand({"nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
     NoRadiation = CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation"),
     Money = CreateCommand({"money"}, "Set Money", "Set money to desired value", "value"),
     FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: Might require to rejoin the game to disable completly!)"),
     NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
-    NoClip = CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
+    NoClip = CreateCommand({"noclip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
 }
 
 function PrintCommansAaMarkdownTable()
@@ -156,7 +158,7 @@ local function PrintCommandState(State, CommandName, OutputDevice)
     else
         stateText = stateText .. "Disabled"
     end
-    WriteToConsoleDebug(OutputDevice, stateText)
+    WriteToConsole(OutputDevice, stateText)
 end
 
 -- Help Command
@@ -208,6 +210,22 @@ local function InfiniteStaminaCommand(FullCommand, Parameters, OutputDevice)
     return true
 end
 RegisterConsoleCommand(Commands.InfiniteStamina, InfiniteStaminaCommand)
+
+-- InfiniteDurability Command
+local function InfiniteDurabilityCommand(FullCommand, Parameters, OutputDevice)
+    Settings.InfiniteDurability = not Settings.InfiniteDurability
+    PrintCommandState(Settings.InfiniteDurability, Commands.InfiniteDurability.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.InfiniteDurability, InfiniteDurabilityCommand)
+
+-- InfiniteEnergy Command
+local function InfiniteEnergyCommand(FullCommand, Parameters, OutputDevice)
+    Settings.InfiniteEnergy = not Settings.InfiniteEnergy
+    PrintCommandState(Settings.InfiniteEnergy, Commands.InfiniteEnergy.Name, OutputDevice)
+    return true
+end
+RegisterConsoleCommand(Commands.InfiniteEnergy, InfiniteEnergyCommand)
 
 -- NoHunger Command
 local function NoHungerCommand(FullCommand, Parameters, OutputDevice)
