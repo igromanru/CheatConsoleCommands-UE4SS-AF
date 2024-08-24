@@ -138,12 +138,12 @@ end
 RegisterConsoleCommand(Commands.Help, HelpCommand)
 
 -- GodMode Command
-local function GodModeCommand(FullCommand, Parameters, OutputDevice)
-    Settings.GodMode = not Settings.GodMode
-    PrintCommandState(Settings.GodMode, Commands.GodMode.Name, OutputDevice)
-    return true
-end
-RegisterConsoleCommand(Commands.GodMode, GodModeCommand)
+-- local function GodModeCommand(FullCommand, Parameters, OutputDevice)
+--     Settings.GodMode = not Settings.GodMode
+--     PrintCommandState(Settings.GodMode, Commands.GodMode.Name, OutputDevice)
+--     return true
+-- end
+-- RegisterConsoleCommand(Commands.GodMode, GodModeCommand)
 
 -- Heal Command
 local function HealCommand(FullCommand, Parameters, OutputDevice)

@@ -1,7 +1,7 @@
 
 Settings = {
-    ModCommand = "cheat",
     GodMode = false,
+    Heal = false,
     InfiniteHealth = false,
     InfiniteStamina = false,
     NoHunger = false,
