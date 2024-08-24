@@ -59,7 +59,7 @@ local Commands = {
     Money = StructCommand({"money"}, "Set Money", "Set money to desired value", "value"),
     FreeCrafting = StructCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: Might require to rejoin the game to disable completly!)"),
     NoFallDamage = StructCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
-    NoClip = StructCommand({"noclip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
+    NoClip = StructCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
 }
 
 function PrintCommansAaMarkdownTable()
@@ -73,6 +73,7 @@ function PrintCommansAaMarkdownTable()
         end
         return result
     end
+
 
     print("------- Markdown Table -----------")
     print("Command | Aliases | Parameters | Description")
