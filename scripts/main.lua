@@ -16,7 +16,7 @@ DebugMode = true
 LogInfo("Starting mod initialization")
 require("Settings")
 require("Features")
-require("CommandsManager") -- Execute CommandsManager functions
+require("CommandsManager") -- Executes CommandsManager functions
 
 local function IsAnyFeatureEnabled()
     if type(Settings) == "table" then

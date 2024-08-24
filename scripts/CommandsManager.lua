@@ -3,8 +3,6 @@
 require("Settings")
 local AFUtils = require("AFUtils.AFUtils")
 
-local MainCommand = "cheat"
-
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
 ---@param Message string
@@ -49,17 +47,18 @@ end
 
 local Commands = {
     Help = StructCommand("help", "Help", "Shows mod details and possible commands"),
-    GodMode = StructCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
-    InfiniteHealth = StructCommand({"health", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed becomes Invisible"),
-    InfiniteStamina = StructCommand({"stamina", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina"),
-    NoHunger = StructCommand({"hunger", "nohunger"}, "No Hunger", "Player won't be hungry"),
-    NoThirst = StructCommand({"thirst", "nothirst"}, "No Thirst", "Player won't be Ttirsty"),
-    NoFatigue = StructCommand({"fat", "fatigue", "nofatigue"}, "No Fatigue", "Player won't be tired"),
-    NoContinence = StructCommand({"con", "continence", "nocontinence"}, "No Continence", "Player won't need to go to the toilet"),
+    -- GodMode = StructCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
+    Heal = StructCommand({"heal"}, "Heal", "Player gets fully healed"),
+    InfiniteHealth = StructCommand({"health", "hp", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible"),
+    InfiniteStamina = StructCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina"),
+    NoHunger = StructCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry"),
+    NoThirst = StructCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Ttirsty"),
+    NoFatigue = StructCommand({"fat", "nofat", "fatigue", "nofatigue", "sleep"}, "No Fatigue", "Player won't be tired"),
+    NoContinence = StructCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
     Money = StructCommand({"money"}, "Set Money", "Set money to desired value", "value"),
     FreeCrafting = StructCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: You will have to rejoin the game after disabling!)"),
     NoFallDamage = StructCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
-    NoClip = StructCommand({"noclip"}, "No Clip", "Disables player's collision and makes him fly"),
+    NoClip = StructCommand({"noclip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
 }
 
 function PrintCommansAaMarkdownTable()
@@ -141,10 +140,18 @@ RegisterConsoleCommand(Commands.Help, HelpCommand)
 -- GodMode Command
 local function GodModeCommand(FullCommand, Parameters, OutputDevice)
     Settings.GodMode = not Settings.GodMode
-    PrintCommandState(Settings.GodMode, Commands.NoClip.Name, OutputDevice)
+    PrintCommandState(Settings.GodMode, Commands.GodMode.Name, OutputDevice)
     return true
 end
 RegisterConsoleCommand(Commands.GodMode, GodModeCommand)
+
+-- Heal Command
+local function HealCommand(FullCommand, Parameters, OutputDevice)
+    Settings.Heal = true
+    WriteToConsole(OutputDevice, "Healing player")
+    return true
+end
+RegisterConsoleCommand(Commands.Heal, HealCommand)
 
 -- InfiniteHealth Command
 local function InfiniteHealthCommand(FullCommand, Parameters, OutputDevice)
