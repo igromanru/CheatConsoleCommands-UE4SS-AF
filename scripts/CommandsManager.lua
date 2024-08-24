@@ -57,7 +57,7 @@ local Commands = {
     NoContinence = StructCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
     NoRadiation = StructCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation"),
     Money = StructCommand({"money"}, "Set Money", "Set money to desired value", "value"),
-    FreeCrafting = StructCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: You will have to rejoin the game after disabling!)"),
+    FreeCrafting = StructCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: Might require to rejoin the game to disable completly!)"),
     NoFallDamage = StructCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
     NoClip = StructCommand({"noclip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
 }
