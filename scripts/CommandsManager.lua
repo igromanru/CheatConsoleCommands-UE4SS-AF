@@ -220,13 +220,25 @@ RegisterConsoleCommand(Commands.NoClip, NoClipCommand)
 
 -- Set Money Command
 local function MoneyCommand(FullCommand, Parameters, OutputDevice)
-    if #Parameters < 1 then
-        WriteToConsole(OutputDevice, Commands.Money.Name..": Invalud command call")
-        WriteToConsole(OutputDevice, Commands.Money.Name..": Invalud command call")
+    local moneyValue = nil
+    if #Parameters > 0 then
+        moneyValue = tonumber(Parameters[1])
+    end
+    if type(moneyValue) ~= "number" then
+        WriteToConsole(OutputDevice, Commands.Money.Name..": Missing parameter")
+        WriteToConsole(OutputDevice, Commands.Money.Name..': It must be: "money {value}"')
+        return true
+    end
+    local intMax = 2147483647
+    if moneyValue < 0 or moneyValue >= intMax then
+        WriteToConsole(OutputDevice, Commands.Money.Name..": Invalid money value!")
+        WriteToConsole(OutputDevice, Commands.Money.Name..': The value must be between 0 and "' .. intMax)
+        return true
     end
 
-    Settings.Money = true
-    PrintCommandState(Settings.Money, Commands.Money.Name, OutputDevice)
+    Settings.SetMoney = true
+    Settings.MoneyValue = moneyValue
+    WriteToConsole(OutputDevice, "Execute " .. Commands.Money.Name .. " command with value: " .. Settings.MoneyValue)
     return true
 end
 RegisterConsoleCommand(Commands.Money, MoneyCommand)
