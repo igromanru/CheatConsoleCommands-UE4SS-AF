@@ -1,6 +1,5 @@
 
 require("Settings")
-local AFUtils = require("AFUtils.AFUtils")
 
 local GodModeWasEnabled = false
 function GodMode(myPlayer)
@@ -29,7 +28,8 @@ function InfiniteHealth(myPlayer)
             InfiniteHealthWasEnabled = true
             myPlayer.Invincible = true
             for i = 1, 6, 1 do
-                myPlayer:Server_HealRandomLimb(100.0, {})
+                local outSuccess = {}
+                myPlayer:Server_HealRandomLimb(100.0, outSuccess)
             end
             LogDebug("Invincible: " .. tostring(myPlayer.Invincible))
             LogDebug("CurrentHealth_Head: " .. tostring(myPlayer.CurrentHealth_Head))
@@ -187,12 +187,13 @@ end
 function SetMoney(myPlayer)
     if not myPlayer then return end
 
-    if Settings.SetMoney then
-        if Settings.MoneyValue > -1 and Settings.MoneyValue ~= myPlayer.CurrentMoney then
-            Settings.SetMoney = false
+    if Settings.SetMoney and Settings.MoneyValue > -1 then
+        if Settings.MoneyValue ~= myPlayer.CurrentMoney then
             myPlayer.CurrentMoney = Settings.MoneyValue
             myPlayer:OnRep_CurrentMoney()
             LogDebug("CurrentMoney: " .. tostring(myPlayer.CurrentMoney))
+            Settings.SetMoney = false
+            Settings.MoneyValue = -1
         end
     end
 end
