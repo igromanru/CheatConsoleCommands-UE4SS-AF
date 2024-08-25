@@ -90,8 +90,8 @@ local Commands = {
     Heal = CreateCommand({"heal"}, "Heal", "Player gets fully healed once"),
     InfiniteHealth = CreateCommand({"health", "hp", "inv", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible"),
     InfiniteStamina = CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina"),
-    InfiniteDurability = CreateCommand({"durability", "infdur"}, "Infinite Durability", "Player's Held Item won't lose durability"),
-    InfiniteEnergy = CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Player's Held Item won't lose charge"),
+    InfiniteDurability = CreateCommand({"durability", "infdurability", "infdur"}, "Infinite Durability", "Keeps player's gear and hotbar items durability at maximum"),
+    InfiniteEnergy = CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Keeps player's gear and hotbar items charge/energy at maximum"),
     NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry"),
     NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Thirsty"),
     NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired"),
@@ -182,8 +182,9 @@ end
 
 -- GodMode Command
 Commands.GodMode.Function = function(Parameters, OutputDevice)
-    Settings.GodMode = not Settings.GodMode
-    PrintCommandState(Settings.GodMode, Commands.GodMode.Name, OutputDevice)
+    WriteToConsole(OutputDevice, "God Mode is currently not implemented, use Infinite Health instead")
+    -- Settings.GodMode = not Settings.GodMode
+    -- PrintCommandState(Settings.GodMode, Commands.GodMode.Name, OutputDevice)
     return true
 end
 

@@ -96,12 +96,8 @@ function InfiniteDurability(myPlayer)
     if not myPlayer then return end
 
     if Settings.InfiniteDurability then
-        local inventoryItemSlot = AFUtils.GetSelectedHotbarInventoryItemSlot(myPlayer)
-        if inventoryItemSlot then
-            inventoryItemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.CurrentItemDurability_4_24B4D0E64E496B43FB8D3CA2B9D161C8 = inventoryItemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.MaxItemDurability_6_F5D5F0D64D4D6050CCCDE4869785012B
-            LogDebug("CurrentItemDurability: " .. inventoryItemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.CurrentItemDurability_4_24B4D0E64E496B43FB8D3CA2B9D161C8)
-            LogDebug("MaxItemDurability: " .. inventoryItemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.MaxItemDurability_6_F5D5F0D64D4D6050CCCDE4869785012B)
-        end
+        AFUtils.FillDurabilityOfAllItemsInInvetory(myPlayer.CharacterEquipSlotInventory)
+        AFUtils.FillDurabilityOfAllItemsInInvetory(myPlayer.CharacterHotbarInventory)
         if not InfiniteDurabilityWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Infinite Durability activated", AFUtils.CriticalityLevels.Green)
             InfiniteDurabilityWasEnabled = true
