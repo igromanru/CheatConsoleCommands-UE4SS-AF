@@ -1,6 +1,6 @@
 # Cheat Console Commands Mod for Abiotic Factor
 
-[Official NexusMods page]()
+[Official NexusMods page](https://www.nexusmods.com/abioticfactor/mods/28)
 
 
 ## Commands
