@@ -36,6 +36,8 @@ LoopAsync(500, function()
             NoFallDamage(myPlayer)
             NoClip(myPlayer)
             SetMoney(myPlayer)
+        else
+            LogError("myPlayer doesn't exist")
         end
     end)
 end)

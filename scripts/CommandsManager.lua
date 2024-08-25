@@ -195,6 +195,9 @@ end
 Commands.InfiniteEnergy.Function = function(Parameters, OutputDevice)
     Settings.InfiniteEnergy = not Settings.InfiniteEnergy
     PrintCommandState(Settings.InfiniteEnergy, Commands.InfiniteEnergy.Name, OutputDevice)
+    if Settings.InfiniteEnergy then
+        WriteToConsole(OutputDevice, "Hint: When selecting a drained item, switch between it and something else once to fix it")
+    end
     return true
 end
 
@@ -303,16 +306,16 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
     local executor = Executor:get()
 
     local command = string.match(Command, "^%S+")
-    if DebugMode then
-        LogDebug("[ProcessConsoleExec]:")
-        LogDebug("Context: " .. context:GetFullName())
-        LogDebug("Context.Class: " .. context:GetClass():GetFullName())
-        LogDebug("Command: " .. Command)
-        LogDebug("Parameters: " .. #Parameters)
-        if executor:IsValid() then
-            LogDebug("Executor: " .. executor:GetClass():GetFullName())
-        end
-    end
+    -- if DebugMode then
+    --     LogDebug("[ProcessConsoleExec]:")
+    --     LogDebug("Context: " .. context:GetFullName())
+    --     LogDebug("Context.Class: " .. context:GetClass():GetFullName())
+    --     LogDebug("Command: " .. Command)
+    --     LogDebug("Parameters: " .. #Parameters)
+    --     if executor:IsValid() then
+    --         LogDebug("Executor: " .. executor:GetClass():GetFullName())
+    --     end
+    -- end
 
     -- Special handling of default commands
     if Command == "god" or Command == "ghost" or Command == "fly" then
@@ -322,12 +325,13 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
 
     for _, commandObj in pairs(Commands) do
         if MatchCommand(command, commandObj.Aliases) then
+            -- LogDebug("Found match: " .. command .. ", Command.Name: " .. commandObj.Name)
             if context:IsA(GetClassAbioticGameViewportClient()) then
                 if commandObj.Function then
-                    commandObj.Function(Parameters, OutputDevice)
+                    LogDebug("Executing " .. commandObj.Name .. "'s function")
+                    return commandObj.Function(Parameters, OutputDevice)
                 end
             end
-            LogDebug("Found match: " .. command .. ", Command.Name: " .. commandObj.Name)
             return true
         end
     end

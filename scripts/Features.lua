@@ -107,39 +107,15 @@ function InfiniteDurability(myPlayer)
 end
 
 local InfiniteEnergyWasEnabled = false
-local ItemDataCashe = {
-    AssetId = "-1",
-    MaxLiquid = -1
-}
 function InfiniteEnergy(myPlayer)
     if not myPlayer then return end
 
     if Settings.InfiniteEnergy then
-        -- local itemSlotStrcut, inventory, slotIndex = AFUtils.GetSelectedHotbarInventoryItemSlot(myPlayer)
-        -- if itemSlotStrcut and inventory and slotIndex then
-        --     local changeableData = itemSlotStrcut.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313
-        --     local assetId = changeableData.AssetID_25_06DB7A12469849D19D5FC3BA6BEDEEAB:ToString()
-        --     if assetId ~= "-1" and ItemDataCashe.AssetId ~= assetId then
-        --         ItemDataCashe.AssetId = assetId
-        --         local outSuccess = {}
-        --         local outSlotData = {}
-        --         local outItemData = {}
-        --         inventory:GetItemInSlot(slotIndex, outSuccess, outSlotData, outItemData)
-        --         if outSuccess.Success then
-        --             LogDebug("GetItemInSlot Success")
-        --             AFUtils.LogInventoryItemStruct(outItemData.ItemData, "ItemData.")
-        --             ItemDataCashe.MaxLiquid = outItemData.ItemData.LiquidData_110_4D07F09C483C1E65B39024ABC7032FA0.MaxLiquid_16_80D4968B4CACEDD3D4018E87DA67E8B4
-        --         end
-        --     end
-
-        --     if changeableData.CurrentLiquid_19_3E1652F448223AAE5F405FB510838109 == AFUtils.LiquidType.Power then
-        --         LogDebug("LiquidLevel: " .. changeableData.LiquidLevel_46_D6414A6E49082BC020AADC89CC29E35A)
-        --     end
-        -- end
-        -- if not InfiniteEnergyWasEnabled then
-        --     AFUtils.ClientDisplayWarningMessage("Infinite Energy activated", AFUtils.CriticalityLevels.Green)
-        -- end
-        -- InfiniteEnergyWasEnabled = true
+        AFUtils.FillHeldItemWithEnergy(myPlayer)
+        if not InfiniteEnergyWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Infinite Energy activated", AFUtils.CriticalityLevels.Green)
+        end
+        InfiniteEnergyWasEnabled = true
     elseif InfiniteEnergyWasEnabled then
         InfiniteEnergyWasEnabled = false
         AFUtils.ClientDisplayWarningMessage("Infinite Energy deactivated", AFUtils.CriticalityLevels.Red)
