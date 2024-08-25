@@ -103,6 +103,7 @@ local Commands = {
     NoClip = CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
     NoRecoil = CreateCommand({"norecoil", "recoil", "weaponnorecoil"}, "No Recoil", "Removes weapon's fire recoil"),
     NoSpread = CreateCommand({"nospread", "spread", "noweaponspread"}, "No Spread", "Removes weapon's bullets spread"),
+    LeyakCooldown = CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes. (Default: 15min)", "minutes")
 }
 
 function PrintCommansAaMarkdownTable()
@@ -292,16 +293,38 @@ Commands.Money.Function = function(Parameters, OutputDevice)
         WriteToConsole(OutputDevice, Commands.Money.Name..': It must be: "money {value}"')
         return true
     end
-    local intMax = 2147483647
-    if moneyValue < 0 or moneyValue >= intMax then
+    if moneyValue < 0 or moneyValue >= 2147483647 then
         WriteToConsole(OutputDevice, Commands.Money.Name..": Invalid money value!")
-        WriteToConsole(OutputDevice, Commands.Money.Name..': The value must be between 0 and "' .. intMax)
+        WriteToConsole(OutputDevice, Commands.Money.Name..': The value must be between 0 and 2147483647')
         return true
     end
 
     Settings.SetMoney = true
     Settings.MoneyValue = moneyValue
     WriteToConsole(OutputDevice, "Execute " .. Commands.Money.Name .. " command with value: " .. Settings.MoneyValue)
+    return true
+end
+
+-- Set Leyak Cooldown Command
+Commands.LeyakCooldown.Function = function(Parameters, OutputDevice)
+    local cooldown = nil
+    if #Parameters > 0 then
+        cooldown = tonumber(Parameters[1])
+    end
+    if type(cooldown) ~= "number" then
+        WriteToConsole(OutputDevice, Commands.LeyakCooldown.Name..": Missing parameter")
+        WriteToConsole(OutputDevice, Commands.LeyakCooldown.Name..': It must be: "leyakcd {cooldown}"')
+        return true
+    end
+    
+    if cooldown < 0.1 or cooldown >= 525600000 then
+        WriteToConsole(OutputDevice, Commands.LeyakCooldown.Name..": Invalid cooldown value!")
+        WriteToConsole(OutputDevice, Commands.LeyakCooldown.Name..': The value must be between 0.1 and 525600000 (minutes)')
+        return true
+    end
+
+    Settings.LeyakCooldownInMin = cooldown
+    WriteToConsole(OutputDevice, "Execute " .. Commands.LeyakCooldown.Name .. " command with value: " .. Settings.LeyakCooldownInMin)
     return true
 end
 

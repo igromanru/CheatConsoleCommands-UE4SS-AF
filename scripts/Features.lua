@@ -1,6 +1,7 @@
 
 local Settings = require("Settings")
 local AFUtils = require("AFUtils.AFUtils")
+local LinearColors = require("AFUtils.BaseUtils.LinearColors")
 
 ---@param playerCharacter AAbiotic_PlayerCharacter_C
 local function HealAllLimbs(playerCharacter)
@@ -377,5 +378,20 @@ function NoSpread(myPlayer)
         NoSpreadWasEnabled = false
         
         AFUtils.ClientDisplayWarningMessage("No Recoil deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
+function SetLeyakCooldown()
+    if Settings.LeyakCooldownInMin > 0 then
+        local aiDirector = AFUtils.GetAIDirector()
+        if aiDirector then
+            aiDirector.LeyakCooldown = Settings.LeyakCooldownInMin * 60
+            aiDirector:SetLeyakOnCooldown(1.0)
+            local message = "Leyak's cooldown was set to " .. aiDirector.LeyakCooldown .. " (" .. Settings.LeyakCooldownInMin .. "min)"
+            LogDebug(message)
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+            AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
+            Settings.LeyakCooldownInMin = -1
+        end
     end
 end

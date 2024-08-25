@@ -18,6 +18,7 @@ local Settings = {
     MoneyValue = -1,
     NoRecoil = false,
     NoSpread = false,
+    LeyakCooldownInMin = -1
 }
 
 return Settings

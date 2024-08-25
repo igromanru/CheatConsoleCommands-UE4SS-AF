@@ -20,7 +20,6 @@ require("CommandsManager") -- Executes CommandsManager functions
 -- Main loop
 LoopAsync(500, function()
     ExecuteInGameThread(function() 
-        ---@class AAbiotic_PlayerCharacter_C
         local myPlayer = AFUtils.GetMyPlayer()
         if myPlayer then
             Heal(myPlayer)
@@ -39,6 +38,7 @@ LoopAsync(500, function()
             SetMoney(myPlayer)
             NoRecoil(myPlayer)
             NoSpread(myPlayer)
+            SetLeyakCooldown()
         end
     end)
     return false
