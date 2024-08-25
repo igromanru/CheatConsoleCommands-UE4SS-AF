@@ -1,0 +1,6 @@
+{
+    "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+    "workspace.maxPreload": 50000,
+    "workspace.preloadFileSize": 5000,
+    "workspace.library": ["../shared/types", "Scripts"]
+}

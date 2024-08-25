@@ -335,7 +335,7 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
             return true
         end
     end
-    LogDebug("------------------------")
+    -- LogDebug("------------------------")
 
     return nil
 end)

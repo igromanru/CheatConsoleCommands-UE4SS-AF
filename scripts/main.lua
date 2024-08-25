@@ -20,6 +20,7 @@ require("CommandsManager") -- Executes CommandsManager functions
 -- Main loop
 LoopAsync(500, function()
     ExecuteInGameThread(function() 
+        ---@class AAbiotic_PlayerCharacter_C
         local myPlayer = AFUtils.GetMyPlayer()
         if myPlayer then
             Heal(myPlayer)
@@ -37,7 +38,7 @@ LoopAsync(500, function()
             NoClip(myPlayer)
             SetMoney(myPlayer)
         else
-            LogError("myPlayer doesn't exist")
+            LogDebug("myPlayer doesn't exist")
         end
     end)
 end)

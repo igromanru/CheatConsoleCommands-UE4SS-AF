@@ -38,22 +38,25 @@ function Heal(myPlayer)
 end
 
 local InfiniteHealthWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteHealth(myPlayer)
     if not myPlayer then return end
 
     if Settings.InfiniteHealth then
-        InfiniteHealthWasEnabled = true
         if not myPlayer.Invincible then
             myPlayer.Invincible = true
             HealAllLimbs(myPlayer)
-            LogDebug("Invincible: " .. tostring(myPlayer.Invincible))
-            LogDebug("CurrentHealth_Head: " .. tostring(myPlayer.CurrentHealth_Head))
-            LogDebug("CurrentHealth_Torso: " .. tostring(myPlayer.CurrentHealth_Torso))
-            LogDebug("CurrentHealth_LeftArm: " .. tostring(myPlayer.CurrentHealth_LeftArm))
-            LogDebug("CurrentHealth_RightArm: " .. tostring(myPlayer.CurrentHealth_RightArm))
-            LogDebug("CurrentHealth_LeftLeg: " .. tostring(myPlayer.CurrentHealth_LeftLeg))
-            LogDebug("CurrentHealth_RightLeg: " .. tostring(myPlayer.CurrentHealth_RightLeg))
+            -- LogDebug("Invincible: " .. tostring(myPlayer.Invincible))
+            -- LogDebug("CurrentHealth_Head: " .. tostring(myPlayer.CurrentHealth_Head))
+            -- LogDebug("CurrentHealth_Torso: " .. tostring(myPlayer.CurrentHealth_Torso))
+            -- LogDebug("CurrentHealth_LeftArm: " .. tostring(myPlayer.CurrentHealth_LeftArm))
+            -- LogDebug("CurrentHealth_RightArm: " .. tostring(myPlayer.CurrentHealth_RightArm))
+            -- LogDebug("CurrentHealth_LeftLeg: " .. tostring(myPlayer.CurrentHealth_LeftLeg))
+            -- LogDebug("CurrentHealth_RightLeg: " .. tostring(myPlayer.CurrentHealth_RightLeg))
+        end
+        if not InfiniteHealthWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Invincibility activated", AFUtils.CriticalityLevels.Green)
+            InfiniteHealthWasEnabled = true
         end
     elseif InfiniteHealthWasEnabled then
         InfiniteHealthWasEnabled = false
@@ -64,18 +67,21 @@ function InfiniteHealth(myPlayer)
 end
 
 local InfiniteStaminaWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteStamina(myPlayer)
     if not myPlayer then return end
 
     if Settings.InfiniteStamina then
-        InfiniteStaminaWasEnabled = true
         if not myPlayer.InfiniteStamina then
             myPlayer.InfiniteStamina = true
             myPlayer.CurrentStamina = myPlayer.MaxStamina
             LogDebug("InfiniteStamina: " .. tostring(myPlayer.InfiniteStamina))
             LogDebug("CurrentStamina: " .. tostring(myPlayer.CurrentStamina))
             LogDebug("MaxStamina: " .. tostring(myPlayer.MaxStamina))
+        end
+        if not InfiniteStaminaWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Infinite Stamina activated", AFUtils.CriticalityLevels.Green)
+            InfiniteStaminaWasEnabled = true
         end
     elseif InfiniteStaminaWasEnabled then
         InfiniteStaminaWasEnabled = false
@@ -86,6 +92,7 @@ function InfiniteStamina(myPlayer)
 end
 
 local InfiniteDurabilityWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteDurability(myPlayer)
     if not myPlayer then return end
 
@@ -98,8 +105,8 @@ function InfiniteDurability(myPlayer)
         end
         if not InfiniteDurabilityWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Infinite Durability activated", AFUtils.CriticalityLevels.Green)
+            InfiniteDurabilityWasEnabled = true
         end
-        InfiniteDurabilityWasEnabled = true
     elseif InfiniteDurabilityWasEnabled then
         InfiniteDurabilityWasEnabled = false
         AFUtils.ClientDisplayWarningMessage("Infinite Durability deactivated", AFUtils.CriticalityLevels.Red)
@@ -107,6 +114,7 @@ function InfiniteDurability(myPlayer)
 end
 
 local InfiniteEnergyWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteEnergy(myPlayer)
     if not myPlayer then return end
 
@@ -123,6 +131,7 @@ function InfiniteEnergy(myPlayer)
 end
 
 local NoHungerWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoHunger(myPlayer)
     if not myPlayer then return end
 
@@ -135,7 +144,10 @@ function NoHunger(myPlayer)
             LogDebug("HasHunger: " .. tostring(myPlayer.HasHunger))
             LogDebug("CurrentHunger: " .. tostring(myPlayer.CurrentHunger))
             LogDebug("MaxHunger: " .. tostring(myPlayer.MaxHunger))
+        end
+        if not NoHungerWasEnabled then
             AFUtils.ClientDisplayWarningMessage("No Hunger activated", AFUtils.CriticalityLevels.Green)
+            NoHungerWasEnabled = true
         end
     elseif NoHungerWasEnabled then
         NoHungerWasEnabled = false
@@ -146,11 +158,11 @@ function NoHunger(myPlayer)
 end
 
 local NoThirstWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoThirst(myPlayer)
     if not myPlayer then return end
 
     if Settings.NoThirst then
-        NoThirstWasEnabled = true
         if myPlayer.HasThirst == true then
             myPlayer.HasThirst = false
             myPlayer.CurrentThirst = myPlayer.MaxThirst
@@ -158,7 +170,10 @@ function NoThirst(myPlayer)
             LogDebug("HasThirst: " .. tostring(myPlayer.HasThirst))
             LogDebug("CurrentThirst: " .. tostring(myPlayer.CurrentThirst))
             LogDebug("MaxThirst: " .. tostring(myPlayer.MaxThirst))
+        end
+        if not NoThirstWasEnabled then
             AFUtils.ClientDisplayWarningMessage("No Thirst activated", AFUtils.CriticalityLevels.Green)
+            NoThirstWasEnabled = true
         end
     elseif NoThirstWasEnabled then
         NoThirstWasEnabled = false
@@ -169,11 +184,11 @@ function NoThirst(myPlayer)
 end
 
 local NoFatigueWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoFatigue(myPlayer)
     if not myPlayer then return end
 
     if Settings.NoFatigue then
-        NoFatigueWasEnabled = true
         if myPlayer.HasFatigue == true then
             myPlayer.HasFatigue = false
             myPlayer.CurrentFatigue = 0.0
@@ -181,7 +196,10 @@ function NoFatigue(myPlayer)
             LogDebug("HasFatigue: " .. tostring(myPlayer.HasFatigue))
             LogDebug("CurrentFatigue: " .. tostring(myPlayer.CurrentFatigue))
             LogDebug("MaxFatigue: " .. tostring(myPlayer.MaxFatigue))
+        end
+        if not NoFatigueWasEnabled then
             AFUtils.ClientDisplayWarningMessage("No Fatigue activated", AFUtils.CriticalityLevels.Green)
+            NoFatigueWasEnabled = true
         end
     elseif NoFatigueWasEnabled then
         NoFatigueWasEnabled = false
@@ -192,11 +210,11 @@ function NoFatigue(myPlayer)
 end
 
 local NoContinenceWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoContinence(myPlayer)
     if not myPlayer then return end
 
     if Settings.NoContinence then
-        NoContinenceWasEnabled = true
         if myPlayer.HasContinence == true then
             myPlayer.HasContinence = false
             myPlayer.CurrentContinence = myPlayer.MaxContinence
@@ -204,7 +222,10 @@ function NoContinence(myPlayer)
             LogDebug("HasContinence: " .. tostring(myPlayer.HasContinence))
             LogDebug("CurrentContinence: " .. tostring(myPlayer.CurrentContinence))
             LogDebug("MaxContinence: " .. tostring(myPlayer.MaxContinence))
+        end
+        if not NoContinenceWasEnabled then
             AFUtils.ClientDisplayWarningMessage("No Continence activated", AFUtils.CriticalityLevels.Green)
+            NoContinenceWasEnabled = true
         end
     elseif NoContinenceWasEnabled then
         NoContinenceWasEnabled = false
@@ -215,11 +236,11 @@ function NoContinence(myPlayer)
 end
 
 local NoRadiationWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoRadiation(myPlayer)
     if not myPlayer then return end
 
     if Settings.NoRadiation then
-        NoRadiationWasEnabled = true
         if myPlayer.CanReceiveRadiation == true then
             myPlayer.CanReceiveRadiation = false
             myPlayer.CurrentRadiation = 0.0
@@ -227,7 +248,10 @@ function NoRadiation(myPlayer)
             LogDebug("CanReceiveRadiation: " .. tostring(myPlayer.CanReceiveRadiation))
             LogDebug("CurrentRadiation: " .. tostring(myPlayer.CurrentRadiation))
             LogDebug("MaxRadiation: " .. tostring(myPlayer.MaxRadiation))
+        end
+        if not NoRadiationWasEnabled then
             AFUtils.ClientDisplayWarningMessage("No Radiation activated", AFUtils.CriticalityLevels.Green)
+            NoRadiationWasEnabled = true
         end
     elseif NoRadiationWasEnabled then
         NoRadiationWasEnabled = false
@@ -242,11 +266,13 @@ function FreeCrafting(myPlayer)
     if not myPlayer then return end
 
     if Settings.FreeCrafting then
-        FreeCraftingWasEnabled = true
         if not myPlayer.Debug_FreeCrafting then
             myPlayer.Debug_FreeCrafting = true
             LogDebug("Debug_FreeCrafting: " .. tostring(myPlayer.Debug_FreeCrafting))
+        end
+        if not FreeCraftingWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Free Crafting activated", AFUtils.CriticalityLevels.Green)
+            FreeCraftingWasEnabled = true
         end
     elseif FreeCraftingWasEnabled then
         FreeCraftingWasEnabled = false
@@ -264,11 +290,11 @@ function NoFallDamage(myPlayer)
         if myPlayer.TakeFallDamage == true then
             myPlayer.TakeFallDamage = false
             LogDebug("TakeFallDamage: " .. tostring(myPlayer.TakeFallDamage))
-            if not NoFallDamageWasEnabled then
-                AFUtils.ClientDisplayWarningMessage("No Fall Damage activated", AFUtils.CriticalityLevels.Green)
-            end
         end
-        NoFallDamageWasEnabled = true
+        if not NoFallDamageWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("No Fall Damage activated", AFUtils.CriticalityLevels.Green)
+            NoFallDamageWasEnabled = true
+        end
     elseif NoFallDamageWasEnabled then
         NoFallDamageWasEnabled = false
         myPlayer.TakeFallDamage = true
@@ -282,12 +308,14 @@ function NoClip(myPlayer)
     if not myPlayer then return end
 
     if Settings.NoClip then
-        NoClipWasEnabled = true
         if not myPlayer.Noclip_On then
             myPlayer.Noclip_On = true
             myPlayer:OnRep_Noclip_On()
             LogDebug("Noclip_On: " .. tostring(myPlayer.Noclip_On))
+        end
+        if not NoClipWasEnabled then
             AFUtils.ClientDisplayWarningMessage("No Clip activated", AFUtils.CriticalityLevels.Green)
+            NoClipWasEnabled = true
         end
     elseif NoClipWasEnabled then
         NoClipWasEnabled = false
