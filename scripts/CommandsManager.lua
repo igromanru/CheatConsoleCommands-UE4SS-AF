@@ -220,9 +220,6 @@ end
 Commands.InfiniteEnergy.Function = function(Parameters, OutputDevice)
     Settings.InfiniteEnergy = not Settings.InfiniteEnergy
     PrintCommandState(Settings.InfiniteEnergy, Commands.InfiniteEnergy.Name, OutputDevice)
-    if Settings.InfiniteEnergy then
-        WriteToConsole(OutputDevice, "Hint: When selecting a drained item, switch between it and something else once to fix it")
-    end
     return true
 end
 

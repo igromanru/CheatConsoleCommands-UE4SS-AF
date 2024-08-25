@@ -2,6 +2,7 @@
 local Settings = require("Settings")
 local AFUtils = require("AFUtils.AFUtils")
 
+---@param playerCharacter AAbiotic_PlayerCharacter_C
 local function HealAllLimbs(playerCharacter)
     for i = 1, 6, 1 do
         local outSuccess = {}
@@ -10,6 +11,7 @@ local function HealAllLimbs(playerCharacter)
 end
 
 local GodModeWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function GodMode(myPlayer)
     -- if not myPlayer then return end
 
@@ -26,6 +28,7 @@ function GodMode(myPlayer)
     -- end
 end
 
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function Heal(myPlayer)
     if not myPlayer then return end
 
@@ -115,6 +118,7 @@ function InfiniteEnergy(myPlayer)
 
     if Settings.InfiniteEnergy then
         AFUtils.FillHeldItemWithEnergy(myPlayer)
+        AFUtils.FillAllEquippedItemsWithEnergy(myPlayer)
         if not InfiniteEnergyWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Infinite Energy activated", AFUtils.CriticalityLevels.Green)
         end
