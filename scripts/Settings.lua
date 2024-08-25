@@ -1,6 +1,5 @@
 
 local Settings = {
-    MainCommand = "cheat",
     GodMode = false,
     Heal = false,
     InfiniteHealth = false,
@@ -16,7 +15,9 @@ local Settings = {
     NoFallDamage = false,
     NoClip = false,
     SetMoney = false,
-    MoneyValue = -1
+    MoneyValue = -1,
+    NoRecoil = false,
+    NoSpread = false,
 }
 
 return Settings

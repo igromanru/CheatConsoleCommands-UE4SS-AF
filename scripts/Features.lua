@@ -343,3 +343,39 @@ function SetMoney(myPlayer)
         end
     end
 end
+
+local NoRecoilWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function NoRecoil(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.NoRecoil then
+        
+        if not NoRecoilWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("No Recoil activated", AFUtils.CriticalityLevels.Green)
+            NoRecoilWasEnabled = true
+        end
+    elseif NoRecoilWasEnabled then
+        NoRecoilWasEnabled = false
+        
+        AFUtils.ClientDisplayWarningMessage("No Recoil deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
+local NoSpreadWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function NoSpread(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.NoSpread then
+        
+        if not NoSpreadWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("No Recoil activated", AFUtils.CriticalityLevels.Green)
+            NoSpreadWasEnabled = true
+        end
+    elseif NoSpreadWasEnabled then
+        NoSpreadWasEnabled = false
+        
+        AFUtils.ClientDisplayWarningMessage("No Recoil deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end

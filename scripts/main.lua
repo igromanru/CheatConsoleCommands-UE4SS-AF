@@ -37,8 +37,11 @@ LoopAsync(500, function()
             NoFallDamage(myPlayer)
             NoClip(myPlayer)
             SetMoney(myPlayer)
+            NoRecoil(myPlayer)
+            NoSpread(myPlayer)
         end
     end)
+    return false
 end)
 
 -- if DebugMode then
