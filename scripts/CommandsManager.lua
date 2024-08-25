@@ -93,13 +93,13 @@ local Commands = {
     InfiniteDurability = CreateCommand({"durability", "infdur"}, "Infinite Durability", "Player's Held Item won't lose durability"),
     InfiniteEnergy = CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Player's Held Item won't lose charge"),
     NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry"),
-    NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Ttirsty"),
+    NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Thirsty"),
     NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired"),
     NoContinence = CreateCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
     NoRadiation = CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation"),
     Money = CreateCommand({"money"}, "Set Money", "Set money to desired value", "value"),
-    FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: Might require to rejoin the game to disable completly!)"),
-    NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
+    FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!)"),
+    NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevents player from taking fall damage"),
     NoClip = CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
 }
 
@@ -121,6 +121,30 @@ function PrintCommansAaMarkdownTable()
     print("------- | ------- | ---------- | -----------")
     for _, command in pairs(Commands) do
         print(string.format("%s | %s | %s | %s", command.Name, GetCommandAliasForTable(command), command.Parameters, command.Description))
+    end
+    print("----------------------------------")
+end
+
+function PrintCommansAaBBCode()
+    local function GetCommandAliasForTable(Command)
+        local result = ""
+        for _, alias in ipairs(Command.Aliases) do
+           if result ~= "" then
+            result = result .. " | "
+           end 
+           result = result .. alias
+        end
+        return result
+    end
+
+
+    print("Command | Aliases | Parameters | Description")
+    for _, command in pairs(Commands) do
+        local parameters = ""
+        if command.Parameters ~= "" then
+            parameters = string.format(" %s ", command.Parameters)
+        end
+        print(string.format("[b]%s[/b] [ %s ] {%s} - [u]%s[/u]", command.Name, GetCommandAliasForTable(command), parameters, command.Description))
     end
     print("----------------------------------")
 end

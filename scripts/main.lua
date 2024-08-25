@@ -37,14 +37,13 @@ LoopAsync(500, function()
             NoFallDamage(myPlayer)
             NoClip(myPlayer)
             SetMoney(myPlayer)
-        else
-            LogDebug("myPlayer doesn't exist")
         end
     end)
 end)
 
 -- if DebugMode then
---     PrintCommansAaMarkdownTable()
+--     -- PrintCommansAaMarkdownTable()
+--     PrintCommansAaBBCode()
 -- end
 
 LogInfo("Mod loaded successfully")

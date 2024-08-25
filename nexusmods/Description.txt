@@ -1,0 +1,91 @@
+[font=Verdana][size=4][b]Introduction[/b][/size][/font]
+I made the mod primary out of need to be able to stay alive while developing my mods.
+Also in contrast to mods based on "chat commands" you might not want other players to see that you're modding/cheating.
+
+[font=Verdana][size=4][b]Description[/b][/size][/font]
+The mod makes a use of Unreal Engine's default console which gets enabled through [b]ConsoleCommandsMod[/b] and can be accessed with the hotkey [b]F10[/b]. (ConsoleCommandsMod is a part of UE4SS and is enabled per default)
+I override some default UE commands which aren't working properly with the game and add a lot of own commands to it. See the list of commands below.
+
+[font=Verdana][size=4][b]Requirements[/b][/size][/font]
+[size=3]Unreal Engine Scripting System aka. [url=https://github.com/UE4SS-RE/RE-UE4SS]RE-UE4SS[/url][/size]
+
+[font=Verdana][size=4][b]Manual Installation[/b][/size][/font]
+[size=2]As for now Vortex doesn't support the game, so you have to install the mod manually.[/size]
+1. Download the latest version of RE-UE4SS from it's [url=https://github.com/UE4SS-RE/RE-UE4SS/releases]Release[/url] section. Scroll down to [b]Assets[/b] dropdown (open it) and download the [b]UE4SS_v{version nummber}.zip[/b] (e.g. UE4SS_v3.0.1.zip)
+2. Unzip the content of the zip archive into the following location: [i](game root directory)\AbioticFactor\Binaries\Win64\[/i]
+[size=2]It should be at the location of the [b]AbioticFactor-Win64-Shipping.exe[/b] !
+For Steam users it might be something like this: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Binaries\Win64\[/i][/size]
+3. Now use the [b]Manual Download[/b] button in [i]Files[/i] tab to download the mod as a zip file as well.
+4. Unzip/extract the content of mod's zip ([b]CheatConsoleCommands[/b] folder) into the directory: [i](game root directory)\AbioticFactor\Binaries\Win64\Mods\[/i]
+[size=2]Whole mod path should be like this: [i](game root directory)\AbioticFactor\Binaries\Win64\Mods\CheatConsoleCommands\[/i]
+Steam example: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Binaries\Win64\Mods\CheatConsoleCommands\
+[/i][/size]5. Done, you can change mod's hotkey, if you want (see below).
+
+[font=Verdana][size=4][b]How to use[/b][/size][/font]
+[list][*]Open game's command console with [b]F10[/b]. Press F10 one time to open in "quick type" mode and second type to open fully.
+[*]Type one of the command aliases from below to trigger the command.
+[*]Most commands can be enabled and disabled by typing the same command, but commands like "money" will be executed once.
+[*]Use command "help" to get a list of all commands printed to the console.
+[/list]
+[line]
+[font=Verdana][size=4][b]Commands[/b][/size][/font]
+Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] parameters[/i] } - [i]Description
+[/i]
+[b]Help[/b] [ help ] {} - [u]Shows mod details and possible commands[/u]
+[b]Heal[/b] [ heal ] {} - [u]Player gets fully healed once[/u]
+[b]Infinite Health[/b] [ health | hp | inv | infhp | infhealth ] {} - [u]Player gets fully healed and becomes invincible[/u]
+[b]Infinite Stamina[/b] [ stamina | sp | infsp | infstamina ] {} - [u]Player won't consume stamina[/u]
+[b]Infinite Durability[/b] [ durability | infdur ] {} - [u]Player's Held Item won't lose durability[/u]
+[b]Infinite Energy[/b] [ energy | infenergy ] {} - [u]Player's Held Item won't lose charge[/u]
+[b]No Hunger[/b] [ hunger | nohunger | eat ] {} - [u]Player won't be hungry[/u]
+[b]No Thirst[/b] [ thirst | nothirst | drink ] {} - [u]Player won't be Thirsty[/u]
+[b]No Continence[/b] [ con | nocon | continence | nocontinence | wc ] {} - [u]Player won't need to go to the toilet[/u]
+[b]No Fatigue[/b] [ fat | nofat | fatigue | nofatigue | tired ] {} - [u]Player won't be tired[/u]
+[b]No Radiation[/b] [ rad | norad | radiation | noradiation ] {} - [u]Player can't receive radiation[/u]
+[b]Free Crafting[/b] [ freecraft | freecrafting | crafting | craft ] {} - [u]Allows player to craft all items and for free. (Warning: You may need to restart the game to deactivate it completely!)[/u]
+[b]No Fall Damage[/b] [ falldmg | falldamage | nofall | nofalldmg | nofalldamage ] {} - [u]Prevents player from taking fall damage[/u]
+[b]No Clip[/b] [ noclip | clip | ghost ] {} - [u]Disables player's collision and makes him fly[/u]
+[b]Set Money[/b] [ money ] { value } - [u]Set money to desired value[/u]
+
+[b]How to use example:[/b]
+Most commands has multiple aliases that you can use to trigger it.
+For example: [b]Infinite Health[/b] can be activated by typing "health", "hp", "inv", "infhp" OR "infhealth" into the console.
+Commands which has variables has to be used like this:
+[code]
+money 9999
+[/code]
+[font=Verdana][size=3][b]Default Unreal Engine Commands[/b][/size][/font]
+[b]Slow motion[/b] [ slomo  ] { game_speed_multiplier } - [u]Changes game's speed (0.1 = very slow, 10.0 = 10x faster)[/u]
+[b]Teleport[/b] [ teleport ] {} - [u]Teleports player's forward[/u]
+[b]Change Size[/b] [ changesize ] { size_multiplier } - [u]Changes player's size played on the multiplier value (1.0 = default size)[/u]
+[size=2]There are some more, but I haven't tested them.[/size]
+[line]
+[font=Verdana][size=4][b]Recommended UE4SS settings for better performance[/b][/size][/font]
+[size=2]If you experience lag spikes, I highly recommend to change this settings.[/size]
+1. Navigate to the game directory where you've installed the UE4SS: [i](game root directory)\AbioticFactor\Binaries\Win64\[/i]
+[size=2]e.g. [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Binaries\Win64\[/i][/size]
+2. Open [b]UE4SS-settings.ini[/b] with any text editor.
+3. Find following entries and change them as following:
+[code]bUseUObjectArrayCache = false
+GuiConsoleEnabled = 0[/code]
+4. Save the file.
+[size=2]If you still experience performance issues, write a detailed comment what happens, your PC specs and which mods you use.[/size]
+
+[font=Verdana][size=4][b]Bug Reports[/b][/size][/font]
+If you have followed the installation instructions above and are 100% sure that you have done everything correctly, but you are still having problems with the mod, please provide following information if you wish to report an issue. 
+[list=1]
+[*]Your game version and Platform (Steam/Cracked etc.)
+[*]Which mod version are you using
+[*]The content of [b]UE4SS.log[/b] files. UE4SS.log file should be in the installation directory of UE4SS.
+[/list]
+
+[font=Verdana][size=4][b]Feedback and Feature requests[/b][/size][/font]
+Any feedback and feature request are currently welcome.
+Simple let me know in the comments section.
+
+[font=Verdana][size=4][b]Known Issues[/b][/size][/font]
+Current UE4SS version works well with the game, but it has of a problem that causes the game to crash when you exit it.
+It has nothing to do with the mod and it has no negative impact on the game or your save file, it's just a bit annoying.
+And you might want to delete crash dump ([b].dmp[/b]) files from time to time from your game directory.
+
+[b][url=https://github.com/igromanru/CheatConsoleCommands-UE4SS-AF]GitHub Page[/url][/b]
