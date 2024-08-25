@@ -1,7 +1,6 @@
 
 local Settings = require("Settings")
 local AFUtils = require("AFUtils.AFUtils")
-require("AFUtils.AFUtilsDebug")
 
 local function HealAllLimbs(playerCharacter)
     for i = 1, 6, 1 do
