@@ -71,6 +71,11 @@ GuiConsoleEnabled = 0[/code]
 4. Save the file.
 [size=2]If you still experience performance issues, write a detailed comment what happens, your PC specs and which mods you use.[/size]
 
+[font=Verdana][size=4][b]Additional information[/b][/size][/font]
+[list]
+[*]Most features are based on debugging functions created by game developers to help them develop the game.
+[*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload/rejoin the game.
+[/list]
 [font=Verdana][size=4][b]Bug Reports[/b][/size][/font]
 If you have followed the installation instructions above and are 100% sure that you have done everything correctly, but you are still having problems with the mod, please provide following information if you wish to report an issue. 
 [list=1]
@@ -78,7 +83,6 @@ If you have followed the installation instructions above and are 100% sure that 
 [*]Which mod version are you using
 [*]The content of [b]UE4SS.log[/b] files. UE4SS.log file should be in the installation directory of UE4SS.
 [/list]
-
 [font=Verdana][size=4][b]Feedback and Feature requests[/b][/size][/font]
 Any feedback and feature request are currently welcome.
 Simple let me know in the comments section.
