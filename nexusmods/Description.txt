@@ -84,8 +84,9 @@ Any feedback and feature request are currently welcome.
 Simple let me know in the comments section.
 
 [font=Verdana][size=4][b]Known Issues[/b][/size][/font]
-Current UE4SS version works well with the game, but it has of a problem that causes the game to crash when you exit it.
-It has nothing to do with the mod and it has no negative impact on the game or your save file, it's just a bit annoying.
-And you might want to delete crash dump ([b].dmp[/b]) files from time to time from your game directory.
+[list]
+[*]Console command handlers of UE4SS are currently not very stable. Expect crashes after leaving a game or trying to close the game and report any unexpected crashes. 
+[*]Current UE4SS version works well with the game, but it has of a problem that causes the game to crash when you exit it.It has nothing to do with the mod and it has no negative impact on the game or your save file, it's just a bit annoying.And you might want to delete crash dump ([b].dmp[/b]) files from time to time from your game directory.
+[/list]
 
 [b][url=https://github.com/igromanru/CheatConsoleCommands-UE4SS-AF]GitHub Page[/url][/b]
