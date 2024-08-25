@@ -4,11 +4,10 @@ local AFUtils = require("AFUtils.AFUtils")
 local Settings = require("Settings")
 
 ---@class CommandStruct
----@field Aliases table
+---@field Aliases {}
 ---@field Name string
 ---@field Description string
 ---@field Parameters string
----@field Function function
 local CommandStruct = {}
 
 ---Write to lua console and the OutputDevice
@@ -79,14 +78,13 @@ local function CreateCommand(CommandNames, FeatureName, Description, Parameters)
         Aliases = CommandNames,
         Name = FeatureName,
         Description = Description,
-        Parameters = Parameters,
-        Function = nil
+        Parameters = Parameters
     }
 end
 
 local Commands = {
     Help = CreateCommand("help", "Help", "Shows mod details and possible commands"),
-    GodMode = CreateCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
+    -- GodMode = StructCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
     Heal = CreateCommand({"heal"}, "Heal", "Player gets fully healed once"),
     InfiniteHealth = CreateCommand({"health", "hp", "inv", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible"),
     InfiniteStamina = CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina"),
@@ -94,13 +92,13 @@ local Commands = {
     InfiniteEnergy = CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Player's Held Item won't lose charge"),
     NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry"),
     NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Ttirsty"),
-    NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired"),
-    NoContinence = CreateCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
+    NoFatigue = CreateCommand({"nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired"),
+    NoContinence = CreateCommand({"nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
     NoRadiation = CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation"),
     Money = CreateCommand({"money"}, "Set Money", "Set money to desired value", "value"),
     FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: Might require to rejoin the game to disable completly!)"),
     NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
-    NoClip = CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
+    NoClip = CreateCommand({"noclip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
 }
 
 function PrintCommansAaMarkdownTable()
@@ -125,6 +123,33 @@ function PrintCommansAaMarkdownTable()
     print("----------------------------------")
 end
 
+local ConsoleCommandRegistrationsCount = 0
+---Registers a ConsoleCommandGlobalHandler for each alias of a command
+---@param Command CommandStruct
+---@param Callback function
+local function RegisterConsoleCommand(Command, Callback)
+    if type(Command) == "table" and type(Command.Aliases) == "table" and type(Callback) == "function" then
+        -- LogDebug('RegisterConsoleCommand: ' .. Command.Name .. ' command, aliases to register: ' .. AliasToString(Command.Aliases))
+        local aliases = ""
+        for _, commandName in ipairs(Command.Aliases) do
+            if type(commandName) == "string" then
+                RegisterConsoleCommandGlobalHandler(commandName, Callback)
+                -- RegisterConsoleCommandHandler(commandName, Callback)
+                ConsoleCommandRegistrationsCount = ConsoleCommandRegistrationsCount + 1
+                if aliases ~= nil then
+                    aliases = aliases .. ", "
+                end
+                aliases = aliases .. commandName
+            else
+                error("RegisterConsoleCommand: alias has the wrong type: " .. type(commandName))
+            end
+        end 
+        LogInfo('Registered command "' .. Command.Name .. '" with aliases: ' .. aliases)
+    else
+        error("RegisterConsoleCommand: Failed to register command: " .. Command.Name)
+    end
+end 
+
 ---
 ---@param State boolean
 ---@param CommandName string
@@ -140,7 +165,7 @@ local function PrintCommandState(State, CommandName, OutputDevice)
 end
 
 -- Help Command
-Commands.Help.Function = function(Parameters, OutputDevice)
+local function HelpCommand(FullCommand, Parameters, OutputDevice)
     WriteToConsole(OutputDevice, ModName .. " list:")
     for _, command in pairs(Commands) do
         WriteToConsole(OutputDevice, "------------------------------")
@@ -155,107 +180,122 @@ Commands.Help.Function = function(Parameters, OutputDevice)
 
     return true
 end
+RegisterConsoleCommand(Commands.Help, HelpCommand)
 
 -- GodMode Command
-Commands.GodMode.Function = function(Parameters, OutputDevice)
-    Settings.GodMode = not Settings.GodMode
-    PrintCommandState(Settings.GodMode, Commands.GodMode.Name, OutputDevice)
-    return true
-end
+-- local function GodModeCommand(FullCommand, Parameters, OutputDevice)
+--     Settings.GodMode = not Settings.GodMode
+--     PrintCommandState(Settings.GodMode, Commands.GodMode.Name, OutputDevice)
+--     return true
+-- end
+-- RegisterConsoleCommand(Commands.GodMode, GodModeCommand)
 
 -- Heal Command
-Commands.Heal.Function = function(Parameters, OutputDevice)
+local function HealCommand(FullCommand, Parameters, OutputDevice)
     Settings.Heal = true
     WriteToConsole(OutputDevice, "Healing player")
     return true
 end
+RegisterConsoleCommand(Commands.Heal, HealCommand)
 
 -- InfiniteHealth Command
-Commands.InfiniteHealth.Function = function(Parameters, OutputDevice)
+local function InfiniteHealthCommand(FullCommand, Parameters, OutputDevice)
     Settings.InfiniteHealth = not Settings.InfiniteHealth
     PrintCommandState(Settings.InfiniteHealth, Commands.InfiniteHealth.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.InfiniteHealth, InfiniteHealthCommand)
 
 -- InfiniteStamina Command
-Commands.InfiniteStamina.Function = function(Parameters, OutputDevice)
+local function InfiniteStaminaCommand(FullCommand, Parameters, OutputDevice)
     Settings.InfiniteStamina = not Settings.InfiniteStamina
     PrintCommandState(Settings.InfiniteStamina, Commands.InfiniteStamina.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.InfiniteStamina, InfiniteStaminaCommand)
 
 -- InfiniteDurability Command
-Commands.InfiniteDurability.Function = function(Parameters, OutputDevice)
+local function InfiniteDurabilityCommand(FullCommand, Parameters, OutputDevice)
     Settings.InfiniteDurability = not Settings.InfiniteDurability
     PrintCommandState(Settings.InfiniteDurability, Commands.InfiniteDurability.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.InfiniteDurability, InfiniteDurabilityCommand)
 
 -- InfiniteEnergy Command
-Commands.InfiniteEnergy.Function = function(Parameters, OutputDevice)
+local function InfiniteEnergyCommand(FullCommand, Parameters, OutputDevice)
     Settings.InfiniteEnergy = not Settings.InfiniteEnergy
     PrintCommandState(Settings.InfiniteEnergy, Commands.InfiniteEnergy.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.InfiniteEnergy, InfiniteEnergyCommand)
 
 -- NoHunger Command
-Commands.NoHunger.Function = function(Parameters, OutputDevice)
+local function NoHungerCommand(FullCommand, Parameters, OutputDevice)
     Settings.NoHunger = not Settings.NoHunger
     PrintCommandState(Settings.NoHunger, Commands.NoHunger.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.NoHunger, NoHungerCommand)
 
 -- NoThirst Command
-Commands.NoThirst.Function = function(Parameters, OutputDevice)
+local function NoThirstCommand(FullCommand, Parameters, OutputDevice)
     Settings.NoThirst = not Settings.NoThirst
     PrintCommandState(Settings.NoThirst, Commands.NoThirst.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.NoThirst, NoThirstCommand)
 
 -- NoFatigue Command
-Commands.NoFatigue.Function = function(Parameters, OutputDevice)
+local function NoFatigueCommand(FullCommand, Parameters, OutputDevice)
     Settings.NoFatigue = not Settings.NoFatigue
     PrintCommandState(Settings.NoFatigue, Commands.NoFatigue.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.NoFatigue, NoFatigueCommand)
 
 -- NoContinence Command
-Commands.NoContinence.Function = function(Parameters, OutputDevice)
+local function NoContinenceCommand(FullCommand, Parameters, OutputDevice)
     Settings.NoContinence = not Settings.NoContinence
     PrintCommandState(Settings.NoContinence, Commands.NoContinence.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.NoContinence, NoContinenceCommand)
 
 -- NoRadiation Command
-Commands.NoRadiation.Function = function(Parameters, OutputDevice)
+local function NoRadiationCommand(FullCommand, Parameters, OutputDevice)
     Settings.NoRadiation = not Settings.NoRadiation
     PrintCommandState(Settings.NoRadiation, Commands.NoRadiation.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.NoRadiation, NoRadiationCommand)
 
 -- FreeCrafting Command
-Commands.FreeCrafting.Function = function(Parameters, OutputDevice)
+local function FreeCraftingCommand(FullCommand, Parameters, OutputDevice)
     Settings.FreeCrafting = not Settings.FreeCrafting
     PrintCommandState(Settings.FreeCrafting, Commands.FreeCrafting.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.FreeCrafting, FreeCraftingCommand)
 
 -- NoFallDamage Command
-Commands.NoFallDamage.Function = function(Parameters, OutputDevice)
+local function NoFallDamageCommand(FullCommand, Parameters, OutputDevice)
     Settings.NoFallDamage = not Settings.NoFallDamage
     PrintCommandState(Settings.NoFallDamage, Commands.NoFallDamage.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.NoFallDamage, NoFallDamageCommand)
 
 -- NoClip Command
-Commands.NoClip.Function = function(Parameters, OutputDevice)
+local function NoClipCommand(FullCommand, Parameters, OutputDevice)
     Settings.NoClip = not Settings.NoClip
     PrintCommandState(Settings.NoClip, Commands.NoClip.Name, OutputDevice)
     return true
 end
+RegisterConsoleCommand(Commands.NoClip, NoClipCommand)
 
 -- Set Money Command
-Commands.Money.Function = function(Parameters, OutputDevice)
+local function MoneyCommand(FullCommand, Parameters, OutputDevice)
     local moneyValue = nil
     if #Parameters > 0 then
         moneyValue = tonumber(Parameters[1])
@@ -277,89 +317,6 @@ Commands.Money.Function = function(Parameters, OutputDevice)
     WriteToConsole(OutputDevice, "Execute " .. Commands.Money.Name .. " command with value: " .. Settings.MoneyValue)
     return true
 end
+RegisterConsoleCommand(Commands.Money, MoneyCommand)
 
-local function MatchCommand(Command, Aliases)
-    if type(Aliases) == "string" then
-        Aliases = { Aliases }
-    end
-    for _, alias in ipairs(Aliases) do
-        if alias == Command then
-            return true
-        end
-    end
-    return false
-end
-
-local AbioticGameViewportClientClass = nil
-local function GetClassAbioticGameViewportClient()
-    if not AbioticGameViewportClientClass then
-        AbioticGameViewportClientClass = StaticFindObject("/Script/AbioticFactor.AbioticGameViewportClient")
-    end
-    return AbioticGameViewportClientClass
-end
-
-RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
-    local context = Context:get()
-    local executor = Executor:get()
-
-    local command = string.match(Command, "^%S+")
-    if DebugMode then
-        LogDebug("[ProcessConsoleExec]:")
-        LogDebug("Context: " .. context:GetFullName())
-        LogDebug("Context.Class: " .. context:GetClass():GetFullName())
-        LogDebug("Command: " .. Command)
-        LogDebug("Parameters: " .. #Parameters)
-        if executor:IsValid() then
-            LogDebug("Executor: " .. executor:GetClass():GetFullName())
-        end
-    end
-
-    -- Special handling of default commands
-    if Command == "god" or Command == "ghost" or Command == "fly" then
-        LogDebug("Default command, skipping")
-        return nil
-    end
-
-    for _, commandObj in pairs(Commands) do
-        if MatchCommand(command, commandObj.Aliases) then
-            if context:IsA(GetClassAbioticGameViewportClient()) then
-                if commandObj.Function then
-                    commandObj.Function(Parameters, OutputDevice)
-                end
-            end
-            LogDebug("Found match: " .. command .. ", Command.Name: " .. commandObj.Name)
-            return true
-        end
-    end
-    LogDebug("------------------------")
-
-    return nil
-end)
-
--- Overwriting default UE commands (most aren't made for the game and causes issues)
-------------------------------------------------------------
-RegisterConsoleCommandGlobalHandler("god", function(FullCommand, Parameters, OutputDevice)
-    if Commands.GodMode.Function then
-        Commands.GodMode.Function(Parameters, OutputDevice)
-    end
-    return true
-end)
-
-RegisterConsoleCommandGlobalHandler("ghost", function(FullCommand, Parameters, OutputDevice)
-    if Commands.NoClip.Function then
-        Commands.NoClip.Function(Parameters, OutputDevice)
-    end
-    return true
-end)
-
-RegisterConsoleCommandGlobalHandler("fly", function(FullCommand, Parameters, OutputDevice)
-    if Commands.NoClip.Function then
-        Commands.NoClip.Function(Parameters, OutputDevice)
-    end
-    return true
-end)
-
-RegisterConsoleCommandGlobalHandler("changesize", function(FullCommand, Parameters, OutputDevice)
-    WriteToConsoleDebug(OutputDevice, 'Use "noclip", if you\'re stuck')
-    return false
-end)
+LogDebug("Console Command Registrations Count: " .. ConsoleCommandRegistrationsCount)
