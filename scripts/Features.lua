@@ -262,6 +262,7 @@ function NoRadiation(myPlayer)
 end
 
 local FreeCraftingWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function FreeCrafting(myPlayer)
     if not myPlayer then return end
 
@@ -283,6 +284,7 @@ function FreeCrafting(myPlayer)
 end
 
 local NoFallDamageWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoFallDamage(myPlayer)
     if not myPlayer then return end
 
@@ -304,6 +306,7 @@ function NoFallDamage(myPlayer)
 end
 
 local NoClipWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoClip(myPlayer)
     if not myPlayer then return end
 
@@ -326,6 +329,7 @@ function NoClip(myPlayer)
     end
 end
 
+---@param myPlayer AAbiotic_PlayerCharacter_C
 function SetMoney(myPlayer)
     if not myPlayer then return end
 
