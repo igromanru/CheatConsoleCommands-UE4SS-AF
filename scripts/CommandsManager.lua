@@ -98,7 +98,7 @@ local Commands = {
     Money = CreateCommand({"money"}, "Set Money", "Set money to desired value", "value"),
     FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items and for free. (Warning: Might require to rejoin the game to disable completly!)"),
     NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevets player from taking fall damage"),
-    NoClip = CreateCommand({"noclip"}, "No Clip", "Disables player's collision and makes him fly"),
+    NoClip = CreateCommand({"noclip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
 }
 
 function PrintCommansAaMarkdownTable()
@@ -134,6 +134,7 @@ local function RegisterConsoleCommand(Command, Callback)
         for _, commandName in ipairs(Command.Aliases) do
             if type(commandName) == "string" then
                 RegisterConsoleCommandGlobalHandler(commandName, Callback)
+                -- RegisterConsoleCommandHandler(commandName, Callback)
                 ConsoleCommandRegistrationsCount = ConsoleCommandRegistrationsCount + 1
                 if aliases ~= nil then
                     aliases = aliases .. ", "

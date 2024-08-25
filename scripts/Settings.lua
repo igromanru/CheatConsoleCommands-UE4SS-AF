@@ -1,5 +1,6 @@
 
 local Settings = {
+    MainCommand = "cheat",
     GodMode = false,
     Heal = false,
     InfiniteHealth = false,
