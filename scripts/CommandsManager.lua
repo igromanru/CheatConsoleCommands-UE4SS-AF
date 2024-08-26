@@ -97,13 +97,13 @@ local Commands = {
     NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired"),
     NoContinence = CreateCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
     NoRadiation = CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation"),
-    Money = CreateCommand({"money"}, "Set Money", "Set money to desired value", "value"),
+    Money = CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", "value"),
     FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!)"),
-    NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevents player from taking fall damage"),
-    NoClip = CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly"),
-    NoRecoil = CreateCommand({"norecoil", "recoil", "weaponnorecoil"}, "No Recoil", "Removes weapon's fire recoil"),
-    NoSpread = CreateCommand({"nospread", "spread", "noweaponspread"}, "No Spread", "Removes weapon's bullets spread"),
-    LeyakCooldown = CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes. (Default: 15min)", "minutes")
+    NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevents player from taking fall damage (host only)"),
+    NoClip = CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly (host only)"),
+    NoRecoil = CreateCommand({"norecoil", "recoil", "weaponnorecoil"}, "No Recoil", "Reduces weapon's fire recoil to minumum (haven't found a way to remove completly yet)"),
+    NoSway = CreateCommand({"nosway", "sway", "noweaponsway"}, "No Sway", "Removes weapon's sway"),
+    LeyakCooldown = CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previos cooldown will be in effect until the next Leyak spawns. (host only)", "minutes")
 }
 
 function PrintCommansAaMarkdownTable()
@@ -279,6 +279,20 @@ end
 Commands.NoClip.Function = function(Parameters, OutputDevice)
     Settings.NoClip = not Settings.NoClip
     PrintCommandState(Settings.NoClip, Commands.NoClip.Name, OutputDevice)
+    return true
+end
+
+-- NoRecoil Command
+Commands.NoRecoil.Function = function(Parameters, OutputDevice)
+    Settings.NoRecoil = not Settings.NoRecoil
+    PrintCommandState(Settings.NoRecoil, Commands.NoRecoil.Name, OutputDevice)
+    return true
+end
+
+-- NoSway Command
+Commands.NoSway.Function = function(Parameters, OutputDevice)
+    Settings.NoSway = not Settings.NoSway
+    PrintCommandState(Settings.NoSway, Commands.NoSway.Name, OutputDevice)
     return true
 end
 

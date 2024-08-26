@@ -17,7 +17,7 @@ local Settings = {
     SetMoney = false,
     MoneyValue = -1,
     NoRecoil = false,
-    NoSpread = false,
+    NoSway = false,
     LeyakCooldownInMin = -1
 }
 

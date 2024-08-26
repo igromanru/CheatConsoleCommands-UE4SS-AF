@@ -37,7 +37,7 @@ LoopAsync(500, function()
             NoClip(myPlayer)
             SetMoney(myPlayer)
             NoRecoil(myPlayer)
-            NoSpread(myPlayer)
+            NoSway(myPlayer)
             SetLeyakCooldown()
         end
     end)

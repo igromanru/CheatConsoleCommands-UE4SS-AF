@@ -335,8 +335,9 @@ function SetMoney(myPlayer)
 
     if Settings.SetMoney and Settings.MoneyValue > -1 then
         if Settings.MoneyValue ~= myPlayer.CurrentMoney then
+            myPlayer:Request_ModifyMoney(Settings.MoneyValue - myPlayer.CurrentMoney)
             myPlayer.CurrentMoney = Settings.MoneyValue
-            myPlayer:OnRep_CurrentMoney()
+            -- myPlayer:OnRep_CurrentMoney()   
             LogDebug("CurrentMoney: " .. tostring(myPlayer.CurrentMoney))
             AFUtils.ClientDisplayWarningMessage("Money set to " .. myPlayer.CurrentMoney, AFUtils.CriticalityLevels.Green)
             Settings.SetMoney = false
@@ -346,38 +347,55 @@ function SetMoney(myPlayer)
 end
 
 local NoRecoilWasEnabled = false
+local RecoilTimelineLengthBackUp = 0.0
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoRecoil(myPlayer)
     if not myPlayer then return end
 
     if Settings.NoRecoil then
-        
+        if myPlayer.ControllerRecoilTimeline:IsValid() then
+            if myPlayer.ControllerRecoilTimeline.TheTimeline.Length > 0 then
+                RecoilTimelineLengthBackUp = myPlayer.ControllerRecoilTimeline.TheTimeline.Length
+            end
+            myPlayer.ControllerRecoilTimeline.TheTimeline.Length = 0.0
+        end
         if not NoRecoilWasEnabled then
             AFUtils.ClientDisplayWarningMessage("No Recoil activated", AFUtils.CriticalityLevels.Green)
             NoRecoilWasEnabled = true
         end
     elseif NoRecoilWasEnabled then
+        if myPlayer.ControllerRecoilTimeline:IsValid() and RecoilTimelineLengthBackUp > 0 then
+            myPlayer.ControllerRecoilTimeline.TheTimeline.Length = RecoilTimelineLengthBackUp
+        end
+        RecoilTimelineLengthBackUp = 0.0
         NoRecoilWasEnabled = false
-        
         AFUtils.ClientDisplayWarningMessage("No Recoil deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
 
-local NoSpreadWasEnabled = false
+local NoSwayWasEnabled = false
+local ScopeSwaySpeedBackUp = 0.0
 ---@param myPlayer AAbiotic_PlayerCharacter_C
-function NoSpread(myPlayer)
+function NoSway(myPlayer)
     if not myPlayer then return end
 
-    if Settings.NoSpread then
-        
-        if not NoSpreadWasEnabled then
-            AFUtils.ClientDisplayWarningMessage("No Recoil activated", AFUtils.CriticalityLevels.Green)
-            NoSpreadWasEnabled = true
+    if Settings.NoSway then
+        myPlayer.BaseGunSway_Multiplier = 0.0
+        if myPlayer.ScopeSwaySpeed > 0 then
+            ScopeSwaySpeedBackUp = myPlayer.ScopeSwaySpeed
+            myPlayer.ScopeSwaySpeed = 0
         end
-    elseif NoSpreadWasEnabled then
-        NoSpreadWasEnabled = false
-        
-        AFUtils.ClientDisplayWarningMessage("No Recoil deactivated", AFUtils.CriticalityLevels.Red)
+        if not NoSwayWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("No Sway activated", AFUtils.CriticalityLevels.Green)
+            NoSwayWasEnabled = true
+        end
+    elseif NoSwayWasEnabled then
+        myPlayer.BaseGunSway_Multiplier = 1.0
+        if ScopeSwaySpeedBackUp > 0 then
+            myPlayer.ScopeSwaySpeed = ScopeSwaySpeedBackUp
+        end
+        NoSwayWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("No Sway deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
 
