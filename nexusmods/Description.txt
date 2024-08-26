@@ -29,23 +29,26 @@ Steam example: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Bi
 [/list]
 [line]
 [font=Verdana][size=4][b]Commands[/b][/size][/font]
-Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] parameters[/i] } - [i]Description
-[/i]
+Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] parameters[/i] } - [i]Description[/i]
+
 [b]Help[/b] [ help ] {} - [u]Shows mod details and possible commands[/u]
 [b]Heal[/b] [ heal ] {} - [u]Player gets fully healed once[/u]
 [b]Infinite Health[/b] [ health | hp | inv | infhp | infhealth ] {} - [u]Player gets fully healed and becomes invincible[/u]
 [b]Infinite Stamina[/b] [ stamina | sp | infsp | infstamina ] {} - [u]Player won't consume stamina[/u]
-[b]Infinite Durability[/b] [ durability | infdur ] {} - [u]Player's Held Item won't lose durability[/u]
-[b]Infinite Energy[/b] [ energy | infenergy ] {} - [u]Player's Held Item won't lose charge[/u]
+[b]Infinite Durability[/b] [ durability | infdurability | infdur ] {} - [u]Keeps player's gear and hotbar items durability at maximum[/u]
+[b]Infinite Energy[/b] [ energy | infenergy ] {} - [u]Keeps player's gear and held item charge/energy at maximum[/u]
+[b]No Fall Damage[/b] [ falldmg | falldamage | nofall | nofalldmg | nofalldamage ] {} - [u]Prevents player from taking fall damage (host only)[/u]
 [b]No Hunger[/b] [ hunger | nohunger | eat ] {} - [u]Player won't be hungry[/u]
 [b]No Thirst[/b] [ thirst | nothirst | drink ] {} - [u]Player won't be Thirsty[/u]
-[b]No Continence[/b] [ con | nocon | continence | nocontinence | wc ] {} - [u]Player won't need to go to the toilet[/u]
 [b]No Fatigue[/b] [ fat | nofat | fatigue | nofatigue | tired ] {} - [u]Player won't be tired[/u]
+[b]No Continence[/b] [ con | nocon | continence | nocontinence | wc ] {} - [u]Player won't need to go to the toilet[/u]
 [b]No Radiation[/b] [ rad | norad | radiation | noradiation ] {} - [u]Player can't receive radiation[/u]
-[b]Free Crafting[/b] [ freecraft | freecrafting | crafting | craft ] {} - [u]Allows player to craft all items and for free. (Warning: You may need to restart the game to deactivate it completely!)[/u]
-[b]No Fall Damage[/b] [ falldmg | falldamage | nofall | nofalldmg | nofalldamage ] {} - [u]Prevents player from taking fall damage[/u]
-[b]No Clip[/b] [ noclip | clip | ghost ] {} - [u]Disables player's collision and makes him fly[/u]
-[b]Set Money[/b] [ money ] { value } - [u]Set money to desired value[/u]
+[b]Free Crafting[/b] [ freecraft | freecrafting | crafting | craft ] {} - [u]Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!)[/u]
+[b]Set Money[/b] [ money ] { value } - [u]Set money to desired value (works as guest)[/u]
+[b]No Clip[/b] [ noclip | clip | ghost ] {} - [u]Disables player's collision and makes him fly (host only)[/u]
+[b]No Recoil[/b] [ norecoil | recoil | weaponnorecoil ] {} - [u]Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet)[/u]
+[b]No Sway[/b] [ nosway | sway | noweaponsway ] {} - [u]Removes weapon's sway[/u]
+[b]Leyak Cooldown[/b] [ leyakcd | leyakcooldown | cdleyak ] { minutes } - [u]Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)[/u]
 
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.
@@ -75,6 +78,7 @@ GuiConsoleEnabled = 0[/code]
 [list]
 [*]Most features are based on debugging functions created by game developers to help them develop the game.
 [*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload/rejoin the game.
+[*]Most features doesn't work as guest on a server, I'll rework some of them to work on a server as well though next versions.
 [/list]
 [font=Verdana][size=4][b]Bug Reports[/b][/size][/font]
 If you have followed the installation instructions above and are 100% sure that you have done everything correctly, but you are still having problems with the mod, please provide following information if you wish to report an issue. 
@@ -92,5 +96,7 @@ Simple let me know in the comments section.
 [*]Console command handlers of UE4SS are currently not very stable. Expect crashes after leaving a game or trying to close the game and report any unexpected crashes. 
 [*]Current UE4SS version works well with the game, but it has of a problem that causes the game to crash when you exit it.It has nothing to do with the mod and it has no negative impact on the game or your save file, it's just a bit annoying.And you might want to delete crash dump ([b].dmp[/b]) files from time to time from your game directory.
 [/list]
-
-[b][url=https://github.com/igromanru/CheatConsoleCommands-UE4SS-AF]GitHub Page[/url][/b]
+[font=Verdana][size=3][b]Credits[/b][/size][/font]
+[list]
+[*]Gantzyo from UE4SS Discord
+[/list]
