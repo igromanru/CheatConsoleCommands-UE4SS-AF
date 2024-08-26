@@ -85,24 +85,24 @@ local function CreateCommand(CommandNames, FeatureName, Description, Parameters)
 end
 
 local Commands = {
-    Help = CreateCommand("help", "Help", "Shows mod details and possible commands"),
+    Help = CreateCommand("help", "Help", "Shows mod details and possible commands (host only)"),
     GodMode = CreateCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
-    Heal = CreateCommand({"heal"}, "Heal", "Player gets fully healed once"),
-    InfiniteHealth = CreateCommand({"health", "hp", "inv", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible"),
-    InfiniteStamina = CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina"),
-    InfiniteDurability = CreateCommand({"durability", "infdurability", "infdur"}, "Infinite Durability", "Keeps player's gear and hotbar items durability at maximum"),
-    InfiniteEnergy = CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Keeps player's gear and held item charge/energy at maximum"),
-    NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry"),
-    NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Thirsty"),
-    NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired"),
-    NoContinence = CreateCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet"),
-    NoRadiation = CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation"),
+    Heal = CreateCommand({"heal"}, "Heal", "Player gets fully healed once (host only)"),
+    InfiniteHealth = CreateCommand({"health", "hp", "inv", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible (host only)"),
+    InfiniteStamina = CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina (host only)"),
+    InfiniteDurability = CreateCommand({"durability", "infdurability", "infdur"}, "Infinite Durability", "Keeps player's gear and hotbar items durability at maximum (works as guest)"),
+    InfiniteEnergy = CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Keeps player's gear and held item charge/energy at maximum (host only)"),
+    NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry (host only)"),
+    NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Thirsty (host only)"),
+    NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired (host only)"),
+    NoContinence = CreateCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet (host only)"),
+    NoRadiation = CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation (host only)"),
     Money = CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", "value"),
-    FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!)"),
+    FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!) (host only)"),
     NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevents player from taking fall damage (host only)"),
     NoClip = CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly (host only)"),
-    NoRecoil = CreateCommand({"norecoil", "recoil", "weaponnorecoil"}, "No Recoil", "Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet)"),
-    NoSway = CreateCommand({"nosway", "sway", "noweaponsway"}, "No Sway", "Removes weapon's sway"),
+    NoRecoil = CreateCommand({"norecoil", "recoil", "weaponnorecoil"}, "No Recoil", "Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)"),
+    NoSway = CreateCommand({"nosway", "sway", "noweaponsway"}, "No Sway", "Removes weapon's sway  (works as guest)"),
     LeyakCooldown = CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)", "minutes")
 }
 
