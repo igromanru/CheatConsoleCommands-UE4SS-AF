@@ -54,9 +54,9 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 Most commands has multiple aliases that you can use to trigger it.
 For example: [b]Infinite Health[/b] can be activated by typing "health", "hp", "inv", "infhp" OR "infhealth" into the console.
 Commands which has variables has to be used like this:
-[code]
-money 9999
-[/code]
+[font=Courier New]money 9999  [/font]--Sets money value to 9999
+[font=Courier New]leyakcd 60 [/font]--Makes Leyak spawn once per hour
+
 [font=Verdana][size=3][b]Default Unreal Engine Commands[/b][/size][/font]
 [b]Slow motion[/b] [ slomo  ] { game_speed_multiplier } - [u]Changes game's speed (0.1 = very slow, 10.0 = 10x faster)[/u]
 [b]Teleport[/b] [ teleport ] {} - [u]Teleports player's forward[/u]
@@ -78,7 +78,7 @@ GuiConsoleEnabled = 0[/code]
 [list]
 [*]Most features are based on debugging functions created by game developers to help them develop the game.
 [*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload/rejoin the game.
-[*]Most features doesn't work as guest on a server, I'll rework some of them to work on a server as well though next versions.
+[*]Most features work only if you host the game or in singleplayer, I'll try to find "exploits" to trick the server, but don't expect much. To make most use out of mods I recommend to host your game locally.
 [/list]
 [font=Verdana][size=4][b]Bug Reports[/b][/size][/font]
 If you have followed the installation instructions above and are 100% sure that you have done everything correctly, but you are still having problems with the mod, please provide following information if you wish to report an issue. 
