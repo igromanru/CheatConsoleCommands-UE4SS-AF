@@ -122,11 +122,33 @@ function InfiniteEnergy(myPlayer)
         AFUtils.FillAllEquippedItemsWithEnergy(myPlayer)
         if not InfiniteEnergyWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Infinite Energy activated", AFUtils.CriticalityLevels.Green)
+            InfiniteEnergyWasEnabled = true
         end
-        InfiniteEnergyWasEnabled = true
     elseif InfiniteEnergyWasEnabled then
         InfiniteEnergyWasEnabled = false
         AFUtils.ClientDisplayWarningMessage("Infinite Energy deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
+local InfiniteAmmoWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function InfiniteAmmo(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.InfiniteAmmo then
+        if AFUtils.FillHeldWeaponWithAmmo(myPlayer) then
+            myPlayer.ItemInHand_BP.ConsumeAmmoOnFire = false
+        end
+        if not InfiniteAmmoWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Infinite Ammo activated", AFUtils.CriticalityLevels.Green)
+            InfiniteAmmoWasEnabled = true
+        end
+    elseif InfiniteAmmoWasEnabled then
+        if AFUtils.FillHeldWeaponWithAmmo(myPlayer) then
+            myPlayer.ItemInHand_BP.ConsumeAmmoOnFire = true
+        end
+        InfiniteAmmoWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Infinite Ammo deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
 

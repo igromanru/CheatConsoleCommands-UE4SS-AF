@@ -18,7 +18,7 @@ require("Features")
 require("CommandsManager") -- Executes CommandsManager functions
 
 -- Main loop
-LoopAsync(500, function()
+LoopAsync(200, function()
     ExecuteInGameThread(function() 
         local myPlayer = AFUtils.GetMyPlayer()
         if myPlayer then
@@ -27,6 +27,7 @@ LoopAsync(500, function()
             InfiniteStamina(myPlayer)
             InfiniteDurability(myPlayer)
             InfiniteEnergy(myPlayer)
+            InfiniteAmmo(myPlayer)
             NoHunger(myPlayer)
             NoThirst(myPlayer)
             NoFatigue(myPlayer)

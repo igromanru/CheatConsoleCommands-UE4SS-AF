@@ -92,6 +92,7 @@ local Commands = {
     InfiniteStamina = CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina (host only)"),
     InfiniteDurability = CreateCommand({"durability", "infdurability", "infdur"}, "Infinite Durability", "Keeps player's gear and hotbar items durability at maximum (works as guest)"),
     InfiniteEnergy = CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Keeps player's gear and held item charge/energy at maximum (host only)"),
+    InfiniteAmmo = CreateCommand({"infammo", "ammo", "infiniteammo"}, "Infinite Ammo", "Keeps ammo of ranged weapons replenished (works as guest)"),
     NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry (host only)"),
     NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Thirsty (host only)"),
     NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired (host only)"),
@@ -223,6 +224,13 @@ end
 Commands.InfiniteEnergy.Function = function(Parameters, OutputDevice)
     Settings.InfiniteEnergy = not Settings.InfiniteEnergy
     PrintCommandState(Settings.InfiniteEnergy, Commands.InfiniteEnergy.Name, OutputDevice)
+    return true
+end
+
+-- InfiniteAmmo Command
+Commands.InfiniteAmmo.Function = function(Parameters, OutputDevice)
+    Settings.InfiniteAmmo = not Settings.InfiniteAmmo
+    PrintCommandState(Settings.InfiniteAmmo, Commands.InfiniteAmmo.Name, OutputDevice)
     return true
 end
 
@@ -389,7 +397,6 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
             -- LogDebug("Found match: " .. command .. ", Command.Name: " .. commandObj.Name)
             if context:IsA(GetClassAbioticGameViewportClient()) then
                 if commandObj.Function then
-                    LogDebug("Executing " .. commandObj.Name .. "'s function")
                     return commandObj.Function(Parameters, OutputDevice)
                 end
             end

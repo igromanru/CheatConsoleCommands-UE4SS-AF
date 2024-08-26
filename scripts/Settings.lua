@@ -6,6 +6,7 @@ local Settings = {
     InfiniteStamina = false,
     InfiniteDurability = false,
     InfiniteEnergy = false,
+    InfiniteAmmo = false,
     NoHunger = false,
     NoThirst = false,
     NoFatigue = false,
