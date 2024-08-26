@@ -9,6 +9,12 @@ local function HealAllLimbs(playerCharacter)
         local outSuccess = {}
         playerCharacter:Server_HealRandomLimb(100.0, outSuccess)
     end
+    playerCharacter.CurrentHealth_Head = 68.0
+    playerCharacter.CurrentHealth_Torso = 100.0
+    playerCharacter.CurrentHealth_LeftArm= 100.0
+    playerCharacter.CurrentHealth_RightArm = 100.0
+    playerCharacter.CurrentHealth_LeftLeg = 100.0
+    playerCharacter.CurrentHealth_RightLeg = 100.0
 end
 
 local GodModeWasEnabled = false
@@ -49,13 +55,15 @@ function InfiniteHealth(myPlayer)
         if not myPlayer.Invincible then
             myPlayer.Invincible = true
             HealAllLimbs(myPlayer)
-            -- LogDebug("Invincible: " .. tostring(myPlayer.Invincible))
-            -- LogDebug("CurrentHealth_Head: " .. tostring(myPlayer.CurrentHealth_Head))
-            -- LogDebug("CurrentHealth_Torso: " .. tostring(myPlayer.CurrentHealth_Torso))
-            -- LogDebug("CurrentHealth_LeftArm: " .. tostring(myPlayer.CurrentHealth_LeftArm))
-            -- LogDebug("CurrentHealth_RightArm: " .. tostring(myPlayer.CurrentHealth_RightArm))
-            -- LogDebug("CurrentHealth_LeftLeg: " .. tostring(myPlayer.CurrentHealth_LeftLeg))
-            -- LogDebug("CurrentHealth_RightLeg: " .. tostring(myPlayer.CurrentHealth_RightLeg))
+            myPlayer:OnRep_CurrentHealth()
+            LogDebug("Invincible: " .. tostring(myPlayer.Invincible))
+            LogDebug("CurrentHealth_Head: " .. tostring(myPlayer.CurrentHealth_Head))
+            LogDebug("CurrentHealth_Torso: " .. tostring(myPlayer.CurrentHealth_Torso))
+            LogDebug("CurrentHealth_LeftArm: " .. tostring(myPlayer.CurrentHealth_LeftArm))
+            LogDebug("CurrentHealth_RightArm: " .. tostring(myPlayer.CurrentHealth_RightArm))
+            LogDebug("CurrentHealth_LeftLeg: " .. tostring(myPlayer.CurrentHealth_LeftLeg))
+            LogDebug("CurrentHealth_RightLeg: " .. tostring(myPlayer.CurrentHealth_RightLeg))
+            LogDebug("TotalCombinedHealth: " .. tostring(myPlayer.TotalCombinedHealth))
         end
         if not InfiniteHealthWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Invincibility activated", AFUtils.CriticalityLevels.Green)
@@ -78,6 +86,7 @@ function InfiniteStamina(myPlayer)
         if not myPlayer.InfiniteStamina then
             myPlayer.InfiniteStamina = true
             myPlayer.CurrentStamina = myPlayer.MaxStamina
+            myPlayer:OnRep_CurrentStamina()
             LogDebug("InfiniteStamina: " .. tostring(myPlayer.InfiniteStamina))
             LogDebug("CurrentStamina: " .. tostring(myPlayer.CurrentStamina))
             LogDebug("MaxStamina: " .. tostring(myPlayer.MaxStamina))
@@ -158,8 +167,7 @@ function NoHunger(myPlayer)
     if not myPlayer then return end
 
     if Settings.NoHunger then
-        NoHungerWasEnabled = true
-        if myPlayer.HasHunger == true then
+        if myPlayer.HasHunger then
             myPlayer.HasHunger = false
             myPlayer.CurrentHunger = myPlayer.MaxHunger
             myPlayer:OnRep_CurrentHunger()
@@ -185,7 +193,7 @@ function NoThirst(myPlayer)
     if not myPlayer then return end
 
     if Settings.NoThirst then
-        if myPlayer.HasThirst == true then
+        if myPlayer.HasThirst then
             myPlayer.HasThirst = false
             myPlayer.CurrentThirst = myPlayer.MaxThirst
             myPlayer:OnRep_CurrentThirst()
@@ -211,7 +219,7 @@ function NoFatigue(myPlayer)
     if not myPlayer then return end
 
     if Settings.NoFatigue then
-        if myPlayer.HasFatigue == true then
+        if myPlayer.HasFatigue then
             myPlayer.HasFatigue = false
             myPlayer.CurrentFatigue = 0.0
             myPlayer:OnRep_CurrentFatigue()
@@ -237,7 +245,7 @@ function InfiniteContinence(myPlayer)
     if not myPlayer then return end
 
     if Settings.InfiniteContinence then
-        if myPlayer.HasContinence == true then
+        if myPlayer.HasContinence then
             myPlayer.HasContinence = false
             myPlayer.CurrentContinence = myPlayer.MaxContinence
             myPlayer:OnRep_CurrentContinence()
@@ -263,7 +271,7 @@ function NoRadiation(myPlayer)
     if not myPlayer then return end
 
     if Settings.NoRadiation then
-        if myPlayer.CanReceiveRadiation == true then
+        if  myPlayer.CanReceiveRadiation then
             myPlayer.CanReceiveRadiation = false
             myPlayer.CurrentRadiation = 0.0
             myPlayer:OnRep_CurrentContinence()
@@ -311,7 +319,7 @@ function NoFallDamage(myPlayer)
     if not myPlayer then return end
 
     if Settings.NoFallDamage then
-        if myPlayer.TakeFallDamage == true then
+        if myPlayer.TakeFallDamage then
             myPlayer.TakeFallDamage = false
             LogDebug("TakeFallDamage: " .. tostring(myPlayer.TakeFallDamage))
         end
