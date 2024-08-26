@@ -10,7 +10,7 @@
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.1.0"
+ModVersion = "1.2.0"
 DebugMode = true
 
 LogInfo("Starting mod initialization")
@@ -30,7 +30,7 @@ LoopAsync(500, function()
             NoHunger(myPlayer)
             NoThirst(myPlayer)
             NoFatigue(myPlayer)
-            NoContinence(myPlayer)
+            InfiniteContinence(myPlayer)
             NoRadiation(myPlayer)
             FreeCrafting(myPlayer)
             NoFallDamage(myPlayer)

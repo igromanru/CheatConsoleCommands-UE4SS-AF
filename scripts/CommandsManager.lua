@@ -95,7 +95,7 @@ local Commands = {
     NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry (host only)"),
     NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Thirsty (host only)"),
     NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired (host only)"),
-    NoContinence = CreateCommand({"con", "nocon", "continence", "nocontinence", "wc"}, "No Continence", "Player won't need to go to the toilet (host only)"),
+    InfiniteContinence = CreateCommand({"con", "infcon", "nocon", "continence", "nocontinence", "wc", "noneed", "constipation"}, "Infinite Continence", "Player won't need to go to the toilet (host only)"),
     NoRadiation = CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation (host only)"),
     Money = CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", "value"),
     FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!) (host only)"),
@@ -247,10 +247,10 @@ Commands.NoFatigue.Function = function(Parameters, OutputDevice)
     return true
 end
 
--- NoContinence Command
-Commands.NoContinence.Function = function(Parameters, OutputDevice)
-    Settings.NoContinence = not Settings.NoContinence
-    PrintCommandState(Settings.NoContinence, Commands.NoContinence.Name, OutputDevice)
+-- InfiniteContinence Command
+Commands.InfiniteContinence.Function = function(Parameters, OutputDevice)
+    Settings.InfiniteContinence = not Settings.InfiniteContinence
+    PrintCommandState(Settings.InfiniteContinence, Commands.InfiniteContinence.Name, OutputDevice)
     return true
 end
 

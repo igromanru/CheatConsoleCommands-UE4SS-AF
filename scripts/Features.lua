@@ -209,12 +209,12 @@ function NoFatigue(myPlayer)
     end
 end
 
-local NoContinenceWasEnabled = false
+local InfiniteContinenceWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
-function NoContinence(myPlayer)
+function InfiniteContinence(myPlayer)
     if not myPlayer then return end
 
-    if Settings.NoContinence then
+    if Settings.InfiniteContinence then
         if myPlayer.HasContinence == true then
             myPlayer.HasContinence = false
             myPlayer.CurrentContinence = myPlayer.MaxContinence
@@ -223,15 +223,15 @@ function NoContinence(myPlayer)
             LogDebug("CurrentContinence: " .. tostring(myPlayer.CurrentContinence))
             LogDebug("MaxContinence: " .. tostring(myPlayer.MaxContinence))
         end
-        if not NoContinenceWasEnabled then
-            AFUtils.ClientDisplayWarningMessage("No Continence activated", AFUtils.CriticalityLevels.Green)
-            NoContinenceWasEnabled = true
+        if not InfiniteContinenceWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Infinite Continence activated", AFUtils.CriticalityLevels.Green)
+            InfiniteContinenceWasEnabled = true
         end
-    elseif NoContinenceWasEnabled then
-        NoContinenceWasEnabled = false
+    elseif InfiniteContinenceWasEnabled then
+        InfiniteContinenceWasEnabled = false
         myPlayer.HasContinence = true
         LogDebug("HasContinence: " .. tostring(myPlayer.HasContinence))
-        AFUtils.ClientDisplayWarningMessage("No Continence deactivated", AFUtils.CriticalityLevels.Red)
+        AFUtils.ClientDisplayWarningMessage("Infinite Continence deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
 

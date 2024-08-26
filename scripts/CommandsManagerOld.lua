@@ -256,8 +256,8 @@ RegisterConsoleCommand(Commands.NoFatigue, NoFatigueCommand)
 
 -- NoContinence Command
 local function NoContinenceCommand(FullCommand, Parameters, OutputDevice)
-    Settings.NoContinence = not Settings.NoContinence
-    PrintCommandState(Settings.NoContinence, Commands.NoContinence.Name, OutputDevice)
+    Settings.InfiniteContinence = not Settings.InfiniteContinence
+    PrintCommandState(Settings.InfiniteContinence, Commands.NoContinence.Name, OutputDevice)
     return true
 end
 RegisterConsoleCommand(Commands.NoContinence, NoContinenceCommand)
