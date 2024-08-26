@@ -100,8 +100,8 @@ function InfiniteDurability(myPlayer)
     if not myPlayer then return end
 
     if Settings.InfiniteDurability then
-        AFUtils.FillDurabilityOfAllItemsInInvetory(myPlayer.CharacterEquipSlotInventory)
-        AFUtils.FillDurabilityOfAllItemsInInvetory(myPlayer.CharacterHotbarInventory)
+        AFUtils.RepairAllItemsInInvetory(myPlayer, myPlayer.CharacterEquipSlotInventory)
+        AFUtils.RepairAllItemsInInvetory(myPlayer, myPlayer.CharacterHotbarInventory)
         if not InfiniteDurabilityWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Infinite Durability activated", AFUtils.CriticalityLevels.Green)
             InfiniteDurabilityWasEnabled = true
