@@ -89,7 +89,7 @@ local function CreateCommand(CommandNames, FeatureName, Description, Parameters)
 end
 
 local Commands = {
-    Help = CreateCommand("help", "Help", "Shows mod details and possible commands (host only)"),
+    Help = CreateCommand("help", "Help", "Shows mod details and possible commands"),
     GodMode = CreateCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
     Heal = CreateCommand({"heal"}, "Heal", "Player gets fully healed once (host only)"),
     InfiniteHealth = CreateCommand({"health", "hp", "inv", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible (host only)"),
@@ -100,10 +100,10 @@ local Commands = {
     NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be thirsty (works partial as guest)"),
     NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired (works partial as guest)"),
     InfiniteContinence = CreateCommand({"con", "infcon", "InfiniteContinence", "noneed", "constipation"}, "Infinite Continence", "Player won't need to go to the toilet (works partial as guest)"),
-    LowContinence = CreateCommand({"lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", "laxative"}, "Low Continence", "Freezes the need to to the toilet at low value (host only)"),
+    LowContinence = CreateCommand({"lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", "laxative"}, "Low Continence", "Freezes the need to go to the toilet at low value (host only)"),
     NoRadiation = CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation (works partial as guest)"),
     Money = CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", "value"),
-    FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!) (host only)"),
+    FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all recipes and simulates possession of all items. (Warning: You may need to restart the game to deactivate it completely!) (host only)"),
     NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevents player from taking fall damage (host only)"),
     InfiniteAmmo = CreateCommand({"infammo", "ammo", "infiniteammo"}, "Infinite Ammo", "Keeps ammo of ranged weapons replenished (works as guest)"),
     NoRecoil = CreateCommand({"norecoil", "recoil", "weaponnorecoil"}, "No Recoil", "Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)"),

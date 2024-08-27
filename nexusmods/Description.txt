@@ -19,7 +19,7 @@ For Steam users it might be something like this: [i]C:\Program Files (x86)\Steam
 4. Unzip/extract the content of mod's zip ([b]CheatConsoleCommands[/b] folder) into the directory: [i](game root directory)\AbioticFactor\Binaries\Win64\Mods\[/i]
 [size=2]Whole mod path should be like this: [i](game root directory)\AbioticFactor\Binaries\Win64\Mods\CheatConsoleCommands\[/i]
 Steam example: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Binaries\Win64\Mods\CheatConsoleCommands\
-[/i][/size]5. Done, you can change mod's hotkey, if you want (see below).
+[/i][/size]5. Done. You can find the list of commands below.
 
 [font=Verdana][size=4][b]How to use[/b][/size][/font]
 [list][*]Open game's command console with [b]F10[/b]. Press F10 one time to open in "quick type" mode and second type to open fully.
@@ -30,7 +30,7 @@ Steam example: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Bi
 [line]
 [font=Verdana][size=4][b]Commands[/b][/size][/font]
 Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] parameters[/i] } - [i]Description[/i]
-[b]Help[/b] [ [font=Arial]help[/font] ] {} - [font=Georgia]Shows mod details and possible commands (host only)[/font]
+[b]Help[/b] [ [font=Arial]help[/font] ] {} - [font=Georgia]Shows mod details and possible commands[/font]
 [b]Heal[/b] [ [font=Arial]heal[/font] ] {} - [font=Georgia]Player gets fully healed once (host only)[/font]
 [b]Infinite Health[/b] [ [font=Arial]health[/font] | [font=Arial]hp[/font] | [font=Arial]inv[/font] | [font=Arial]infhp[/font] | [font=Arial]infhealth[/font] ] {} - [font=Georgia]Player gets fully healed and becomes invincible (host only)[/font]
 [b]Infinite Stamina[/b] [ [font=Arial]stamina[/font] | [font=Arial]sp[/font] | [font=Arial]infsp[/font] | [font=Arial]infstamina[/font] ] {} - [font=Georgia]Player won't consume stamina (works partial as guest)[/font]
@@ -40,7 +40,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]No Thirst[/b] [ [font=Arial]thirst[/font] | [font=Arial]nothirst[/font] | [font=Arial]drink[/font] ] {} - [font=Georgia]Player won't be Thirsty (works partial as guest)[/font]
 [b]No Fatigue[/b] [ [font=Arial]fat[/font] | [font=Arial]nofat[/font] | [font=Arial]fatigue[/font] | [font=Arial]nofatigue[/font] | [font=Arial]tired[/font] ] {} - [font=Georgia]Player won't be tired (works partial as guest)[/font]
 [b]Infinite Continence[/b] [ [font=Arial]con[/font] | [font=Arial]infcon[/font] | [font=Arial]InfiniteContinence[/font] | [font=Arial]noneed[/font] | [font=Arial]constipation[/font] ] {} - [font=Georgia]Player won't need to go to the toilet (works partial as guest)[/font]
-[b]Low Continence[/b] [ [font=Arial]lowcon[/font] | [font=Arial]lowcontinence[/font] | [font=Arial]nocon[/font] | [font=Arial]nocontinence[/font] | [font=Arial]portalwc[/font] | [font=Arial]laxative[/font] ] {} - [font=Georgia]Freezes the need to to the toilet at low value (host only)[/font]
+[b]Low Continence[/b] [ [font=Arial]lowcon[/font] | [font=Arial]lowcontinence[/font] | [font=Arial]nocon[/font] | [font=Arial]nocontinence[/font] | [font=Arial]portalwc[/font] | [font=Arial]laxative[/font] ] {} - [font=Georgia]Freezes the need to go to the toilet at low value (host only)[/font]
 [b]No Radiation[/b] [ [font=Arial]rad[/font] | [font=Arial]norad[/font] | [font=Arial]radiation[/font] | [font=Arial]noradiation[/font] ] {} - [font=Georgia]Player can't receive radiation (works partial as guest)[/font]
 [b]Set Money[/b] [ [font=Arial]money[/font] ] { value } - [font=Georgia]Set money to desired value (works as guest)[/font]
 [b]Free Crafting[/b] [ [font=Arial]freecraft[/font] | [font=Arial]freecrafting[/font] | [font=Arial]crafting[/font] | [font=Arial]craft[/font] ] {} - [font=Georgia]Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/font]
