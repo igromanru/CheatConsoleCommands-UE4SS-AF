@@ -97,7 +97,7 @@ local Commands = {
     InfiniteDurability = CreateCommand({"durability", "infdurability", "infdur"}, "Infinite Durability", "Keeps player's gear and hotbar items durability at maximum (works as guest)"),
     InfiniteEnergy = CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Keeps player's gear and held item charge/energy at maximum (host only)"),
     NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry (works partial as guest)"),
-    NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Thirsty (works partial as guest)"),
+    NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be thirsty (works partial as guest)"),
     NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired (works partial as guest)"),
     InfiniteContinence = CreateCommand({"con", "infcon", "InfiniteContinence", "noneed", "constipation"}, "Infinite Continence", "Player won't need to go to the toilet (works partial as guest)"),
     LowContinence = CreateCommand({"lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", "laxative"}, "Low Continence", "Freezes the need to to the toilet at low value (host only)"),
@@ -155,7 +155,7 @@ function PrintCommansAaBBCode()
            if result ~= "" then
             result = result .. " | "
            end 
-           result = result .. alias
+           result = result .. "[font=Arial]" .. alias .. "[/font]"
         end
         return result
     end
@@ -168,7 +168,7 @@ function PrintCommansAaBBCode()
             if command.Parameters ~= "" then
                 parameters = string.format(" %s ", command.Parameters)
             end
-            print(string.format("[b]%s[/b] [ %s ] {%s} - [u]%s[/u]", command.Name, GetCommandAliasForTable(command), parameters, command.Description))
+            print(string.format("[b]%s[/b] [ %s ] {%s} - [font=Georgia]%s[/font]", command.Name, GetCommandAliasForTable(command), parameters, command.Description))
         end
     end
     print("----------------------------------")
@@ -191,14 +191,16 @@ end
 -- Help Command
 Commands.Help.Function = function(Parameters, OutputDevice)
     WriteToConsole(OutputDevice, ModName .. " list:")
-    for _, command in pairs(Commands) do
-        WriteToConsole(OutputDevice, "------------------------------")
-        WriteToConsole(OutputDevice, "Command: " .. command.Name)
-        WriteToConsole(OutputDevice, "Aliases: " .. GetCommandAlias(command))
-        if command.Parameters and command.Parameters ~= "" then
-            WriteToConsole(OutputDevice, "Parameters: " .. command.Parameters)
+    for _, command in ipairs(CommandsArray) do
+        if command.Function then
+            WriteToConsole(OutputDevice, "------------------------------")
+            WriteToConsole(OutputDevice, "Command: " .. command.Name)
+            WriteToConsole(OutputDevice, "Aliases: " .. GetCommandAlias(command))
+            if command.Parameters and command.Parameters ~= "" then
+                WriteToConsole(OutputDevice, "Parameters: " .. command.Parameters)
+            end
+            WriteToConsole(OutputDevice, "Description: " .. command.Description)
         end
-        WriteToConsole(OutputDevice, "Description: " .. command.Description)
     end
     WriteToConsole(OutputDevice, "------------------------------")
 

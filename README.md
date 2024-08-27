@@ -26,24 +26,3 @@ No Recoil | norecoil \| recoil \| weaponnorecoil |  | Reduces weapon's fire reco
 No Sway | nosway \| sway \| noweaponsway |  | Removes weapon's sway  (works as guest)
 Leyak Cooldown | leyakcd \| leyakcooldown \| cdleyak | minutes | Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)
 No Clip | noclip \| clip \| ghost |  | Disables player's collision and makes him fly (host only)
-
-[b]Help[/b] [ help ] {} - [u]Shows mod details and possible commands (host only)[/u]
-[b]Heal[/b] [ heal ] {} - [u]Player gets fully healed once (host only)[/u]
-[b]Infinite Health[/b] [ health | hp | inv | infhp | infhealth ] {} - [u]Player gets fully healed and becomes invincible (host only)[/u]
-[b]Infinite Stamina[/b] [ stamina | sp | infsp | infstamina ] {} - [u]Player won't consume stamina (works partial as guest)[/u]
-[b]Infinite Durability[/b] [ durability | infdurability | infdur ] {} - [u]Keeps player's gear and hotbar items durability at maximum (works as guest)[/u]
-[b]Infinite Energy[/b] [ energy | infenergy ] {} - [u]Keeps player's gear and held item charge/energy at maximum (host only)[/u]
-[b]Infinite Ammo[/b] [ infammo | ammo | infiniteammo ] {} - [u]Keeps ammo of ranged weapons replenished (works as guest)[/u]
-[b]No Hunger[/b] [ hunger | nohunger | eat ] {} - [u]Player won't be hungry (works partial as guest)[/u]
-[b]No Thirst[/b] [ thirst | nothirst | drink ] {} - [u]Player won't be Thirsty (works partial as guest)[/u]
-[b]No Fatigue[/b] [ fat | nofat | fatigue | nofatigue | tired ] {} - [u]Player won't be tired (works partial as guest)[/u]
-[b]Infinite Continence[/b] [ con | infcon | InfiniteContinence | noneed | constipation ] {} - [u]Player won't need to go to the toilet (works partial as guest)[/u]
-[b]Low Continence[/b] [ lowcon | lowcontinence | nocon | nocontinence | portalwc | laxative ] {} - [u]Freezes the need to to the toilet at low value (host only)[/u]
-[b]No Radiation[/b] [ rad | norad | radiation | noradiation ] {} - [u]Player can't receive radiation (works partial as guest)[/u]
-[b]Set Money[/b] [ money ] { value } - [u]Set money to desired value (works as guest)[/u]
-[b]Free Crafting[/b] [ freecraft | freecrafting | crafting | craft ] {} - [u]Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/u]
-[b]No Fall Damage[/b] [ falldmg | falldamage | nofall | nofalldmg | nofalldamage ] {} - [u]Prevents player from taking fall damage (host only)[/u]
-[b]No Recoil[/b] [ norecoil | recoil | weaponnorecoil ] {} - [u]Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)[/u]
-[b]No Sway[/b] [ nosway | sway | noweaponsway ] {} - [u]Removes weapon's sway  (works as guest)[/u]
-[b]Leyak Cooldown[/b] [ leyakcd | leyakcooldown | cdleyak ] { minutes } - [u]Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)[/u]
-[b]No Clip[/b] [ noclip | clip | ghost ] {} - [u]Disables player's collision and makes him fly (host only)[/u]
