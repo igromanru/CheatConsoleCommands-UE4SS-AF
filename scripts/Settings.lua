@@ -20,7 +20,8 @@ local Settings = {
     MoneyValue = -1,
     NoRecoil = false,
     NoSway = false,
-    LeyakCooldownInMin = -1
+    LeyakCooldownInMin = -1,
+    SavedLocation = nil
 }
 
 return Settings

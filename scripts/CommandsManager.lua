@@ -3,14 +3,6 @@
 local AFUtils = require("AFUtils.AFUtils")
 local Settings = require("Settings")
 
----@class CommandStruct
----@field Aliases table
----@field Name string
----@field Description string
----@field Parameters string
----@field Function function
-local CommandStruct = {}
-
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
 ---@param Message string
@@ -56,8 +48,16 @@ local function GetCommandAlias(Command)
     return AliasToString(Command.Aliases)
 end
 
+---@class CommandStruct
+---@field Aliases table
+---@field Name string
+---@field Description string
+---@field Parameters string
+---@field Function function
+local CommandStruct = {}
+
 ---Creats a new CommandStruct out of parameters
----@param CommandNames string|array
+---@param CommandNames string|table
 ---@param FeatureName string
 ---@param Description string?
 ---@param Parameters string?
@@ -102,10 +102,12 @@ local Commands = {
     Money = CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", "value"),
     FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!) (host only)"),
     NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevents player from taking fall damage (host only)"),
-    NoClip = CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly (host only)"),
     NoRecoil = CreateCommand({"norecoil", "recoil", "weaponnorecoil"}, "No Recoil", "Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)"),
     NoSway = CreateCommand({"nosway", "sway", "noweaponsway"}, "No Sway", "Removes weapon's sway  (works as guest)"),
-    LeyakCooldown = CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)", "minutes")
+    LeyakCooldown = CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)", "minutes"),
+    NoClip = CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly (host only)"),
+    SaveLocation = CreateCommand({"savelocation", "saveloc"}, "Save Location", "Saves current player's location"),
+    LoadLocation = CreateCommand({"loadlocation", "loadloc"}, "Load Location", "Teleports player to last saved location"),
 }
 
 function PrintCommansAaMarkdownTable()
@@ -125,7 +127,9 @@ function PrintCommansAaMarkdownTable()
     print("Command | Aliases | Parameters | Description")
     print("------- | ------- | ---------- | -----------")
     for _, command in pairs(Commands) do
-        print(string.format("%s | %s | %s | %s", command.Name, GetCommandAliasForTable(command), command.Parameters, command.Description))
+        if command.Function then
+            print(string.format("%s | %s | %s | %s", command.Name, GetCommandAliasForTable(command), command.Parameters, command.Description))
+        end
     end
     print("----------------------------------")
 end
@@ -145,11 +149,13 @@ function PrintCommansAaBBCode()
 
     print("Command | Aliases | Parameters | Description")
     for _, command in pairs(Commands) do
-        local parameters = ""
-        if command.Parameters ~= "" then
-            parameters = string.format(" %s ", command.Parameters)
+        if command.Function then
+            local parameters = ""
+            if command.Parameters ~= "" then
+                parameters = string.format(" %s ", command.Parameters)
+            end
+            print(string.format("[b]%s[/b] [ %s ] {%s} - [u]%s[/u]", command.Name, GetCommandAliasForTable(command), parameters, command.Description))
         end
-        print(string.format("[b]%s[/b] [ %s ] {%s} - [u]%s[/u]", command.Name, GetCommandAliasForTable(command), parameters, command.Description))
     end
     print("----------------------------------")
 end
@@ -185,13 +191,13 @@ Commands.Help.Function = function(Parameters, OutputDevice)
     return true
 end
 
--- GodMode Command
-Commands.GodMode.Function = function(Parameters, OutputDevice)
-    WriteToConsole(OutputDevice, "God Mode is currently not implemented, use Infinite Health instead")
-    -- Settings.GodMode = not Settings.GodMode
-    -- PrintCommandState(Settings.GodMode, Commands.GodMode.Name, OutputDevice)
-    return true
-end
+-- -- GodMode Command
+-- Commands.GodMode.Function = function(Parameters, OutputDevice)
+--     WriteToConsole(OutputDevice, "God Mode is currently not implemented, use Infinite Health instead")
+--     -- Settings.GodMode = not Settings.GodMode
+--     -- PrintCommandState(Settings.GodMode, Commands.GodMode.Name, OutputDevice)
+--     return true
+-- end
 
 -- Heal Command
 Commands.Heal.Function = function(Parameters, OutputDevice)
@@ -311,6 +317,16 @@ Commands.NoSway.Function = function(Parameters, OutputDevice)
     PrintCommandState(Settings.NoSway, Commands.NoSway.Name, OutputDevice)
     return true
 end
+
+-- -- SaveLocation Command
+-- Commands.SaveLocation.Function = function(Parameters, OutputDevice)
+--     return true
+-- end
+
+-- -- LoadLocation Command
+-- Commands.LoadLocation.Function = function(Parameters, OutputDevice)
+--     return true
+-- end
 
 -- Set Money Command
 Commands.Money.Function = function(Parameters, OutputDevice)
