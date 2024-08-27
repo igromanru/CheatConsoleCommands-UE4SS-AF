@@ -265,6 +265,31 @@ function InfiniteContinence(myPlayer)
     end
 end
 
+local LowContinenceWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function LowContinence(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.LowContinence then
+        local fraction = myPlayer.MaxContinence * 0.2
+        if myPlayer.CurrentContinence > fraction then
+            myPlayer.HasContinence = true
+            myPlayer.CurrentContinence = fraction
+            myPlayer:OnRep_CurrentContinence()
+            LogDebug("HasContinence: " .. tostring(myPlayer.HasContinence))
+            LogDebug("CurrentContinence: " .. tostring(myPlayer.CurrentContinence))
+            LogDebug("MaxContinence: " .. tostring(myPlayer.MaxContinence))
+        end
+        if not LowContinenceWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Low Continence activated", AFUtils.CriticalityLevels.Green)
+            LowContinenceWasEnabled = true
+        end
+    elseif LowContinenceWasEnabled then
+        LowContinenceWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Low Continence deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local NoRadiationWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoRadiation(myPlayer)

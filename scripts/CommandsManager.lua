@@ -96,7 +96,8 @@ local Commands = {
     NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry (works partial as guest)"),
     NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Thirsty (works partial as guest)"),
     NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired (works partial as guest)"),
-    InfiniteContinence = CreateCommand({"con", "infcon", "nocon", "continence", "nocontinence", "wc", "noneed", "constipation"}, "Infinite Continence", "Player won't need to go to the toilet (works partial as guest)"),
+    InfiniteContinence = CreateCommand({"con", "infcon", "InfiniteContinence", "noneed", "constipation"}, "Infinite Continence", "Player won't need to go to the toilet (works partial as guest)"),
+    LowContinence = CreateCommand({"lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", "laxative"}, "Low Continence", "Freezes the need to to the toilet at low value (host only)"),
     NoRadiation = CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation (works partial as guest)"),
     Money = CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", "value"),
     FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!) (host only)"),
@@ -259,6 +260,13 @@ end
 Commands.InfiniteContinence.Function = function(Parameters, OutputDevice)
     Settings.InfiniteContinence = not Settings.InfiniteContinence
     PrintCommandState(Settings.InfiniteContinence, Commands.InfiniteContinence.Name, OutputDevice)
+    return true
+end
+
+-- LowContinence Command
+Commands.LowContinence.Function = function(Parameters, OutputDevice)
+    Settings.LowContinence = not Settings.LowContinence
+    PrintCommandState(Settings.LowContinence, Commands.LowContinence.Name, OutputDevice)
     return true
 end
 

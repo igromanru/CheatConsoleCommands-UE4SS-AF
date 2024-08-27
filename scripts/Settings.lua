@@ -11,6 +11,7 @@ local Settings = {
     NoThirst = false,
     NoFatigue = false,
     InfiniteContinence = false,
+    LowContinence = false,
     NoRadiation = false,
     FreeCrafting = false,
     NoFallDamage = false,
