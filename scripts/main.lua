@@ -48,7 +48,7 @@ end)
 
 -- if DebugMode then
 --     PrintCommansAaMarkdownTable()
---     -- PrintCommansAaBBCode()
+--     PrintCommansAaBBCode()
 -- end
 
 LogInfo("Mod loaded successfully")

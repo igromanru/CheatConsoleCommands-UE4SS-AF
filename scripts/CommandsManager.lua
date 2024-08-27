@@ -49,6 +49,7 @@ local function GetCommandAlias(Command)
 end
 
 ---@class CommandStruct
+---@field Index integer
 ---@field Aliases table
 ---@field Name string
 ---@field Description string
@@ -56,6 +57,7 @@ end
 ---@field Function function
 local CommandStruct = {}
 
+local IndexCache = 0
 ---Creats a new CommandStruct out of parameters
 ---@param CommandNames string|table
 ---@param FeatureName string
@@ -74,8 +76,10 @@ local function CreateCommand(CommandNames, FeatureName, Description, Parameters)
     end
     Description = Description or ""
     Parameters = Parameters or ""
-    LogDebug("CreateCommand: Aliases type: " .. AliasToString(CommandNames) .. ", Name: " .. FeatureName .. ", Description: " .. Description .. ", Parameters: " .. Parameters)
+    IndexCache = IndexCache + 1
+    LogDebug("CreateCommand: Index: "..IndexCache..", Aliases type: " .. AliasToString(CommandNames) .. ", Name: " .. FeatureName .. ", Description: " .. Description .. ", Parameters: " .. Parameters)
     return {
+        Index = IndexCache,
         Aliases = CommandNames,
         Name = FeatureName,
         Description = Description,
@@ -92,7 +96,6 @@ local Commands = {
     InfiniteStamina = CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina (works partial as guest)"),
     InfiniteDurability = CreateCommand({"durability", "infdurability", "infdur"}, "Infinite Durability", "Keeps player's gear and hotbar items durability at maximum (works as guest)"),
     InfiniteEnergy = CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Keeps player's gear and held item charge/energy at maximum (host only)"),
-    InfiniteAmmo = CreateCommand({"infammo", "ammo", "infiniteammo"}, "Infinite Ammo", "Keeps ammo of ranged weapons replenished (works as guest)"),
     NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry (works partial as guest)"),
     NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be Thirsty (works partial as guest)"),
     NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired (works partial as guest)"),
@@ -102,6 +105,7 @@ local Commands = {
     Money = CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", "value"),
     FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!) (host only)"),
     NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevents player from taking fall damage (host only)"),
+    InfiniteAmmo = CreateCommand({"infammo", "ammo", "infiniteammo"}, "Infinite Ammo", "Keeps ammo of ranged weapons replenished (works as guest)"),
     NoRecoil = CreateCommand({"norecoil", "recoil", "weaponnorecoil"}, "No Recoil", "Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)"),
     NoSway = CreateCommand({"nosway", "sway", "noweaponsway"}, "No Sway", "Removes weapon's sway  (works as guest)"),
     LeyakCooldown = CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)", "minutes"),
@@ -109,6 +113,16 @@ local Commands = {
     SaveLocation = CreateCommand({"savelocation", "saveloc"}, "Save Location", "Saves current player's location"),
     LoadLocation = CreateCommand({"loadlocation", "loadloc"}, "Load Location", "Teleports player to last saved location"),
 }
+
+local CommandsArray = {}
+local function FillCommandsArray()
+    LogDebug("FillCommandsArray: Commands length: "..#Commands)
+    for _, command in pairs(Commands) do
+        CommandsArray[command.Index] = command
+        LogDebug("FillCommandsArray: Add "..command.Name.." to index "..command.Index)
+    end
+end
+FillCommandsArray()
 
 function PrintCommansAaMarkdownTable()
     local function GetCommandAliasForTable(Command)
@@ -126,7 +140,7 @@ function PrintCommansAaMarkdownTable()
     print("------- Markdown Table -----------")
     print("Command | Aliases | Parameters | Description")
     print("------- | ------- | ---------- | -----------")
-    for _, command in pairs(Commands) do
+    for _, command in ipairs(CommandsArray) do
         if command.Function then
             print(string.format("%s | %s | %s | %s", command.Name, GetCommandAliasForTable(command), command.Parameters, command.Description))
         end
@@ -147,8 +161,8 @@ function PrintCommansAaBBCode()
     end
 
 
-    print("Command | Aliases | Parameters | Description")
-    for _, command in pairs(Commands) do
+    print("-- BBCode --")
+    for _, command in ipairs(CommandsArray) do
         if command.Function then
             local parameters = ""
             if command.Parameters ~= "" then
