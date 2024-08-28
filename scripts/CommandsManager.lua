@@ -48,23 +48,29 @@ local function GetCommandAlias(Command)
     return AliasToString(Command.Aliases)
 end
 
+---@alias CommandFunction fun(self: CommandStruct, OutputDevice: FOutputDevice, Parameters: table): boolean
+
 ---@class CommandStruct
----@field Index integer
----@field Aliases table
+---@field Aliases table<string>|string
 ---@field Name string
 ---@field Description string
----@field Parameters string
----@field Function function
+---@field Parameters table<string>|string|nil
+---@field Function CommandFunction?
 local CommandStruct = {}
 
-local IndexCache = 0
+---@type table<CommandStruct>
+local CommandsArray = {}
+
+---@type { [string]: CommandStruct }
+local CommandsMap = {}
+
 ---Creats a new CommandStruct out of parameters
----@param CommandNames string|table
+---@param CommandNames table<string>|string
 ---@param FeatureName string
 ---@param Description string?
----@param Parameters string?
----@return CommandStruct
-local function CreateCommand(CommandNames, FeatureName, Description, Parameters)
+---@param Parameters table<string>|string|nil
+---@param Callback CommandFunction?
+local function CreateCommand(CommandNames, FeatureName, Description, Parameters, Callback)
     if type(CommandNames) == "string" then
         CommandNames = { CommandNames }
     end
@@ -75,54 +81,19 @@ local function CreateCommand(CommandNames, FeatureName, Description, Parameters)
         error('CreateCommand: Invalid "FeatureName" parameter')
     end
     Description = Description or ""
-    Parameters = Parameters or ""
-    IndexCache = IndexCache + 1
-    LogDebug("CreateCommand: Index: "..IndexCache..", Aliases type: " .. AliasToString(CommandNames) .. ", Name: " .. FeatureName .. ", Description: " .. Description .. ", Parameters: " .. Parameters)
-    return {
-        Index = IndexCache,
+    if type(Parameters) == "string" then
+        Parameters = { Parameters }
+    end
+    local commandObject = {
         Aliases = CommandNames,
         Name = FeatureName,
         Description = Description,
         Parameters = Parameters,
-        Function = nil
+        Function = Callback
     }
+    table.insert(CommandsArray, commandObject)
+    CommandsMap[FeatureName] = commandObject
 end
-
-local Commands = {
-    Help = CreateCommand("help", "Help", "Shows mod details and possible commands"),
-    GodMode = CreateCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)"),
-    Heal = CreateCommand({"heal"}, "Heal", "Player gets fully healed once (host only)"),
-    InfiniteHealth = CreateCommand({"health", "hp", "inv", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible (host only)"),
-    InfiniteStamina = CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina (works partial as guest)"),
-    InfiniteDurability = CreateCommand({"durability", "infdurability", "infdur"}, "Infinite Durability", "Keeps player's gear and hotbar items durability at maximum (works as guest)"),
-    InfiniteEnergy = CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Keeps player's gear and held item charge/energy at maximum (host only)"),
-    NoHunger = CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry (works partial as guest)"),
-    NoThirst = CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be thirsty (works partial as guest)"),
-    NoFatigue = CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired (works partial as guest)"),
-    InfiniteContinence = CreateCommand({"con", "infcon", "InfiniteContinence", "noneed", "constipation"}, "Infinite Continence", "Player won't need to go to the toilet (works partial as guest)"),
-    LowContinence = CreateCommand({"lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", "laxative"}, "Low Continence", "Freezes the need to go to the toilet at low value (host only)"),
-    NoRadiation = CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation (works partial as guest)"),
-    Money = CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", "value"),
-    FreeCrafting = CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all recipes and simulates possession of all items. (Warning: You may need to restart the game to deactivate it completely!) (host only)"),
-    NoFallDamage = CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevents player from taking fall damage (host only)"),
-    InfiniteAmmo = CreateCommand({"infammo", "ammo", "infiniteammo"}, "Infinite Ammo", "Keeps ammo of ranged weapons replenished (works as guest)"),
-    NoRecoil = CreateCommand({"norecoil", "recoil", "weaponnorecoil"}, "No Recoil", "Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)"),
-    NoSway = CreateCommand({"nosway", "sway", "noweaponsway"}, "No Sway", "Removes weapon's sway  (works as guest)"),
-    LeyakCooldown = CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)", "minutes"),
-    NoClip = CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly (host only)"),
-    SaveLocation = CreateCommand({"savelocation", "saveloc"}, "Save Location", "Saves current player's location"),
-    LoadLocation = CreateCommand({"loadlocation", "loadloc"}, "Load Location", "Teleports player to last saved location"),
-}
-
-local CommandsArray = {}
-local function FillCommandsArray()
-    LogDebug("FillCommandsArray: Commands length: "..#Commands)
-    for _, command in pairs(Commands) do
-        CommandsArray[command.Index] = command
-        LogDebug("FillCommandsArray: Add "..command.Name.." to index "..command.Index)
-    end
-end
-FillCommandsArray()
 
 function PrintCommansAaMarkdownTable()
     local function GetCommandAliasForTable(Command)
@@ -189,206 +160,215 @@ local function PrintCommandState(State, CommandName, OutputDevice)
 end
 
 -- Help Command
-Commands.Help.Function = function(Parameters, OutputDevice)
+CreateCommand("help", "Help", "Shows mod details and possible commands", nil, function (self, OutputDevice, Parameters)
     WriteToConsole(OutputDevice, ModName .. " list:")
     for _, command in ipairs(CommandsArray) do
         if command.Function then
             WriteToConsole(OutputDevice, "------------------------------")
             WriteToConsole(OutputDevice, "Command: " .. command.Name)
             WriteToConsole(OutputDevice, "Aliases: " .. GetCommandAlias(command))
-            if command.Parameters and command.Parameters ~= "" then
-                WriteToConsole(OutputDevice, "Parameters: " .. command.Parameters)
+            if command.Parameters and type(command.Parameters) == "table" then
+                for index, value in ipairs(Parameters) do
+                    WriteToConsole(OutputDevice, "Parameter["..index.."]: "..value)
+                end
             end
             WriteToConsole(OutputDevice, "Description: " .. command.Description)
         end
     end
     WriteToConsole(OutputDevice, "------------------------------")
-
     return true
-end
+end)
 
--- -- GodMode Command
--- Commands.GodMode.Function = function(Parameters, OutputDevice)
---     WriteToConsole(OutputDevice, "God Mode is currently not implemented, use Infinite Health instead")
---     -- Settings.GodMode = not Settings.GodMode
---     -- PrintCommandState(Settings.GodMode, Commands.GodMode.Name, OutputDevice)
---     return true
--- end
+-- -- God Mode Command
+CreateCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)", nil,
+function(self, OutputDevice, Parameters)
+    WriteToConsole(OutputDevice, "God Mode is currently not implemented, use Infinite Health instead")
+    return true
+end)
 
 -- Heal Command
-Commands.Heal.Function = function(Parameters, OutputDevice)
+CreateCommand({"heal"}, "Heal", "Player gets fully healed once (host only)", nil,
+function(self, OutputDevice, Parameters)
     Settings.Heal = true
     WriteToConsole(OutputDevice, "Healing player")
     return true
-end
+end)
 
--- InfiniteHealth Command
-Commands.InfiniteHealth.Function = function(Parameters, OutputDevice)
+-- Infinite Health Command
+CreateCommand({"health", "hp", "inv", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible (host only)", nil,
+function (self, OutputDevice, Parameters)
     Settings.InfiniteHealth = not Settings.InfiniteHealth
-    PrintCommandState(Settings.InfiniteHealth, Commands.InfiniteHealth.Name, OutputDevice)
+    PrintCommandState(Settings.InfiniteHealth, self.Name, OutputDevice)
     return true
-end
+end)
 
--- InfiniteStamina Command
-Commands.InfiniteStamina.Function = function(Parameters, OutputDevice)
+-- Infinite Stamina Command
+CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina (works partial as guest)", nil,
+function (self, OutputDevice, Parameters)
     Settings.InfiniteStamina = not Settings.InfiniteStamina
-    PrintCommandState(Settings.InfiniteStamina, Commands.InfiniteStamina.Name, OutputDevice)
+    PrintCommandState(Settings.InfiniteStamina, self.Name, OutputDevice)
     return true
-end
+end)
 
--- InfiniteDurability Command
-Commands.InfiniteDurability.Function = function(Parameters, OutputDevice)
+-- Infinite Durability Command
+CreateCommand({"durability", "infdurability", "infdur"}, "Infinite Durability", "Keeps player's gear and hotbar items durability at maximum (works as guest)", nil,
+function (self, OutputDevice, Parameters)
     Settings.InfiniteDurability = not Settings.InfiniteDurability
-    PrintCommandState(Settings.InfiniteDurability, Commands.InfiniteDurability.Name, OutputDevice)
+    PrintCommandState(Settings.InfiniteDurability, self.Name, OutputDevice)
     return true
-end
+end)
 
--- InfiniteEnergy Command
-Commands.InfiniteEnergy.Function = function(Parameters, OutputDevice)
+-- Infinite Energy Command
+CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Keeps player's gear and held item charge/energy at maximum (host only)", nil,
+function (self, OutputDevice, Parameters)
     Settings.InfiniteEnergy = not Settings.InfiniteEnergy
-    PrintCommandState(Settings.InfiniteEnergy, Commands.InfiniteEnergy.Name, OutputDevice)
+    PrintCommandState(Settings.InfiniteEnergy, self.Name, OutputDevice)
     return true
-end
-
--- InfiniteAmmo Command
-Commands.InfiniteAmmo.Function = function(Parameters, OutputDevice)
-    Settings.InfiniteAmmo = not Settings.InfiniteAmmo
-    PrintCommandState(Settings.InfiniteAmmo, Commands.InfiniteAmmo.Name, OutputDevice)
-    return true
-end
+end)
 
 -- NoHunger Command
-Commands.NoHunger.Function = function(Parameters, OutputDevice)
+CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry (works partial as guest)", nil,
+function (self, OutputDevice, Parameters)
     Settings.NoHunger = not Settings.NoHunger
-    PrintCommandState(Settings.NoHunger, Commands.NoHunger.Name, OutputDevice)
+    PrintCommandState(Settings.NoHunger, self.Name, OutputDevice)
     return true
-end
+end)
 
--- NoThirst Command
-Commands.NoThirst.Function = function(Parameters, OutputDevice)
+-- No Thirst Command
+CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be thirsty (works partial as guest)", nil,
+function (self, OutputDevice, Parameters)
     Settings.NoThirst = not Settings.NoThirst
-    PrintCommandState(Settings.NoThirst, Commands.NoThirst.Name, OutputDevice)
+    PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
     return true
-end
+end)
 
--- NoFatigue Command
-Commands.NoFatigue.Function = function(Parameters, OutputDevice)
+-- No Fatigue Command
+CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired (works partial as guest)", nil,
+function(self, OutputDevice, Parameters)
     Settings.NoFatigue = not Settings.NoFatigue
-    PrintCommandState(Settings.NoFatigue, Commands.NoFatigue.Name, OutputDevice)
+    PrintCommandState(Settings.NoFatigue, self.Name, OutputDevice)
     return true
-end
+end)
 
--- InfiniteContinence Command
-Commands.InfiniteContinence.Function = function(Parameters, OutputDevice)
+-- Infinite Continence Command
+CreateCommand({"con", "infcon", "InfiniteContinence", "noneed", "constipation"}, "Infinite Continence", "Player won't need to go to the toilet (works partial as guest)", nil,
+function(self, OutputDevice, Parameters)
     Settings.InfiniteContinence = not Settings.InfiniteContinence
-    PrintCommandState(Settings.InfiniteContinence, Commands.InfiniteContinence.Name, OutputDevice)
+    PrintCommandState(Settings.InfiniteContinence, self.Name, OutputDevice)
     return true
-end
+end)
 
--- LowContinence Command
-Commands.LowContinence.Function = function(Parameters, OutputDevice)
+-- Low Continence Command
+CreateCommand({"lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", "laxative"}, "Low Continence", "Freezes the need to go to the toilet at low value (host only)", nil,
+function(self, OutputDevice, Parameters)
     Settings.LowContinence = not Settings.LowContinence
-    PrintCommandState(Settings.LowContinence, Commands.LowContinence.Name, OutputDevice)
+    PrintCommandState(Settings.LowContinence, self.Name, OutputDevice)
     return true
-end
+end)
 
--- NoRadiation Command
-Commands.NoRadiation.Function = function(Parameters, OutputDevice)
+-- No Radiation Command
+CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation (works partial as guest)", nil,
+function(self, OutputDevice, Parameters)
     Settings.NoRadiation = not Settings.NoRadiation
-    PrintCommandState(Settings.NoRadiation, Commands.NoRadiation.Name, OutputDevice)
+    PrintCommandState(Settings.NoRadiation, self.Name, OutputDevice)
     return true
-end
+end)
+
+-- No Fall Damage Command
+CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevents player from taking fall damage (host only)", nil,
+function(self, OutputDevice, Parameters)
+    Settings.NoFallDamage = not Settings.NoFallDamage
+    PrintCommandState(Settings.NoFallDamage, self.Name, OutputDevice)
+    return true
+end)
 
 -- FreeCrafting Command
-Commands.FreeCrafting.Function = function(Parameters, OutputDevice)
+CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all recipes and simulates possession of all items. (Warning: You may need to restart the game to deactivate it completely!) (host only)", nil,
+function(self, OutputDevice, Parameters)
     Settings.FreeCrafting = not Settings.FreeCrafting
-    PrintCommandState(Settings.FreeCrafting, Commands.FreeCrafting.Name, OutputDevice)
+    PrintCommandState(Settings.FreeCrafting, self.Name, OutputDevice)
     return true
-end
-
--- NoFallDamage Command
-Commands.NoFallDamage.Function = function(Parameters, OutputDevice)
-    Settings.NoFallDamage = not Settings.NoFallDamage
-    PrintCommandState(Settings.NoFallDamage, Commands.NoFallDamage.Name, OutputDevice)
-    return true
-end
-
--- NoClip Command
-Commands.NoClip.Function = function(Parameters, OutputDevice)
-    Settings.NoClip = not Settings.NoClip
-    PrintCommandState(Settings.NoClip, Commands.NoClip.Name, OutputDevice)
-    return true
-end
-
--- NoRecoil Command
-Commands.NoRecoil.Function = function(Parameters, OutputDevice)
-    Settings.NoRecoil = not Settings.NoRecoil
-    PrintCommandState(Settings.NoRecoil, Commands.NoRecoil.Name, OutputDevice)
-    return true
-end
-
--- NoSway Command
-Commands.NoSway.Function = function(Parameters, OutputDevice)
-    Settings.NoSway = not Settings.NoSway
-    PrintCommandState(Settings.NoSway, Commands.NoSway.Name, OutputDevice)
-    return true
-end
-
--- -- SaveLocation Command
--- Commands.SaveLocation.Function = function(Parameters, OutputDevice)
---     return true
--- end
-
--- -- LoadLocation Command
--- Commands.LoadLocation.Function = function(Parameters, OutputDevice)
---     return true
--- end
+end)
 
 -- Set Money Command
-Commands.Money.Function = function(Parameters, OutputDevice)
+CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", "value",
+function(self, OutputDevice, Parameters)
     local moneyValue = nil
-    if #Parameters > 0 then
+    if Parameters and #Parameters > 0 then
         moneyValue = tonumber(Parameters[1])
     end
     if type(moneyValue) ~= "number" then
-        WriteToConsole(OutputDevice, Commands.Money.Name..": Missing parameter")
-        WriteToConsole(OutputDevice, Commands.Money.Name..': It must be: "money {value}"')
+        WriteToConsole(OutputDevice, self.Name..": Missing parameter")
+        WriteToConsole(OutputDevice, self.Name..': It must be: "money {value}"')
         return true
     end
     if moneyValue < 0 or moneyValue >= 2147483647 then
-        WriteToConsole(OutputDevice, Commands.Money.Name..": Invalid money value!")
-        WriteToConsole(OutputDevice, Commands.Money.Name..': The value must be between 0 and 2147483647')
+        WriteToConsole(OutputDevice, self.Name..": Invalid money value!")
+        WriteToConsole(OutputDevice, self.Name..': The value must be between 0 and 2147483647')
         return true
     end
 
     Settings.SetMoney = true
     Settings.MoneyValue = moneyValue
-    WriteToConsole(OutputDevice, "Execute " .. Commands.Money.Name .. " command with value: " .. Settings.MoneyValue)
+    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. Settings.MoneyValue)
     return true
-end
+end)
+
+-- Infinite Ammo Command
+CreateCommand({"infammo", "ammo", "infiniteammo"}, "Infinite Ammo", "Keeps ammo of ranged weapons replenished (works as guest)", nil,
+function(self, OutputDevice, Parameters)
+    Settings.InfiniteAmmo = not Settings.InfiniteAmmo
+    PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
+    return true
+end)
+
+-- No Recoil Command
+CreateCommand({"norecoil", "recoil", "weaponnorecoil"}, "No Recoil", "Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)", nil,
+function(self, OutputDevice, Parameters)
+    Settings.NoRecoil = not Settings.NoRecoil
+    PrintCommandState(Settings.NoRecoil, self.Name, OutputDevice)
+    return true
+end)
+
+-- No Sway Command
+CreateCommand({"nosway", "sway", "noweaponsway"}, "No Sway", "Removes weapon's sway  (works as guest)", nil,
+function(self, OutputDevice, Parameters)
+    Settings.NoSway = not Settings.NoSway
+    PrintCommandState(Settings.NoSway, self.Name, OutputDevice)
+    return true
+end)
 
 -- Set Leyak Cooldown Command
-Commands.LeyakCooldown.Function = function(Parameters, OutputDevice)
+CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)", "minutes",
+function(self, OutputDevice, Parameters)
     local cooldown = nil
-    if #Parameters > 0 then
+    if Parameters and #Parameters > 0 then
         cooldown = tonumber(Parameters[1])
     end
     if type(cooldown) ~= "number" then
-        WriteToConsole(OutputDevice, Commands.LeyakCooldown.Name..": Missing parameter")
-        WriteToConsole(OutputDevice, Commands.LeyakCooldown.Name..': It must be: "leyakcd {cooldown}"')
+        WriteToConsole(OutputDevice, self.Name..": Missing parameter")
+        WriteToConsole(OutputDevice, self.Name..': It must be: "leyakcd {cooldown}"')
         return true
     end
     
     if cooldown < 0.1 or cooldown >= 525600000 then
-        WriteToConsole(OutputDevice, Commands.LeyakCooldown.Name..": Invalid cooldown value!")
-        WriteToConsole(OutputDevice, Commands.LeyakCooldown.Name..': The value must be between 0.1 and 525600000 (minutes)')
+        WriteToConsole(OutputDevice, self.Name..": Invalid cooldown value!")
+        WriteToConsole(OutputDevice, self.Name..': The value must be between 0.1 and 525600000 (minutes)')
         return true
     end
 
     Settings.LeyakCooldownInMin = cooldown
-    WriteToConsole(OutputDevice, "Execute " .. Commands.LeyakCooldown.Name .. " command with value: " .. Settings.LeyakCooldownInMin)
+    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. Settings.LeyakCooldownInMin)
     return true
-end
+end)
+
+-- No Clip Command
+CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly (host only)", nil,
+function(self, OutputDevice, Parameters)
+    Settings.NoClip = not Settings.NoClip
+    PrintCommandState(Settings.NoClip, self.Name, OutputDevice)
+    return true
+end)
 
 local function MatchCommand(Command, Aliases)
     if type(Aliases) == "string" then
@@ -432,13 +412,12 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
         return nil
     end
 
-    for _, commandObj in pairs(Commands) do
+    for _, commandObj in pairs(CommandsArray) do
+        ---@cast commandObj CommandStruct
         if MatchCommand(command, commandObj.Aliases) then
             -- LogDebug("Found match: " .. command .. ", Command.Name: " .. commandObj.Name)
-            if context:IsA(GetClassAbioticGameViewportClient()) then
-                if commandObj.Function then
-                    return commandObj.Function(Parameters, OutputDevice)
-                end
+            if context:IsA(GetClassAbioticGameViewportClient()) and commandObj.Function then
+                return commandObj.Function(commandObj, OutputDevice, Parameters)
             end
             return true
         end
@@ -451,22 +430,25 @@ end)
 -- Overwriting default UE commands (most aren't made for the game and causes issues)
 ------------------------------------------------------------
 RegisterConsoleCommandGlobalHandler("god", function(FullCommand, Parameters, OutputDevice)
-    if Commands.GodMode.Function then
-        Commands.GodMode.Function(Parameters, OutputDevice)
+    local godMode = CommandsMap["God Mode"]
+    if godMode and godMode.Function then
+        godMode.Function(godMode, OutputDevice, Parameters)
     end
     return true
 end)
 
 RegisterConsoleCommandGlobalHandler("ghost", function(FullCommand, Parameters, OutputDevice)
-    if Commands.NoClip.Function then
-        Commands.NoClip.Function(Parameters, OutputDevice)
+    local noClip = CommandsMap["No Clip"]
+    if noClip and noClip.Function then
+        noClip.Function(noClip, OutputDevice, Parameters)
     end
     return true
 end)
 
 RegisterConsoleCommandGlobalHandler("fly", function(FullCommand, Parameters, OutputDevice)
-    if Commands.NoClip.Function then
-        Commands.NoClip.Function(Parameters, OutputDevice)
+    local noClip = CommandsMap["No Clip"]
+    if noClip and noClip.Function then
+        noClip.Function(noClip, OutputDevice, Parameters)
     end
     return true
 end)
