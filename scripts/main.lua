@@ -12,6 +12,7 @@ local AFUtils = require("AFUtils.AFUtils")
 ModName = "CheatConsoleCommands"
 ModVersion = "1.3.0"
 DebugMode = true
+IsModEnabled = true
 
 LogInfo("Starting mod initialization")
 require("Features")
