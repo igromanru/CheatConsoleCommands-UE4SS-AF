@@ -384,23 +384,6 @@ function NoClip(myPlayer)
     end
 end
 
----@param myPlayer AAbiotic_PlayerCharacter_C
-function SetMoney(myPlayer)
-    if not myPlayer then return end
-
-    if Settings.SetMoney and Settings.MoneyValue > -1 then
-        if Settings.MoneyValue ~= myPlayer.CurrentMoney then
-            myPlayer:Request_ModifyMoney(Settings.MoneyValue - myPlayer.CurrentMoney)
-            myPlayer.CurrentMoney = Settings.MoneyValue
-            -- myPlayer:OnRep_CurrentMoney()   
-            LogDebug("CurrentMoney: " .. tostring(myPlayer.CurrentMoney))
-            AFUtils.ClientDisplayWarningMessage("Money set to " .. myPlayer.CurrentMoney, AFUtils.CriticalityLevels.Green)
-            Settings.SetMoney = false
-            Settings.MoneyValue = -1
-        end
-    end
-end
-
 local NoRecoilWasEnabled = false
 local RecoilTimelineLengthBackUp = 0.0
 ---@param myPlayer AAbiotic_PlayerCharacter_C
@@ -451,20 +434,5 @@ function NoSway(myPlayer)
         end
         NoSwayWasEnabled = false
         AFUtils.ClientDisplayWarningMessage("No Sway deactivated", AFUtils.CriticalityLevels.Red)
-    end
-end
-
-function SetLeyakCooldown()
-    if Settings.LeyakCooldownInMin > 0 then
-        local aiDirector = AFUtils.GetAIDirector()
-        if aiDirector then
-            aiDirector.LeyakCooldown = Settings.LeyakCooldownInMin * 60
-            aiDirector:SetLeyakOnCooldown(1.0)
-            local message = "Leyak's cooldown was set to " .. aiDirector.LeyakCooldown .. " (" .. Settings.LeyakCooldownInMin .. "min)"
-            LogDebug(message)
-            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
-            AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
-            Settings.LeyakCooldownInMin = -1
-        end
     end
 end

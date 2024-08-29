@@ -16,12 +16,8 @@ local Settings = {
     FreeCrafting = false,
     NoFallDamage = false,
     NoClip = false,
-    SetMoney = false,
-    MoneyValue = -1,
     NoRecoil = false,
     NoSway = false,
-    LeyakCooldownInMin = -1,
-    SavedLocation = nil
 }
 
 return Settings

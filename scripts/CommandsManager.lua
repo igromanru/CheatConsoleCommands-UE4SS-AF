@@ -1,6 +1,7 @@
 
 
 local AFUtils = require("AFUtils.AFUtils")
+local LinearColors = require("AFUtils.BaseUtils.LinearColors")
 local Settings = require("Settings")
 
 ---Write to lua console and the OutputDevice
@@ -298,8 +299,11 @@ function(self, OutputDevice, Parameters)
         moneyValue = tonumber(Parameters[1])
     end
     if type(moneyValue) ~= "number" then
-        WriteToConsole(OutputDevice, self.Name..": Missing parameter")
-        WriteToConsole(OutputDevice, self.Name..': It must be: "money {value}"')
+        local myPlayer = AFUtils.GetMyPlayer()
+        if myPlayer then
+            WriteToConsole(OutputDevice, self.Name..": Current money value: " .. myPlayer.CurrentMoney)
+        end
+        WriteToConsole(OutputDevice, self.Name..': To change it write: "money (value here)"')
         return true
     end
     if moneyValue < 0 or moneyValue >= 2147483647 then
@@ -307,10 +311,16 @@ function(self, OutputDevice, Parameters)
         WriteToConsole(OutputDevice, self.Name..': The value must be between 0 and 2147483647')
         return true
     end
-
-    Settings.SetMoney = true
-    Settings.MoneyValue = moneyValue
-    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. Settings.MoneyValue)
+    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. moneyValue)
+    ExecuteInGameThread(function() 
+        local myPlayer = AFUtils.GetMyPlayer()
+        if myPlayer then
+            myPlayer:Request_ModifyMoney(moneyValue - myPlayer.CurrentMoney)
+            myPlayer.CurrentMoney = moneyValue 
+            LogDebug("CurrentMoney: " .. tostring(myPlayer.CurrentMoney))
+            AFUtils.ClientDisplayWarningMessage("Money set to " .. myPlayer.CurrentMoney, AFUtils.CriticalityLevels.Green)
+        end
+    end)
     return true
 end)
 
@@ -346,8 +356,11 @@ function(self, OutputDevice, Parameters)
         cooldown = tonumber(Parameters[1])
     end
     if type(cooldown) ~= "number" then
-        WriteToConsole(OutputDevice, self.Name..": Missing parameter")
-        WriteToConsole(OutputDevice, self.Name..': It must be: "leyakcd {cooldown}"')
+        local aiDirector = AFUtils.GetAIDirector()
+        if aiDirector then
+            WriteToConsole(OutputDevice, self.Name..": Current cooldown: " .. (aiDirector.LeyakCooldown / 60) .. " minutes")
+        end
+        WriteToConsole(OutputDevice, self.Name..': To change it write: "leyakcd (cooldown value in minutes here)"')
         return true
     end
     
@@ -357,8 +370,18 @@ function(self, OutputDevice, Parameters)
         return true
     end
 
-    Settings.LeyakCooldownInMin = cooldown
-    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. Settings.LeyakCooldownInMin)
+    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. cooldown)
+    ExecuteInGameThread(function() 
+        local aiDirector = AFUtils.GetAIDirector()
+        if aiDirector then
+            aiDirector.LeyakCooldown = cooldown * 60
+            aiDirector:SetLeyakOnCooldown(1.0)
+            local message = "Leyak's cooldown was set to " .. aiDirector.LeyakCooldown .. " (" .. cooldown .. "min)"
+            LogDebug(message)
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+            AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
+        end
+    end)
     return true
 end)
 

@@ -38,10 +38,8 @@ LoopAsync(200, function()
             FreeCrafting(myPlayer)
             NoFallDamage(myPlayer)
             NoClip(myPlayer)
-            SetMoney(myPlayer)
             NoRecoil(myPlayer)
             NoSway(myPlayer)
-            SetLeyakCooldown()
         end
     end)
     return false
