@@ -3,6 +3,7 @@
 local AFUtils = require("AFUtils.AFUtils")
 local LinearColors = require("AFUtils.BaseUtils.LinearColors")
 local Settings = require("Settings")
+local Skills = require("Skills")
 
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
@@ -94,6 +95,9 @@ local function CreateCommand(CommandNames, FeatureName, Description, Parameters,
     }
     table.insert(CommandsArray, commandObject)
     CommandsMap[FeatureName] = commandObject
+    for i, value in ipairs(CommandNames) do
+        CommandsMap[value] = commandObject
+    end
 end
 
 function PrintCommansAaMarkdownTable()
@@ -393,17 +397,25 @@ function(self, OutputDevice, Parameters)
     return true
 end)
 
-local function MatchCommand(Command, Aliases)
-    if type(Aliases) == "string" then
-        Aliases = { Aliases }
+-- Add Skill Experience
+CreateCommand({"addxp", "xpadd", "skillxp", "skill", "level"}, "Add Skill Experience", "Adds XP to specified Skill", "skill_alias",
+function(self, OutputDevice, Parameters)
+    local skillAlias = nil
+    local xpToAdd = nil
+    if #Parameters > 0 then
+        skillAlias = Parameters[1]
     end
-    for _, alias in ipairs(Aliases) do
-        if string.lower(alias) == string.lower(Command) then
-            return true
-        end
+    if #Parameters > 1 then
+        xpToAdd = tonumber(Parameters[2])
     end
-    return false
-end
+    if not skillAlias then
+        
+    end
+    if not xpToAdd then
+        
+    end
+    return true
+end)
 
 local AbioticGameViewportClientClass = nil
 local function GetClassAbioticGameViewportClient()
@@ -415,7 +427,7 @@ end
 
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
-    local executor = Executor:get()
+    -- local executor = Executor:get()
 
     local command = string.match(Command, "^%S+")
     -- if DebugMode then
@@ -431,19 +443,16 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
 
     -- Special handling of default commands
     if Command == "god" or Command == "ghost" or Command == "fly" then
-        LogDebug("Default command, skipping")
+        LogDebug("Default command, skip")
         return nil
     end
 
-    for _, commandObj in pairs(CommandsArray) do
-        ---@cast commandObj CommandStruct
-        if MatchCommand(command, commandObj.Aliases) then
-            -- LogDebug("Found match: " .. command .. ", Command.Name: " .. commandObj.Name)
-            if context:IsA(GetClassAbioticGameViewportClient()) and commandObj.Function then
-                return commandObj.Function(commandObj, OutputDevice, Parameters)
-            end
-            return true
+    local commandObj = CommandsMap[command]
+    if commandObj then
+        if context:IsA(GetClassAbioticGameViewportClient()) and commandObj.Function then
+            return commandObj.Function(commandObj, OutputDevice, Parameters)
         end
+        return true
     end
     -- LogDebug("------------------------")
 
