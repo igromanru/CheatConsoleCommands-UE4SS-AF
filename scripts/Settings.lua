@@ -18,6 +18,7 @@ local Settings = {
     NoClip = false,
     NoRecoil = false,
     NoSway = false,
+    MasterKey = false
 }
 
 return Settings

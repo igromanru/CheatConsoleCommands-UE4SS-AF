@@ -10,8 +10,8 @@
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.3.0"
-DebugMode = false
+ModVersion = "1.4.0"
+DebugMode = true
 IsModEnabled = true
 
 LogInfo("Starting mod initialization")
@@ -40,6 +40,7 @@ LoopAsync(250, function()
             NoClip(myPlayer)
             NoRecoil(myPlayer)
             NoSway(myPlayer)
+            MasterKey(myPlayer)
         end
     end)
     return false

@@ -676,6 +676,14 @@ function(self, OutputDevice, Parameters)
     return false
 end)
 
+-- Master Key Command
+CreateCommand({"masterkey", "key", "keys", "opendoor", "opendoors"}, "Master Key", "Allows to open all doors (host only)", nil,
+function(self, OutputDevice, Parameters)
+    Settings.MasterKey = not Settings.MasterKey
+    PrintCommandState(Settings.MasterKey, self.Name, OutputDevice)
+    return true
+end)
+
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
     -- local executor = Executor:get()

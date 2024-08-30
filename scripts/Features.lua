@@ -418,3 +418,25 @@ function NoSway(myPlayer)
         AFUtils.ClientDisplayWarningMessage("No Sway deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
+
+local MasterKeyWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function MasterKey(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.MasterKey then
+        if not myPlayer.HasMasterKey then
+            myPlayer.HasMasterKey = true
+            LogDebug("HasMasterKey: " .. tostring(myPlayer.HasMasterKey))
+        end
+        if not MasterKeyWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Master Key activated", AFUtils.CriticalityLevels.Green)
+            MasterKeyWasEnabled = true
+        end
+    elseif MasterKeyWasEnabled then
+        MasterKeyWasEnabled = false
+        myPlayer.HasMasterKey = false
+        LogDebug("Master Key: " .. tostring(myPlayer.HasMasterKey))
+        AFUtils.ClientDisplayWarningMessage("Master Key deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
