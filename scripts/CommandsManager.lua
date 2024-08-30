@@ -322,7 +322,7 @@ local function WriteCommandToConsole(OutputDevice, Command)
 end
 
 -- Help Command
-CreateCommand("help", "Help", "Prints command list of info about a single command", CreateCommandParam("command alias", "string", "Shows help for the specified command based on its alias."),
+CreateCommand("help", "Help", "Prints a list of all commands or info about a single one", CreateCommandParam("command alias", "string", "Shows help for the specified command based on its alias."),
 function (self, OutputDevice, Parameters)
     local command = nil ---@type CommandStruct?
     if Parameters and #Parameters > 0 then
