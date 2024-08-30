@@ -27,27 +27,27 @@ local function WriteToConsoleDebug(OutputDevice, Message)
     end
 end
 
-local function AliasToString(Alias)
-    if type(Alias) == "string" then
-        return Alias
+---@param StringArray string[]|string
+---@param Seperator string? # Default: " | "
+---@return string
+local function ArrayToString(StringArray, Seperator)
+    Seperator = Seperator or " | "
+    if type(StringArray) == "string" then
+        return StringArray
     end
 
-    if type(Alias) ~= "table" then
-        return "ERROR"
+    if type(StringArray) ~= "table" then
+        return ""
     end
 
     local result = ""
-    for _, alias in ipairs(Alias) do
+    for _, alias in ipairs(StringArray) do
        if result ~= "" then
-        result = result .. " | "
+        result = result .. Seperator
        end 
        result = result .. alias
     end
     return result
-end
-
-local function GetCommandAlias(Command)
-    return AliasToString(Command.Aliases)
 end
 
 ---@alias CommandFunction fun(self: CommandStruct, OutputDevice: FOutputDevice, Parameters: table): boolean
@@ -171,11 +171,9 @@ CreateCommand("help", "Help", "Shows mod details and possible commands", nil, fu
         if command.Function then
             WriteToConsole(OutputDevice, "------------------------------")
             WriteToConsole(OutputDevice, "Command: " .. command.Name)
-            WriteToConsole(OutputDevice, "Aliases: " .. GetCommandAlias(command))
+            WriteToConsole(OutputDevice, "Aliases: " .. ArrayToString(command.Aliases))
             if command.Parameters and type(command.Parameters) == "table" then
-                for index, value in ipairs(Parameters) do
-                    WriteToConsole(OutputDevice, "Parameter["..index.."]: "..value)
-                end
+                WriteToConsole(OutputDevice, "Parameters: " .. ArrayToString(command.Parameters, " "))
             end
             WriteToConsole(OutputDevice, "Description: " .. command.Description)
         end
@@ -402,24 +400,27 @@ CreateCommand({"addxp", "xpadd", "skillxp", "skill", "level"}, "Add Skill Experi
 function(self, OutputDevice, Parameters)
     local skillAlias = nil
     local xpToAdd = nil
+    local skill = nil ---@type SkillStruct?
     if #Parameters > 0 then
         skillAlias = Parameters[1]
     end
     if #Parameters > 1 then
         xpToAdd = tonumber(Parameters[2])
     end
-    if not skillAlias then
+    if xpToAdd then
+       
+    else
         
     end
-    if not xpToAdd then
-        
+    if skillAlias then
+        skill = Skills.GetSkillByAlias(skillAlias)
     end
     return true
 end)
 
 local AbioticGameViewportClientClass = nil
 local function GetClassAbioticGameViewportClient()
-    if not AbioticGameViewportClientClass then
+    if not AbioticGameViewportClientClass or not AbioticGameViewportClientClass:IsValid() then
         AbioticGameViewportClientClass = StaticFindObject("/Script/AbioticFactor.AbioticGameViewportClient")
     end
     return AbioticGameViewportClientClass
@@ -483,9 +484,4 @@ RegisterConsoleCommandGlobalHandler("fly", function(FullCommand, Parameters, Out
         noClip.Function(noClip, OutputDevice, Parameters)
     end
     return true
-end)
-
-RegisterConsoleCommandGlobalHandler("changesize", function(FullCommand, Parameters, OutputDevice)
-    WriteToConsoleDebug(OutputDevice, 'Use "noclip", if you\'re stuck')
-    return false
 end)
