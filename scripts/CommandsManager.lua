@@ -109,6 +109,7 @@ end
 ---@param Description string?
 ---@param Parameters CommandParam|CommandParam[]|nil
 ---@param Callback CommandFunction?
+---@return CommandStruct # Returns created command
 local function CreateCommand(Aliases, CommandName, Description, Parameters, Callback)
     Description = Description or ""
     if type(Aliases) == "string" then
@@ -145,6 +146,8 @@ local function CreateCommand(Aliases, CommandName, Description, Parameters, Call
     for i, value in ipairs(Aliases) do
         CommandsMap[value] = commandObject
     end
+
+    return commandObject
 end
 
 ---@param Alias string
@@ -264,9 +267,19 @@ function (self, OutputDevice, Parameters)
 end)
 
 -- -- God Mode Command
-CreateCommand({"god", "godmode"}, "God Mode", "Makes the player invincible and keeps all his stats at maximum (Health, Stamina, Hunger, Thirst, Fatigue, Continence)", nil,
+CreateCommand({"god", "godmode"}, "God Mode", "Activates all health, stamina and status related features at once. (You will have to disable god mode to be able to toggle them seperatly)", nil,
 function(self, OutputDevice, Parameters)
-    WriteToConsole(OutputDevice, "God Mode is currently not implemented, use Infinite Health instead")
+    Settings.GodMode = not Settings.GodMode
+    PrintCommandState(Settings.GodMode, self.Name, OutputDevice)
+    if Settings.GodMode then
+        Settings.InfiniteHealth = false
+        Settings.InfiniteStamina = false
+        Settings.NoHunger = false
+        Settings.NoThirst = false
+        Settings.NoFatigue = false
+        Settings.InfiniteContinence = false
+        Settings.NoRadiation = false
+    end
     return true
 end)
 
@@ -281,6 +294,10 @@ end)
 -- Infinite Health Command
 CreateCommand({"health", "hp", "inv", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible (host only)", nil,
 function (self, OutputDevice, Parameters)
+    if Settings.GodMode then
+        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
+        return true
+    end
     Settings.InfiniteHealth = not Settings.InfiniteHealth
     PrintCommandState(Settings.InfiniteHealth, self.Name, OutputDevice)
     return true
@@ -289,6 +306,10 @@ end)
 -- Infinite Stamina Command
 CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina (works partial as guest)", nil,
 function (self, OutputDevice, Parameters)
+    if Settings.GodMode then
+        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
+        return true
+    end
     Settings.InfiniteStamina = not Settings.InfiniteStamina
     PrintCommandState(Settings.InfiniteStamina, self.Name, OutputDevice)
     return true
@@ -313,6 +334,10 @@ end)
 -- NoHunger Command
 CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry (works partial as guest)", nil,
 function (self, OutputDevice, Parameters)
+    if Settings.GodMode then
+        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
+        return true
+    end
     Settings.NoHunger = not Settings.NoHunger
     PrintCommandState(Settings.NoHunger, self.Name, OutputDevice)
     return true
@@ -321,6 +346,10 @@ end)
 -- No Thirst Command
 CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be thirsty (works partial as guest)", nil,
 function (self, OutputDevice, Parameters)
+    if Settings.GodMode then
+        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
+        return true
+    end
     Settings.NoThirst = not Settings.NoThirst
     PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
     return true
@@ -329,6 +358,10 @@ end)
 -- No Fatigue Command
 CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired (works partial as guest)", nil,
 function(self, OutputDevice, Parameters)
+    if Settings.GodMode then
+        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
+        return true
+    end
     Settings.NoFatigue = not Settings.NoFatigue
     PrintCommandState(Settings.NoFatigue, self.Name, OutputDevice)
     return true
@@ -337,6 +370,10 @@ end)
 -- Infinite Continence Command
 CreateCommand({"con", "infcon", "InfiniteContinence", "noneed", "constipation"}, "Infinite Continence", "Player won't need to go to the toilet (works partial as guest)", nil,
 function(self, OutputDevice, Parameters)
+    if Settings.GodMode then
+        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
+        return true
+    end
     Settings.InfiniteContinence = not Settings.InfiniteContinence
     PrintCommandState(Settings.InfiniteContinence, self.Name, OutputDevice)
     return true
@@ -353,6 +390,10 @@ end)
 -- No Radiation Command
 CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation (works partial as guest)", nil,
 function(self, OutputDevice, Parameters)
+    if Settings.GodMode then
+        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
+        return true
+    end
     Settings.NoRadiation = not Settings.NoRadiation
     PrintCommandState(Settings.NoRadiation, self.Name, OutputDevice)
     return true

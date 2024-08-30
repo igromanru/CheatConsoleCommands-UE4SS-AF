@@ -17,24 +17,6 @@ local function HealAllLimbs(playerCharacter)
     playerCharacter.CurrentHealth_RightLeg = 100.0
 end
 
-local GodModeWasEnabled = false
----@param myPlayer AAbiotic_PlayerCharacter_C
-function GodMode(myPlayer)
-    -- if not myPlayer then return end
-
-    -- if Settings.GodMode then
-    --     if not myPlayer.Invincible then
-    --         GodModeWasEnabled = true
-    --         myPlayer.Invincible = true
-    --         LogDebug("Invincible: " .. tostring(myPlayer.Invincible))
-    --     end
-    -- elseif GodModeWasEnabled then
-    --     GodModeWasEnabled = false
-    --     myPlayer.Invincible = false
-    --     LogDebug("Invincible: " .. tostring(myPlayer.Invincible))
-    -- end
-end
-
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function Heal(myPlayer)
     if not myPlayer then return end
@@ -51,7 +33,7 @@ local InfiniteHealthWasEnabled = false
 function InfiniteHealth(myPlayer)
     if not myPlayer then return end
 
-    if Settings.InfiniteHealth then
+    if Settings.GodMode or Settings.InfiniteHealth then
         if not myPlayer.Invincible then
             myPlayer.Invincible = true
             HealAllLimbs(myPlayer)
@@ -82,7 +64,7 @@ local InfiniteStaminaWasEnabled = false
 function InfiniteStamina(myPlayer)
     if not myPlayer then return end
 
-    if Settings.InfiniteStamina then
+    if Settings.GodMode or Settings.InfiniteStamina then
         if not myPlayer.InfiniteStamina then
             myPlayer.InfiniteStamina = true
             myPlayer.CurrentStamina = myPlayer.MaxStamina
@@ -166,7 +148,7 @@ local NoHungerWasEnabled = false
 function NoHunger(myPlayer)
     if not myPlayer then return end
 
-    if Settings.NoHunger then
+    if Settings.GodMode or Settings.NoHunger then
         if myPlayer.HasHunger then
             myPlayer.HasHunger = false
             myPlayer.CurrentHunger = myPlayer.MaxHunger
@@ -192,7 +174,7 @@ local NoThirstWasEnabled = false
 function NoThirst(myPlayer)
     if not myPlayer then return end
 
-    if Settings.NoThirst then
+    if Settings.GodMode or Settings.NoThirst then
         if myPlayer.HasThirst then
             myPlayer.HasThirst = false
             myPlayer.CurrentThirst = myPlayer.MaxThirst
@@ -218,7 +200,7 @@ local NoFatigueWasEnabled = false
 function NoFatigue(myPlayer)
     if not myPlayer then return end
 
-    if Settings.NoFatigue then
+    if Settings.GodMode or Settings.NoFatigue then
         if myPlayer.HasFatigue then
             myPlayer.HasFatigue = false
             myPlayer.CurrentFatigue = 0.0
@@ -244,7 +226,7 @@ local InfiniteContinenceWasEnabled = false
 function InfiniteContinence(myPlayer)
     if not myPlayer then return end
 
-    if Settings.InfiniteContinence then
+    if Settings.GodMode or Settings.InfiniteContinence then
         if myPlayer.HasContinence then
             myPlayer.HasContinence = false
             myPlayer.CurrentContinence = myPlayer.MaxContinence
@@ -295,7 +277,7 @@ local NoRadiationWasEnabled = false
 function NoRadiation(myPlayer)
     if not myPlayer then return end
 
-    if Settings.NoRadiation then
+    if Settings.GodMode or Settings.NoRadiation then
         if  myPlayer.CanReceiveRadiation then
             myPlayer.CanReceiveRadiation = false
             myPlayer.CurrentRadiation = 0.0
