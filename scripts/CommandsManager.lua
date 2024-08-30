@@ -38,33 +38,6 @@ local function WriteToConsoleDebug(OutputDevice, Message)
     end
 end
 
----@param StringArray string[]|string
----@param Seperator string? # Default: " | "
----@param WrapperLeft string? # Default: ""
----@param WrapperRight string? # Default: ""
----@return string
-local function ArrayToString(StringArray, Seperator, WrapperLeft, WrapperRight)
-    Seperator = Seperator or " | "
-    WrapperLeft = WrapperLeft or ""
-    WrapperRight = WrapperRight or ""
-    if type(StringArray) == "string" then
-        return StringArray
-    end
-
-    if type(StringArray) ~= "table" then
-        return ""
-    end
-
-    local result = ""
-    for _, value in ipairs(StringArray) do
-       if result ~= "" then
-        result = result .. Seperator
-       end 
-       result = result .. WrapperLeft .. value .. WrapperRight
-    end
-    return result
-end
-
 ---@alias CommandFunction fun(self: CommandStruct, OutputDevice: FOutputDevice, Parameters: table): boolean
 
 ---@class CommandParam
@@ -115,6 +88,54 @@ local function LogDebugCommandStruct(Command, Prefix)
         end
     end
     LogDebug("---")
+end
+
+---@param StringArray string[]|string
+---@param Seperator string? # Default: " | "
+---@param WrapperLeft string? # Default: ""
+---@param WrapperRight string? # Default: ""
+---@return string
+local function ArrayToString(StringArray, Seperator, WrapperLeft, WrapperRight)
+    Seperator = Seperator or " | "
+    WrapperLeft = WrapperLeft or ""
+    WrapperRight = WrapperRight or ""
+    if type(StringArray) == "string" then
+        return StringArray
+    end
+
+    if type(StringArray) ~= "table" then
+        return ""
+    end
+
+    local result = ""
+    for _, value in ipairs(StringArray) do
+       if result ~= "" then
+        result = result .. Seperator
+       end 
+       result = result .. WrapperLeft .. value .. WrapperRight
+    end
+    return result
+end
+
+---@param Parameters CommandParam[]
+---@param Seperator string? # Default: " | "
+---@param WrapperLeft string? # Default: ""
+---@param WrapperRight string? # Default: ""
+---@return string
+local function ParametersToReadableList(Parameters, Seperator, WrapperLeft, WrapperRight)
+    if not Parameters then return "" end
+    Seperator = Seperator or " "
+    WrapperLeft = WrapperLeft or "<"
+    WrapperRight = WrapperRight or ">"
+
+    local parameters = ""
+    for i, param in ipairs(Parameters) do
+        if i > 1 then
+            parameters = parameters .. Seperator
+        end
+        parameters = parameters .. WrapperLeft .. param.Name .. WrapperRight
+    end
+    return parameters
 end
 
 ---@param Name string
@@ -200,50 +221,27 @@ local function GetCommandByAlias(Alias)
 end
 
 function PrintCommansAaMarkdownTable()
-    local function GetCommandAliasForTable(Command)
-        local result = ""
-        for _, alias in ipairs(Command.Aliases) do
-           if result ~= "" then
-            result = result .. " \\| "
-           end 
-           result = result .. alias
-        end
-        return result
-    end
-
-
+    
     print("------- Markdown Table -----------")
     print("Command | Aliases | Parameters | Description")
     print("------- | ------- | ---------- | -----------")
     for _, command in ipairs(CommandsArray) do
         if command.Function then
-            print(string.format("%s | %s | %s | %s", command.Name, GetCommandAliasForTable(command), command.Parameters, command.Description))
+            print(string.format("%s | %s | %s | %s", command.Name, ArrayToString(command.Aliases, " \\| "), ParametersToReadableList(command.Parameters, " ", "{", "}"), command.Description))
         end
     end
     print("----------------------------------")
 end
 
 function PrintCommansAaBBCode()
-    local function GetCommandAliasForTable(Command)
-        local result = ""
-        for _, alias in ipairs(Command.Aliases) do
-           if result ~= "" then
-            result = result .. " | "
-           end 
-           result = result .. "[font=Arial]" .. alias .. "[/font]"
-        end
-        return result
-    end
-
-
     print("-- BBCode --")
     for _, command in ipairs(CommandsArray) do
         if command.Function then
             local parameters = ""
-            if command.Parameters ~= "" then
-                parameters = string.format(" %s ", command.Parameters)
+            if command.Parameters and #command.Parameters > 0 then
+                parameters = string.format(" %s ", ParametersToReadableList(command.Parameters))
             end
-            print(string.format("[b]%s[/b] [ %s ] {%s} - [font=Georgia]%s[/font]", command.Name, GetCommandAliasForTable(command), parameters, command.Description))
+            print(string.format("[b]%s[/b] [ %s ] {%s} - [font=Georgia]%s[/font]", command.Name, ArrayToString(command.Aliases, " | ", "[font=Arial]", "[/font]"), parameters, command.Description))
         end
     end
     print("----------------------------------")
