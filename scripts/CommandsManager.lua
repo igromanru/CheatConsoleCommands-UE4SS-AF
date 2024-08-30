@@ -15,6 +15,17 @@ local function WriteToConsole(OutputDevice, Message)
     end
 end
 
+---Calls WriteToConsole with orefix "[Error] "
+---@param OutputDevice FOutputDevice
+---@param Message string
+local function WriteErrorToConsole(OutputDevice, Message)
+    if type(Message) ~= "string" then
+        error("Invalid type of parameter \"Message\", it has to be a string")
+    end
+
+    WriteToConsole(OutputDevice, "[Error] " .. Message)
+end
+
 ---Write to lua console and the OutputDevice only in DebugMode
 ---@param OutputDevice FOutputDevice
 ---@param Message string
@@ -78,6 +89,33 @@ local CommandsArray = {}
 ---@type { [string]: CommandStruct }
 local CommandsMap = {}
 
+---Debug logs all infomations about a CommandParam
+---@param Param CommandParam
+---@param Prefix string?
+local function LogDebugCommandParam(Param, Prefix)
+    if not Param or not Param.ValidType then return end
+    Prefix = Prefix or ""
+
+    LogDebug(Prefix .. "Parameter: Name: " .. Param.Name .. ", Required: " .. tostring(Param.Required) .. ", ValidType: " .. Param.ValidType .. ", Description: " .. tostring(Param.Description) .. ", ValidValues: " .. ArrayToString(Param.ValidValues))
+end
+
+
+---Debug logs all infomations about a CommandStruct
+---@param Command CommandStruct
+---@param Prefix string?
+local function LogDebugCommandStruct(Command, Prefix)
+    if not Command or not Command.Name then return end
+    Prefix = Prefix or ""
+
+    LogDebug(Prefix .."LogDebugCommandStruct:")
+    LogDebug("Name: " .. Command.Name .. ", Aliases: " .. ArrayToString(Command.Aliases) .. ", Description: " .. Command.Description .. ", Parameters type: " .. type(Command.Parameters) .. ", Function type: " .. type(Command.Function))
+    if Command.Parameters then
+        for index, value in ipairs(Command.Parameters) do
+            LogDebugCommandParam(value, "  " .. index .. ": ")
+        end
+    end
+    LogDebug("---")
+end
 
 ---@param Name string
 ---@param ValidType string # Type name, see: https://www.lua.org/pil/2.html
@@ -295,10 +333,14 @@ function (self, OutputDevice, Parameters)
     if  command then
         WriteCommandToConsole(OutputDevice, command)
     else
-        WriteToConsole(OutputDevice, ModName .. " list:")
-        for _, command in ipairs(CommandsArray) do
-            if command.Function then
-                WriteCommandToConsole(OutputDevice, command)
+        if #Parameters > 0 then
+            WriteToConsole(OutputDevice, "There is no command with the alias \"" .. Parameters[1] .. "\"")
+        else
+            WriteToConsole(OutputDevice, ModName .. " list:")
+            for _, command in ipairs(CommandsArray) do
+                if command.Function then
+                    WriteCommandToConsole(OutputDevice, command)
+                end
             end
         end
     end
@@ -480,12 +522,10 @@ function(self, OutputDevice, Parameters)
     WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. moneyValue)
     local myPlayer = AFUtils.GetMyPlayer()
     if myPlayer then
-        ExecuteInGameThread(function() 
-            myPlayer:Request_ModifyMoney(moneyValue - myPlayer.CurrentMoney)
-            myPlayer.CurrentMoney = moneyValue 
-            LogDebug("CurrentMoney: " .. tostring(myPlayer.CurrentMoney))
-            AFUtils.ClientDisplayWarningMessage("Money set to " .. myPlayer.CurrentMoney, AFUtils.CriticalityLevels.Green)
-        end)
+        myPlayer:Request_ModifyMoney(moneyValue - myPlayer.CurrentMoney)
+        myPlayer.CurrentMoney = moneyValue 
+        LogDebug("CurrentMoney: " .. tostring(myPlayer.CurrentMoney))
+        AFUtils.ClientDisplayWarningMessage("Money set to " .. myPlayer.CurrentMoney, AFUtils.CriticalityLevels.Green)
     else
         WriteToConsole(OutputDevice, "Error: Player character not found. Are you ingame?")
     end
@@ -534,23 +574,21 @@ function(self, OutputDevice, Parameters)
     end
     
     if cooldown < 0.1 or cooldown >= 525600000 then
-        WriteToConsole(OutputDevice, self.Name..": Invalid cooldown value!")
-        WriteToConsole(OutputDevice, self.Name..': The value must be between 0.1 and 525600000 (minutes)')
+        WriteErrorToConsole(OutputDevice, self.Name..": Invalid cooldown value!")
+        WriteErrorToConsole(OutputDevice, self.Name..': The value must be between 0.1 and 525600000 (minutes)')
         return true
     end
 
     WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. cooldown)
-    ExecuteInGameThread(function() 
-        local aiDirector = AFUtils.GetAIDirector()
-        if aiDirector then
-            aiDirector.LeyakCooldown = cooldown * 60
-            aiDirector:SetLeyakOnCooldown(1.0)
-            local message = "Leyak's cooldown was set to " .. aiDirector.LeyakCooldown .. " (" .. cooldown .. "min)"
-            LogDebug(message)
-            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
-            AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
-        end
-    end)
+    local aiDirector = AFUtils.GetAIDirector()
+    if aiDirector then
+        aiDirector.LeyakCooldown = cooldown * 60
+        aiDirector:SetLeyakOnCooldown(1.0)
+        local message = "Leyak's cooldown was set to " .. aiDirector.LeyakCooldown .. " (" .. cooldown .. "min)"
+        LogDebug(message)
+        AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+        AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
+    end
     return true
 end)
 
@@ -562,57 +600,83 @@ function(self, OutputDevice, Parameters)
     return true
 end)
 
--- Reset All Skills
-CreateCommand({"resetskills", "resetxp", "resetlvl"}, "Reset All Skills", "Resets all character skills!", nil,
-function(self, OutputDevice, Parameters)
-    local myPlayer = AFUtils.GetMyPlayer()
-    if myPlayer then
-        if myPlayer.CharacterProgressionComponent:IsValid() then
-            ExecuteInGameThread(function() 
-                myPlayer.CharacterProgressionComponent:Request_ResetAllSkills()
-                LogDebug("Request_ResetAllSkills executed")
-                AFUtils.ClientDisplayWarningMessage("All skills were reset")
-            end)
-        else
-            WriteToConsole(OutputDevice, "Error: Failed to get character progress component. Are you ingame?")
-        end
-    else
-        WriteToConsole(OutputDevice, "Error: Player character not found. Are you ingame?")
-    end
-    return true
-end)
-
 -- Add Skill Experience
-CreateCommand({"addxp", "xpadd", "skillxp", "skill", "level"}, "Add Skill Experience", "Adds XP to specified Skill", 
-{ CreateCommandParam("skill alias", "string", "Skill's name or alias", true, Skills.GetSkillsAsStrings()), CreateCommandParam("XP value", "number", "Amount of XP added to the skill.") },
+CreateCommand({"addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "skillxp"}, "Add Skill Experience", "Adds XP to specified Skill (host only)", 
+{ CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()), CreateCommandParam("XP value", "number", "Amount of XP added to the skill.") },
 function(self, OutputDevice, Parameters)
-    local skillAlias = nil
-    local xpToAdd = nil
     local skill = nil ---@type SkillStruct?
+    local xpToAdd = nil ---@type integer?
     if #Parameters > 0 then
-        skillAlias = Parameters[1]
+        skill = Skills.GetSkillByAlias(Parameters[1])
     end
     if #Parameters > 1 then
         xpToAdd = tonumber(Parameters[2])
     end
+    if not skill then
+        WriteErrorToConsole(OutputDevice, 'Invalid skill alias. Use command "help addxp" to see all valid skill parameters')
+        return false
+    end
     if xpToAdd then
-       
+        if Skills.AddXp(skill.Id, xpToAdd) then
+            local message = tostring(xpToAdd) .. " XP added to " .. skill.Name
+            AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+            WriteToConsole(OutputDevice, message)
+        else
+            WriteErrorToConsole(OutputDevice, "Failed to add " .. tostring(xpToAdd) .. " XP to \"" .. skill.Name .. '"')
+            return false
+        end
     else
-        
+        local skillStruct = Skills.GetCharacterSkillStructById(skill.Id)
+        if skillStruct then
+            WriteToConsole(OutputDevice, "Skill: " .. skill.Name .. ", Current value: " .. math.ceil(skillStruct.CurrentSkillXP_20_8F7934CD4A4542F036AE5C9649362556))
+        else
+            WriteErrorToConsole(OutputDevice, "Couldn't get values for Character Skill: " .. skill.Id)
+            return false
+        end
     end
-    if skillAlias then
-        skill = Skills.GetSkillByAlias(skillAlias)
-    end
+    
     return true
 end)
 
-local AbioticGameViewportClientClass = nil
-local function GetClassAbioticGameViewportClient()
-    if not AbioticGameViewportClientClass or not AbioticGameViewportClientClass:IsValid() then
-        AbioticGameViewportClientClass = StaticFindObject("/Script/AbioticFactor.AbioticGameViewportClient")
+-- Remove All Skill Experience
+CreateCommand({"removexp", "removeexp", "resetxp", "resetexp", "resetskill", "resetlevel", "resetlvl"}, "Remove Skill Experience", "Removes All XP from specified Skill (host only)", 
+CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()),
+function(self, OutputDevice, Parameters)
+    local skill = nil ---@type SkillStruct?
+    if #Parameters > 0 then
+        skill = Skills.GetSkillByAlias(Parameters[1])
     end
-    return AbioticGameViewportClientClass
-end
+    if not skill then
+        WriteErrorToConsole(OutputDevice, 'Invalid skill alias. Use command "help removexp" to see all valid skill parameters')
+        return false
+    end
+    if Skills.RemoveXp(skill.Id) then
+        local message = "Removed all XP from " .. skill.Name
+        AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
+        WriteToConsole(OutputDevice, message)
+        return true
+    else
+        WriteErrorToConsole(OutputDevice, "Couldn't find character progress component")
+    end
+    
+    return false
+end)
+
+-- Reset All Skills
+CreateCommand({"resetallskills", "resetallskill", "resetallxp", "resetallexp", "resetalllvl"}, "Reset All Skills", "Resets all character skills! (works as guest)", nil,
+function(self, OutputDevice, Parameters)
+    local progressionComponen = AFUtils.GetMyCharacterProgressionComponent()
+    if progressionComponen then
+        progressionComponen:Request_ResetAllSkills()
+        local message = "All skills were reset"
+        AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
+        WriteToConsole(OutputDevice, message)
+        return true
+    else
+        WriteErrorToConsole(OutputDevice, "Failed to get character progress component. Are you ingame?")
+    end
+    return false
+end)
 
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
@@ -638,8 +702,10 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
 
     local commandObj = GetCommandByAlias(command)
     if commandObj then
-        if context:IsA(GetClassAbioticGameViewportClient()) and commandObj.Function then
-            return commandObj.Function(commandObj, OutputDevice, Parameters)
+        if commandObj.Function and context:IsA(AFUtils.GetClassAbioticGameViewportClient()) then
+            if commandObj.Function(commandObj, OutputDevice, Parameters) then
+                OutputDevice:Log("-- Ignore the message below, it comes from UE:")
+            end
         end
         return true
     end
@@ -673,3 +739,17 @@ RegisterConsoleCommandGlobalHandler("fly", function(FullCommand, Parameters, Out
     end
     return true
 end)
+
+-- if DebugMode then
+--     LogDebug(string.format("-- CommandsArray (%d) --", #CommandsArray))
+--     for index, value in ipairs(CommandsArray) do
+--         LogDebugCommandStruct(value, index .. ": ")
+--     end
+--     LogDebug("-- CommandsMap --")
+--     local count = 1
+--     for key, value in pairs(CommandsMap) do
+--         LogDebugCommandStruct(value, key .. ": ")
+--         count = count + 1
+--     end
+--     LogDebug(string.format("-- CommandsMap Count: %d --", count))
+-- end
