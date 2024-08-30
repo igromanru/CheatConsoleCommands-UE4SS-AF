@@ -29,9 +29,13 @@ end
 
 ---@param StringArray string[]|string
 ---@param Seperator string? # Default: " | "
+---@param WrapperLeft string? # Default: ""
+---@param WrapperRight string? # Default: ""
 ---@return string
-local function ArrayToString(StringArray, Seperator)
+local function ArrayToString(StringArray, Seperator, WrapperLeft, WrapperRight)
     Seperator = Seperator or " | "
+    WrapperLeft = WrapperLeft or ""
+    WrapperRight = WrapperRight or ""
     if type(StringArray) == "string" then
         return StringArray
     end
@@ -41,22 +45,29 @@ local function ArrayToString(StringArray, Seperator)
     end
 
     local result = ""
-    for _, alias in ipairs(StringArray) do
+    for _, value in ipairs(StringArray) do
        if result ~= "" then
         result = result .. Seperator
        end 
-       result = result .. alias
+       result = result .. WrapperLeft .. value .. WrapperRight
     end
     return result
 end
 
 ---@alias CommandFunction fun(self: CommandStruct, OutputDevice: FOutputDevice, Parameters: table): boolean
 
+---@class CommandParam
+---@field Name string
+---@field ValidType string # Type name, see: https://www.lua.org/pil/2.html
+---@field Required boolean
+---@field ValidValues string[]?
+local CommandParam = {}
+
 ---@class CommandStruct
 ---@field Aliases table<string>|string
 ---@field Name string
 ---@field Description string
----@field Parameters table<string>|string|nil
+---@field Parameters CommandParam[]|nil
 ---@field Function CommandFunction?
 local CommandStruct = {}
 
@@ -66,38 +77,82 @@ local CommandsArray = {}
 ---@type { [string]: CommandStruct }
 local CommandsMap = {}
 
----Creats a new CommandStruct out of parameters
----@param CommandNames table<string>|string
----@param FeatureName string
----@param Description string?
----@param Parameters table<string>|string|nil
----@param Callback CommandFunction?
-local function CreateCommand(CommandNames, FeatureName, Description, Parameters, Callback)
-    if type(CommandNames) == "string" then
-        CommandNames = { CommandNames }
+
+---@param Name string
+---@param ValidType string # Type name, see: https://www.lua.org/pil/2.html
+---@param Required boolean? # Default: false
+---@param ValidValues string[]?
+---@return CommandParam
+local function CreateCommandParam(Name, ValidType, Required, ValidValues)
+    if not Name or Name == "" then
+        error('CreateCommandParam: Invalid parameter "Name". Name must be a valid string and can\'t be empty')
     end
-    if type(CommandNames) ~= "table" then
+    if not ValidType or ValidType == "" then
+        error('CreateCommandParam: Invalid parameter "ValidType". ValidType must be a valid type string and can\'t be empty')
+    end
+    if not Name and type(Name) ~= "table" then
+        error('CreateCommandParam: Invalid parameter "ValidValues". ValidValues must be nil or an array of strings')
+    end
+    Required = Required or false
+
+    return {
+        Name = Name,
+        ValidType = ValidType,
+        Required = Required,
+        ValidValues = ValidValues
+    }
+end
+
+---Creats a new CommandStruct out of parameters
+---@param Aliases table<string>|string
+---@param CommandName string
+---@param Description string?
+---@param Parameters CommandParam|CommandParam[]|nil
+---@param Callback CommandFunction?
+local function CreateCommand(Aliases, CommandName, Description, Parameters, Callback)
+    Description = Description or ""
+    if type(Aliases) == "string" then
+        Aliases = { Aliases }
+    end
+    if type(Aliases) ~= "table" then
         error('CreateCommand: Invalid "CommandNames" parameter')
     end
-    if not FeatureName then
+    if not CommandName then
         error('CreateCommand: Invalid "FeatureName" parameter')
     end
-    Description = Description or ""
-    if type(Parameters) == "string" then
+    -- Check if Parameters is an array of tables or a single CommandParam
+    if Parameters and Parameters.Name then
         Parameters = { Parameters }
     end
+
+    LogDebug("CreateCommand: Name: " .. CommandName .. ", Aliases: " .. ArrayToString(Aliases) .. ", Description: " .. Description .. ", Parameters type: " .. type(Parameters))
+    if DebugMode and type(Parameters) == "table" then
+        for index, value in ipairs(Parameters) do
+            LogDebug(index .. ": " .. value.Name .. ", Required: " .. tostring(value.Required))
+        end
+    end
+    
     local commandObject = {
-        Aliases = CommandNames,
-        Name = FeatureName,
+        Aliases = Aliases,
+        Name = CommandName,
         Description = Description,
         Parameters = Parameters,
         Function = Callback
     }
+
     table.insert(CommandsArray, commandObject)
-    CommandsMap[FeatureName] = commandObject
-    for i, value in ipairs(CommandNames) do
+    CommandsMap[CommandName] = commandObject
+    for i, value in ipairs(Aliases) do
         CommandsMap[value] = commandObject
     end
+end
+
+---@param Alias string
+---@return CommandStruct?
+local function GetCommandByAlias(Alias)
+    if type(Alias) ~= "string" then return nil end
+
+    return CommandsMap[Alias]
 end
 
 function PrintCommansAaMarkdownTable()
@@ -165,20 +220,46 @@ local function PrintCommandState(State, CommandName, OutputDevice)
 end
 
 -- Help Command
-CreateCommand("help", "Help", "Shows mod details and possible commands", nil, function (self, OutputDevice, Parameters)
-    WriteToConsole(OutputDevice, ModName .. " list:")
-    for _, command in ipairs(CommandsArray) do
-        if command.Function then
-            WriteToConsole(OutputDevice, "------------------------------")
-            WriteToConsole(OutputDevice, "Command: " .. command.Name)
-            WriteToConsole(OutputDevice, "Aliases: " .. ArrayToString(command.Aliases))
-            if command.Parameters and type(command.Parameters) == "table" then
-                WriteToConsole(OutputDevice, "Parameters: " .. ArrayToString(command.Parameters, " "))
+CreateCommand("help", "Help", "Prints command list of info about a single command", CreateCommandParam("command alias", "string"),
+function (self, OutputDevice, Parameters)
+    ---@param Command CommandStruct?
+    local function WriteCommandToConsole(Command)
+        if not Command or not Command.Function then return end
+
+        WriteToConsole(OutputDevice, "Command: " .. Command.Name)
+        WriteToConsole(OutputDevice, "Aliases: " .. ArrayToString(Command.Aliases))
+        if type(Command.Parameters) == "table" then
+            local parameters = ""
+            for index, value in ipairs(Command.Parameters) do
+                if parameters ~= "" then
+                    parameters = parameters .. " "
+                end
+                parameters = parameters .. "<" .. value.Name .. ">"
+                if not value.Required then
+                    parameters = parameters .. "?"
+                end
             end
-            WriteToConsole(OutputDevice, "Description: " .. command.Description)
+            WriteToConsole(OutputDevice, "Parameters: " .. parameters)
+        end
+        WriteToConsole(OutputDevice, "Description: " .. Command.Description)
+        WriteToConsole(OutputDevice, "------------------------------")
+    end
+
+    local command = nil ---@type CommandStruct?
+    if Parameters and #Parameters > 0 then
+        command = GetCommandByAlias(Parameters[1])
+    end
+    if  command then
+        WriteCommandToConsole(command)
+    else
+        WriteToConsole(OutputDevice, ModName .. " list:")
+        for _, command in ipairs(CommandsArray) do
+            if command.Function then
+                WriteCommandToConsole(command)
+            end
         end
     end
-    WriteToConsole(OutputDevice, "------------------------------")
+
     return true
 end)
 
@@ -294,7 +375,7 @@ function(self, OutputDevice, Parameters)
 end)
 
 -- Set Money Command
-CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", "value",
+CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", { CreateCommandParam("value", "number") },
 function(self, OutputDevice, Parameters)
     local moneyValue = nil
     if Parameters and #Parameters > 0 then
@@ -351,7 +432,8 @@ function(self, OutputDevice, Parameters)
 end)
 
 -- Set Leyak Cooldown Command
-CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)", "minutes",
+CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)",
+CreateCommandParam("minutes", "number"),
 function(self, OutputDevice, Parameters)
     local cooldown = nil
     if Parameters and #Parameters > 0 then
@@ -396,7 +478,8 @@ function(self, OutputDevice, Parameters)
 end)
 
 -- Add Skill Experience
-CreateCommand({"addxp", "xpadd", "skillxp", "skill", "level"}, "Add Skill Experience", "Adds XP to specified Skill", "skill_alias",
+CreateCommand({"addxp", "xpadd", "skillxp", "skill", "level"}, "Add Skill Experience", "Adds XP to specified Skill", 
+{ CreateCommandParam("skill alias", "string", true), CreateCommandParam("XP value", "number") },
 function(self, OutputDevice, Parameters)
     local skillAlias = nil
     local xpToAdd = nil
@@ -443,12 +526,12 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
     -- end
 
     -- Special handling of default commands
-    if Command == "god" or Command == "ghost" or Command == "fly" then
+    if command == "god" or command == "ghost" or command == "fly" then
         LogDebug("Default command, skip")
         return nil
     end
 
-    local commandObj = CommandsMap[command]
+    local commandObj = GetCommandByAlias(command)
     if commandObj then
         if context:IsA(GetClassAbioticGameViewportClient()) and commandObj.Function then
             return commandObj.Function(commandObj, OutputDevice, Parameters)
@@ -463,7 +546,7 @@ end)
 -- Overwriting default UE commands (most aren't made for the game and causes issues)
 ------------------------------------------------------------
 RegisterConsoleCommandGlobalHandler("god", function(FullCommand, Parameters, OutputDevice)
-    local godMode = CommandsMap["God Mode"]
+    local godMode = GetCommandByAlias("God Mode")
     if godMode and godMode.Function then
         godMode.Function(godMode, OutputDevice, Parameters)
     end
@@ -471,7 +554,7 @@ RegisterConsoleCommandGlobalHandler("god", function(FullCommand, Parameters, Out
 end)
 
 RegisterConsoleCommandGlobalHandler("ghost", function(FullCommand, Parameters, OutputDevice)
-    local noClip = CommandsMap["No Clip"]
+    local noClip = GetCommandByAlias("No Clip")
     if noClip and noClip.Function then
         noClip.Function(noClip, OutputDevice, Parameters)
     end
@@ -479,7 +562,7 @@ RegisterConsoleCommandGlobalHandler("ghost", function(FullCommand, Parameters, O
 end)
 
 RegisterConsoleCommandGlobalHandler("fly", function(FullCommand, Parameters, OutputDevice)
-    local noClip = CommandsMap["No Clip"]
+    local noClip = GetCommandByAlias("No Clip")
     if noClip and noClip.Function then
         noClip.Function(noClip, OutputDevice, Parameters)
     end
