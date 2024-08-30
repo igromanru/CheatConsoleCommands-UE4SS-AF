@@ -18,6 +18,7 @@ local Skills = {
 ---@param SkillName string
 ---@param Aliases table<string>|string
 ---@param Description string?
+---@return SkillStruct # Returns created skill
 local function CreateSkill(CharacterSkillId, SkillName, Aliases, Description)
     if not CharacterSkillId then
         error("CharacterSkillId has to be set!")
@@ -41,6 +42,8 @@ local function CreateSkill(CharacterSkillId, SkillName, Aliases, Description)
     for i, value in ipairs(Aliases) do
         Skills.SkillsMap[value] = skill
     end
+
+    return skill
 end
 
 CreateSkill(AFUtils.CharacterSkills.Sprinting, "Sprinting", {"sprinting", "sprint", "spr", "stamina", "sp"})
@@ -64,6 +67,21 @@ function Skills.GetSkillByAlias(Alias)
     if type(Alias) ~= "string" then return nil end
 
     return Skills.SkillsMap[Alias]
+end
+
+function Skills.GetSkillsAsStrings()
+    local skills = {}
+    for _, v in ipairs(Skills.SkillsArray) do
+        local desc = v.Name .. ": "
+        for j, alias in ipairs(v.Aliases) do
+            if j > 1 then
+                desc = desc .. " | "
+            end
+            desc = desc .. alias
+        end
+        table.insert(skills, desc)
+    end
+    return skills
 end
 
 return Skills

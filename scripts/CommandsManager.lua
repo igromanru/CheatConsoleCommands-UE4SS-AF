@@ -59,6 +59,7 @@ end
 ---@class CommandParam
 ---@field Name string
 ---@field ValidType string # Type name, see: https://www.lua.org/pil/2.html
+---@field Description string?
 ---@field Required boolean
 ---@field ValidValues string[]?
 local CommandParam = {}
@@ -80,10 +81,11 @@ local CommandsMap = {}
 
 ---@param Name string
 ---@param ValidType string # Type name, see: https://www.lua.org/pil/2.html
+---@param Description string?
 ---@param Required boolean? # Default: false
 ---@param ValidValues string[]?
 ---@return CommandParam
-local function CreateCommandParam(Name, ValidType, Required, ValidValues)
+local function CreateCommandParam(Name, ValidType, Description, Required, ValidValues)
     if not Name or Name == "" then
         error('CreateCommandParam: Invalid parameter "Name". Name must be a valid string and can\'t be empty')
     end
@@ -98,6 +100,7 @@ local function CreateCommandParam(Name, ValidType, Required, ValidValues)
     return {
         Name = Name,
         ValidType = ValidType,
+        Description = Description,
         Required = Required,
         ValidValues = ValidValues
     }
@@ -222,43 +225,80 @@ local function PrintCommandState(State, CommandName, OutputDevice)
     WriteToConsole(OutputDevice, stateText)
 end
 
--- Help Command
-CreateCommand("help", "Help", "Prints command list of info about a single command", CreateCommandParam("command alias", "string"),
-function (self, OutputDevice, Parameters)
-    ---@param Command CommandStruct?
-    local function WriteCommandToConsole(Command)
-        if not Command or not Command.Function then return end
+---@param Parameters CommandParam[]
+---@return string
+local function ParametersToString(Parameters)
+    if not Parameters then return "" end
 
-        WriteToConsole(OutputDevice, "Command: " .. Command.Name)
-        WriteToConsole(OutputDevice, "Aliases: " .. ArrayToString(Command.Aliases))
-        if type(Command.Parameters) == "table" then
-            local parameters = ""
-            for index, value in ipairs(Command.Parameters) do
-                if parameters ~= "" then
-                    parameters = parameters .. " "
-                end
-                parameters = parameters .. "<" .. value.Name .. ">"
-                if not value.Required then
-                    parameters = parameters .. "?"
-                end
-            end
-            WriteToConsole(OutputDevice, "Parameters: " .. parameters)
+    local parameters = ""
+    for _, param in ipairs(Parameters) do
+        if parameters ~= "" then
+            parameters = parameters .. " "
         end
-        WriteToConsole(OutputDevice, "Description: " .. Command.Description)
-        WriteToConsole(OutputDevice, "------------------------------")
+        parameters = parameters .. "<" .. param.Name .. ">"
+        if not param.Required then
+            parameters = parameters .. "?"
+        end
     end
+    return parameters
+end
 
+---@param OutputDevice FOutputDevice
+---@param Parameters CommandParam[]
+local function WriteParametersToConsole(OutputDevice, Parameters)
+    if not OutputDevice or not Parameters then return end
+
+    WriteToConsole(OutputDevice, "Parameters breakdown:")
+    for i, param in ipairs(Parameters) do
+        local name = '"' .. param.Name .. '"'
+        if not param.Required then
+            name = name .. " (optional)"
+        end
+        WriteToConsole(OutputDevice, " | Parameter: " .. name)
+        WriteToConsole(OutputDevice, "   Type: " .. param.ValidType)
+        if param.Description then
+            WriteToConsole(OutputDevice, "   Description: " .. param.Description)
+        end
+        if param.ValidValues then
+            WriteToConsole(OutputDevice, "   Valid values:")
+            for _, validValue in ipairs(param.ValidValues) do
+                WriteToConsole(OutputDevice, "   →" .. validValue)
+            end
+        end
+    end
+end
+
+---@param OutputDevice FOutputDevice
+---@param Command CommandStruct?
+local function WriteCommandToConsole(OutputDevice, Command)
+    if not OutputDevice or not Command or not Command.Function then return end
+
+    WriteToConsole(OutputDevice, "Command: " .. Command.Name)
+    WriteToConsole(OutputDevice, "Aliases: " .. ArrayToString(Command.Aliases))
+    if Command.Description then
+        WriteToConsole(OutputDevice, "Description: " .. Command.Description)
+    end
+    if type(Command.Parameters) == "table" then
+        WriteToConsole(OutputDevice, "Parameters: " .. ParametersToString(Command.Parameters))
+        WriteParametersToConsole(OutputDevice, Command.Parameters)
+    end
+    WriteToConsole(OutputDevice, "------------------------------")
+end
+
+-- Help Command
+CreateCommand("help", "Help", "Prints command list of info about a single command", CreateCommandParam("command alias", "string", "Shows help for the specified command based on its alias."),
+function (self, OutputDevice, Parameters)
     local command = nil ---@type CommandStruct?
     if Parameters and #Parameters > 0 then
         command = GetCommandByAlias(Parameters[1])
     end
     if  command then
-        WriteCommandToConsole(command)
+        WriteCommandToConsole(OutputDevice, command)
     else
         WriteToConsole(OutputDevice, ModName .. " list:")
         for _, command in ipairs(CommandsArray) do
             if command.Function then
-                WriteCommandToConsole(command)
+                WriteCommandToConsole(OutputDevice, command)
             end
         end
     end
@@ -416,7 +456,7 @@ function(self, OutputDevice, Parameters)
 end)
 
 -- Set Money Command
-CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", { CreateCommandParam("value", "number") },
+CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", CreateCommandParam("value", "number", "Money value to set"),
 function(self, OutputDevice, Parameters)
     local moneyValue = nil
     if Parameters and #Parameters > 0 then
@@ -478,7 +518,7 @@ end)
 
 -- Set Leyak Cooldown Command
 CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)",
-CreateCommandParam("minutes", "number"),
+CreateCommandParam("minutes", "number", "Amount a minutes between each Leyak spawn"),
 function(self, OutputDevice, Parameters)
     local cooldown = nil
     if Parameters and #Parameters > 0 then
@@ -544,7 +584,7 @@ end)
 
 -- Add Skill Experience
 CreateCommand({"addxp", "xpadd", "skillxp", "skill", "level"}, "Add Skill Experience", "Adds XP to specified Skill", 
-{ CreateCommandParam("skill alias", "string", true), CreateCommandParam("XP value", "number") },
+{ CreateCommandParam("skill alias", "string", "Skill's name or alias", true, Skills.GetSkillsAsStrings()), CreateCommandParam("XP value", "number", "Amount of XP added to the skill.") },
 function(self, OutputDevice, Parameters)
     local skillAlias = nil
     local xpToAdd = nil
