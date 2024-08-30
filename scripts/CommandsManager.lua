@@ -426,6 +426,8 @@ function(self, OutputDevice, Parameters)
         local myPlayer = AFUtils.GetMyPlayer()
         if myPlayer then
             WriteToConsole(OutputDevice, self.Name..": Current money value: " .. myPlayer.CurrentMoney)
+        else
+            WriteToConsole(OutputDevice, "Error: Player character not found. Are you ingame?")
         end
         WriteToConsole(OutputDevice, self.Name..': To change it write: "money (value here)"')
         return true
@@ -436,15 +438,17 @@ function(self, OutputDevice, Parameters)
         return true
     end
     WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. moneyValue)
-    ExecuteInGameThread(function() 
-        local myPlayer = AFUtils.GetMyPlayer()
-        if myPlayer then
+    local myPlayer = AFUtils.GetMyPlayer()
+    if myPlayer then
+        ExecuteInGameThread(function() 
             myPlayer:Request_ModifyMoney(moneyValue - myPlayer.CurrentMoney)
             myPlayer.CurrentMoney = moneyValue 
             LogDebug("CurrentMoney: " .. tostring(myPlayer.CurrentMoney))
             AFUtils.ClientDisplayWarningMessage("Money set to " .. myPlayer.CurrentMoney, AFUtils.CriticalityLevels.Green)
-        end
-    end)
+        end)
+    else
+        WriteToConsole(OutputDevice, "Error: Player character not found. Are you ingame?")
+    end
     return true
 end)
 
@@ -515,6 +519,26 @@ CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collisi
 function(self, OutputDevice, Parameters)
     Settings.NoClip = not Settings.NoClip
     PrintCommandState(Settings.NoClip, self.Name, OutputDevice)
+    return true
+end)
+
+-- Reset All Skills
+CreateCommand({"resetskills", "resetxp", "resetlvl"}, "Reset All Skills", "Resets all character skills!", nil,
+function(self, OutputDevice, Parameters)
+    local myPlayer = AFUtils.GetMyPlayer()
+    if myPlayer then
+        if myPlayer.CharacterProgressionComponent:IsValid() then
+            ExecuteInGameThread(function() 
+                myPlayer.CharacterProgressionComponent:Request_ResetAllSkills()
+                LogDebug("Request_ResetAllSkills executed")
+                AFUtils.ClientDisplayWarningMessage("All skills were reset")
+            end)
+        else
+            WriteToConsole(OutputDevice, "Error: Failed to get character progress component. Are you ingame?")
+        end
+    else
+        WriteToConsole(OutputDevice, "Error: Player character not found. Are you ingame?")
+    end
     return true
 end)
 

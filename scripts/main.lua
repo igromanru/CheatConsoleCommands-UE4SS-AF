@@ -19,7 +19,7 @@ require("Features")
 require("CommandsManager") -- Executes CommandsManager functions
 
 -- Main loop
-LoopAsync(200, function()
+LoopAsync(250, function()
     ExecuteInGameThread(function() 
         local myPlayer = AFUtils.GetMyPlayer()
         if myPlayer then
