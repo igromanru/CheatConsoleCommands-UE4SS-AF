@@ -23,33 +23,37 @@ Steam example: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Bi
 
 [font=Verdana][size=4][b]How to use[/b][/size][/font]
 [list][*]Open game's command console with [b]F10[/b]. Press F10 one time to open in "quick type" mode and second type to open fully.
+[*]Use command "help" to get a detailed list of all possible commands, with "help (command alias)" you can get information about a special command
 [*]Type one of the command aliases from below to trigger the command.
 [*]Most commands can be enabled and disabled by typing the same command, but commands like "money" will be executed once.
-[*]Use command "help" to get a list of all commands printed to the console.
 [/list]
 [line]
 [font=Verdana][size=4][b]Commands[/b][/size][/font]
 Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] parameters[/i] } - [i]Description[/i]
-[b]Help[/b] [ [font=Arial]help[/font] ] {} - [font=Georgia]Shows mod details and possible commands[/font]
+[b]Help[/b] [ [font=Arial]help[/font] ] { <command alias> } - [font=Georgia]Prints a list of all commands or info about a single one[/font]
+[b]God Mode[/b] [ [font=Arial]god[/font] | [font=Arial]godmode[/font] ] {} - [font=Georgia]Activates all health, stamina and status related features at once. (You will have to disable god mode to be able to toggle them seperatly)[/font]
 [b]Heal[/b] [ [font=Arial]heal[/font] ] {} - [font=Georgia]Player gets fully healed once (host only)[/font]
 [b]Infinite Health[/b] [ [font=Arial]health[/font] | [font=Arial]hp[/font] | [font=Arial]inv[/font] | [font=Arial]infhp[/font] | [font=Arial]infhealth[/font] ] {} - [font=Georgia]Player gets fully healed and becomes invincible (host only)[/font]
 [b]Infinite Stamina[/b] [ [font=Arial]stamina[/font] | [font=Arial]sp[/font] | [font=Arial]infsp[/font] | [font=Arial]infstamina[/font] ] {} - [font=Georgia]Player won't consume stamina (works partial as guest)[/font]
 [b]Infinite Durability[/b] [ [font=Arial]durability[/font] | [font=Arial]infdurability[/font] | [font=Arial]infdur[/font] ] {} - [font=Georgia]Keeps player's gear and hotbar items durability at maximum (works as guest)[/font]
 [b]Infinite Energy[/b] [ [font=Arial]energy[/font] | [font=Arial]infenergy[/font] ] {} - [font=Georgia]Keeps player's gear and held item charge/energy at maximum (host only)[/font]
 [b]No Hunger[/b] [ [font=Arial]hunger[/font] | [font=Arial]nohunger[/font] | [font=Arial]eat[/font] ] {} - [font=Georgia]Player won't be hungry (works partial as guest)[/font]
-[b]No Thirst[/b] [ [font=Arial]thirst[/font] | [font=Arial]nothirst[/font] | [font=Arial]drink[/font] ] {} - [font=Georgia]Player won't be Thirsty (works partial as guest)[/font]
+[b]No Thirst[/b] [ [font=Arial]thirst[/font] | [font=Arial]nothirst[/font] | [font=Arial]drink[/font] ] {} - [font=Georgia]Player won't be thirsty (works partial as guest)[/font]
 [b]No Fatigue[/b] [ [font=Arial]fat[/font] | [font=Arial]nofat[/font] | [font=Arial]fatigue[/font] | [font=Arial]nofatigue[/font] | [font=Arial]tired[/font] ] {} - [font=Georgia]Player won't be tired (works partial as guest)[/font]
 [b]Infinite Continence[/b] [ [font=Arial]con[/font] | [font=Arial]infcon[/font] | [font=Arial]InfiniteContinence[/font] | [font=Arial]noneed[/font] | [font=Arial]constipation[/font] ] {} - [font=Georgia]Player won't need to go to the toilet (works partial as guest)[/font]
 [b]Low Continence[/b] [ [font=Arial]lowcon[/font] | [font=Arial]lowcontinence[/font] | [font=Arial]nocon[/font] | [font=Arial]nocontinence[/font] | [font=Arial]portalwc[/font] | [font=Arial]laxative[/font] ] {} - [font=Georgia]Freezes the need to go to the toilet at low value (host only)[/font]
 [b]No Radiation[/b] [ [font=Arial]rad[/font] | [font=Arial]norad[/font] | [font=Arial]radiation[/font] | [font=Arial]noradiation[/font] ] {} - [font=Georgia]Player can't receive radiation (works partial as guest)[/font]
-[b]Set Money[/b] [ [font=Arial]money[/font] ] { value } - [font=Georgia]Set money to desired value (works as guest)[/font]
-[b]Free Crafting[/b] [ [font=Arial]freecraft[/font] | [font=Arial]freecrafting[/font] | [font=Arial]crafting[/font] | [font=Arial]craft[/font] ] {} - [font=Georgia]Allows player to craft all items for free. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/font]
 [b]No Fall Damage[/b] [ [font=Arial]falldmg[/font] | [font=Arial]falldamage[/font] | [font=Arial]nofall[/font] | [font=Arial]nofalldmg[/font] | [font=Arial]nofalldamage[/font] ] {} - [font=Georgia]Prevents player from taking fall damage (host only)[/font]
+[b]Free Crafting[/b] [ [font=Arial]freecraft[/font] | [font=Arial]freecrafting[/font] | [font=Arial]crafting[/font] | [font=Arial]craft[/font] ] {} - [font=Georgia]Allows player to craft all recipes and simulates possession of all items. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/font]
+[b]Set Money[/b] [ [font=Arial]money[/font] ] { <value> } - [font=Georgia]Set money to desired value (works as guest)[/font]
 [b]Infinite Ammo[/b] [ [font=Arial]infammo[/font] | [font=Arial]ammo[/font] | [font=Arial]infiniteammo[/font] ] {} - [font=Georgia]Keeps ammo of ranged weapons replenished (works as guest)[/font]
 [b]No Recoil[/b] [ [font=Arial]norecoil[/font] | [font=Arial]recoil[/font] | [font=Arial]weaponnorecoil[/font] ] {} - [font=Georgia]Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)[/font]
 [b]No Sway[/b] [ [font=Arial]nosway[/font] | [font=Arial]sway[/font] | [font=Arial]noweaponsway[/font] ] {} - [font=Georgia]Removes weapon's sway  (works as guest)[/font]
-[b]Leyak Cooldown[/b] [ [font=Arial]leyakcd[/font] | [font=Arial]leyakcooldown[/font] | [font=Arial]cdleyak[/font] ] { minutes } - [font=Georgia]Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)[/font]
+[b]Leyak Cooldown[/b] [ [font=Arial]leyakcd[/font] | [font=Arial]leyakcooldown[/font] | [font=Arial]cdleyak[/font] ] { <minutes> } - [font=Georgia]Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)[/font]
 [b]No Clip[/b] [ [font=Arial]noclip[/font] | [font=Arial]clip[/font] | [font=Arial]ghost[/font] ] {} - [font=Georgia]Disables player's collision and makes him fly (host only)[/font]
+[b]Add Skill Experience[/b] [ [font=Arial]addxp[/font] | [font=Arial]addexp[/font] | [font=Arial]xpadd[/font] | [font=Arial]skillxp[/font] | [font=Arial]skillexp[/font] | [font=Arial]skill[/font] | [font=Arial]skillxp[/font] ] { <skill alias> <XP value> } - [font=Georgia]Adds XP to specified Skill (host only)[/font]
+[b]Remove Skill Experience[/b] [ [font=Arial]removexp[/font] | [font=Arial]removeexp[/font] | [font=Arial]resetxp[/font] | [font=Arial]resetexp[/font] | [font=Arial]resetskill[/font] | [font=Arial]resetlevel[/font] | [font=Arial]resetlvl[/font] ] { <skill alias> } - [font=Georgia]Removes All XP from specified Skill (host only)[/font]
+[b]Reset All Skills[/b] [ [font=Arial]resetallskills[/font] | [font=Arial]resetallskill[/font] | [font=Arial]resetallxp[/font] | [font=Arial]resetallexp[/font] | [font=Arial]resetalllvl[/font] ] {} - [font=Georgia]Resets all character skills! (works as guest)[/font]
 
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.
