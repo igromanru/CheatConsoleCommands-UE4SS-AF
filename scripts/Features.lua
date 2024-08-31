@@ -424,7 +424,7 @@ function LeyakCooldown()
             LastLeyakCooldown = Settings.LeyakCooldown
             aiDirector.LeyakCooldown = Settings.LeyakCooldown
             aiDirector:SetLeyakOnCooldown(1.0)
-            local cooldownInMin = Settings.LeyakCooldown * 60
+            local cooldownInMin = Settings.LeyakCooldown / 60
             local message = "Leyak's cooldown was set to " .. aiDirector.LeyakCooldown .. " (" .. cooldownInMin .. "min)"
             LogDebug(message)
             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
