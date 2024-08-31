@@ -27,6 +27,11 @@ Steam example: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Bi
 [*]Type one of the command aliases from below to trigger the command.
 [*]Most commands can be enabled and disabled by typing the same command, but commands like "money" will be executed once.
 [/list]
+[font=Verdana][size=4][b]Settings Auto Save System[/b][/size][/font]
+Since v1.4.0 the toggle state of commands will be saved to a file and restored automatically when you start the game next time.  
+It will also automatically change Leyak's cooldown to your last set value.  
+Obviously all your saved locations will be saved as well.
+
 [line]
 [font=Verdana][size=4][b]Commands[/b][/size][/font]
 Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] parameters[/i] } - [i]Description[/i]
@@ -54,6 +59,10 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Add Skill Experience[/b] [ [font=Arial]addxp[/font] | [font=Arial]addexp[/font] | [font=Arial]xpadd[/font] | [font=Arial]skillxp[/font] | [font=Arial]skillexp[/font] | [font=Arial]skill[/font] | [font=Arial]skillxp[/font] ] { <skill alias> <XP value> } - [font=Georgia]Adds XP to specified Skill (host only)[/font]
 [b]Remove Skill Experience[/b] [ [font=Arial]removexp[/font] | [font=Arial]removeexp[/font] | [font=Arial]resetxp[/font] | [font=Arial]resetexp[/font] | [font=Arial]resetskill[/font] | [font=Arial]resetlevel[/font] | [font=Arial]resetlvl[/font] ] { <skill alias> } - [font=Georgia]Removes All XP from specified Skill (host only)[/font]
 [b]Reset All Skills[/b] [ [font=Arial]resetallskills[/font] | [font=Arial]resetallskill[/font] | [font=Arial]resetallxp[/font] | [font=Arial]resetallexp[/font] | [font=Arial]resetalllvl[/font] ] {} - [font=Georgia]Resets all character skills! (works as guest)[/font]
+[b]Master Key[/b] [ [font=Arial]masterkey[/font] | [font=Arial]key[/font] | [font=Arial]keys[/font] | [font=Arial]opendoor[/font] | [font=Arial]opendoors[/font] ] {} - [font=Georgia]Allows to open all doors (host only)[/font]
+[b]List Locations[/b] [ [font=Arial]locations[/font] | [font=Arial]showloc[/font] | [font=Arial]showlocations[/font] | [font=Arial]loc[/font] | [font=Arial]locs[/font] ] {} - [font=Georgia]Shows all saved locations[/font]
+[b]Save Location[/b] [ [font=Arial]savelocation[/font] | [font=Arial]saveloc[/font] | [font=Arial]setloc[/font] | [font=Arial]wp[/font] | [font=Arial]savewp[/font] | [font=Arial]setwp[/font] | [font=Arial]waypoint[/font] | [font=Arial]setwaypoint[/font] | [font=Arial]savewaypoint[/font] ] { <name> } - [font=Georgia]Saves your current position and rotation under an assigned name[/font]
+[b]Load Location[/b] [ [font=Arial]loadlocation[/font] | [font=Arial]loadloc[/font] | [font=Arial]loadwp[/font] | [font=Arial]teleportto[/font] | [font=Arial]tp[/font] | [font=Arial]tpto[/font] | [font=Arial]loadwaypoint[/font] ] { <name> } - [font=Georgia]Teleports you to a named location that was previously saved[/font]
 
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.

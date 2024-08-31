@@ -30,3 +30,7 @@ No Clip | noclip \| clip \| ghost |  | Disables player's collision and makes him
 Add Skill Experience | addxp \| addexp \| xpadd \| skillxp \| skillexp \| skill \| skillxp | {skill alias} {XP value} | Adds XP to specified Skill (host only)
 Remove Skill Experience | removexp \| removeexp \| resetxp \| resetexp \| resetskill \| resetlevel \| resetlvl | {skill alias} | Removes All XP from specified Skill (host only)
 Reset All Skills | resetallskills \| resetallskill \| resetallxp \| resetallexp \| resetalllvl |  | Resets all character skills! (works as guest)
+Master Key | masterkey \| key \| keys \| opendoor \| opendoors |  | Allows to open all doors (host only)
+List Locations | locations \| showloc \| showlocations \| loc \| locs |  | Shows all saved locations
+Save Location | savelocation \| saveloc \| setloc \| wp \| savewp \| setwp \| waypoint \| setwaypoint \| savewaypoint | {name} | Saves your current position and rotation under an assigned name
+Load Location | loadlocation \| loadloc \| loadwp \| teleportto \| tp \| tpto \| loadwaypoint | {name} | Teleports you to a named location that was previously saved
