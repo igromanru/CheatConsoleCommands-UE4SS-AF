@@ -18,11 +18,6 @@ LogInfo("Starting mod initialization")
 require("Features")
 require("CommandsManager") -- Executes CommandsManager functions
 local SettingsManager = require("SettingsManager")
-
-if DebugMode then
-    SettingsManager.SaveToFile()
-end
-
 SettingsManager.LoadFromFile()
 
 -- Main loop
@@ -50,6 +45,7 @@ LoopAsync(250, function()
             LeyakCooldown()
         end
     end)
+    SettingsManager.AutoSaveOnChange()
     return false
 end)
 

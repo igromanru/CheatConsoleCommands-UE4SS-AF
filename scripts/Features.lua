@@ -3,9 +3,6 @@ local Settings = require("Settings")
 local AFUtils = require("AFUtils.AFUtils")
 local LinearColors = require("AFUtils.BaseUtils.LinearColors")
 
-
-
-
 local InfiniteHealthWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteHealth(myPlayer)
