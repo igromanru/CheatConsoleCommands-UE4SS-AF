@@ -682,6 +682,21 @@ function(self, OutputDevice, Parameters)
     return true
 end)
 
+-- Load Location Command
+CreateCommand({"savelocation", "saveloc", "setloc", "wp", "savewp", "setwp", "waypoint" , "setwaypoint", "savewaypoint"}, "Save Location", "Saves your current position and rotation under an assigned name",
+CreateCommandParam("name", "string", "Name of the location"),
+function(self, OutputDevice, Parameters)
+    
+    return true
+end)
+
+-- Save Location Command
+CreateCommand({"loadlocation", "loadloc", "loadwp", "teleportto", "tp", "tpto", "loadwaypoint"}, "Load Location", "Teleports you to a named location that was previously saved",
+CreateCommandParam("name", "string", "Name of the location"),
+function(self, OutputDevice, Parameters)
+    return true
+end)
+
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
     -- local executor = Executor:get()
@@ -740,6 +755,14 @@ RegisterConsoleCommandGlobalHandler("fly", function(FullCommand, Parameters, Out
     local noClip = GetCommandByAlias("No Clip")
     if noClip and noClip.Function then
         noClip.Function(noClip, OutputDevice, Parameters)
+    end
+    return true
+end)
+
+RegisterConsoleCommandGlobalHandler("teleport", function(FullCommand, Parameters, OutputDevice)
+    local loadLocation = GetCommandByAlias("Load Location")
+    if loadLocation and loadLocation.Function then
+        loadLocation.Function(loadLocation, OutputDevice, Parameters)
     end
     return true
 end)
