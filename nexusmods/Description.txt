@@ -62,7 +62,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Master Key[/b] [ [font=Arial]masterkey[/font] | [font=Arial]key[/font] | [font=Arial]keys[/font] | [font=Arial]opendoor[/font] | [font=Arial]opendoors[/font] ] {} - [font=Georgia]Allows to open all doors (host only)[/font]
 [b]List Locations[/b] [ [font=Arial]locations[/font] | [font=Arial]showloc[/font] | [font=Arial]showlocations[/font] | [font=Arial]loc[/font] | [font=Arial]locs[/font] ] {} - [font=Georgia]Shows all saved locations[/font]
 [b]Save Location[/b] [ [font=Arial]savelocation[/font] | [font=Arial]saveloc[/font] | [font=Arial]setloc[/font] | [font=Arial]wp[/font] | [font=Arial]savewp[/font] | [font=Arial]setwp[/font] | [font=Arial]waypoint[/font] | [font=Arial]setwaypoint[/font] | [font=Arial]savewaypoint[/font] ] { <name> } - [font=Georgia]Saves your current position and rotation under an assigned name[/font]
-[b]Load Location[/b] [ [font=Arial]loadlocation[/font] | [font=Arial]loadloc[/font] | [font=Arial]loadwp[/font] | [font=Arial]teleportto[/font] | [font=Arial]tp[/font] | [font=Arial]tpto[/font] | [font=Arial]loadwaypoint[/font] ] { <name> } - [font=Georgia]Teleports you to a named location that was previously saved[/font]
+[b]Load Location[/b] [ [font=Arial]loadlocation[/font] | [font=Arial]loadloc[/font] | [font=Arial]loadwp[/font] | [font=Arial]teleportto[/font] | [font=Arial]tp[/font] | [font=Arial]tpto[/font] | [font=Arial]loadwaypoint[/font] ] { <name> } - [font=Georgia]Teleports you to a named location that was previously saved (host only)[/font]
 
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.
@@ -73,7 +73,6 @@ Commands which has variables has to be used like this:
 
 [font=Verdana][size=3][b]Default Unreal Engine Commands[/b][/size][/font]
 [b]Slow motion[/b] [ slomo  ] { game_speed_multiplier } - [u]Changes game's speed (0.1 = very slow, 10.0 = 10x faster)[/u]
-[b]Teleport[/b] [ teleport ] {} - [u]Teleports player's forward[/u]
 [b]Change Size[/b] [ changesize ] { size_multiplier } - [u]Changes player's size played on the multiplier value (1.0 = default size)[/u]
 [size=2]There are some more, but I haven't tested them.[/size]
 [line]
@@ -92,7 +91,7 @@ GuiConsoleEnabled = 0[/code]
 [list]
 [*]Most features are based on debugging functions created by game developers to help them develop the game.
 [*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload/rejoin the game.
-[*]Most features work only if you host the game or in singleplayer, I'll try to find "exploits" to trick the server, but don't expect much. To make most use out of mods I recommend to host your game locally.
+[*]Most features work only if you host the game or in singleplayer, I'll try to find "exploits" to trick the server, but don't expect much. To make most use out of mods I recommend to host your own game.
 [/list]
 [font=Verdana][size=4][b]Bug Reports[/b][/size][/font]
 If you have followed the installation instructions above and are 100% sure that you have done everything correctly, but you are still having problems with the mod, please provide following information if you wish to report an issue. 
