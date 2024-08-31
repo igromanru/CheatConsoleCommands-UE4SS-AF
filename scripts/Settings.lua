@@ -22,7 +22,6 @@ end
 local Settings = {
     Version = ModVersion,
     GodMode = false,
-    Heal = false,
     InfiniteHealth = false,
     InfiniteStamina = false,
     InfiniteDurability = false,

@@ -367,9 +367,14 @@ end)
 -- Heal Command
 CreateCommand({"heal"}, "Heal", "Player gets fully healed once (host only)", nil,
 function(self, OutputDevice, Parameters)
-    Settings.Heal = true
-    WriteToConsole(OutputDevice, "Healing player")
-    return true
+    local myPlayer = AFUtils.GetMyPlayer()
+    if myPlayer then
+        WriteToConsole(OutputDevice, "Healing player")
+        AFUtils.HealAllLimbs(myPlayer)
+        AFUtils.ClientDisplayWarningMessage("All Limbs were healed", AFUtils.CriticalityLevels.Green)
+        return true
+    end
+    return false
 end)
 
 -- Infinite Health Command

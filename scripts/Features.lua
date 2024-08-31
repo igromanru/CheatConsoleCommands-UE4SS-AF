@@ -3,30 +3,8 @@ local Settings = require("Settings")
 local AFUtils = require("AFUtils.AFUtils")
 local LinearColors = require("AFUtils.BaseUtils.LinearColors")
 
----@param playerCharacter AAbiotic_PlayerCharacter_C
-local function HealAllLimbs(playerCharacter)
-    for i = 1, 6, 1 do
-        local outSuccess = {}
-        playerCharacter:Server_HealRandomLimb(100.0, outSuccess)
-    end
-    playerCharacter.CurrentHealth_Head = 68.0
-    playerCharacter.CurrentHealth_Torso = 100.0
-    playerCharacter.CurrentHealth_LeftArm= 100.0
-    playerCharacter.CurrentHealth_RightArm = 100.0
-    playerCharacter.CurrentHealth_LeftLeg = 100.0
-    playerCharacter.CurrentHealth_RightLeg = 100.0
-end
 
----@param myPlayer AAbiotic_PlayerCharacter_C
-function Heal(myPlayer)
-    if not myPlayer then return end
 
-    if Settings.Heal then
-        HealAllLimbs(myPlayer)
-        Settings.Heal = false
-        AFUtils.ClientDisplayWarningMessage("All Limbs were healed", AFUtils.CriticalityLevels.Green)
-    end
-end
 
 local InfiniteHealthWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
@@ -36,7 +14,7 @@ function InfiniteHealth(myPlayer)
     if Settings.GodMode or Settings.InfiniteHealth then
         if not myPlayer.Invincible then
             myPlayer.Invincible = true
-            HealAllLimbs(myPlayer)
+            AFUtils.HealAllLimbs(myPlayer)
             myPlayer:OnRep_CurrentHealth()
             LogDebug("Invincible: " .. tostring(myPlayer.Invincible))
             LogDebug("CurrentHealth_Head: " .. tostring(myPlayer.CurrentHealth_Head))

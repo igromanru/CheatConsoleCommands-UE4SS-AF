@@ -30,7 +30,6 @@ LoopAsync(250, function()
     ExecuteInGameThread(function() 
         local myPlayer = AFUtils.GetMyPlayer()
         if myPlayer then
-            Heal(myPlayer)
             InfiniteHealth(myPlayer)
             InfiniteStamina(myPlayer)
             InfiniteDurability(myPlayer)
