@@ -4,6 +4,7 @@ local AFUtils = require("AFUtils.AFUtils")
 local LinearColors = require("AFUtils.BaseUtils.LinearColors")
 local Settings = require("Settings")
 local Skills = require("Skills")
+local SettingsManager = require("SettingsManager")
 
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
@@ -188,12 +189,12 @@ local function CreateCommand(Aliases, CommandName, Description, Parameters, Call
         Parameters = { Parameters }
     end
 
-    LogDebug("CreateCommand: Name: " .. CommandName .. ", Aliases: " .. ArrayToString(Aliases) .. ", Description: " .. Description .. ", Parameters type: " .. type(Parameters))
-    if DebugMode and type(Parameters) == "table" then
-        for index, value in ipairs(Parameters) do
-            LogDebug(index .. ": " .. value.Name .. ", Required: " .. tostring(value.Required))
-        end
-    end
+    -- LogDebug("CreateCommand: Name: " .. CommandName .. ", Aliases: " .. ArrayToString(Aliases) .. ", Description: " .. Description .. ", Parameters type: " .. type(Parameters))
+    -- if DebugMode and type(Parameters) == "table" then
+    --     for index, value in ipairs(Parameters) do
+    --         LogDebug(index .. ": " .. value.Name .. ", Required: " .. tostring(value.Required))
+    --     end
+    -- end
     
     local commandObject = {
         Aliases = Aliases,
@@ -558,11 +559,11 @@ end)
 CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)",
 CreateCommandParam("minutes", "number", "Amount a minutes between each Leyak spawn"),
 function(self, OutputDevice, Parameters)
-    local cooldown = nil
+    local cooldownInMin = nil
     if Parameters and #Parameters > 0 then
-        cooldown = tonumber(Parameters[1])
+        cooldownInMin = tonumber(Parameters[1])
     end
-    if type(cooldown) ~= "number" then
+    if type(cooldownInMin) ~= "number" then
         local aiDirector = AFUtils.GetAIDirector()
         if aiDirector then
             WriteToConsole(OutputDevice, self.Name..": Current cooldown: " .. (aiDirector.LeyakCooldown / 60) .. " minutes")
@@ -571,22 +572,14 @@ function(self, OutputDevice, Parameters)
         return true
     end
     
-    if cooldown < 0.1 or cooldown >= 525600000 then
+    if cooldownInMin < 0.1 or cooldownInMin >= 525600000 then
         WriteErrorToConsole(OutputDevice, self.Name..": Invalid cooldown value!")
         WriteErrorToConsole(OutputDevice, self.Name..': The value must be between 0.1 and 525600000 (minutes)')
         return true
     end
 
-    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. cooldown)
-    local aiDirector = AFUtils.GetAIDirector()
-    if aiDirector then
-        aiDirector.LeyakCooldown = cooldown * 60
-        aiDirector:SetLeyakOnCooldown(1.0)
-        local message = "Leyak's cooldown was set to " .. aiDirector.LeyakCooldown .. " (" .. cooldown .. "min)"
-        LogDebug(message)
-        AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
-        AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
-    end
+    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. cooldownInMin)
+    Settings.LeyakCooldown = cooldownInMin * 60
     return true
 end)
 

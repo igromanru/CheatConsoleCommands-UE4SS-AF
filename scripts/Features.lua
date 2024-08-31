@@ -440,3 +440,20 @@ function MasterKey(myPlayer)
         AFUtils.ClientDisplayWarningMessage("Master Key deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
+
+local LastLeyakCooldown = 900 -- Default value: 15min = 900s
+function LeyakCooldown()
+    if Settings.LeyakCooldown ~= LastLeyakCooldown then
+        local aiDirector = AFUtils.GetAIDirector()
+        if aiDirector then
+            LastLeyakCooldown = Settings.LeyakCooldown
+            aiDirector.LeyakCooldown = Settings.LeyakCooldown
+            aiDirector:SetLeyakOnCooldown(1.0)
+            local cooldownInMin = Settings.LeyakCooldown * 60
+            local message = "Leyak's cooldown was set to " .. aiDirector.LeyakCooldown .. " (" .. cooldownInMin .. "min)"
+            LogDebug(message)
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+            AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
+        end
+    end
+end

@@ -17,6 +17,9 @@ IsModEnabled = true
 LogInfo("Starting mod initialization")
 require("Features")
 require("CommandsManager") -- Executes CommandsManager functions
+local SettingsManager = require("SettingsManager")
+
+SettingsManager.LoadFromFile()
 
 -- Main loop
 LoopAsync(250, function()
@@ -41,6 +44,7 @@ LoopAsync(250, function()
             NoRecoil(myPlayer)
             NoSway(myPlayer)
             MasterKey(myPlayer)
+            LeyakCooldown()
         end
     end)
     return false

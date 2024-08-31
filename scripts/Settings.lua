@@ -18,7 +18,8 @@ local Settings = {
     NoClip = false,
     NoRecoil = false,
     NoSway = false,
-    MasterKey = false
+    MasterKey = false,
+    LeyakCooldown = 900 -- 15min
 }
 
 return Settings
