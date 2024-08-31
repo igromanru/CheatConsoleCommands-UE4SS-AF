@@ -1,5 +1,5 @@
 
-local BaseUtils = require("AFUtils.BaseUtils.BaseUtils")
+require("AFUtils.BaseUtils.MathUtils")
 
 ---@class LocationStruct
 ---@field Name string
@@ -19,7 +19,7 @@ function LocationStruct(Name, Location, Rotation)
     }
 end
 
-local Settings = {
+Settings = {
     Version = ModVersion,
     GodMode = false,
     InfiniteHealth = false,
@@ -41,7 +41,8 @@ local Settings = {
     MasterKey = false,
     LeyakCooldown = 900, -- 15min
     Locations = {
-        LocationStruct("Test", FVector(100, 100, 100))
+        LocationStruct("Cafeteria", FVector(12529, 128, -15377)),
+        LocationStruct("Flathill", FVector(335956, 1294, 6203)),
     }, ---@type LocationStruct[]
 }
 

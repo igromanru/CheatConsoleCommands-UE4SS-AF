@@ -1,6 +1,6 @@
 
 local BaseUtils = require("AFUtils.BaseUtils.BaseUtils")
-local Settings = require("Settings")
+require("Settings")
 local JsonLua = require("json")
 
 local FileName = ModName .. ".json"
@@ -24,7 +24,7 @@ function SettingsManager.GetSettingsFilePath()
     if type(SettingsFilePath) == "string" and SettingsFilePath ~= "" then
         return SettingsFilePath
     end
-    LogDebug("GetSettingsPath: FIle path isn't valid, getting a new one")
+    LogDebug("GetSettingsPath: File path isn't valid, getting a new one")
 
     local modPath = GetModPath()
     if modPath then

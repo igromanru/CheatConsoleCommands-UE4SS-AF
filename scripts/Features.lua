@@ -1,5 +1,5 @@
 
-local Settings = require("Settings")
+require("Settings")
 local AFUtils = require("AFUtils.AFUtils")
 local LinearColors = require("AFUtils.BaseUtils.LinearColors")
 

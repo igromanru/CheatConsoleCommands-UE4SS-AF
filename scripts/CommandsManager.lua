@@ -2,9 +2,10 @@
 
 local AFUtils = require("AFUtils.AFUtils")
 local LinearColors = require("AFUtils.BaseUtils.LinearColors")
-local Settings = require("Settings")
-local Skills = require("Skills")
+require("Settings")
 local SettingsManager = require("SettingsManager")
+local Skills = require("Skills")
+local LocationsManager = require("LocationsManager")
 
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
@@ -682,18 +683,54 @@ function(self, OutputDevice, Parameters)
     return true
 end)
 
--- Load Location Command
-CreateCommand({"savelocation", "saveloc", "setloc", "wp", "savewp", "setwp", "waypoint" , "setwaypoint", "savewaypoint"}, "Save Location", "Saves your current position and rotation under an assigned name",
-CreateCommandParam("name", "string", "Name of the location"),
+-- List Locations Command
+CreateCommand({"locations", "showloc", "showlocations", "loc", "locs"}, "List Locations", "Shows all saved locations", nil,
 function(self, OutputDevice, Parameters)
-    
+    local locations = LocationsManager.ToStringArray()
+    WriteToConsole(OutputDevice, "Saved locations:")
+    for _, value in ipairs(locations) do
+        WriteToConsole(OutputDevice, value)
+    end
+    WriteToConsole(OutputDevice, "--------------------")
     return true
 end)
 
 -- Save Location Command
+CreateCommand({"savelocation", "saveloc", "setloc", "wp", "savewp", "setwp", "waypoint" , "setwaypoint", "savewaypoint"}, "Save Location", "Saves your current position and rotation under an assigned name",
+CreateCommandParam("name", "string", "Name of the location"),
+function(self, OutputDevice, Parameters)
+    if not Parameters or #Parameters < 1 then
+        WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+        WriteToConsole(OutputDevice, "The command requires a \"name\" paramter. e.g. 'saveloc Cafeteria'")
+        return false
+    end
+    local locationName = Parameters[1]
+    local location = LocationsManager.SaveCurrentLocation(locationName)
+    if location then
+        SettingsManager.SaveToFile()
+        WriteToConsole(OutputDevice, "Location saved: " .. LocationToString(location))
+    else
+        WriteErrorToConsole(OutputDevice, "Failed to save location")
+    end
+    OutputDevice:Log("")
+    return true
+end)
+
+-- Load Location Command
 CreateCommand({"loadlocation", "loadloc", "loadwp", "teleportto", "tp", "tpto", "loadwaypoint"}, "Load Location", "Teleports you to a named location that was previously saved",
 CreateCommandParam("name", "string", "Name of the location"),
 function(self, OutputDevice, Parameters)
+    if not Parameters or #Parameters < 1 then
+        WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+        WriteToConsole(OutputDevice, "The command requires a \"name\" paramter. e.g. 'loadloc Cafeteria'")
+        return false
+    end
+    local locationName = Parameters[1]
+    if not LocationsManager.LoadLocation(locationName) then
+        WriteErrorToConsole(OutputDevice, "Failed to load location")
+    end
+
+    OutputDevice:Log("")
     return true
 end)
 
