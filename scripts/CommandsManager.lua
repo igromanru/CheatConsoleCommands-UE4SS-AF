@@ -717,7 +717,7 @@ function(self, OutputDevice, Parameters)
 end)
 
 -- Load Location Command
-CreateCommand({"loadlocation", "loadloc", "loadwp", "teleportto", "tp", "tpto", "loadwaypoint"}, "Load Location", "Teleports you to a named location that was previously saved",
+CreateCommand({"loadlocation", "loadloc", "loadwp", "teleportto", "tp", "tpto", "loadwaypoint"}, "Load Location", "Teleports you to a named location that was previously saved (host only)",
 CreateCommandParam("name", "string", "Name of the location"),
 function(self, OutputDevice, Parameters)
     if not Parameters or #Parameters < 1 then
