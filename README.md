@@ -2,7 +2,6 @@
 
 [Official NexusMods page](https://www.nexusmods.com/abioticfactor/mods/28)
 
-
 ## Commands
 Command | Aliases | Parameters | Description
 ------- | ------- | ---------- | -----------
@@ -38,3 +37,5 @@ Load Location | loadlocation \| loadloc \| loadwp \| tp \| goto \| loadwaypoint 
 Player List | playerlist \| listplayers \| players |  | Prints a list of all players in the game. Format: (index): (player name)
 Teleport To Player | toplayer \| teleportto \| tpto | {name/index} | Teleports to a player based on their name or index (host only)
 Teleport To Me | tome \| teleporttome \| pull | {name/index} | Teleports a palyer to yourself based on their name or index (host only)
+Kill Player | smite \| kill \| execute | {name/index} | Kills a palyer based on their name or index (host only)
+Revive Player | revive \| res \| resurrect | {name/index} | Revive a dead palyer (host only)
