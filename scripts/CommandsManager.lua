@@ -927,24 +927,48 @@ CreateCommand({ "tome", "teleporttome", "pull" }, "Teleport To Me",
         return true
     end)
 
--- -- Kill Player Command
--- CreateCommand({ "smite", "kill", "execute" }, "Kill Player", "Kills a palyer based on their name or index (host only)",
---     CreateCommandParam("name/index", "string", "Name or index of a player"),
---     function(self, OutputDevice, Parameters)
---         if not Parameters or #Parameters < 1 then
---             WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
---             WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'smite igromanru'")
---             return false
---         end
---         local player, playerName = GetPlayerByNameOrIndex(OutputDevice, Parameters[1])
---         if player then
---             WriteToConsole(OutputDevice, "Trying to kill \"" .. playerName .. "\", the results might be unpredictable.")
---             player.IsDead = true
---             player:OnRep_IsDead()
---         end
+-- Kill Player Command
+CreateCommand({ "smite", "kill", "execute" }, "Kill Player", "Kills a palyer based on their name or index (host only)",
+    CreateCommandParam("name/index", "string", "Name or index of a player"),
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 1 then
+            WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+            WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'smite igromanru'")
+            return false
+        end
+        local player, playerName = GetPlayerByNameOrIndex(OutputDevice, Parameters[1])
+        if player then
+            WriteToConsole(OutputDevice, "Killing \"" .. playerName .. "\".")
+            player.IsDead = true
+            player:OnRep_IsDead()
+        end
 
---         return true
---     end)
+        return true
+    end)
+
+-- Revive Player Command
+CreateCommand({ "revive", "res", "resurrect" }, "Revive Player", "Revive a dead palyer (host only)",
+    CreateCommandParam("name/index", "string", "Name or index of a player"),
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 1 then
+            WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+            WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'smite igromanru'")
+            return false
+        end
+        local player, playerName = GetPlayerByNameOrIndex(OutputDevice, Parameters[1])
+        if player then
+            if player.IsDead then
+                WriteToConsole(OutputDevice, "Reviving \"" .. playerName .. "\".")
+                player.IsDead = false
+                player:OnRep_IsDead()
+            else
+                WriteToConsole(OutputDevice, "Player \"" .. playerName .. "\" is not dead.")
+            end
+        end
+
+        return true
+    end)
+
 
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
