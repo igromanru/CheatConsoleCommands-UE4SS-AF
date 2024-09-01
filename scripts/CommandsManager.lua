@@ -6,6 +6,7 @@ require("Settings")
 local SettingsManager = require("SettingsManager")
 local Skills = require("Skills")
 local LocationsManager = require("LocationsManager")
+local WeatherManager = require("WeatherManager")
 
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
@@ -696,9 +697,30 @@ function(self, OutputDevice, Parameters)
 end)
 
 -- Set Next Weather Command
-CreateCommand({"setweather", "nextweather", "weatherevent"}, "Weather Event", "Sets next weather event (host only)", nil,
+CreateCommand({"setweather", "nextweather", "weatherevent", "weather"}, "Weather Event", "Sets weather event for the next day (host only)", 
+CreateCommandParam("weather", "string", "", false, {"None", "Fog", "RadLeak", "Spores"}),
 function(self, OutputDevice, Parameters)
-    
+    if not Parameters or #Parameters < 1 then
+        local weatherNames = ""
+        for i, rowName in ipairs(WeatherManager.GetAllWeatherEventNames()) do
+            if i > 1 then
+                weatherNames = weatherNames .. ", "
+            end
+            weatherNames = weatherNames .. rowName
+        end
+        WriteToConsole(OutputDevice, "Posible weather events: " .. weatherNames)
+        return true
+    end
+
+    local weather = WeatherManager.SetNextWeatherEvent(Parameters[1])
+    if weather then
+        local message = "Set weather for the next day to " .. weather
+        AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+        WriteToConsole(OutputDevice, message)
+    else
+        WriteErrorToConsole(OutputDevice, "Couldn't find any weather events with name: " .. Parameters[1])
+    end
+
     return true
 end)
 
