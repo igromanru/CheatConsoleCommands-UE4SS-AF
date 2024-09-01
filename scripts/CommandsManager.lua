@@ -231,7 +231,7 @@ end
 local function GetCommandByAlias(Alias)
     if type(Alias) ~= "string" then return nil end
 
-    return GetCommand[Alias]
+    return GetCommand(Alias)
 end
 
 function PrintCommansAaMarkdownTable()
@@ -692,6 +692,13 @@ CreateCommand({"masterkey", "key", "keys", "opendoor", "opendoors"}, "Master Key
 function(self, OutputDevice, Parameters)
     Settings.MasterKey = not Settings.MasterKey
     PrintCommandState(Settings.MasterKey, self.Name, OutputDevice)
+    return true
+end)
+
+-- Set Next Weather Command
+CreateCommand({"setweather", "nextweather", "weatherevent"}, "Weather Event", "Sets next weather event (host only)", nil,
+function(self, OutputDevice, Parameters)
+    
     return true
 end)
 
