@@ -25,12 +25,16 @@ Set Money | money | {value} | Set money to desired value (works as guest)
 Infinite Ammo | infammo \| ammo \| infiniteammo |  | Keeps ammo of ranged weapons replenished (works as guest)
 No Recoil | norecoil \| recoil \| weaponnorecoil |  | Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)
 No Sway | nosway \| sway \| noweaponsway |  | Removes weapon's sway  (works as guest)
-Leyak Cooldown | leyakcd \| leyakcooldown \| cdleyak | {minutes} | Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)
+Leyak Cooldown | leyakcd \| leyakcooldown \| cdleyak | {minutes} | Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (host only)
 No Clip | noclip \| clip \| ghost |  | Disables player's collision and makes him fly (host only)
 Add Skill Experience | addxp \| addexp \| xpadd \| skillxp \| skillexp \| skill \| skillxp | {skill alias} {XP value} | Adds XP to specified Skill (host only)
 Remove Skill Experience | removexp \| removeexp \| resetxp \| resetexp \| resetskill \| resetlevel \| resetlvl | {skill alias} | Removes All XP from specified Skill (host only)
 Reset All Skills | resetallskills \| resetallskill \| resetallxp \| resetallexp \| resetalllvl |  | Resets all character skills! (works as guest)
 Master Key | masterkey \| key \| keys \| opendoor \| opendoors |  | Allows to open all doors (host only)
+Weather Event | setweather \| nextweather \| weatherevent \| weather | {weather} | Sets weather event for the next day (host only)
 List Locations | locations \| showloc \| showlocations \| loc \| locs |  | Shows all saved locations
 Save Location | savelocation \| saveloc \| setloc \| wp \| savewp \| setwp \| waypoint \| setwaypoint \| savewaypoint | {name} | Saves your current position and rotation under an assigned name
-Load Location | loadlocation \| loadloc \| loadwp \| teleportto \| tp \| tpto \| loadwaypoint | {name} | Teleports you to a named location that was previously saved
+Load Location | loadlocation \| loadloc \| loadwp \| tp \| goto \| loadwaypoint \| teleport | {name} | Teleports you to a named location that was previously saved (host only)
+Player List | playerlist \| listplayers \| players |  | Prints a list of all players in the game. Format: (index): (player name)
+Teleport To Player | toplayer \| teleportto \| tpto | {name/index} | Teleports to a player based on their name or index (host only)
+Teleport To Me | tome \| teleporttome \| pull | {name/index} | Teleports a palyer to yourself based on their name or index (host only)
