@@ -21,7 +21,7 @@ local function UpdateOrCreateLocation(Name, Location, Rotation)
     if type(Name) ~= "string" or Name == "" then return nil end
 
     local lowerName = string.lower(Name)
-    for i, location in ipairs(Settings.Locations) do
+    for _, location in ipairs(Settings.Locations) do
         if string.lower(location.Name) == lowerName then
             location.Location = Location
             location.Rotation = Rotation
@@ -33,8 +33,8 @@ local function UpdateOrCreateLocation(Name, Location, Rotation)
     table.insert(Settings.Locations, locationStruct)
     if DebugMode then
         LogDebug("New Settings.Locations:")
-        for index, value in ipairs(Settings.Locations) do
-            LogDebug(LocationToString(value))
+        for _, location in ipairs(Settings.Locations) do
+            LogDebug(LocationToString(location))
         end
     end
     return locationStruct
@@ -62,7 +62,7 @@ function LocationsManager.SaveCurrentLocation(Name)
     if myPlayer then
         local acotrLocation = myPlayer:K2_GetActorLocation()
         local acotrRotation = myPlayer:K2_GetActorRotation()
-        acotrLocation.Z = acotrLocation.Z + 20 -- Incrase Z to not get stuck
+        acotrLocation.Z = acotrLocation.Z + 20 -- Increase Z to not get stuck
         
         return UpdateOrCreateLocation(Name, acotrLocation, acotrRotation)
     end
@@ -78,7 +78,6 @@ function LocationsManager.LoadLocation(Name)
         if myPlayer then
             LogDebug("LoadLocation: TeleportPlayer to: " .. VectorToString(location.Location))
             return myPlayer:TeleportPlayer(location.Location, location.Rotation)
-            -- return myPlayer:K2_TeleportTo(location.Location, location.Rotation)
         end
     else
         LogError("LoadLocation: Couldn't find location with name: " .. Name)
@@ -90,8 +89,8 @@ end
 ---@return string[]
 function LocationsManager.ToStringArray()
     local locations = {}
-    for _, locationStruct in ipairs(Settings.Locations) do
-        table.insert(locations, LocationToString(locationStruct))
+    for _, location in ipairs(Settings.Locations) do
+        table.insert(locations, LocationToString(location))
     end
     return locations
 end

@@ -64,6 +64,18 @@ local CommandsArray = {}
 ---@type { [string]: CommandStruct }
 local CommandsMap = {}
 
+---@param Name string # Name or alias
+---@param Command CommandStruct
+local function MapCommand(Name, Command)
+    CommandsMap[string.lower(Name)] = Command
+end
+
+---@param Name string # Name or alias
+---@return CommandStruct?
+local function GetCommand(Name)
+    return CommandsMap[string.lower(Name)]
+end
+
 ---Debug logs all infomations about a CommandParam
 ---@param Param CommandParam
 ---@param Prefix string?
@@ -206,9 +218,9 @@ local function CreateCommand(Aliases, CommandName, Description, Parameters, Call
     }
 
     table.insert(CommandsArray, commandObject)
-    CommandsMap[CommandName] = commandObject
-    for i, value in ipairs(Aliases) do
-        CommandsMap[value] = commandObject
+    MapCommand(CommandName, commandObject)
+    for i, alias in ipairs(Aliases) do
+        MapCommand(alias, commandObject)
     end
 
     return commandObject
@@ -219,7 +231,7 @@ end
 local function GetCommandByAlias(Alias)
     if type(Alias) ~= "string" then return nil end
 
-    return CommandsMap[Alias]
+    return GetCommand[Alias]
 end
 
 function PrintCommansAaMarkdownTable()
@@ -712,7 +724,6 @@ function(self, OutputDevice, Parameters)
     else
         WriteErrorToConsole(OutputDevice, "Failed to save location")
     end
-    OutputDevice:Log("")
     return true
 end)
 
@@ -729,8 +740,6 @@ function(self, OutputDevice, Parameters)
     if not LocationsManager.LoadLocation(locationName) then
         WriteErrorToConsole(OutputDevice, "Failed to load location")
     end
-
-    OutputDevice:Log("")
     return true
 end)
 
@@ -751,7 +760,7 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
     -- end
 
     -- Special handling of default commands
-    if command == "god" or command == "ghost" or command == "fly" then
+    if command == "god" or command == "ghost" or command == "fly" or command == "teleport" then
         LogDebug("Default command, skip")
         return nil
     end
@@ -759,9 +768,8 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
     local commandObj = GetCommandByAlias(command)
     if commandObj then
         if commandObj.Function and context:IsA(AFUtils.GetClassAbioticGameViewportClient()) then
-            if commandObj.Function(commandObj, OutputDevice, Parameters) then
-                OutputDevice:Log("-- Ignore the message below, it comes from UE:")
-            end
+            commandObj.Function(commandObj, OutputDevice, Parameters)
+            OutputDevice:Log("-- Ignore the message below, it comes from UE:")
         end
         return true
     end
