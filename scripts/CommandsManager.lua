@@ -728,7 +728,7 @@ function(self, OutputDevice, Parameters)
 end)
 
 -- Load Location Command
-CreateCommand({"loadlocation", "loadloc", "loadwp", "teleportto", "tp", "tpto", "loadwaypoint"}, "Load Location", "Teleports you to a named location that was previously saved (host only)",
+CreateCommand({"loadlocation", "loadloc", "loadwp", "tp", "goto", "loadwaypoint", "teleport"}, "Load Location", "Teleports you to a named location that was previously saved (host only)",
 CreateCommandParam("name", "string", "Name of the location"),
 function(self, OutputDevice, Parameters)
     if not Parameters or #Parameters < 1 then
@@ -740,6 +740,45 @@ function(self, OutputDevice, Parameters)
     if not LocationsManager.LoadLocation(locationName) then
         WriteErrorToConsole(OutputDevice, "Failed to load location")
     end
+    return true
+end)
+
+-- Teleport To Player Command
+CreateCommand({"toplayer", "teleportto", "tpto"}, "Teleport To Player", "Teleports to a player based on their name or index (host only)",
+CreateCommandParam("name/index", "string", "Name or index of a player"),
+function(self, OutputDevice, Parameters)
+    if not Parameters or #Parameters < 1 then
+        WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+        WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'tpto igromanru'")
+        return false
+    end
+    
+    return true
+end)
+
+-- Teleport To Me Command
+CreateCommand({"tome", "teleporttome", "pull"}, "Teleport To Me", "Teleports a palyer to yourself based on their name or index (host only)",
+CreateCommandParam("name/index", "string", "Name or index of a player"),
+function(self, OutputDevice, Parameters)
+    if not Parameters or #Parameters < 1 then
+        WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+        WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'tome igromanru'")
+        return false
+    end
+    
+    return true
+end)
+
+-- Kill Player Command
+CreateCommand({"smite", "kill", "execute"}, "Kill Player", "Kills a palyer based on their name or index (host only)",
+CreateCommandParam("name/index", "string", "Name or index of a player"),
+function(self, OutputDevice, Parameters)
+    if not Parameters or #Parameters < 1 then
+        WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+        WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'smite igromanru'")
+        return false
+    end
+    
     return true
 end)
 
