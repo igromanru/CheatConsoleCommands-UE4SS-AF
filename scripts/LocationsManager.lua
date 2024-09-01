@@ -61,10 +61,9 @@ function LocationsManager.SaveCurrentLocation(Name)
     local myPlayer = AFUtils.GetMyPlayer()
     if myPlayer then
         local acotrLocation = myPlayer:K2_GetActorLocation()
-        local acotrRotation = myPlayer:K2_GetActorRotation()
         acotrLocation.Z = acotrLocation.Z + 20 -- Increase Z to not get stuck
         
-        return UpdateOrCreateLocation(Name, acotrLocation, acotrRotation)
+        return UpdateOrCreateLocation(Name, acotrLocation, AFUtils.GetControlRotation())
     end
     return nil
 end
@@ -77,7 +76,11 @@ function LocationsManager.LoadLocation(Name)
         local myPlayer = AFUtils.GetMyPlayer()
         if myPlayer then
             LogDebug("LoadLocation: TeleportPlayer to: " .. VectorToString(location.Location))
-            return myPlayer:TeleportPlayer(location.Location, location.Rotation)
+            local success = myPlayer:TeleportPlayer(location.Location, location.Rotation)
+            if success then
+                AFUtils.SetControlRotation(location.Rotation)
+            end
+            return success
         end
     else
         LogError("LoadLocation: Couldn't find location with name: " .. Name)
