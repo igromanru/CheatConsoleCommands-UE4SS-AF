@@ -822,6 +822,33 @@ CreateCommand({ "playerlist", "listplayers", "players" }, "Player List",
         return true
     end)
 
+---@param OutputDevice FOutputDevice
+---@param NameOrIndex string|integer
+---@return AAbiotic_PlayerCharacter_C? player, string playerName
+local function GetPlayerByNameOrIndex(OutputDevice, NameOrIndex)
+    local playerIndex = tonumber(NameOrIndex)
+    local player = nil
+    local playerName = ""
+    if playerIndex then
+        if playerIndex < 1 then
+            WriteErrorToConsole(OutputDevice, "Player's index can't be smaller than 1!")
+            return nil, ""
+        end
+        player, playerName = PlayersManager.GetPlayerByIndex(playerIndex)
+        if not player then
+            WriteErrorToConsole(OutputDevice, "Couldn't find a player with index " .. playerIndex)
+            return nil, ""
+        end
+    else
+        player, playerName = PlayersManager.GetPlayerByName(NameOrIndex)
+        if not player then
+            WriteErrorToConsole(OutputDevice, "Couldn't find a player with name \"" .. NameOrIndex .. '"')
+            return nil, ""
+        end
+    end
+    return player, playerName
+end
+
 -- Teleport To Player Command
 CreateCommand({ "toplayer", "teleportto", "tpto" }, "Teleport To Player",
     "Teleports to a player based on their name or index (host only)",
@@ -833,27 +860,7 @@ CreateCommand({ "toplayer", "teleportto", "tpto" }, "Teleport To Player",
             WriteToConsole(OutputDevice, "Use the player list command to get a list of all players in the lobby. e.g. 'players'")
             return true
         end
-        local searchName = Parameters[1]
-        local playerIndex = tonumber(searchName)
-        local player = nil
-        local playerName = ""
-        if playerIndex then
-            if playerIndex < 1 then
-                WriteErrorToConsole(OutputDevice, "Player's index can't be smaller than 1!")
-                return true
-            end
-            player, playerName = PlayersManager.GetPlayerByIndex(playerIndex)
-            if not player then
-                WriteErrorToConsole(OutputDevice, "Couldn't find a player with index " .. playerIndex)
-                return true
-            end
-        else
-            player, playerName = PlayersManager.GetPlayerByName(searchName)
-            if not player then
-                WriteErrorToConsole(OutputDevice, "Couldn't find a player with name \"" .. searchName .. '"')
-                return true
-            end
-        end
+        local player, playerName = GetPlayerByNameOrIndex(OutputDevice, Parameters[1])
         if player then
             local myPlayer = AFUtils.GetMyPlayer()
             WriteToConsole(OutputDevice, "Teleporting to \"" .. playerName .. '"')
@@ -875,27 +882,7 @@ CreateCommand({ "tome", "teleporttome", "pull" }, "Teleport To Me",
             WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'tome igromanru'")
             return false
         end
-        local searchName = Parameters[1]
-        local playerIndex = tonumber(searchName)
-        local player = nil
-        local playerName = ""
-        if playerIndex then
-            if playerIndex < 1 then
-                WriteErrorToConsole(OutputDevice, "Player's index can't be smaller than 1!")
-                return true
-            end
-            player, playerName = PlayersManager.GetPlayerByIndex(playerIndex)
-            if not player then
-                WriteErrorToConsole(OutputDevice, "Couldn't find a player with index " .. playerIndex)
-                return true
-            end
-        else
-            player, playerName = PlayersManager.GetPlayerByName(searchName)
-            if not player then
-                WriteErrorToConsole(OutputDevice, "Couldn't find a player with name \"" .. searchName .. '"')
-                return true
-            end
-        end
+        local player, playerName = GetPlayerByNameOrIndex(OutputDevice, Parameters[1])
         if player then
             local myPlayer = AFUtils.GetMyPlayer()
             WriteToConsole(OutputDevice, "Teleporting \"" .. playerName .. '" to you')
@@ -913,9 +900,14 @@ CreateCommand({ "smite", "kill", "execute" }, "Kill Player", "Kills a palyer bas
     function(self, OutputDevice, Parameters)
         if not Parameters or #Parameters < 1 then
             WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
-            WriteToConsole(OutputDevice,
-                "The command requires part of player's name or his index. e.g. 'smite igromanru'")
+            WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'smite igromanru'")
             return false
+        end
+        local player, playerName = GetPlayerByNameOrIndex(OutputDevice, Parameters[1])
+        if player then
+            WriteToConsole(OutputDevice, "Trying to kill \"" .. playerName .. "\", the results might be unpredictable.")
+            player.IsDead = true
+            player:OnRep_IsDead()
         end
 
         return true
