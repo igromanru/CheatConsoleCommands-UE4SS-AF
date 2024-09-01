@@ -848,7 +848,7 @@ CreateCommand({ "playerlist", "listplayers", "players" }, "Player List",
         if playerNames and #playerNames > 0 then
             WriteToConsole(OutputDevice, string.format("-- Players (%d) --", #playerNames))
             for index, name in ipairs(playerNames) do
-                WriteToConsole(OutputDevice, string.format("%d: %s", index, name))
+                WriteToConsole(OutputDevice, string.format(" %d: %s", index, name))
             end
         end
 
@@ -873,6 +873,7 @@ local function GetPlayerByNameOrIndex(OutputDevice, NameOrIndex)
             return nil, ""
         end
     else
+        ---@cast NameOrIndex string
         player, playerName = PlayersManager.GetPlayerByName(NameOrIndex)
         if not player then
             WriteErrorToConsole(OutputDevice, "Couldn't find a player with name \"" .. NameOrIndex .. '"')
@@ -883,8 +884,7 @@ local function GetPlayerByNameOrIndex(OutputDevice, NameOrIndex)
 end
 
 -- Teleport To Player Command
-CreateCommand({ "toplayer", "teleportto", "tpto" }, "Teleport To Player",
-    "Teleports to a player based on their name or index (host only)",
+CreateCommand({ "toplayer", "teleportto", "tpto" }, "Teleport To Player", "Teleports to a player based on their name or index (host only)",
     CreateCommandParam("name/index", "string", "Name or index of a player"),
     function(self, OutputDevice, Parameters)
         if not Parameters or #Parameters < 1 then
@@ -907,7 +907,7 @@ CreateCommand({ "toplayer", "teleportto", "tpto" }, "Teleport To Player",
 
 -- Teleport To Me Command
 CreateCommand({ "tome", "teleporttome", "pull" }, "Teleport To Me",
-    "Teleports a palyer to yourself based on their name or index (host only)",
+    "Teleports a player to yourself based on their name or index (host only)",
     CreateCommandParam("name/index", "string", "Name or index of a player"),
     function(self, OutputDevice, Parameters)
         if not Parameters or #Parameters < 1 then
@@ -928,7 +928,7 @@ CreateCommand({ "tome", "teleporttome", "pull" }, "Teleport To Me",
     end)
 
 -- Kill Player Command
-CreateCommand({ "smite", "kill", "execute" }, "Kill Player", "Kills a palyer based on their name or index (host only)",
+CreateCommand({ "smite", "kill", "execute" }, "Kill Player", "Kills a player based on their name or index (host only)",
     CreateCommandParam("name/index", "string", "Name or index of a player"),
     function(self, OutputDevice, Parameters)
         if not Parameters or #Parameters < 1 then
@@ -952,7 +952,7 @@ CreateCommand({ "revive", "res", "resurrect" }, "Revive Player", "Revive a dead 
     function(self, OutputDevice, Parameters)
         if not Parameters or #Parameters < 1 then
             WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
-            WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'smite igromanru'")
+            WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'revive igromanru'")
             return false
         end
         local player, playerName = GetPlayerByNameOrIndex(OutputDevice, Parameters[1])
