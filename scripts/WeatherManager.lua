@@ -28,7 +28,7 @@ function WeatherManager.GetWeatherBySubstring(Substr)
 
     for i, eventName in ipairs(WeatherManager.GetAllWeatherEventNames()) do
         LogDebug("GetWeatherBySubstring: EventName: " .. eventName .. ", to find: " .. Substr)
-        local startIndex, endIndex = string.find(string.lower(eventName), string.lower(Substr))
+        local startIndex = string.find(string.lower(eventName), string.lower(Substr))
         LogDebug("GetWeatherBySubstring: startIndex: " .. tostring(startIndex))
         if startIndex and startIndex > 0 then
             return eventName

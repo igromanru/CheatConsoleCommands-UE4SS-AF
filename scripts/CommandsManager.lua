@@ -1,5 +1,3 @@
-
-
 local AFUtils = require("AFUtils.AFUtils")
 local LinearColors = require("AFUtils.BaseUtils.LinearColors")
 require("Settings")
@@ -7,6 +5,7 @@ local SettingsManager = require("SettingsManager")
 local Skills = require("Skills")
 local LocationsManager = require("LocationsManager")
 local WeatherManager = require("WeatherManager")
+local PlayersManager = require("PlayersManager")
 
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
@@ -124,10 +123,10 @@ local function ArrayToString(StringArray, Seperator, WrapperLeft, WrapperRight)
 
     local result = ""
     for _, value in ipairs(StringArray) do
-       if result ~= "" then
-        result = result .. Seperator
-       end 
-       result = result .. WrapperLeft .. value .. WrapperRight
+        if result ~= "" then
+            result = result .. Seperator
+        end
+        result = result .. WrapperLeft .. value .. WrapperRight
     end
     return result
 end
@@ -209,7 +208,7 @@ local function CreateCommand(Aliases, CommandName, Description, Parameters, Call
     --         LogDebug(index .. ": " .. value.Name .. ", Required: " .. tostring(value.Required))
     --     end
     -- end
-    
+
     local commandObject = {
         Aliases = Aliases,
         Name = CommandName,
@@ -236,13 +235,13 @@ local function GetCommandByAlias(Alias)
 end
 
 function PrintCommansAaMarkdownTable()
-    
     print("------- Markdown Table -----------")
     print("Command | Aliases | Parameters | Description")
     print("------- | ------- | ---------- | -----------")
     for _, command in ipairs(CommandsArray) do
         if command.Function then
-            print(string.format("%s | %s | %s | %s", command.Name, ArrayToString(command.Aliases, " \\| "), ParametersToReadableList(command.Parameters, " ", "{", "}"), command.Description))
+            print(string.format("%s | %s | %s | %s", command.Name, ArrayToString(command.Aliases, " \\| "),
+                ParametersToReadableList(command.Parameters, " ", "{", "}"), command.Description))
         end
     end
     print("----------------------------------")
@@ -256,7 +255,8 @@ function PrintCommansAaBBCode()
             if command.Parameters and #command.Parameters > 0 then
                 parameters = string.format(" %s ", ParametersToReadableList(command.Parameters))
             end
-            print(string.format("[b]%s[/b] [ %s ] {%s} - [font=Georgia]%s[/font]", command.Name, ArrayToString(command.Aliases, " | ", "[font=Arial]", "[/font]"), parameters, command.Description))
+            print(string.format("[b]%s[/b] [ %s ] {%s} - [font=Georgia]%s[/font]", command.Name,
+                ArrayToString(command.Aliases, " | ", "[font=Arial]", "[/font]"), parameters, command.Description))
         end
     end
     print("----------------------------------")
@@ -337,479 +337,589 @@ local function WriteCommandToConsole(OutputDevice, Command)
 end
 
 -- Help Command
-CreateCommand("help", "Help", "Prints a list of all commands or info about a single one", CreateCommandParam("command alias", "string", "Shows help for the specified command based on its alias."),
-function (self, OutputDevice, Parameters)
-    local command = nil ---@type CommandStruct?
-    if Parameters and #Parameters > 0 then
-        command = GetCommandByAlias(Parameters[1])
-    end
-    if  command then
-        WriteCommandToConsole(OutputDevice, command)
-    else
-        if #Parameters > 0 then
-            WriteToConsole(OutputDevice, "There is no command with the alias \"" .. Parameters[1] .. "\"")
+CreateCommand("help", "Help", "Prints a list of all commands or info about a single one",
+    CreateCommandParam("command alias", "string", "Shows help for the specified command based on its alias."),
+    function(self, OutputDevice, Parameters)
+        local command = nil ---@type CommandStruct?
+        if Parameters and #Parameters > 0 then
+            command = GetCommandByAlias(Parameters[1])
+        end
+        if command then
+            WriteCommandToConsole(OutputDevice, command)
         else
-            WriteToConsole(OutputDevice, ModName .. " list:")
-            for _, command in ipairs(CommandsArray) do
-                if command.Function then
-                    WriteCommandToConsole(OutputDevice, command)
+            if #Parameters > 0 then
+                WriteToConsole(OutputDevice, "There is no command with the alias \"" .. Parameters[1] .. "\"")
+            else
+                WriteToConsole(OutputDevice, ModName .. " list:")
+                for _, command in ipairs(CommandsArray) do
+                    if command.Function then
+                        WriteCommandToConsole(OutputDevice, command)
+                    end
                 end
             end
         end
-    end
 
-    return true
-end)
+        return true
+    end)
 
 -- -- God Mode Command
-CreateCommand({"god", "godmode"}, "God Mode", "Activates all health, stamina and status related features at once. (You will have to disable god mode to be able to toggle them seperatly)", nil,
-function(self, OutputDevice, Parameters)
-    Settings.GodMode = not Settings.GodMode
-    PrintCommandState(Settings.GodMode, self.Name, OutputDevice)
-    if Settings.GodMode then
-        Settings.InfiniteHealth = false
-        Settings.InfiniteStamina = false
-        Settings.NoHunger = false
-        Settings.NoThirst = false
-        Settings.NoFatigue = false
-        Settings.InfiniteContinence = false
-        Settings.NoRadiation = false
-    end
-    return true
-end)
+CreateCommand({ "god", "godmode" }, "God Mode",
+    "Activates all health, stamina and status related features at once. (You will have to disable god mode to be able to toggle them seperatly)",
+    nil,
+    function(self, OutputDevice, Parameters)
+        Settings.GodMode = not Settings.GodMode
+        PrintCommandState(Settings.GodMode, self.Name, OutputDevice)
+        if Settings.GodMode then
+            Settings.InfiniteHealth = false
+            Settings.InfiniteStamina = false
+            Settings.NoHunger = false
+            Settings.NoThirst = false
+            Settings.NoFatigue = false
+            Settings.InfiniteContinence = false
+            Settings.NoRadiation = false
+        end
+        return true
+    end)
 
 -- Heal Command
-CreateCommand({"heal"}, "Heal", "Player gets fully healed once (host only)", nil,
-function(self, OutputDevice, Parameters)
-    local myPlayer = AFUtils.GetMyPlayer()
-    if myPlayer then
-        WriteToConsole(OutputDevice, "Healing player")
-        AFUtils.HealAllLimbs(myPlayer)
-        AFUtils.ClientDisplayWarningMessage("All Limbs were healed", AFUtils.CriticalityLevels.Green)
-        return true
-    end
-    return false
-end)
-
--- Infinite Health Command
-CreateCommand({"health", "hp", "inv", "infhp", "infhealth"}, "Infinite Health", "Player gets fully healed and becomes invincible (host only)", nil,
-function (self, OutputDevice, Parameters)
-    if Settings.GodMode then
-        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
-        return true
-    end
-    Settings.InfiniteHealth = not Settings.InfiniteHealth
-    PrintCommandState(Settings.InfiniteHealth, self.Name, OutputDevice)
-    return true
-end)
-
--- Infinite Stamina Command
-CreateCommand({"stamina", "sp", "infsp", "infstamina"}, "Infinite Stamina", "Player won't consume stamina (works partial as guest)", nil,
-function (self, OutputDevice, Parameters)
-    if Settings.GodMode then
-        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
-        return true
-    end
-    Settings.InfiniteStamina = not Settings.InfiniteStamina
-    PrintCommandState(Settings.InfiniteStamina, self.Name, OutputDevice)
-    return true
-end)
-
--- Infinite Durability Command
-CreateCommand({"durability", "infdurability", "infdur"}, "Infinite Durability", "Keeps player's gear and hotbar items durability at maximum (works as guest)", nil,
-function (self, OutputDevice, Parameters)
-    Settings.InfiniteDurability = not Settings.InfiniteDurability
-    PrintCommandState(Settings.InfiniteDurability, self.Name, OutputDevice)
-    return true
-end)
-
--- Infinite Energy Command
-CreateCommand({"energy", "infenergy"}, "Infinite Energy", "Keeps player's gear and held item charge/energy at maximum (host only)", nil,
-function (self, OutputDevice, Parameters)
-    Settings.InfiniteEnergy = not Settings.InfiniteEnergy
-    PrintCommandState(Settings.InfiniteEnergy, self.Name, OutputDevice)
-    return true
-end)
-
--- NoHunger Command
-CreateCommand({"hunger", "nohunger", "eat"}, "No Hunger", "Player won't be hungry (works partial as guest)", nil,
-function (self, OutputDevice, Parameters)
-    if Settings.GodMode then
-        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
-        return true
-    end
-    Settings.NoHunger = not Settings.NoHunger
-    PrintCommandState(Settings.NoHunger, self.Name, OutputDevice)
-    return true
-end)
-
--- No Thirst Command
-CreateCommand({"thirst", "nothirst", "drink"}, "No Thirst", "Player won't be thirsty (works partial as guest)", nil,
-function (self, OutputDevice, Parameters)
-    if Settings.GodMode then
-        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
-        return true
-    end
-    Settings.NoThirst = not Settings.NoThirst
-    PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
-    return true
-end)
-
--- No Fatigue Command
-CreateCommand({"fat", "nofat", "fatigue", "nofatigue", "tired"}, "No Fatigue", "Player won't be tired (works partial as guest)", nil,
-function(self, OutputDevice, Parameters)
-    if Settings.GodMode then
-        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
-        return true
-    end
-    Settings.NoFatigue = not Settings.NoFatigue
-    PrintCommandState(Settings.NoFatigue, self.Name, OutputDevice)
-    return true
-end)
-
--- Infinite Continence Command
-CreateCommand({"con", "infcon", "InfiniteContinence", "noneed", "constipation"}, "Infinite Continence", "Player won't need to go to the toilet (works partial as guest)", nil,
-function(self, OutputDevice, Parameters)
-    if Settings.GodMode then
-        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
-        return true
-    end
-    Settings.InfiniteContinence = not Settings.InfiniteContinence
-    PrintCommandState(Settings.InfiniteContinence, self.Name, OutputDevice)
-    return true
-end)
-
--- Low Continence Command
-CreateCommand({"lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", "laxative"}, "Low Continence", "Freezes the need to go to the toilet at low value (host only)", nil,
-function(self, OutputDevice, Parameters)
-    Settings.LowContinence = not Settings.LowContinence
-    PrintCommandState(Settings.LowContinence, self.Name, OutputDevice)
-    return true
-end)
-
--- No Radiation Command
-CreateCommand({"rad", "norad", "radiation", "noradiation"}, "No Radiation", "Player can't receive radiation (works partial as guest)", nil,
-function(self, OutputDevice, Parameters)
-    if Settings.GodMode then
-        WriteToConsole(OutputDevice, self.Name ..  " can't be activated while God Mode is enabled!")
-        return true
-    end
-    Settings.NoRadiation = not Settings.NoRadiation
-    PrintCommandState(Settings.NoRadiation, self.Name, OutputDevice)
-    return true
-end)
-
--- No Fall Damage Command
-CreateCommand({"falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage"}, "No Fall Damage", "Prevents player from taking fall damage (host only)", nil,
-function(self, OutputDevice, Parameters)
-    Settings.NoFallDamage = not Settings.NoFallDamage
-    PrintCommandState(Settings.NoFallDamage, self.Name, OutputDevice)
-    return true
-end)
-
--- FreeCrafting Command
-CreateCommand({"freecraft", "freecrafting", "crafting", "craft"}, "Free Crafting", "Allows player to craft all recipes and simulates possession of all items. (Warning: You may need to restart the game to deactivate it completely!) (host only)", nil,
-function(self, OutputDevice, Parameters)
-    Settings.FreeCrafting = not Settings.FreeCrafting
-    PrintCommandState(Settings.FreeCrafting, self.Name, OutputDevice)
-    return true
-end)
-
--- Set Money Command
-CreateCommand({"money"}, "Set Money", "Set money to desired value (works as guest)", CreateCommandParam("value", "number", "Money value to set"),
-function(self, OutputDevice, Parameters)
-    local moneyValue = nil
-    if Parameters and #Parameters > 0 then
-        moneyValue = tonumber(Parameters[1])
-    end
-    if type(moneyValue) ~= "number" then
+CreateCommand({ "heal" }, "Heal", "Player gets fully healed once (host only)", nil,
+    function(self, OutputDevice, Parameters)
         local myPlayer = AFUtils.GetMyPlayer()
         if myPlayer then
-            WriteToConsole(OutputDevice, self.Name..": Current money value: " .. myPlayer.CurrentMoney)
+            WriteToConsole(OutputDevice, "Healing player")
+            AFUtils.HealAllLimbs(myPlayer)
+            AFUtils.ClientDisplayWarningMessage("All Limbs were healed", AFUtils.CriticalityLevels.Green)
+            return true
+        end
+        return false
+    end)
+
+-- Infinite Health Command
+CreateCommand({ "health", "hp", "inv", "infhp", "infhealth" }, "Infinite Health",
+    "Player gets fully healed and becomes invincible (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        if Settings.GodMode then
+            WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
+            return true
+        end
+        Settings.InfiniteHealth = not Settings.InfiniteHealth
+        PrintCommandState(Settings.InfiniteHealth, self.Name, OutputDevice)
+        return true
+    end)
+
+-- Infinite Stamina Command
+CreateCommand({ "stamina", "sp", "infsp", "infstamina" }, "Infinite Stamina",
+    "Player won't consume stamina (works partial as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        if Settings.GodMode then
+            WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
+            return true
+        end
+        Settings.InfiniteStamina = not Settings.InfiniteStamina
+        PrintCommandState(Settings.InfiniteStamina, self.Name, OutputDevice)
+        return true
+    end)
+
+-- Infinite Durability Command
+CreateCommand({ "durability", "infdurability", "infdur" }, "Infinite Durability",
+    "Keeps player's gear and hotbar items durability at maximum (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.InfiniteDurability = not Settings.InfiniteDurability
+        PrintCommandState(Settings.InfiniteDurability, self.Name, OutputDevice)
+        return true
+    end)
+
+-- Infinite Energy Command
+CreateCommand({ "energy", "infenergy" }, "Infinite Energy",
+    "Keeps player's gear and held item charge/energy at maximum (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.InfiniteEnergy = not Settings.InfiniteEnergy
+        PrintCommandState(Settings.InfiniteEnergy, self.Name, OutputDevice)
+        return true
+    end)
+
+-- NoHunger Command
+CreateCommand({ "hunger", "nohunger", "eat" }, "No Hunger", "Player won't be hungry (works partial as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        if Settings.GodMode then
+            WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
+            return true
+        end
+        Settings.NoHunger = not Settings.NoHunger
+        PrintCommandState(Settings.NoHunger, self.Name, OutputDevice)
+        return true
+    end)
+
+-- No Thirst Command
+CreateCommand({ "thirst", "nothirst", "drink" }, "No Thirst", "Player won't be thirsty (works partial as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        if Settings.GodMode then
+            WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
+            return true
+        end
+        Settings.NoThirst = not Settings.NoThirst
+        PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
+        return true
+    end)
+
+-- No Fatigue Command
+CreateCommand({ "fat", "nofat", "fatigue", "nofatigue", "tired" }, "No Fatigue",
+    "Player won't be tired (works partial as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        if Settings.GodMode then
+            WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
+            return true
+        end
+        Settings.NoFatigue = not Settings.NoFatigue
+        PrintCommandState(Settings.NoFatigue, self.Name, OutputDevice)
+        return true
+    end)
+
+-- Infinite Continence Command
+CreateCommand({ "con", "infcon", "InfiniteContinence", "noneed", "constipation" }, "Infinite Continence",
+    "Player won't need to go to the toilet (works partial as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        if Settings.GodMode then
+            WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
+            return true
+        end
+        Settings.InfiniteContinence = not Settings.InfiniteContinence
+        PrintCommandState(Settings.InfiniteContinence, self.Name, OutputDevice)
+        return true
+    end)
+
+-- Low Continence Command
+CreateCommand({ "lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", "laxative" }, "Low Continence",
+    "Freezes the need to go to the toilet at low value (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.LowContinence = not Settings.LowContinence
+        PrintCommandState(Settings.LowContinence, self.Name, OutputDevice)
+        return true
+    end)
+
+-- No Radiation Command
+CreateCommand({ "rad", "norad", "radiation", "noradiation" }, "No Radiation",
+    "Player can't receive radiation (works partial as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        if Settings.GodMode then
+            WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
+            return true
+        end
+        Settings.NoRadiation = not Settings.NoRadiation
+        PrintCommandState(Settings.NoRadiation, self.Name, OutputDevice)
+        return true
+    end)
+
+-- No Fall Damage Command
+CreateCommand({ "falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage" }, "No Fall Damage",
+    "Prevents player from taking fall damage (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.NoFallDamage = not Settings.NoFallDamage
+        PrintCommandState(Settings.NoFallDamage, self.Name, OutputDevice)
+        return true
+    end)
+
+-- FreeCrafting Command
+CreateCommand({ "freecraft", "freecrafting", "crafting", "craft" }, "Free Crafting",
+    "Allows player to craft all recipes and simulates possession of all items. (Warning: You may need to restart the game to deactivate it completely!) (host only)",
+    nil,
+    function(self, OutputDevice, Parameters)
+        Settings.FreeCrafting = not Settings.FreeCrafting
+        PrintCommandState(Settings.FreeCrafting, self.Name, OutputDevice)
+        return true
+    end)
+
+-- Set Money Command
+CreateCommand({ "money" }, "Set Money", "Set money to desired value (works as guest)",
+    CreateCommandParam("value", "number", "Money value to set"),
+    function(self, OutputDevice, Parameters)
+        local moneyValue = nil
+        if Parameters and #Parameters > 0 then
+            moneyValue = tonumber(Parameters[1])
+        end
+        if type(moneyValue) ~= "number" then
+            local myPlayer = AFUtils.GetMyPlayer()
+            if myPlayer then
+                WriteToConsole(OutputDevice, self.Name .. ": Current money value: " .. myPlayer.CurrentMoney)
+            else
+                WriteToConsole(OutputDevice, "Error: Player character not found. Are you ingame?")
+            end
+            WriteToConsole(OutputDevice, self.Name .. ': To change it write: "money (value here)"')
+            return true
+        end
+        if moneyValue < 0 or moneyValue >= 2147483647 then
+            WriteToConsole(OutputDevice, self.Name .. ": Invalid money value!")
+            WriteToConsole(OutputDevice, self.Name .. ': The value must be between 0 and 2147483647')
+            return true
+        end
+        WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. moneyValue)
+        local myPlayer = AFUtils.GetMyPlayer()
+        if myPlayer then
+            myPlayer:Request_ModifyMoney(moneyValue - myPlayer.CurrentMoney)
+            myPlayer.CurrentMoney = moneyValue
+            LogDebug("CurrentMoney: " .. tostring(myPlayer.CurrentMoney))
+            AFUtils.ClientDisplayWarningMessage("Money set to " .. myPlayer.CurrentMoney, AFUtils.CriticalityLevels
+            .Green)
         else
             WriteToConsole(OutputDevice, "Error: Player character not found. Are you ingame?")
         end
-        WriteToConsole(OutputDevice, self.Name..': To change it write: "money (value here)"')
         return true
-    end
-    if moneyValue < 0 or moneyValue >= 2147483647 then
-        WriteToConsole(OutputDevice, self.Name..": Invalid money value!")
-        WriteToConsole(OutputDevice, self.Name..': The value must be between 0 and 2147483647')
-        return true
-    end
-    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. moneyValue)
-    local myPlayer = AFUtils.GetMyPlayer()
-    if myPlayer then
-        myPlayer:Request_ModifyMoney(moneyValue - myPlayer.CurrentMoney)
-        myPlayer.CurrentMoney = moneyValue 
-        LogDebug("CurrentMoney: " .. tostring(myPlayer.CurrentMoney))
-        AFUtils.ClientDisplayWarningMessage("Money set to " .. myPlayer.CurrentMoney, AFUtils.CriticalityLevels.Green)
-    else
-        WriteToConsole(OutputDevice, "Error: Player character not found. Are you ingame?")
-    end
-    return true
-end)
+    end)
 
 -- Infinite Ammo Command
-CreateCommand({"infammo", "ammo", "infiniteammo"}, "Infinite Ammo", "Keeps ammo of ranged weapons replenished (works as guest)", nil,
-function(self, OutputDevice, Parameters)
-    Settings.InfiniteAmmo = not Settings.InfiniteAmmo
-    PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
-    return true
-end)
+CreateCommand({ "infammo", "ammo", "infiniteammo" }, "Infinite Ammo",
+    "Keeps ammo of ranged weapons replenished (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.InfiniteAmmo = not Settings.InfiniteAmmo
+        PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
+        return true
+    end)
 
 -- No Recoil Command
-CreateCommand({"norecoil", "recoil", "weaponnorecoil"}, "No Recoil", "Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)", nil,
-function(self, OutputDevice, Parameters)
-    Settings.NoRecoil = not Settings.NoRecoil
-    PrintCommandState(Settings.NoRecoil, self.Name, OutputDevice)
-    return true
-end)
+CreateCommand({ "norecoil", "recoil", "weaponnorecoil" }, "No Recoil",
+    "Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.NoRecoil = not Settings.NoRecoil
+        PrintCommandState(Settings.NoRecoil, self.Name, OutputDevice)
+        return true
+    end)
 
 -- No Sway Command
-CreateCommand({"nosway", "sway", "noweaponsway"}, "No Sway", "Removes weapon's sway  (works as guest)", nil,
-function(self, OutputDevice, Parameters)
-    Settings.NoSway = not Settings.NoSway
-    PrintCommandState(Settings.NoSway, self.Name, OutputDevice)
-    return true
-end)
+CreateCommand({ "nosway", "sway", "noweaponsway" }, "No Sway", "Removes weapon's sway  (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.NoSway = not Settings.NoSway
+        PrintCommandState(Settings.NoSway, self.Name, OutputDevice)
+        return true
+    end)
 
 -- Set Leyak Cooldown Command
-CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (host only)",
-CreateCommandParam("minutes", "number", "Amount a minutes between each Leyak spawn"),
-function(self, OutputDevice, Parameters)
-    local cooldownInMin = nil
-    if Parameters and #Parameters > 0 then
-        cooldownInMin = tonumber(Parameters[1])
-    end
-    if type(cooldownInMin) ~= "number" then
-        local aiDirector = AFUtils.GetAIDirector()
-        if aiDirector then
-            WriteToConsole(OutputDevice, self.Name..": Current cooldown: " .. (aiDirector.LeyakCooldown / 60) .. " minutes")
+CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
+    "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (host only)",
+    CreateCommandParam("minutes", "number", "Amount a minutes between each Leyak spawn"),
+    function(self, OutputDevice, Parameters)
+        local cooldownInMin = nil
+        if Parameters and #Parameters > 0 then
+            cooldownInMin = tonumber(Parameters[1])
         end
-        WriteToConsole(OutputDevice, self.Name..': To change it write: "leyakcd (cooldown value in minutes here)"')
-        return true
-    end
-    
-    if cooldownInMin < 0.1 or cooldownInMin >= 525600000 then
-        WriteErrorToConsole(OutputDevice, self.Name..": Invalid cooldown value!")
-        WriteErrorToConsole(OutputDevice, self.Name..': The value must be between 0.1 and 525600000 (minutes)')
-        return true
-    end
+        if type(cooldownInMin) ~= "number" then
+            local aiDirector = AFUtils.GetAIDirector()
+            if aiDirector then
+                WriteToConsole(OutputDevice,
+                    self.Name .. ": Current cooldown: " .. (aiDirector.LeyakCooldown / 60) .. " minutes")
+            end
+            WriteToConsole(OutputDevice, self.Name .. ': To change it write: "leyakcd (cooldown value in minutes here)"')
+            return true
+        end
 
-    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. cooldownInMin)
-    Settings.LeyakCooldown = cooldownInMin * 60
-    return true
-end)
+        if cooldownInMin < 0.1 or cooldownInMin >= 525600000 then
+            WriteErrorToConsole(OutputDevice, self.Name .. ": Invalid cooldown value!")
+            WriteErrorToConsole(OutputDevice, self.Name .. ': The value must be between 0.1 and 525600000 (minutes)')
+            return true
+        end
+
+        WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. cooldownInMin)
+        Settings.LeyakCooldown = cooldownInMin * 60
+        return true
+    end)
 
 -- No Clip Command
-CreateCommand({"noclip", "clip", "ghost"}, "No Clip", "Disables player's collision and makes him fly (host only)", nil,
-function(self, OutputDevice, Parameters)
-    Settings.NoClip = not Settings.NoClip
-    PrintCommandState(Settings.NoClip, self.Name, OutputDevice)
-    return true
-end)
+CreateCommand({ "noclip", "clip", "ghost" }, "No Clip", "Disables player's collision and makes him fly (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.NoClip = not Settings.NoClip
+        PrintCommandState(Settings.NoClip, self.Name, OutputDevice)
+        return true
+    end)
 
 -- Add Skill Experience
-CreateCommand({"addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "skillxp"}, "Add Skill Experience", "Adds XP to specified Skill (host only)", 
-{ CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()), CreateCommandParam("XP value", "number", "Amount of XP added to the skill.") },
-function(self, OutputDevice, Parameters)
-    local skill = nil ---@type SkillStruct?
-    local xpToAdd = nil ---@type integer?
-    if #Parameters > 0 then
-        skill = Skills.GetSkillByAlias(Parameters[1])
-    end
-    if #Parameters > 1 then
-        xpToAdd = tonumber(Parameters[2])
-    end
-    if not skill then
-        WriteErrorToConsole(OutputDevice, 'Invalid skill alias. Use command "help addxp" to see all valid skill parameters')
-        return false
-    end
-    if xpToAdd then
-        if Skills.AddXp(skill.Id, xpToAdd) then
-            local message = tostring(xpToAdd) .. " XP added to " .. skill.Name
-            AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
-            WriteToConsole(OutputDevice, message)
-        else
-            WriteErrorToConsole(OutputDevice, "Failed to add " .. tostring(xpToAdd) .. " XP to \"" .. skill.Name .. '"')
+CreateCommand({ "addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "skillxp" }, "Add Skill Experience",
+    "Adds XP to specified Skill (host only)",
+    { CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()), CreateCommandParam(
+    "XP value", "number", "Amount of XP added to the skill.") },
+    function(self, OutputDevice, Parameters)
+        local skill = nil ---@type SkillStruct?
+        local xpToAdd = nil ---@type integer?
+        if #Parameters > 0 then
+            skill = Skills.GetSkillByAlias(Parameters[1])
+        end
+        if #Parameters > 1 then
+            xpToAdd = tonumber(Parameters[2])
+        end
+        if not skill then
+            WriteErrorToConsole(OutputDevice,
+                'Invalid skill alias. Use command "help addxp" to see all valid skill parameters')
             return false
         end
-    else
-        local skillStruct = Skills.GetCharacterSkillStructById(skill.Id)
-        if skillStruct then
-            WriteToConsole(OutputDevice, "Skill: " .. skill.Name .. ", Current value: " .. math.ceil(skillStruct.CurrentSkillXP_20_8F7934CD4A4542F036AE5C9649362556))
+        if xpToAdd then
+            if Skills.AddXp(skill.Id, xpToAdd) then
+                local message = tostring(xpToAdd) .. " XP added to " .. skill.Name
+                AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+                WriteToConsole(OutputDevice, message)
+            else
+                WriteErrorToConsole(OutputDevice,
+                    "Failed to add " .. tostring(xpToAdd) .. " XP to \"" .. skill.Name .. '"')
+                return false
+            end
         else
-            WriteErrorToConsole(OutputDevice, "Couldn't get values for Character Skill: " .. skill.Id)
-            return false
+            local skillStruct = Skills.GetCharacterSkillStructById(skill.Id)
+            if skillStruct then
+                WriteToConsole(OutputDevice,
+                    "Skill: " ..
+                    skill.Name ..
+                    ", Current value: " .. math.ceil(skillStruct.CurrentSkillXP_20_8F7934CD4A4542F036AE5C9649362556))
+            else
+                WriteErrorToConsole(OutputDevice, "Couldn't get values for Character Skill: " .. skill.Id)
+                return false
+            end
         end
-    end
-    
-    return true
-end)
+
+        return true
+    end)
 
 -- Remove All Skill Experience
-CreateCommand({"removexp", "removeexp", "resetxp", "resetexp", "resetskill", "resetlevel", "resetlvl"}, "Remove Skill Experience", "Removes All XP from specified Skill (host only)", 
-CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()),
-function(self, OutputDevice, Parameters)
-    local skill = nil ---@type SkillStruct?
-    if #Parameters > 0 then
-        skill = Skills.GetSkillByAlias(Parameters[1])
-    end
-    if not skill then
-        WriteErrorToConsole(OutputDevice, 'Invalid skill alias. Use command "help removexp" to see all valid skill parameters')
+CreateCommand({ "removexp", "removeexp", "resetxp", "resetexp", "resetskill", "resetlevel", "resetlvl" },
+    "Remove Skill Experience", "Removes All XP from specified Skill (host only)",
+    CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()),
+    function(self, OutputDevice, Parameters)
+        local skill = nil ---@type SkillStruct?
+        if #Parameters > 0 then
+            skill = Skills.GetSkillByAlias(Parameters[1])
+        end
+        if not skill then
+            WriteErrorToConsole(OutputDevice,
+                'Invalid skill alias. Use command "help removexp" to see all valid skill parameters')
+            return false
+        end
+        if Skills.RemoveXp(skill.Id) then
+            local message = "Removed all XP from " .. skill.Name
+            AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
+            WriteToConsole(OutputDevice, message)
+            return true
+        else
+            WriteErrorToConsole(OutputDevice, "Couldn't find character progress component")
+        end
+
         return false
-    end
-    if Skills.RemoveXp(skill.Id) then
-        local message = "Removed all XP from " .. skill.Name
-        AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
-        WriteToConsole(OutputDevice, message)
-        return true
-    else
-        WriteErrorToConsole(OutputDevice, "Couldn't find character progress component")
-    end
-    
-    return false
-end)
+    end)
 
 -- Reset All Skills
-CreateCommand({"resetallskills", "resetallskill", "resetallxp", "resetallexp", "resetalllvl"}, "Reset All Skills", "Resets all character skills! (works as guest)", nil,
-function(self, OutputDevice, Parameters)
-    local progressionComponen = AFUtils.GetMyCharacterProgressionComponent()
-    if progressionComponen then
-        progressionComponen:Request_ResetAllSkills()
-        local message = "All skills were reset"
-        AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
-        WriteToConsole(OutputDevice, message)
-        return true
-    else
-        WriteErrorToConsole(OutputDevice, "Failed to get character progress component. Are you ingame?")
-    end
-    return false
-end)
+CreateCommand({ "resetallskills", "resetallskill", "resetallxp", "resetallexp", "resetalllvl" }, "Reset All Skills",
+    "Resets all character skills! (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        local progressionComponen = AFUtils.GetMyCharacterProgressionComponent()
+        if progressionComponen then
+            progressionComponen:Request_ResetAllSkills()
+            local message = "All skills were reset"
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
+            WriteToConsole(OutputDevice, message)
+            return true
+        else
+            WriteErrorToConsole(OutputDevice, "Failed to get character progress component. Are you ingame?")
+        end
+        return false
+    end)
 
 -- Master Key Command
-CreateCommand({"masterkey", "key", "keys", "opendoor", "opendoors"}, "Master Key", "Allows to open all doors (host only)", nil,
-function(self, OutputDevice, Parameters)
-    Settings.MasterKey = not Settings.MasterKey
-    PrintCommandState(Settings.MasterKey, self.Name, OutputDevice)
-    return true
-end)
+CreateCommand({ "masterkey", "key", "keys", "opendoor", "opendoors" }, "Master Key",
+    "Allows to open all doors (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.MasterKey = not Settings.MasterKey
+        PrintCommandState(Settings.MasterKey, self.Name, OutputDevice)
+        return true
+    end)
 
 -- Set Next Weather Command
-CreateCommand({"setweather", "nextweather", "weatherevent", "weather"}, "Weather Event", "Sets weather event for the next day (host only)", 
-CreateCommandParam("weather", "string", "", false, {"None", "Fog", "RadLeak", "Spores"}),
-function(self, OutputDevice, Parameters)
-    if not Parameters or #Parameters < 1 then
-        local weatherNames = ""
-        for i, rowName in ipairs(WeatherManager.GetAllWeatherEventNames()) do
-            if i > 1 then
-                weatherNames = weatherNames .. ", "
+CreateCommand({ "setweather", "nextweather", "weatherevent", "weather" }, "Weather Event",
+    "Sets weather event for the next day (host only)",
+    CreateCommandParam("weather", "string", "", false, { "None", "Fog", "RadLeak", "Spores" }),
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 1 then
+            local weatherNames = ""
+            for i, rowName in ipairs(WeatherManager.GetAllWeatherEventNames()) do
+                if i > 1 then
+                    weatherNames = weatherNames .. ", "
+                end
+                weatherNames = weatherNames .. rowName
             end
-            weatherNames = weatherNames .. rowName
+            WriteToConsole(OutputDevice, "Posible weather events: " .. weatherNames)
+            return true
         end
-        WriteToConsole(OutputDevice, "Posible weather events: " .. weatherNames)
+
+        local weather = WeatherManager.SetNextWeatherEvent(Parameters[1])
+        if weather then
+            local message = "Set weather for the next day to " .. weather
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+            WriteToConsole(OutputDevice, message)
+        else
+            WriteErrorToConsole(OutputDevice, "Couldn't find any weather events with name: " .. Parameters[1])
+        end
+
         return true
-    end
-
-    local weather = WeatherManager.SetNextWeatherEvent(Parameters[1])
-    if weather then
-        local message = "Set weather for the next day to " .. weather
-        AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
-        WriteToConsole(OutputDevice, message)
-    else
-        WriteErrorToConsole(OutputDevice, "Couldn't find any weather events with name: " .. Parameters[1])
-    end
-
-    return true
-end)
+    end)
 
 -- List Locations Command
-CreateCommand({"locations", "showloc", "showlocations", "loc", "locs"}, "List Locations", "Shows all saved locations", nil,
-function(self, OutputDevice, Parameters)
-    local locations = LocationsManager.ToStringArray()
-    WriteToConsole(OutputDevice, "Saved locations:")
-    for _, value in ipairs(locations) do
-        WriteToConsole(OutputDevice, value)
-    end
-    WriteToConsole(OutputDevice, "--------------------")
-    return true
-end)
+CreateCommand({ "locations", "showloc", "showlocations", "loc", "locs" }, "List Locations", "Shows all saved locations",
+    nil,
+    function(self, OutputDevice, Parameters)
+        local locations = LocationsManager.ToStringArray()
+        WriteToConsole(OutputDevice, "Saved locations:")
+        for _, value in ipairs(locations) do
+            WriteToConsole(OutputDevice, value)
+        end
+        WriteToConsole(OutputDevice, "--------------------")
+        return true
+    end)
 
 -- Save Location Command
-CreateCommand({"savelocation", "saveloc", "setloc", "wp", "savewp", "setwp", "waypoint" , "setwaypoint", "savewaypoint"}, "Save Location", "Saves your current position and rotation under an assigned name",
-CreateCommandParam("name", "string", "Name of the location"),
-function(self, OutputDevice, Parameters)
-    if not Parameters or #Parameters < 1 then
-        WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
-        WriteToConsole(OutputDevice, "The command requires a \"name\" paramter. e.g. 'saveloc Cafeteria'")
-        return false
-    end
-    local locationName = Parameters[1]
-    local location = LocationsManager.SaveCurrentLocation(locationName)
-    if location then
-        SettingsManager.SaveToFile()
-        WriteToConsole(OutputDevice, "Location saved: " .. LocationToString(location))
-    else
-        WriteErrorToConsole(OutputDevice, "Failed to save location")
-    end
-    return true
-end)
+CreateCommand({ "savelocation", "saveloc", "setloc", "wp", "savewp", "setwp", "waypoint", "setwaypoint", "savewaypoint" },
+    "Save Location", "Saves your current position and rotation under an assigned name",
+    CreateCommandParam("name", "string", "Name of the location"),
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 1 then
+            WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+            WriteToConsole(OutputDevice, "The command requires a \"name\" paramter. e.g. 'saveloc Cafeteria'")
+            return false
+        end
+        local locationName = Parameters[1]
+        local location = LocationsManager.SaveCurrentLocation(locationName)
+        if location then
+            SettingsManager.SaveToFile()
+            WriteToConsole(OutputDevice, "Location saved: " .. LocationToString(location))
+        else
+            WriteErrorToConsole(OutputDevice, "Failed to save location")
+        end
+        return true
+    end)
 
 -- Load Location Command
-CreateCommand({"loadlocation", "loadloc", "loadwp", "tp", "goto", "loadwaypoint", "teleport"}, "Load Location", "Teleports you to a named location that was previously saved (host only)",
-CreateCommandParam("name", "string", "Name of the location"),
-function(self, OutputDevice, Parameters)
-    if not Parameters or #Parameters < 1 then
-        WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
-        WriteToConsole(OutputDevice, "The command requires a \"name\" paramter. e.g. 'loadloc Cafeteria'")
-        return false
-    end
-    local locationName = Parameters[1]
-    if not LocationsManager.LoadLocation(locationName) then
-        WriteErrorToConsole(OutputDevice, "Failed to load location")
-    end
-    return true
-end)
+CreateCommand({ "loadlocation", "loadloc", "loadwp", "tp", "goto", "loadwaypoint", "teleport" }, "Load Location",
+    "Teleports you to a named location that was previously saved (host only)",
+    CreateCommandParam("name", "string", "Name of the location"),
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 1 then
+            WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+            WriteToConsole(OutputDevice, "The command requires a \"name\" paramter. e.g. 'loadloc Cafeteria'")
+            return false
+        end
+        local locationName = Parameters[1]
+        if not LocationsManager.LoadLocation(locationName) then
+            WriteErrorToConsole(OutputDevice, "Failed to load location")
+        end
+        return true
+    end)
+
+-- List Player Command
+CreateCommand({ "playerlist", "listplayers", "players" }, "Player List",
+    "Prints a list of all players in the game. Format: (index): (player name)", nil,
+    function(self, OutputDevice, Parameters)
+        local playerNames = PlayersManager.GetPlayerNames()
+        if playerNames and #playerNames > 0 then
+            WriteToConsole(OutputDevice, string.format("-- Players (%d) --", #playerNames))
+            for index, name in ipairs(playerNames) do
+                WriteToConsole(OutputDevice, string.format("%d: %s", index, name))
+            end
+        end
+
+        return true
+    end)
 
 -- Teleport To Player Command
-CreateCommand({"toplayer", "teleportto", "tpto"}, "Teleport To Player", "Teleports to a player based on their name or index (host only)",
-CreateCommandParam("name/index", "string", "Name or index of a player"),
-function(self, OutputDevice, Parameters)
-    if not Parameters or #Parameters < 1 then
-        WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
-        WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'tpto igromanru'")
-        return false
-    end
-    
-    return true
-end)
+CreateCommand({ "toplayer", "teleportto", "tpto" }, "Teleport To Player",
+    "Teleports to a player based on their name or index (host only)",
+    CreateCommandParam("name/index", "string", "Name or index of a player"),
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 1 then
+            WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+            WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'tpto igromanru'")
+            WriteToConsole(OutputDevice, "Use the player list command to get a list of all players in the lobby. e.g. 'players'")
+            return true
+        end
+        local searchName = Parameters[1]
+        local playerIndex = tonumber(searchName)
+        local player = nil
+        local playerName = ""
+        if playerIndex then
+            if playerIndex < 1 then
+                WriteErrorToConsole(OutputDevice, "Player's index can't be smaller than 1!")
+                return true
+            end
+            player, playerName = PlayersManager.GetPlayerByIndex(playerIndex)
+            if not player then
+                WriteErrorToConsole(OutputDevice, "Couldn't find a player with index " .. playerIndex)
+                return true
+            end
+        else
+            player, playerName = PlayersManager.GetPlayerByName(searchName)
+            if not player then
+                WriteErrorToConsole(OutputDevice, "Couldn't find a player with name \"" .. searchName .. '"')
+                return true
+            end
+        end
+        if player then
+            local myPlayer = AFUtils.GetMyPlayer()
+            WriteToConsole(OutputDevice, "Teleporting to \"" .. playerName .. '"')
+            if not AFUtils.TeleportPlayerToPlayer(myPlayer, player, true) then
+                WriteErrorToConsole(OutputDevice, "Teleportation failed, are you the host?")
+            end
+        end
+
+        return true
+    end)
 
 -- Teleport To Me Command
-CreateCommand({"tome", "teleporttome", "pull"}, "Teleport To Me", "Teleports a palyer to yourself based on their name or index (host only)",
-CreateCommandParam("name/index", "string", "Name or index of a player"),
-function(self, OutputDevice, Parameters)
-    if not Parameters or #Parameters < 1 then
-        WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
-        WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'tome igromanru'")
-        return false
-    end
-    
-    return true
-end)
+CreateCommand({ "tome", "teleporttome", "pull" }, "Teleport To Me",
+    "Teleports a palyer to yourself based on their name or index (host only)",
+    CreateCommandParam("name/index", "string", "Name or index of a player"),
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 1 then
+            WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+            WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'tome igromanru'")
+            return false
+        end
+        local searchName = Parameters[1]
+        local playerIndex = tonumber(searchName)
+        local player = nil
+        local playerName = ""
+        if playerIndex then
+            if playerIndex < 1 then
+                WriteErrorToConsole(OutputDevice, "Player's index can't be smaller than 1!")
+                return true
+            end
+            player, playerName = PlayersManager.GetPlayerByIndex(playerIndex)
+            if not player then
+                WriteErrorToConsole(OutputDevice, "Couldn't find a player with index " .. playerIndex)
+                return true
+            end
+        else
+            player, playerName = PlayersManager.GetPlayerByName(searchName)
+            if not player then
+                WriteErrorToConsole(OutputDevice, "Couldn't find a player with name \"" .. searchName .. '"')
+                return true
+            end
+        end
+        if player then
+            local myPlayer = AFUtils.GetMyPlayer()
+            WriteToConsole(OutputDevice, "Teleporting \"" .. playerName .. '" to you')
+            if not AFUtils.TeleportPlayerToPlayer(player, myPlayer) then
+                WriteErrorToConsole(OutputDevice, "Teleportation failed, are you the host?")
+            end
+        end
+
+        return true
+    end)
 
 -- Kill Player Command
-CreateCommand({"smite", "kill", "execute"}, "Kill Player", "Kills a palyer based on their name or index (host only)",
-CreateCommandParam("name/index", "string", "Name or index of a player"),
-function(self, OutputDevice, Parameters)
-    if not Parameters or #Parameters < 1 then
-        WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
-        WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'smite igromanru'")
-        return false
-    end
-    
-    return true
-end)
+CreateCommand({ "smite", "kill", "execute" }, "Kill Player", "Kills a palyer based on their name or index (host only)",
+    CreateCommandParam("name/index", "string", "Name or index of a player"),
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 1 then
+            WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+            WriteToConsole(OutputDevice,
+                "The command requires part of player's name or his index. e.g. 'smite igromanru'")
+            return false
+        end
+
+        return true
+    end)
 
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
