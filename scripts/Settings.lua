@@ -19,6 +19,8 @@ function LocationStruct(Name, Location, Rotation)
     }
 end
 
+DefaultLeyakCooldown = 900 -- 15min
+
 Settings = {
     Version = ModVersion,
     GodMode = false,
@@ -39,7 +41,7 @@ Settings = {
     NoRecoil = false,
     NoSway = false,
     MasterKey = false,
-    LeyakCooldown = 900, -- 15min
+    LeyakCooldown = DefaultLeyakCooldown,
     Locations = {
         LocationStruct("Cafeteria", FVector(12529, 128, -15377)),
         LocationStruct("Flathill", FVector(335956, 1294, 6203)),

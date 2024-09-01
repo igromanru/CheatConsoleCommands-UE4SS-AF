@@ -574,7 +574,7 @@ function(self, OutputDevice, Parameters)
 end)
 
 -- Set Leyak Cooldown Command
-CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown resets each time you reload/rehost the game, but the previous cooldown will be in effect until the next Leyak spawns. (host only)",
+CreateCommand({"leyakcd", "leyakcooldown", "cdleyak"}, "Leyak Cooldown", "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (host only)",
 CreateCommandParam("minutes", "number", "Amount a minutes between each Leyak spawn"),
 function(self, OutputDevice, Parameters)
     local cooldownInMin = nil

@@ -416,12 +416,10 @@ function MasterKey(myPlayer)
     end
 end
 
-local LastLeyakCooldown = 900 -- Default value: 15min = 900s
 function LeyakCooldown()
-    if Settings.LeyakCooldown ~= LastLeyakCooldown then
+    if Settings.LeyakCooldown and Settings.LeyakCooldown > 0 then
         local aiDirector = AFUtils.GetAIDirector()
-        if aiDirector then
-            LastLeyakCooldown = Settings.LeyakCooldown
+        if aiDirector and aiDirector.LeyakCooldown ~= Settings.LeyakCooldown then
             aiDirector.LeyakCooldown = Settings.LeyakCooldown
             aiDirector:SetLeyakOnCooldown(1.0)
             local cooldownInMin = Settings.LeyakCooldown / 60
