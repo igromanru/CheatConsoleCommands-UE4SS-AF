@@ -416,6 +416,15 @@ function MasterKey(myPlayer)
     end
 end
 
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function Speedhack(myPlayer)
+    if not myPlayer then return end
+
+    if myPlayer.CharacterMovement:IsValid() then
+        
+    end
+end
+
 function SetLeyakCooldown()
     if Settings.LeyakCooldown and Settings.LeyakCooldown > 0 then
         local aiDirector = AFUtils.GetAIDirector()

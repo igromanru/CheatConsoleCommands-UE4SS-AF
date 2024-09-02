@@ -831,37 +831,37 @@ CreateCommand({ "killall", "killnpc", "killnpcs", "killallnpc", "killallnpcs", "
     end)
 
 -- Set Inventory Size Command
-CreateCommand({ "invsize", "inventorysize", "invslotcount", "backpacksize", "bpsize", "bpslotcount" }, "Set Inventory Size", "Changes inventory size / slots count. Be careful, if you switch Backpacks items will still be droppen on the floor.", 
-    CreateCommandParam("slot count", "number", "Size / Slot count", false, "Between -1 and 100 (-1 will disable the feature)"),
-    function(self, OutputDevice, Parameters)
-        if not Parameters or #Parameters < 1 then
-            local myInventoryComponent = AFUtils.GetMyInventoryComponent()
-            if myInventoryComponent then
-                WriteToConsole(OutputDevice, "Current inventory slot count: " .. myInventoryComponent.MaxSlots)
-                WriteToConsole(OutputDevice, "Type \"invsize 42\" to change the inventory size to 42.")
-                WriteToConsole(OutputDevice, "Type \"invsize -1\" to disable the feature!")
-            else
-                WriteErrorToConsole(OutputDevice, "Couldn't get current inventory component!")
-            end
-            return true
-        end
+-- CreateCommand({ "invsize", "inventorysize", "invslotcount", "backpacksize", "bpsize", "bpslotcount" }, "Set Inventory Size", "Changes inventory size / slots count.\nWarning! Each time you load into the game the game restores the slot count and all items in extra slots will be dropped on the ground.", 
+--     CreateCommandParam("slot count", "number", "Size / Slot count", false, "Between -1 and 100 (-1 will disable the feature)"),
+--     function(self, OutputDevice, Parameters)
+--         if not Parameters or #Parameters < 1 then
+--             local myInventoryComponent = AFUtils.GetMyInventoryComponent()
+--             if myInventoryComponent then
+--                 WriteToConsole(OutputDevice, "Current inventory slot count: " .. myInventoryComponent.MaxSlots)
+--                 WriteToConsole(OutputDevice, "Type \"invsize 42\" to change the inventory size to 42.")
+--                 WriteToConsole(OutputDevice, "Type \"invsize -1\" to disable the feature!")
+--             else
+--                 WriteErrorToConsole(OutputDevice, "Couldn't get current inventory component!")
+--             end
+--             return true
+--         end
 
-        local slotCount = tonumber(Parameters[1])
-        if slotCount and slotCount <= 100 then
-            if slotCount < 1 then
-                Settings.InventorySlotCount = -1
-                local message = "Inventory Size Disabled"
-                LogDebug(message)
-                AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
-            else
-                Settings.InventorySlotCount = slotCount
-            end
-        else
-            WriteErrorToConsole(OutputDevice, "The \"slout count\" parameter has to be a number between -1 and 100!")
-        end
+--         local slotCount = tonumber(Parameters[1])
+--         if slotCount and slotCount <= 100 then
+--             if slotCount < 1 then
+--                 Settings.InventorySlotCount = -1
+--                 local message = "Inventory Size Disabled"
+--                 LogDebug(message)
+--                 AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
+--             else
+--                 Settings.InventorySlotCount = slotCount
+--             end
+--         else
+--             WriteErrorToConsole(OutputDevice, "The \"slout count\" parameter has to be a number between -1 and 100!")
+--         end
 
-        return true
-    end)
+--         return true
+--     end)
 
 -- List Locations Command
 CreateCommand({ "locations", "showloc", "showlocations", "loc", "locs" }, "List Locations", "Shows all saved locations",
