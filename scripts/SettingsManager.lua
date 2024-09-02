@@ -97,6 +97,7 @@ function SettingsManager.AutoSaveOnChange()
         or SettingsMonitor.NoSway ~= Settings.NoSway
         or SettingsMonitor.MasterKey ~= Settings.MasterKey
         or SettingsMonitor.LeyakCooldown ~= Settings.LeyakCooldown
+        or SettingsMonitor.InventorySlotCount ~= Settings.InventorySlotCount
         or (Settings.Locations and SettingsMonitor.LocationsCount ~= #Settings.Locations) 
     then
         LogDebug("AutoSaveOnChange: Changes detected")
@@ -119,6 +120,7 @@ function SettingsManager.AutoSaveOnChange()
         SettingsMonitor.NoSway = Settings.NoSway
         SettingsMonitor.MasterKey = Settings.MasterKey
         SettingsMonitor.LeyakCooldown = Settings.LeyakCooldown
+        SettingsMonitor.InventorySlotCount = Settings.InventorySlotCount
         SettingsMonitor.LocationsCount = Settings.Locations and #Settings.Locations or 0
         SettingsManager.SaveToFile()
     end
