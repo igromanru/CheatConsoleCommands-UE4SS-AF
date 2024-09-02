@@ -66,7 +66,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Load Location[/b] [ [font=Arial]loadlocation[/font] | [font=Arial]loadloc[/font] | [font=Arial]loadwp[/font] | [font=Arial]tp[/font] | [font=Arial]goto[/font] | [font=Arial]loadwaypoint[/font] | [font=Arial]teleport[/font] ] { <name> } - [font=Georgia]Teleports you to a named location that was previously saved (host only)[/font]
 [b]Player List[/b] [ [font=Arial]playerlist[/font] | [font=Arial]listplayers[/font] | [font=Arial]players[/font] ] {} - [font=Georgia]Prints a list of all players in the game. Format: (index): (player name)[/font]
 [b]Teleport To Player[/b] [ [font=Arial]toplayer[/font] | [font=Arial]teleportto[/font] | [font=Arial]tpto[/font] ] { <name/index> } - [font=Georgia]Teleports to a player based on their name or index (host only)[/font]
-[b]Teleport To Me[/b] [ [font=Arial]tome[/font] | [font=Arial]teleporttome[/font] | [font=Arial]pull[/font] ] { <name/index> } - [font=Georgia]Teleports a palyer to yourself based on their name or index (host only)[/font]
+[b]Teleport To Me[/b] [ [font=Arial]tome[/font] | [font=Arial]teleporttome[/font] | [font=Arial]pull[/font] ] { <name/index> } - [font=Georgia]Teleports a player to yourself based on their name or index (host only)[/font]
 [b]Kill Player[/b] [ [font=Arial]smite[/font] | [font=Arial]kill[/font] | [font=Arial]execute[/font] ] { <name/index> } - [font=Georgia]Kills a player based on their name or index (host only)[/font]
 [b]Revive Player[/b] [ [font=Arial]revive[/font] | [font=Arial]res[/font] | [font=Arial]resurrect[/font] ] { <name/index> } - [font=Georgia]Revive a dead player (host only)[/font]
 
@@ -115,6 +115,14 @@ Simple let me know in the comments section.
 [list]
 [*]Console command handlers of UE4SS are currently not very stable. Expect crashes after leaving a game or trying to close the game and report any unexpected crashes. 
 [*]Current UE4SS version works well with the game, but it has of a problem that causes the game to crash when you exit it.It has nothing to do with the mod and it has no negative impact on the game or your save file, it's just a bit annoying.And you might want to delete crash dump ([b].dmp[/b]) files from time to time from your game directory.
+[/list]
+[font=Verdana][size=4][b]My AF Mods[/b][/size][/font]
+Check out my other Abiotic Factor mods.
+[list]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/23]Instant Fishing[/url]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/20]Duplicate Items[/url]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/22]Unlimited Power (Gear - Held Item - Batteries)[/url]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/31]Jager Corpse Remover[/url]
 [/list]
 [font=Verdana][size=3][b]Credits[/b][/size][/font]
 [list]
