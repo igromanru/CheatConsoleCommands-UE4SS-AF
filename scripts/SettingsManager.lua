@@ -61,8 +61,14 @@ function SettingsManager.LoadFromFile()
         LogDebug("Opened file \"" .. FileName .. "\" for reading")
         local content = file:read("*all")
         LogDebug("File content: " .. content)
-        Settings = JsonLua.decode(content)
-        LogDebug("Parsed JSON to Settings")
+        local settingsFromFile = JsonLua.decode(content)
+        LogDebug("Settings file version: " .. tostring(settingsFromFile.Version) .. ", Settings object version: " .. Settings.Version)
+        if settingsFromFile.Version ~= Settings.Version then
+            LogDebug("Settings version doesn't match, loading only locations from file")
+            Settings.Locations = settingsFromFile.Locations
+        else
+            Settings = settingsFromFile
+        end
         return file:close()
     else
         LogDebug("LoadFromFile: Failed to open file: " .. settingsFilePath)
