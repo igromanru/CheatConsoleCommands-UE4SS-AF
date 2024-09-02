@@ -789,6 +789,22 @@ CreateCommand({ "setweather", "nextweather", "weatherevent", "weather" }, "Weath
         return true
     end)
 
+-- Reset Portal Worlds Command
+CreateCommand({ "resetportals", "resetportal", "resetworlds", "resetportalworlds", "resetvignettes" }, "Reset Portal Worlds", "Resets Portal Worlds (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        local gameInstance = AFUtils.GetGameInstance()
+        if gameInstance then
+            gameInstance:ResetVignettes()
+            local message = "Reset Portal Worlds"
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+            WriteToConsole(OutputDevice, message)
+        else
+            WriteErrorToConsole(OutputDevice, "Couldn't get game instance object")
+        end
+
+        return true
+    end)
+
 -- List Locations Command
 CreateCommand({ "locations", "showloc", "showlocations", "loc", "locs" }, "List Locations", "Shows all saved locations",
     nil,
