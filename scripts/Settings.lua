@@ -1,5 +1,5 @@
 
-require("AFUtils.BaseUtils.MathUtils")
+local BaseUtils = require("AFUtils.BaseUtils.BaseUtils")
 
 ---@class LocationStruct
 ---@field Name string
@@ -42,6 +42,7 @@ Settings = {
     NoSway = false,
     MasterKey = false,
     LeyakCooldown = DefaultLeyakCooldown,
+    InventorySlotCount = -1,
     Locations = {
         LocationStruct("Cafeteria", FVector(12529, 128, -15377)),
         LocationStruct("Flathill", FVector(335956, 1294, 6203)),

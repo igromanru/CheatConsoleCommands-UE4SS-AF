@@ -156,7 +156,7 @@ end
 ---@param ValidType string # Type name, see: https://www.lua.org/pil/2.html
 ---@param Description string?
 ---@param Required boolean? # Default: false
----@param ValidValues string[]?
+---@param ValidValues string|string[]|nil
 ---@return CommandParam
 local function CreateCommandParam(Name, ValidType, Description, Required, ValidValues)
     if not Name or Name == "" then
@@ -169,6 +169,9 @@ local function CreateCommandParam(Name, ValidType, Description, Required, ValidV
         error('CreateCommandParam: Invalid parameter "ValidValues". ValidValues must be nil or an array of strings')
     end
     Required = Required or false
+    if type(ValidValues) == "string" then
+        ValidValues = { ValidValues }
+    end
 
     return {
         Name = Name,
@@ -800,6 +803,61 @@ CreateCommand({ "resetportals", "resetportal", "resetworlds", "resetportalworlds
             WriteToConsole(OutputDevice, message)
         else
             WriteErrorToConsole(OutputDevice, "Couldn't get game instance object")
+        end
+
+        return true
+    end)
+
+-- Kill All Enemies Command
+CreateCommand({ "killall", "killnpc", "killnpcs", "killallnpc", "killallnpcs", "killallenemies", "killenemies" }, "Kill All Enemies", "Kill all enemy NPCs in your vicinity. (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        ---@type ANPC_Base_ParentBP_C[]?
+        local npcs = FindAllOf("NPC_Base_ParentBP_C")
+        if npcs and #npcs > 0 then
+            local killCount = 0
+            for _, npc in ipairs(npcs) do
+                if not npc.IsDead then
+                    npc.IsDead = true
+                    npc:OnRep_IsDead()
+                    killCount = killCount + 1
+                end
+            end
+            WriteToConsole(OutputDevice, killCount .. " NPCs were put to sleep.")
+        else
+            WriteToConsole(OutputDevice, "No hostile NPCs found in your vicinity.")
+        end
+
+        return true
+    end)
+
+-- Set Inventory Size Command
+CreateCommand({ "invsize", "inventorysize", "invslotcount", "backpacksize", "bpsize", "bpslotcount" }, "Set Inventory Size", "Changes inventory size / slots count. Be careful, if you switch Backpacks items will still be droppen on the floor.", 
+    CreateCommandParam("slot count", "number", "Size / Slot count", false, "Between -1 and 100 (-1 will disable the feature)"),
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 1 then
+            local myInventoryComponent = AFUtils.GetMyInventoryComponent()
+            if myInventoryComponent then
+                WriteToConsole(OutputDevice, "Current inventory slot count: " .. myInventoryComponent.MaxSlots)
+                WriteToConsole(OutputDevice, "Type \"invsize 42\" to change the inventory size to 42.")
+                WriteToConsole(OutputDevice, "Type \"invsize -1\" to disable the feature!")
+            else
+                WriteErrorToConsole(OutputDevice, "Couldn't get current inventory component!")
+            end
+            return true
+        end
+
+        local slotCount = tonumber(Parameters[1])
+        if slotCount and slotCount <= 100 then
+            if slotCount < 1 then
+                Settings.InventorySlotCount = -1
+                local message = "Inventory Size Disabled"
+                LogDebug(message)
+                AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
+            else
+                Settings.InventorySlotCount = slotCount
+            end
+        else
+            WriteErrorToConsole(OutputDevice, "The \"slout count\" parameter has to be a number between -1 and 100!")
         end
 
         return true

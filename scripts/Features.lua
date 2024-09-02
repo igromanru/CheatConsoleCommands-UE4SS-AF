@@ -416,7 +416,7 @@ function MasterKey(myPlayer)
     end
 end
 
-function LeyakCooldown()
+function SetLeyakCooldown()
     if Settings.LeyakCooldown and Settings.LeyakCooldown > 0 then
         local aiDirector = AFUtils.GetAIDirector()
         if aiDirector and aiDirector.LeyakCooldown ~= Settings.LeyakCooldown then
@@ -427,6 +427,19 @@ function LeyakCooldown()
             LogDebug(message)
             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
             AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
+        end
+    end
+end
+
+function SetInventorySlotCount()
+    if Settings.InventorySlotCount and Settings.InventorySlotCount > 0 then
+        local myInventoryComponent = AFUtils.GetMyInventoryComponent()
+        if myInventoryComponent and myInventoryComponent.MaxSlots ~= Settings.InventorySlotCount then
+            myInventoryComponent.MaxSlots = Settings.InventorySlotCount
+            myInventoryComponent:UpdateInventorySlotCount(Settings.InventorySlotCount)
+            local message = "Inventory Size set to " .. myInventoryComponent.MaxSlots
+            LogDebug(message)
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
         end
     end
 end
