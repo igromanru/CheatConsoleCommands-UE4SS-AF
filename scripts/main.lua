@@ -43,7 +43,7 @@ LoopAsync(250, function()
             NoSway(myPlayer)
             MasterKey(myPlayer)
             SetLeyakCooldown()
-            SetInventorySlotCount()
+            -- SetInventorySlotCount()
         end
     end)
     SettingsManager.AutoSaveOnChange()

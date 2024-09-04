@@ -604,7 +604,7 @@ CreateCommand({ "money" }, "Set Money", "Set money to desired value (works as gu
 
 -- Infinite Ammo Command
 CreateCommand({ "infammo", "ammo", "infiniteammo" }, "Infinite Ammo",
-    "Keeps ammo of ranged weapons replenished (works as guest)", nil,
+    "Keeps ammo of ranged weapons replenished (works partial as guest)", nil,
     function(self, OutputDevice, Parameters)
         Settings.InfiniteAmmo = not Settings.InfiniteAmmo
         PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
