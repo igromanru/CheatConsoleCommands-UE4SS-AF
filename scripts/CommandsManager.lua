@@ -237,64 +237,66 @@ local function GetCommandByAlias(Alias)
     return GetCommand(Alias)
 end
 
-function PrintCommandsAsMarkdownTable()
-    print("------- Markdown Table -----------")
-    print("Command | Aliases | Parameters | Description")
-    print("------- | ------- | ---------- | -----------")
-    for _, command in ipairs(CommandsArray) do
-        if command.Function then
-            print(string.format("%s | %s | %s | %s", command.Name, ArrayToString(command.Aliases, " \\| "),
-                ParametersToReadableList(command.Parameters, " ", "{", "}"), command.Description))
-        end
-    end
-    print("----------------------------------")
-end
-
-function PrintCommandsAsBBCode()
-    print("-- BBCode --")
-    for _, command in ipairs(CommandsArray) do
-        if command.Function then
-            local parameters = ""
-            if command.Parameters and #command.Parameters > 0 then
-                parameters = string.format(" %s ", ParametersToReadableList(command.Parameters))
-            end
-            print(string.format("[b]%s[/b] [ %s ] {%s} - [font=Georgia]%s[/font]", command.Name,
-                ArrayToString(command.Aliases, " | ", "[font=Arial]", "[/font]"), parameters, command.Description))
-        end
-    end
-    print("----------------------------------")
-end
-
-function LogCommandsAsMarkdownTable()
-    local file = io.open("CommandsAsMarkdown.md", "w")
-    if file then
-        local content = "Command | Aliases | Parameters | Description\n"
-        content = content .. "------- | ------- | ---------- | -----------\n"
+if DebugMode then
+    function PrintCommandsAsMarkdownTable()
+        print("------- Markdown Table -----------")
+        print("Command | Aliases | Parameters | Description")
+        print("------- | ------- | ---------- | -----------")
         for _, command in ipairs(CommandsArray) do
             if command.Function then
-                content = content .. string.format("%s | %s | %s | %s\n", command.Name, ArrayToString(command.Aliases, " \\| "), ParametersToReadableList(command.Parameters, " ", "{", "}"), command.Description)
+                print(string.format("%s | %s | %s | %s", command.Name, ArrayToString(command.Aliases, " \\| "),
+                    ParametersToReadableList(command.Parameters, " ", "{", "}"), command.Description))
             end
         end
-        file:write(content)
-        return file:close()
+        print("----------------------------------")
     end
-end
 
-function LogCommandsAsBBCode()
-    local file = io.open("CommandsAsBBCode.txt", "w")
-    if file then
-        local content = ""
+    function PrintCommandsAsBBCode()
+        print("-- BBCode --")
         for _, command in ipairs(CommandsArray) do
             if command.Function then
                 local parameters = ""
                 if command.Parameters and #command.Parameters > 0 then
                     parameters = string.format(" %s ", ParametersToReadableList(command.Parameters))
                 end
-                content = content .. string.format("[b]%s[/b] [ %s ] {%s} - [font=Georgia]%s[/font]\n", command.Name, ArrayToString(command.Aliases, " | ", "[font=Arial]", "[/font]"), parameters, command.Description)
+                print(string.format("[b]%s[/b] [ %s ] {%s} - [font=Georgia]%s[/font]", command.Name,
+                    ArrayToString(command.Aliases, " | ", "[font=Arial]", "[/font]"), parameters, command.Description))
             end
         end
-        file:write(content)
-        return file:close()
+        print("----------------------------------")
+    end
+
+    function LogCommandsAsMarkdownTable()
+        local file = io.open("CommandsAsMarkdown.md", "w")
+        if file then
+            local content = "Command | Aliases | Parameters | Description\n"
+            content = content .. "------- | ------- | ---------- | -----------\n"
+            for _, command in ipairs(CommandsArray) do
+                if command.Function then
+                    content = content .. string.format("%s | %s | %s | %s\n", command.Name, ArrayToString(command.Aliases, " \\| "), ParametersToReadableList(command.Parameters, " ", "{", "}"), command.Description)
+                end
+            end
+            file:write(content)
+            return file:close()
+        end
+    end
+
+    function LogCommandsAsBBCode()
+        local file = io.open("CommandsAsBBCode.txt", "w")
+        if file then
+            local content = ""
+            for _, command in ipairs(CommandsArray) do
+                if command.Function then
+                    local parameters = ""
+                    if command.Parameters and #command.Parameters > 0 then
+                        parameters = string.format(" %s ", ParametersToReadableList(command.Parameters))
+                    end
+                    content = content .. string.format("[b]%s[/b] [ %s ] {%s} - [font=Georgia]%s[/font]\n", command.Name, ArrayToString(command.Aliases, " | ", "[font=Arial]", "[/font]"), parameters, command.Description)
+                end
+            end
+            file:write(content)
+            return file:close()
+        end
     end
 end
 
