@@ -43,6 +43,7 @@ LoopAsync(250, function()
             NoSway(myPlayer)
             MasterKey(myPlayer)
             Speedhack(myPlayer)
+            PlayerGravityScale(myPlayer)
             SetLeyakCooldown()
         end
     end)

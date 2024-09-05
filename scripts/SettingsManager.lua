@@ -103,6 +103,7 @@ function SettingsManager.AutoSaveOnChange()
         or SettingsMonitor.LeyakCooldown ~= Settings.LeyakCooldown
         or SettingsMonitor.InventorySlotCount ~= Settings.InventorySlotCount
         or SettingsMonitor.SpeedhackMultiplier ~= Settings.SpeedhackMultiplier
+        or SettingsMonitor.PlayerGravityScale ~= Settings.PlayerGravityScale
         or (Settings.Locations and SettingsMonitor.LocationsCount ~= #Settings.Locations) 
     then
         LogDebug("AutoSaveOnChange: Changes detected")
@@ -127,6 +128,7 @@ function SettingsManager.AutoSaveOnChange()
         SettingsMonitor.LeyakCooldown = Settings.LeyakCooldown
         SettingsMonitor.InventorySlotCount = Settings.InventorySlotCount
         SettingsMonitor.SpeedhackMultiplier = Settings.SpeedhackMultiplier
+        SettingsMonitor.PlayerGravityScale = Settings.PlayerGravityScale
         SettingsMonitor.LocationsCount = Settings.Locations and #Settings.Locations or 0
         SettingsManager.SaveToFile()
     end

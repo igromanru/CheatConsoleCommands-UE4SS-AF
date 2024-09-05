@@ -438,6 +438,19 @@ function Speedhack(myPlayer)
     end
 end
 
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function PlayerGravityScale(myPlayer)
+    if not myPlayer or not myPlayer.CharacterMovement:IsValid() then return end
+
+    if not NearlyEqual(Settings.PlayerGravityScale, myPlayer.CharacterMovement.GravityScale) then
+        myPlayer.DefaultGravityScale = Settings.PlayerGravityScale
+        myPlayer.CharacterMovement.GravityScale = Settings.PlayerGravityScale
+        myPlayer:OnRep_ReplicateMovement()
+        LogInfo("Player's Gravity x" .. myPlayer.CharacterMovement.GravityScale)
+        AFUtils.ClientDisplayWarningMessage("Player's Gravity x" .. Settings.PlayerGravityScale, AFUtils.CriticalityLevels.Green)
+    end
+end
+
 function SetLeyakCooldown()
     if Settings.LeyakCooldown and Settings.LeyakCooldown > 0 then
         local aiDirector = AFUtils.GetAIDirector()

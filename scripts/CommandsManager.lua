@@ -1043,10 +1043,9 @@ CreateCommand({ "revive", "res", "resurrect" }, "Revive Player", "Revive a dead 
         return true
     end)
 
-
 -- Speedhack Command
-CreateCommand({ "speedhack", "speedmulti", "speedscale" }, "Speedhack", "Sets a speed multiplier for your character's Walk and Sprint speed (host only)",
-CreateCommandParam("multiplier/scale", "number", "Speed scale/multiplier A value between 0.1 and 10.0"),
+CreateCommand({ "speedhack", "speedmulti", "speedscale" }, "Speedhack", "Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (host only)",
+CreateCommandParam("multiplier/scale", "number", "Speed scale/multiplier. A float value between 0.1 and 10.0"),
 function(self, OutputDevice, Parameters)
     if not Parameters or #Parameters < 1 then
         WriteToConsole(OutputDevice, "Current multiplier is set to: " .. Settings.SpeedhackMultiplier)
@@ -1060,6 +1059,26 @@ function(self, OutputDevice, Parameters)
         return true
     end
     Settings.SpeedhackMultiplier = multiplier
+    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. multiplier)
+    return true
+end)
+
+-- Player Gravity Scale Command
+CreateCommand({ "playergravity", "playergrav", "pg", "setpg" }, "Player Gravity Scale", "Sets player's gravity scale. (Default scale: 1.0) (host only)",
+CreateCommandParam("scale", "number", "Gravity scale/multiplier. A float value between 0.1 and 2.0"),
+function(self, OutputDevice, Parameters)
+    if not Parameters or #Parameters < 1 then
+        WriteToConsole(OutputDevice, "Current scale is set to: " .. Settings.PlayerGravityScale)
+        WriteToConsole(OutputDevice, "The command requires a value by which the gravity will be multiplied. e.g. 'pg 0.5'")
+        return true
+    end
+    local multiplier = tonumber(Parameters[1])
+    if not multiplier or multiplier < 0.1 or multiplier > 2  then
+        WriteErrorToConsole(OutputDevice, "The required paramter must be a float value between 0.1 and 2")
+        WriteToConsole(OutputDevice, "The command requires a value by which the gravity will be multiplied. e.g. 'pg 0.5'")
+        return true
+    end
+    Settings.PlayerGravityScale = multiplier
     WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. multiplier)
     return true
 end)
