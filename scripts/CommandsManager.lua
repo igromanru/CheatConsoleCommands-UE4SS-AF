@@ -596,8 +596,7 @@ CreateCommand({ "money" }, "Set Money", "Set money to desired value (works as gu
             myPlayer:Request_ModifyMoney(moneyValue - myPlayer.CurrentMoney)
             myPlayer.CurrentMoney = moneyValue
             LogDebug("CurrentMoney: " .. tostring(myPlayer.CurrentMoney))
-            AFUtils.ClientDisplayWarningMessage("Money set to " .. myPlayer.CurrentMoney, AFUtils.CriticalityLevels
-            .Green)
+            AFUtils.ClientDisplayWarningMessage("Money set to " .. myPlayer.CurrentMoney, AFUtils.CriticalityLevels.Green)
         else
             WriteToConsole(OutputDevice, "Error: Player character not found. Are you ingame?")
         end
@@ -688,17 +687,16 @@ CreateCommand({ "addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "ski
             return false
         end
         if xpToAdd then
-            if Skills.AddXp(skill.Id, xpToAdd) then
+            if Skills.AddXpToMyPlayer(skill.Id, xpToAdd) then
                 local message = tostring(xpToAdd) .. " XP added to " .. skill.Name
-                AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
                 WriteToConsole(OutputDevice, message)
+                AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
             else
-                WriteErrorToConsole(OutputDevice,
-                    "Failed to add " .. tostring(xpToAdd) .. " XP to \"" .. skill.Name .. '"')
+                WriteErrorToConsole(OutputDevice, "Failed to add " .. tostring(xpToAdd) .. " XP to \"" .. skill.Name .. '"')
                 return false
             end
         else
-            local skillStruct = Skills.GetCharacterSkillStructById(skill.Id)
+            local skillStruct = Skills.GetMyCharacterSkillStructById(skill.Id)
             if skillStruct then
                 WriteToConsole(OutputDevice,
                     "Skill: " ..
@@ -727,10 +725,10 @@ CreateCommand({ "removexp", "removeexp", "resetxp", "resetexp", "resetskill", "r
                 'Invalid skill alias. Use command "help removexp" to see all valid skill parameters')
             return false
         end
-        if Skills.RemoveXp(skill.Id) then
+        if Skills.RemoveXpFromMyPlayer(skill.Id) then
             local message = "Removed all XP from " .. skill.Name
-            AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
             WriteToConsole(OutputDevice, message)
+            AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
             return true
         else
             WriteErrorToConsole(OutputDevice, "Couldn't find character progress component")
@@ -747,8 +745,8 @@ CreateCommand({ "resetallskills", "resetallskill", "resetallxp", "resetallexp", 
         if progressionComponen then
             progressionComponen:Request_ResetAllSkills()
             local message = "All skills were reset"
-            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
             WriteToConsole(OutputDevice, message)
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
             return true
         else
             WriteErrorToConsole(OutputDevice, "Failed to get character progress component. Are you ingame?")
@@ -785,8 +783,8 @@ CreateCommand({ "setweather", "nextweather", "weatherevent", "weather" }, "Weath
         local weather = WeatherManager.SetNextWeatherEvent(Parameters[1])
         if weather then
             local message = "Set weather for the next day to " .. weather
-            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
             WriteToConsole(OutputDevice, message)
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
         else
             WriteErrorToConsole(OutputDevice, "Couldn't find any weather events with name: " .. Parameters[1])
         end
@@ -801,8 +799,8 @@ CreateCommand({ "resetportals", "resetportal", "resetworlds", "resetportalworlds
         if gameInstance then
             gameInstance:ResetVignettes()
             local message = "Reset Portal Worlds"
-            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
             WriteToConsole(OutputDevice, message)
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
         else
             WriteErrorToConsole(OutputDevice, "Couldn't get game instance object")
         end
@@ -1085,30 +1083,53 @@ function(self, OutputDevice, Parameters)
     return true
 end)
 
--- -- Give Skill Experience to another Player
--- CreateCommand({ "givexp" }, "Give Skill Experience",
---     "Gives Skill XP to a player (host only)",
---     {
---         CreateCommandParam("name/index", "string", "Name or index of a player"),
---         CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()),
---         CreateCommandParam("XP value", "number", "Amount of XP added to the skill.")
---     },
---     function(self, OutputDevice, Parameters)
---         return true
---     end)
+-- Give Skill Experience to another Player
+CreateCommand({ "givexp" }, "Give Skill Experience",
+    "Gives Skill XP to a player (host only)",
+    {
+        CreateCommandParam("name/index", "string", "Name or index of a player"),
+        CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()),
+        CreateCommandParam("XP value", "number", "Amount of XP added to the skill.")
+    },
+    function(self, OutputDevice, Parameters)
+        return true
+    end)
 
--- -- Remove All Skill Experience
--- CreateCommand({ "takexp" },
---     "Remove Skill Experience from Player", "Removes All Skill XP from a player (host only)",
---     {
---         CreateCommandParam("name/index", "string", "Name or index of a player"),
---         CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings())
---     },
---     function(self, OutputDevice, Parameters)
-        
+-- Remove Player's Skill Experience
+CreateCommand({ "takexp" },
+    "Remove Skill Experience from Player", "Removes All Skill XP from a player (host only)",
+    {
+        CreateCommandParam("name/index", "string", "Name or index of a player"),
+        CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings())
+    },
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 2 then
+            WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+            WriteToConsole(OutputDevice, "The command requires part of player's name or his index and skill's lias. e.g. 'takexp igromanru stealth'")
+            WriteToConsole(OutputDevice, "Use the player list command to get a list of all players in the lobby. e.g. 'players'")
+            return true
+        end
+        local skill = Skills.GetSkillByAlias(Parameters[2])
+        if not skill then
+            WriteErrorToConsole(OutputDevice, 'Invalid skill alias. Use command "help takexp" to see all valid skill parameters')
+            return true
+        end
 
---         return true
---     end)
+        local player, playerName = GetPlayerByNameOrIndex(OutputDevice, Parameters[1])
+        if player then
+            if Skills.RemoveXp(player, skill.Id) then
+                local message = "Removed all " .. skill.Name .. " XP from " .. playerName
+                WriteToConsole(OutputDevice, message)
+                AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Red)
+            else
+                WriteErrorToConsole(OutputDevice, "Couldn't find character progress component")
+            end
+        else
+            WriteErrorToConsole(OutputDevice, "Couldn't find the palyer")
+        end
+
+        return true
+    end)
 
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()

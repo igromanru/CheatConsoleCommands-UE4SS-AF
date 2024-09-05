@@ -103,11 +103,15 @@ local function GetArrayIndexBySkillId(CharacterSkillId)
     return SkillIdToIndexMap[CharacterSkillId]
 end
 
+
+---@param Player AAbiotic_PlayerCharacter_C?
 ---@param CharacterSkillId CharacterSkills|integer
 ---@return FAbiotic_CharacterSkill_Struct?
-function Skills.GetCharacterSkillStructById(CharacterSkillId)
+function Skills.GetCharacterSkillStructById(Player, CharacterSkillId)
+    if not Player or not Player:IsValid() or not Player.CharacterProgressionComponent:IsValid() then return nil end
+
     local index = GetArrayIndexBySkillId(CharacterSkillId)
-    local progressionComponent =  AFUtils.GetMyCharacterProgressionComponent()
+    local progressionComponent =  Player.CharacterProgressionComponent
     if progressionComponent and #progressionComponent.CharacterSkills_Values >= index then
         return progressionComponent.CharacterSkills_Values[index]
     end
@@ -116,27 +120,44 @@ function Skills.GetCharacterSkillStructById(CharacterSkillId)
 end
 
 ---@param CharacterSkillId CharacterSkills|integer
+---@return FAbiotic_CharacterSkill_Struct?
+function Skills.GetMyCharacterSkillStructById(CharacterSkillId)
+    return Skills.GetCharacterSkillStructById(AFUtils.GetMyPlayer(), CharacterSkillId)
+end
+
+---@param Player AAbiotic_PlayerCharacter_C?
+---@param CharacterSkillId CharacterSkills|integer
 ---@param Amount integer
 ---@return boolean Success
-function Skills.AddXp(CharacterSkillId, Amount)
-    local progressionComponent =  AFUtils.GetMyCharacterProgressionComponent()
-    if progressionComponent then
-        local outSuccess = {  Success = false }
-        progressionComponent:Server_AddXPToSkill(CharacterSkillId, Amount, true, outSuccess)
-        return outSuccess and outSuccess.Success
-    end
-    return false
+function Skills.AddXp(Player, CharacterSkillId, Amount)
+    if not Player or not Player:IsValid() or not Player.CharacterProgressionComponent:IsValid() then return false end
+
+    local outSuccess = {  Success = false }
+    Player.CharacterProgressionComponent:Server_AddXPToSkill(CharacterSkillId, Amount, true, outSuccess)
+    return outSuccess and outSuccess.Success
+end
+
+---@param CharacterSkillId CharacterSkills|integer
+---@param Amount integer
+---@return boolean Success
+function Skills.AddXpToMyPlayer(CharacterSkillId, Amount)
+    return Skills.AddXp(AFUtils.GetMyPlayer(), CharacterSkillId, Amount)
+end
+
+---@param Player AAbiotic_PlayerCharacter_C?
+---@param CharacterSkillId CharacterSkills|integer
+---@return boolean Success
+function Skills.RemoveXp(Player, CharacterSkillId)
+    if not Player or not Player:IsValid() or not Player.CharacterProgressionComponent:IsValid() then return false end
+
+    Player.CharacterProgressionComponent:Server_RemoveAllXPFromSkill(CharacterSkillId)
+    return true
 end
 
 ---@param CharacterSkillId CharacterSkills|integer
 ---@return boolean Success
-function Skills.RemoveXp(CharacterSkillId)
-    local progressionComponent =  AFUtils.GetMyCharacterProgressionComponent()
-    if progressionComponent then
-        progressionComponent:Server_RemoveAllXPFromSkill(CharacterSkillId)
-        return true
-    end
-    return false
+function Skills.RemoveXpFromMyPlayer(CharacterSkillId)
+    return Skills.RemoveXp(AFUtils.GetMyPlayer(), CharacterSkillId)
 end
 
 return Skills
