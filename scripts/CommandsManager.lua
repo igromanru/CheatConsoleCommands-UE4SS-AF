@@ -698,10 +698,7 @@ CreateCommand({ "addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "ski
         else
             local skillStruct = Skills.GetMyCharacterSkillStructById(skill.Id)
             if skillStruct then
-                WriteToConsole(OutputDevice,
-                    "Skill: " ..
-                    skill.Name ..
-                    ", Current value: " .. math.ceil(skillStruct.CurrentSkillXP_20_8F7934CD4A4542F036AE5C9649362556))
+                WriteToConsole(OutputDevice, "Skill: " .. skill.Name .. ", Current value: " .. math.ceil(skillStruct.CurrentSkillXP_20_8F7934CD4A4542F036AE5C9649362556))
             else
                 WriteErrorToConsole(OutputDevice, "Couldn't get values for Character Skill: " .. skill.Id)
                 return false
@@ -1083,21 +1080,59 @@ function(self, OutputDevice, Parameters)
     return true
 end)
 
--- Give Skill Experience to another Player
-CreateCommand({ "givexp" }, "Give Skill Experience",
-    "Gives Skill XP to a player (host only)",
+-- Give Skill Experience to a Player
+CreateCommand({ "givexp" }, "Give Skill Experience to Player", "Gives Skill XP to a player (host only)",
     {
         CreateCommandParam("name/index", "string", "Name or index of a player"),
         CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()),
         CreateCommandParam("XP value", "number", "Amount of XP added to the skill.")
     },
     function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 2 then
+            WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+            WriteToConsole(OutputDevice, "The command requires part of player's name or his index, skill's alias and amount of XP to add. e.g. 'givexp igromanru stealth 1000'")
+            WriteToConsole(OutputDevice, "Use the player list command to get a list of all players in the lobby. e.g. 'players'")
+            return true
+        end
+        local skill = Skills.GetSkillByAlias(Parameters[2])
+        if not skill then
+            WriteErrorToConsole(OutputDevice, 'Invalid skill alias. Use command "help givexp" to see all valid skill parameters')
+            return true
+        end
+
+        local player, playerName = GetPlayerByNameOrIndex(OutputDevice, Parameters[1])
+        if player then
+            local xpToAdd = nil
+            if #Parameters > 2 then
+                xpToAdd = tonumber(Parameters[3])
+            end
+            if xpToAdd then
+                if Skills.AddXpToMyPlayer(skill.Id, xpToAdd) then
+                    local message = skill.Name .. " " .. tostring(xpToAdd) .. " XP added to " .. playerName
+                    WriteToConsole(OutputDevice, message)
+                    AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+                else
+                    WriteErrorToConsole(OutputDevice, "Failed to add " .. skill.Name .. " " .. tostring(xpToAdd) .. " XP to " .. playerName)
+                    return false
+                end
+            else
+                local skillStruct = Skills.GetCharacterSkillStructById(player, skill.Id)
+                if skillStruct then
+                    WriteToConsole(OutputDevice, playerName .. "'s Skill: " .. skill.Name .. ", Current value: " .. math.ceil(skillStruct.CurrentSkillXP_20_8F7934CD4A4542F036AE5C9649362556))
+                else
+                    WriteErrorToConsole(OutputDevice, "Couldn't get values for " .. playerName .. "'s Skill: " .. skill.Id)
+                    return false
+                end
+            end
+        else
+            WriteErrorToConsole(OutputDevice, "Couldn't find the palyer")
+        end
+
         return true
     end)
 
--- Remove Player's Skill Experience
-CreateCommand({ "takexp" },
-    "Remove Skill Experience from Player", "Removes All Skill XP from a player (host only)",
+-- Remove All Skill XP from a player
+CreateCommand({ "takexp" }, "Remove Skill Experience from Player", "Remove All Skill XP from a player (host only)",
     {
         CreateCommandParam("name/index", "string", "Name or index of a player"),
         CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings())
@@ -1105,7 +1140,7 @@ CreateCommand({ "takexp" },
     function(self, OutputDevice, Parameters)
         if not Parameters or #Parameters < 2 then
             WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
-            WriteToConsole(OutputDevice, "The command requires part of player's name or his index and skill's lias. e.g. 'takexp igromanru stealth'")
+            WriteToConsole(OutputDevice, "The command requires part of player's name or his index and skill's alias. e.g. 'takexp igromanru stealth'")
             WriteToConsole(OutputDevice, "Use the player list command to get a list of all players in the lobby. e.g. 'players'")
             return true
         end
