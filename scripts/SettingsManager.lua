@@ -65,6 +65,10 @@ function SettingsManager.LoadFromFile()
         LogDebug("Settings file version: " .. tostring(settingsFromFile.Version) .. ", Settings object version: " .. Settings.Version)
         if settingsFromFile.Version ~= Settings.Version then
             LogDebug("Settings version doesn't match, loading only locations from file")
+            Settings.LeyakCooldown = settingsFromFile.LeyakCooldown
+            Settings.SpeedhackMultiplier = settingsFromFile.SpeedhackMultiplier
+            Settings.PlayerGravityScale = settingsFromFile.PlayerGravityScale
+            Settings.InventorySlotCount = settingsFromFile.InventorySlotCount
             Settings.Locations = settingsFromFile.Locations
         else
             Settings = settingsFromFile
@@ -98,6 +102,7 @@ function SettingsManager.AutoSaveOnChange()
         or SettingsMonitor.MasterKey ~= Settings.MasterKey
         or SettingsMonitor.LeyakCooldown ~= Settings.LeyakCooldown
         or SettingsMonitor.InventorySlotCount ~= Settings.InventorySlotCount
+        or SettingsMonitor.SpeedhackMultiplier ~= Settings.SpeedhackMultiplier
         or (Settings.Locations and SettingsMonitor.LocationsCount ~= #Settings.Locations) 
     then
         LogDebug("AutoSaveOnChange: Changes detected")
@@ -121,6 +126,7 @@ function SettingsManager.AutoSaveOnChange()
         SettingsMonitor.MasterKey = Settings.MasterKey
         SettingsMonitor.LeyakCooldown = Settings.LeyakCooldown
         SettingsMonitor.InventorySlotCount = Settings.InventorySlotCount
+        SettingsMonitor.SpeedhackMultiplier = Settings.SpeedhackMultiplier
         SettingsMonitor.LocationsCount = Settings.Locations and #Settings.Locations or 0
         SettingsManager.SaveToFile()
     end

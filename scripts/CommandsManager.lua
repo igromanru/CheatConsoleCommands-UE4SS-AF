@@ -669,8 +669,8 @@ CreateCommand({ "noclip", "clip", "ghost" }, "No Clip", "Disables player's colli
 -- Add Skill Experience
 CreateCommand({ "addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "skillxp" }, "Add Skill Experience",
     "Adds XP to specified Skill (host only)",
-    { CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()), CreateCommandParam(
-    "XP value", "number", "Amount of XP added to the skill.") },
+    { CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()),
+    CreateCommandParam("XP value", "number", "Amount of XP added to the skill.") },
     function(self, OutputDevice, Parameters)
         local skill = nil ---@type SkillStruct?
         local xpToAdd = nil ---@type integer?
@@ -1044,6 +1044,26 @@ CreateCommand({ "revive", "res", "resurrect" }, "Revive Player", "Revive a dead 
     end)
 
 
+-- Speedhack Command
+CreateCommand({ "speedhack", "speedmulti", "speedscale" }, "Speedhack", "Sets a speed multiplier for your character's Walk and Sprint speed (host only)",
+CreateCommandParam("multiplier/scale", "number", "Speed scale/multiplier A value between 0.1 and 10.0"),
+function(self, OutputDevice, Parameters)
+    if not Parameters or #Parameters < 1 then
+        WriteToConsole(OutputDevice, "Current multiplier is set to: " .. Settings.SpeedhackMultiplier)
+        WriteToConsole(OutputDevice, "The command requires a value by which the speed will be multiplied. e.g. 'speedhack 1.5'")
+        return true
+    end
+    local multiplier = tonumber(Parameters[1])
+    if not multiplier or multiplier < 0.1 or multiplier > 10  then
+        WriteErrorToConsole(OutputDevice, "The required paramter must be a float value between 0.1 and 10")
+        WriteToConsole(OutputDevice, "The command requires a value by which the speed will be multiplied. e.g. 'speedhack 1.5'")
+        return true
+    end
+    Settings.SpeedhackMultiplier = multiplier
+    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. multiplier)
+    return true
+end)
+
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
     -- local executor = Executor:get()
@@ -1068,7 +1088,7 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
 
     local commandObj = GetCommandByAlias(command)
     if commandObj then
-        if commandObj.Function and context:IsA(AFUtils.GetClassAbioticGameViewportClient()) then
+        if commandObj.Function ~= nil and context:IsA(AFUtils.GetClassAbioticGameViewportClient()) then
             commandObj.Function(commandObj, OutputDevice, Parameters)
             OutputDevice:Log("-- Ignore the message below, it comes from UE:")
         end

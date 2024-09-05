@@ -416,12 +416,25 @@ function MasterKey(myPlayer)
     end
 end
 
+local BaseWalkSpeedBackUp = 500.0
+local BaseSprintSpeedBackUp =  685.0
+local LastSpeedhackMultiplier = Settings.SpeedhackMultiplier
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function Speedhack(myPlayer)
     if not myPlayer then return end
 
-    if myPlayer.CharacterMovement:IsValid() then
-        
+    if Settings.SpeedhackMultiplier ~= LastSpeedhackMultiplier then
+        if LastSpeedhackMultiplier == 1.0 then
+            BaseWalkSpeedBackUp = myPlayer.BaseWalkSpeed
+            BaseSprintSpeedBackUp = myPlayer.BaseSprintSpeed
+            LogDebug("Speedhack: Back up original values: ")
+            LogDebug("Speedhack: BaseWalkSpeedBackUp: ", BaseWalkSpeedBackUp)
+            LogDebug("Speedhack: BaseSprintSpeedBackUp: ", BaseSprintSpeedBackUp)
+        end
+        LastSpeedhackMultiplier = Settings.SpeedhackMultiplier
+        myPlayer.BaseWalkSpeed = BaseWalkSpeedBackUp * LastSpeedhackMultiplier
+        myPlayer.BaseSprintSpeed = BaseSprintSpeedBackUp * LastSpeedhackMultiplier
+        AFUtils.ClientDisplayWarningMessage("Speed x" .. LastSpeedhackMultiplier, AFUtils.CriticalityLevels.Green)
     end
 end
 
