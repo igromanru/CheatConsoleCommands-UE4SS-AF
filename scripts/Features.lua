@@ -442,7 +442,9 @@ end
 function PlayerGravityScale(myPlayer)
     if not myPlayer or not myPlayer.CharacterMovement:IsValid() then return end
 
-    if not NearlyEqual(Settings.PlayerGravityScale, myPlayer.CharacterMovement.GravityScale) then
+    if myPlayer.CharacterMovement.GravityScale > 0 and not NearlyEqual(Settings.PlayerGravityScale, myPlayer.CharacterMovement.GravityScale) then
+        LogDebug("DefaultGravityScale was: ", myPlayer.DefaultGravityScale)
+        LogDebug("CharacterMovement.GravityScale was: ", myPlayer.CharacterMovement.GravityScale)
         myPlayer.DefaultGravityScale = Settings.PlayerGravityScale
         myPlayer.CharacterMovement.GravityScale = Settings.PlayerGravityScale
         myPlayer:OnRep_ReplicateMovement()
