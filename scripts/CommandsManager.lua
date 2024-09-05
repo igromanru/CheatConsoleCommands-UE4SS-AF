@@ -1085,6 +1085,31 @@ function(self, OutputDevice, Parameters)
     return true
 end)
 
+-- -- Give Skill Experience to another Player
+-- CreateCommand({ "givexp" }, "Give Skill Experience",
+--     "Gives Skill XP to a player (host only)",
+--     {
+--         CreateCommandParam("name/index", "string", "Name or index of a player"),
+--         CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()),
+--         CreateCommandParam("XP value", "number", "Amount of XP added to the skill.")
+--     },
+--     function(self, OutputDevice, Parameters)
+--         return true
+--     end)
+
+-- -- Remove All Skill Experience
+-- CreateCommand({ "takexp" },
+--     "Remove Skill Experience from Player", "Removes All Skill XP from a player (host only)",
+--     {
+--         CreateCommandParam("name/index", "string", "Name or index of a player"),
+--         CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings())
+--     },
+--     function(self, OutputDevice, Parameters)
+        
+
+--         return true
+--     end)
+
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
     -- local executor = Executor:get()
