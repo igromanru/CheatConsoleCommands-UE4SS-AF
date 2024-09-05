@@ -51,7 +51,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]No Fall Damage[/b] [ [font=Arial]falldmg[/font] | [font=Arial]falldamage[/font] | [font=Arial]nofall[/font] | [font=Arial]nofalldmg[/font] | [font=Arial]nofalldamage[/font] ] {} - [font=Georgia]Prevents player from taking fall damage (host only)[/font]
 [b]Free Crafting[/b] [ [font=Arial]freecraft[/font] | [font=Arial]freecrafting[/font] | [font=Arial]crafting[/font] | [font=Arial]craft[/font] ] {} - [font=Georgia]Allows player to craft all recipes and simulates possession of all items. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/font]
 [b]Set Money[/b] [ [font=Arial]money[/font] ] { <value> } - [font=Georgia]Set money to desired value (works as guest)[/font]
-[b]Infinite Ammo[/b] [ [font=Arial]infammo[/font] | [font=Arial]ammo[/font] | [font=Arial]infiniteammo[/font] ] {} - [font=Georgia]Keeps ammo of ranged weapons replenished (works as guest)[/font]
+[b]Infinite Ammo[/b] [ [font=Arial]infammo[/font] | [font=Arial]ammo[/font] | [font=Arial]infiniteammo[/font] ] {} - [font=Georgia]Keeps ammo of ranged weapons replenished (works partial as guest)[/font]
 [b]No Recoil[/b] [ [font=Arial]norecoil[/font] | [font=Arial]recoil[/font] | [font=Arial]weaponnorecoil[/font] ] {} - [font=Georgia]Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)[/font]
 [b]No Sway[/b] [ [font=Arial]nosway[/font] | [font=Arial]sway[/font] | [font=Arial]noweaponsway[/font] ] {} - [font=Georgia]Removes weapon's sway  (works as guest)[/font]
 [b]Leyak Cooldown[/b] [ [font=Arial]leyakcd[/font] | [font=Arial]leyakcooldown[/font] | [font=Arial]cdleyak[/font] ] { <minutes> } - [font=Georgia]Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (host only)[/font]
@@ -61,6 +61,8 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Reset All Skills[/b] [ [font=Arial]resetallskills[/font] | [font=Arial]resetallskill[/font] | [font=Arial]resetallxp[/font] | [font=Arial]resetallexp[/font] | [font=Arial]resetalllvl[/font] ] {} - [font=Georgia]Resets all character skills! (works as guest)[/font]
 [b]Master Key[/b] [ [font=Arial]masterkey[/font] | [font=Arial]key[/font] | [font=Arial]keys[/font] | [font=Arial]opendoor[/font] | [font=Arial]opendoors[/font] ] {} - [font=Georgia]Allows to open all doors (host only)[/font]
 [b]Weather Event[/b] [ [font=Arial]setweather[/font] | [font=Arial]nextweather[/font] | [font=Arial]weatherevent[/font] | [font=Arial]weather[/font] ] { <weather> } - [font=Georgia]Sets weather event for the next day (host only)[/font]
+[b]Reset Portal Worlds[/b] [ [font=Arial]resetportals[/font] | [font=Arial]resetportal[/font] | [font=Arial]resetworlds[/font] | [font=Arial]resetportalworlds[/font] | [font=Arial]resetvignettes[/font] ] {} - [font=Georgia]Resets Portal Worlds (host only)[/font]
+[b]Kill All Enemies[/b] [ [font=Arial]killall[/font] | [font=Arial]killnpc[/font] | [font=Arial]killnpcs[/font] | [font=Arial]killallnpc[/font] | [font=Arial]killallnpcs[/font] | [font=Arial]killallenemies[/font] | [font=Arial]killenemies[/font] ] {} - [font=Georgia]Kill all enemy NPCs in your vicinity. (host only)[/font]
 [b]List Locations[/b] [ [font=Arial]locations[/font] | [font=Arial]showloc[/font] | [font=Arial]showlocations[/font] | [font=Arial]loc[/font] | [font=Arial]locs[/font] ] {} - [font=Georgia]Shows all saved locations[/font]
 [b]Save Location[/b] [ [font=Arial]savelocation[/font] | [font=Arial]saveloc[/font] | [font=Arial]setloc[/font] | [font=Arial]wp[/font] | [font=Arial]savewp[/font] | [font=Arial]setwp[/font] | [font=Arial]waypoint[/font] | [font=Arial]setwaypoint[/font] | [font=Arial]savewaypoint[/font] ] { <name> } - [font=Georgia]Saves your current position and rotation under an assigned name[/font]
 [b]Load Location[/b] [ [font=Arial]loadlocation[/font] | [font=Arial]loadloc[/font] | [font=Arial]loadwp[/font] | [font=Arial]tp[/font] | [font=Arial]goto[/font] | [font=Arial]loadwaypoint[/font] | [font=Arial]teleport[/font] ] { <name> } - [font=Georgia]Teleports you to a named location that was previously saved (host only)[/font]
@@ -68,8 +70,9 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Teleport To Player[/b] [ [font=Arial]toplayer[/font] | [font=Arial]teleportto[/font] | [font=Arial]tpto[/font] ] { <name/index> } - [font=Georgia]Teleports to a player based on their name or index (host only)[/font]
 [b]Teleport To Me[/b] [ [font=Arial]tome[/font] | [font=Arial]teleporttome[/font] | [font=Arial]pull[/font] ] { <name/index> } - [font=Georgia]Teleports a player to yourself based on their name or index (host only)[/font]
 [b]Kill Player[/b] [ [font=Arial]smite[/font] | [font=Arial]kill[/font] | [font=Arial]execute[/font] ] { <name/index> } - [font=Georgia]Kills a player based on their name or index (host only)[/font]
-[b]Revive Player[/b] [ [font=Arial]revive[/font] | [font=Arial]res[/font] | [font=Arial]resurrect[/font] ] { <name/index> } - [font=Georgia]Revive a dead player (host only)[/font]
-
+[b]Revive Player[/b] [ [font=Arial]revive[/font] | [font=Arial]res[/font] | [font=Arial]resurrect[/font] ] { <name/index> } - [font=Georgia]Revive a dead palyer (host only)[/font]
+[b]Speedhack[/b] [ [font=Arial]speedhack[/font] | [font=Arial]speedmulti[/font] | [font=Arial]speedscale[/font] ] { <multiplier/scale> } - [font=Georgia]Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (host only)[/font]
+[b]Player Gravity Scale[/b] [ [font=Arial]playergravity[/font] | [font=Arial]playergrav[/font] | [font=Arial]pg[/font] | [font=Arial]setpg[/font] ] { <scale> } - [font=Georgia]Sets player's gravity scale. (Default scale: 1.0) (host only)[/font]
 
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.
@@ -90,7 +93,9 @@ Commands which has variables has to be used like this:
 2. Open [b]UE4SS-settings.ini[/b] with any text editor.
 3. Find following entries and change them as following:
 [code]bUseUObjectArrayCache = false
-GuiConsoleEnabled = 0[/code]
+GuiConsoleEnabled = 0
+EnableDumping = 0
+[/code]
 4. Save the file.
 [size=2]If you still experience performance issues, write a detailed comment what happens, your PC specs and which mods you use.[/size]
 
@@ -114,12 +119,13 @@ Simple let me know in the comments section.
 [font=Verdana][size=4][b]Known Issues[/b][/size][/font]
 [list]
 [*]Console command handlers of UE4SS are currently not very stable. Expect crashes after leaving a game or trying to close the game and report any unexpected crashes. 
-[*]Current UE4SS version works well with the game, but it has of a problem that causes the game to crash when you exit it.It has nothing to do with the mod and it has no negative impact on the game or your save file, it's just a bit annoying.And you might want to delete crash dump ([b].dmp[/b]) files from time to time from your game directory.
+[*]Current UE4SS version works well with the game, but it has a problem that causes the game to crash when you exit it. It has nothing to do with the mod and it has no negative impact on the game or your save file, it's just a bit annoying.And you might want to delete crash dump ([b].dmp[/b]) files from time to time from your game directory.
 [/list]
 [font=Verdana][size=4][b]My AF Mods[/b][/size][/font]
 Check out my other Abiotic Factor mods.
 [list]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/23]Instant Fishing[/url]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/33]Stack Manager[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/20]Duplicate Items[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/22]Unlimited Power (Gear - Held Item - Batteries)[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/31]Jager Corpse Remover[/url]
