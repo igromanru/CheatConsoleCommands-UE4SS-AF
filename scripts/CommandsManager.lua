@@ -558,8 +558,8 @@ CreateCommand({ "falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage" }
     end)
 
 -- FreeCrafting Command
-CreateCommand({ "freecraft", "freecrafting", "crafting", "craft" }, "Free Crafting",
-    "Allows player to craft all recipes and simulates possession of all items. (Warning: You may need to restart the game to deactivate it completely!) (host only)",
+CreateCommand({ "freecraft", "freecrafting", "crafting", "craft" }, "Free Crafting (Debug function)",
+    "Allows player to craft all recipes, simulates possession of all items and allows to unlock all chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)",
     nil,
     function(self, OutputDevice, Parameters)
         Settings.FreeCrafting = not Settings.FreeCrafting
