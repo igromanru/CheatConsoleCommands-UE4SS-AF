@@ -73,6 +73,8 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Revive Player[/b] [ [font=Arial]revive[/font] | [font=Arial]res[/font] | [font=Arial]resurrect[/font] ] { <name/index> } - [font=Georgia]Revive a dead palyer (host only)[/font]
 [b]Speedhack[/b] [ [font=Arial]speedhack[/font] | [font=Arial]speedmulti[/font] | [font=Arial]speedscale[/font] ] { <multiplier/scale> } - [font=Georgia]Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (host only)[/font]
 [b]Player Gravity Scale[/b] [ [font=Arial]playergravity[/font] | [font=Arial]playergrav[/font] | [font=Arial]pg[/font] | [font=Arial]setpg[/font] ] { <scale> } - [font=Georgia]Sets player's gravity scale. (Default scale: 1.0) (host only)[/font]
+[b]Give Skill Experience to Player[/b] [ [font=Arial]givexp[/font] ] { <name/index> <skill alias> <XP value> } - [font=Georgia]Gives Skill XP to a player (host only)[/font]
+[b]Remove Skill Experience from Player[/b] [ [font=Arial]takexp[/font] ] { <name/index> <skill alias> } - [font=Georgia]Remove All Skill XP from a player (host only)[/font]
 
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.
@@ -102,7 +104,7 @@ EnableDumping = 0
 [font=Verdana][size=4][b]Additional information[/b][/size][/font]
 [list]
 [*]Most features are based on debugging functions created by game developers to help them develop the game.
-[*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload/rejoin the game.
+[*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload/rejoin the game. Also it let you unlock all chests without needing a special Key.
 [*]Most features work only if you host the game or in singleplayer, I'll try to find "exploits" to trick the server, but don't expect much. To make most use out of mods I recommend to host your own game.
 [/list]
 [font=Verdana][size=4][b]Bug Reports[/b][/size][/font]
