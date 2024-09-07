@@ -41,10 +41,11 @@ Settings = {
     NoRecoil = false,
     NoSway = false,
     MasterKey = false,
+    LeyakCooldown = DefaultLeyakCooldown,
     SpeedhackMultiplier = 1.0,
     PlayerGravityScale = 1.0,
-    LeyakCooldown = DefaultLeyakCooldown,
     InventorySlotCount = -1,
+    DistantShore = false,
     Locations = {
         LocationStruct("Cafeteria", FVector(12529, 128, -15377)),
         LocationStruct("Flathill", FVector(335956, 1294, 6203)),

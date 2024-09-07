@@ -73,6 +73,9 @@ function SettingsManager.LoadFromFile()
         else
             Settings = settingsFromFile
         end
+        --Overwrite values that shouldn't reapply
+        Settings.NoClip = false
+        Settings.DistantShore = false
         return file:close()
     else
         LogDebug("LoadFromFile: Failed to open file: " .. settingsFilePath)

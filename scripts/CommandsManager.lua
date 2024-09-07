@@ -304,6 +304,7 @@ end
 ---@param State boolean
 ---@param CommandName string
 ---@param OutputDevice FOutputDevice
+---@return string StateText
 local function PrintCommandState(State, CommandName, OutputDevice)
     local stateText = CommandName .. " "
     if State then
@@ -312,6 +313,7 @@ local function PrintCommandState(State, CommandName, OutputDevice)
         stateText = stateText .. "Disabled"
     end
     WriteToConsole(OutputDevice, stateText)
+    return stateText
 end
 
 ---@param Parameters CommandParam[]
@@ -1165,6 +1167,15 @@ CreateCommand({ "takexp" }, "Remove Skill Experience from Player", "Remove All S
 
         return true
     end)
+
+-- Send to Distant Shore Command
+CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore", "Sends player to Distant Shore as soon you deyploy a [REDACTED] (untested as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.DistantShore = not Settings.DistantShore
+        AFUtils.DisplayWarningMessage(PrintCommandState(Settings.DistantShore, self.Name, OutputDevice), AFUtils.CriticalityLevels.Green)
+        return true
+    end)
+
 
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
