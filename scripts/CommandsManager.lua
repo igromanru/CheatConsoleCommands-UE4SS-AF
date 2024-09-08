@@ -376,6 +376,49 @@ local function WriteCommandToConsole(OutputDevice, Command)
     WriteToConsole(OutputDevice, "------------------------------")
 end
 
+---@param OutputDevice FOutputDevice
+---@param NameOrIndex string|integer
+---@return AAbiotic_PlayerCharacter_C? player, string playerName
+local function GetPlayerByNameOrIndex(OutputDevice, NameOrIndex)
+    local playerIndex = tonumber(NameOrIndex)
+    local player = nil
+    local playerName = ""
+    if playerIndex then
+        if playerIndex < 1 then
+            WriteErrorToConsole(OutputDevice, "Player's index can't be smaller than 1!")
+            return nil, ""
+        end
+        player, playerName = PlayersManager.GetPlayerByIndex(playerIndex)
+        if not player then
+            WriteErrorToConsole(OutputDevice, "Couldn't find a player with index " .. playerIndex)
+            return nil, ""
+        end
+    else
+        ---@cast NameOrIndex string
+        player, playerName = PlayersManager.GetPlayerByName(NameOrIndex)
+        if not player then
+            WriteErrorToConsole(OutputDevice, "Couldn't find a player with name \"" .. NameOrIndex .. '"')
+            return nil, ""
+        end
+    end
+    return player, playerName
+end
+
+---@param Parameters string[]
+---@param StartIndex integer?
+---@return string
+local function CombineParameters(Parameters, StartIndex)
+    StartIndex = StartIndex or 1
+    local locationName = ""
+    for i = StartIndex, #Parameters, 1 do
+        if i > 1 then
+            locationName = locationName .. " "
+        end
+        locationName = locationName .. Parameters[i]
+    end
+    return locationName
+end
+
 -- Help Command
 CreateCommand("help", "Help", "Prints a list of all commands or info about a single one",
     CreateCommandParam("command alias", "string", "Shows help for the specified command based on its alias."),
@@ -885,7 +928,8 @@ CreateCommand({ "savelocation", "saveloc", "setloc", "wp", "savewp", "setwp", "w
             WriteToConsole(OutputDevice, "The command requires a \"name\" paramter. e.g. 'saveloc Cafeteria'")
             return false
         end
-        local locationName = Parameters[1]
+        
+        local locationName = CombineParameters(Parameters)
         local location = LocationsManager.SaveCurrentLocation(locationName)
         if location then
             SettingsManager.SaveToFile()
@@ -906,7 +950,8 @@ CreateCommand({ "loadlocation", "loadloc", "loadwp", "tp", "goto", "loadwaypoint
             WriteToConsole(OutputDevice, "The command requires a \"name\" paramter. e.g. 'loadloc Cafeteria'")
             return false
         end
-        local locationName = Parameters[1]
+
+        local locationName = CombineParameters(Parameters)
         if not LocationsManager.LoadLocation(locationName) then
             WriteErrorToConsole(OutputDevice, "Failed to load location")
         end
@@ -928,34 +973,6 @@ CreateCommand({ "playerlist", "listplayers", "players" }, "Player List",
         return true
     end)
 
----@param OutputDevice FOutputDevice
----@param NameOrIndex string|integer
----@return AAbiotic_PlayerCharacter_C? player, string playerName
-local function GetPlayerByNameOrIndex(OutputDevice, NameOrIndex)
-    local playerIndex = tonumber(NameOrIndex)
-    local player = nil
-    local playerName = ""
-    if playerIndex then
-        if playerIndex < 1 then
-            WriteErrorToConsole(OutputDevice, "Player's index can't be smaller than 1!")
-            return nil, ""
-        end
-        player, playerName = PlayersManager.GetPlayerByIndex(playerIndex)
-        if not player then
-            WriteErrorToConsole(OutputDevice, "Couldn't find a player with index " .. playerIndex)
-            return nil, ""
-        end
-    else
-        ---@cast NameOrIndex string
-        player, playerName = PlayersManager.GetPlayerByName(NameOrIndex)
-        if not player then
-            WriteErrorToConsole(OutputDevice, "Couldn't find a player with name \"" .. NameOrIndex .. '"')
-            return nil, ""
-        end
-    end
-    return player, playerName
-end
-
 -- Teleport To Player Command
 CreateCommand({ "toplayer", "teleportto", "tpto" }, "Teleport To Player", "Teleports to a player based on their name or index (host only)",
     CreateCommandParam("name/index", "string", "Name or index of a player"),
@@ -966,6 +983,7 @@ CreateCommand({ "toplayer", "teleportto", "tpto" }, "Teleport To Player", "Telep
             WriteToConsole(OutputDevice, "Use the player list command to get a list of all players in the lobby. e.g. 'players'")
             return true
         end
+        
         local player, playerName = GetPlayerByNameOrIndex(OutputDevice, Parameters[1])
         if player then
             local myPlayer = AFUtils.GetMyPlayer()
