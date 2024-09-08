@@ -8,7 +8,7 @@ local BaseUtils = require("AFUtils.BaseUtils.BaseUtils")
 ---@field Rotation FRotator
 
 ---@param Name string
----@field LevelName string
+---@param LevelName string
 ---@param Location FVector
 ---@param Rotation FRotator?
 ---@return LocationStruct
@@ -50,9 +50,9 @@ Settings = {
     InventorySlotCount = -1,
     DistantShore = false,
     Locations = {
-        LocationStruct("Cafeteria", "Facility_Office1", FVector(12529, 128, -15377)),
-        LocationStruct("Flathill", "V_FOG", FVector(335956, 1294, 6203)),
-        LocationStruct("Distant Shore", "V_DistantShore", FVector(331136, -334205, 906)),
+        LocationStruct("Cafeteria", "Facility_Office1", FVector(-15314, 12532, 128), FRotator(0, 359, 0)),
+        LocationStruct("Flathill", "V_FOG", FVector(6275, 337158, 1294), FRotator(358, 268, 0)),
+        LocationStruct("Distant Shore", "V_DistantShore", FVector(331428, -334214, 908), FRotator(1, 3, 0)),
     }, ---@type LocationStruct[]
 }
 

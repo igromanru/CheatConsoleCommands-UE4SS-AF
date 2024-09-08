@@ -9,7 +9,11 @@ local LocationsManager = {}
 function LocationToString(Location)
     if not Location or not Location.Name then return "" end
     
-    return Location.Name .. ": Coordinates " .. VectorToString(Location.Location) .. ", Rotation: " .. RotatorToString(Location.Rotation)
+    local result = Location.Name .. ": Coordinates " .. VectorToString(Location.Location) .. ", Rotation: " .. RotatorToString(Location.Rotation)
+    if Location.LevelName then
+        result = result .. ", LevelName: " .. Location.LevelName
+    end
+    return result
 end
 
 ---@param Name string
@@ -77,14 +81,20 @@ function LocationsManager.LoadLocation(Name)
         local myPlayer = AFUtils.GetMyPlayer()
         if myPlayer then
             if location.LevelName then
-                local outSuccess = { bSuccess = false }
-                local outNotLoaded = { bNotLoaded = false }
-                AFUtils.GetLevelStreamingCustom():LoadStreamLevel(myPlayer, location.LevelName, true, false, outSuccess, outNotLoaded)
-                LogDebug("LoadLocation: LoadStreamLevel Success: ", outSuccess.bSuccess)
-                LogDebug("LoadLocation: LoadStreamLevel NotLoaded: " .. outNotLoaded.bNotLoaded)
-                if not outSuccess or not outSuccess.bSuccess then
-                    LogError("LoadLocation: Failed to LoadStreamLevel, LevelName: " .. location.LevelName)
-                    return false
+                local myPlayerController = AFUtils.GetMyPlayerController()
+                if myPlayerController and myPlayerController.ActiveLevelName:ToString() ~= location.LevelName then
+                    LogDebug("LoadLocation: ActiveLevelName: " .. myPlayerController.ActiveLevelName:ToString())
+                    local outSuccess = { bSuccess = false }
+                    local outNotLoaded = { bNotLoaded = false }
+                    LogDebug("LoadLocation: LoadStreamLevel with name: " .. location.LevelName)
+                    local steamLevel = AFUtils.GetLevelStreamingCustom():LoadStreamLevel(myPlayerController:GetWorld(), location.LevelName, false, false, outSuccess, outNotLoaded)
+                    LogDebug("LoadLocation: LoadStreamLevel Success: ", outSuccess.bSuccess)
+                    LogDebug("LoadLocation: LoadStreamLevel NotLoaded: ", outNotLoaded.bNotLoaded)
+                    if not outSuccess or not outSuccess.bSuccess then
+                        LogError("LoadLocation: Failed to LoadStreamLevel, LevelName: " .. location.LevelName)
+                    end
+                else
+                    LogDebug("LoadLocation: Skip LoadStreamLevel, ActiveLevelName and location LevelName are the same")
                 end
             else
                 LogInfo("LoadLocation: Warning! Loading a Location wtihout a LevelName!")
