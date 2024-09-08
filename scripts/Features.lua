@@ -273,6 +273,60 @@ function NoRadiation(myPlayer)
     end
 end
 
+local PerfectTemperatureWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function PerfectTemperature(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.GodMode or Settings.PerfectTemperature then
+        if myPlayer.HasBodyTemperature then
+            myPlayer.HasBodyTemperature = false
+            myPlayer.CurrentBodyTemperature = myPlayer.PreferredBodyTemperature
+            myPlayer:OnRep_CurrentBodyTemperature()
+            LogDebug("HasBodyTemperature: " .. tostring(myPlayer.HasBodyTemperature))
+            LogDebug("CurrentBodyTemperature: " .. tostring(myPlayer.CurrentBodyTemperature))
+            LogDebug("PreferredBodyTemperature: " .. tostring(myPlayer.PreferredBodyTemperature))
+        end
+        if not PerfectTemperatureWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Perfect Temperature activated", AFUtils.CriticalityLevels.Green)
+            PerfectTemperatureWasEnabled = true
+        end
+    elseif PerfectTemperatureWasEnabled then
+        PerfectTemperatureWasEnabled = false
+        myPlayer.HasBodyTemperature = true
+        LogDebug("HasBodyTemperature: " .. tostring(myPlayer.HasBodyTemperature))
+        AFUtils.ClientDisplayWarningMessage("Perfect Temperature deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
+local InfiniteOxygenWasEnabled = false
+local InfiniteDrownTime = 999999.0
+local DrownTimeBackUp = InfiniteDrownTime
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function InfiniteOxygen(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.GodMode or Settings.InfiniteOxygen then
+        if myPlayer.DrownTime ~= InfiniteDrownTime then
+            if DrownTimeBackUp == InfiniteDrownTime then
+                DrownTimeBackUp = myPlayer.DrownTime
+            end
+            myPlayer.DrownTime = InfiniteDrownTime
+            LogDebug("DrownTime: " .. tostring(myPlayer.DrownTime))
+        end
+        if not InfiniteOxygenWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Infinite Oxygen activated", AFUtils.CriticalityLevels.Green)
+            InfiniteOxygenWasEnabled = true
+        end
+    elseif InfiniteOxygenWasEnabled then
+        InfiniteOxygenWasEnabled = false
+        myPlayer.DrownTime = DrownTimeBackUp
+        DrownTimeBackUp = InfiniteDrownTime
+        LogDebug("DrownTime: " .. tostring(myPlayer.DrownTime))
+        AFUtils.ClientDisplayWarningMessage("Infinite Oxygen deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local FreeCraftingWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function FreeCrafting(myPlayer)

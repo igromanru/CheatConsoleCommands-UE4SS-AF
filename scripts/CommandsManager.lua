@@ -460,6 +460,8 @@ CreateCommand({ "god", "godmode" }, "God Mode",
             Settings.NoFatigue = false
             Settings.InfiniteContinence = false
             Settings.NoRadiation = false
+            Settings.PerfectTemperature = false
+            Settings.InfiniteOxygen = false
         end
         return true
     end)
@@ -590,6 +592,30 @@ CreateCommand({ "rad", "norad", "radiation", "noradiation" }, "No Radiation",
         end
         Settings.NoRadiation = not Settings.NoRadiation
         PrintCommandState(Settings.NoRadiation, self.Name, OutputDevice)
+        return true
+    end)
+
+-- Perfect Temperature Command
+CreateCommand({ "nocold", "nohot", "temperature", "temp", "perfecttemp"  }, "Perfect Temperature", "Makes player temperature resistant. (untested as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        if Settings.GodMode then
+            WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
+            return true
+        end
+        Settings.PerfectTemperature = not Settings.PerfectTemperature
+        PrintCommandState(Settings.PerfectTemperature, self.Name, OutputDevice)
+        return true
+    end)
+
+-- Infinite Oxygen Command
+CreateCommand({ "oxygen", "info2", "o2", "infoxygen"  }, "Infinite Oxygen", "Makes player breath under water. (untested as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        if Settings.GodMode then
+            WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
+            return true
+        end
+        Settings.InfiniteOxygen = not Settings.InfiniteOxygen
+        PrintCommandState(Settings.InfiniteOxygen, self.Name, OutputDevice)
         return true
     end)
 
