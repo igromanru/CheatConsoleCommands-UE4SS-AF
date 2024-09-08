@@ -295,6 +295,28 @@ function FreeCrafting(myPlayer)
     end
 end
 
+local InvisibleWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function Invisible(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.Invisible then
+        if not myPlayer.InvincibleToNPCs then
+            myPlayer.InvincibleToNPCs = true
+            LogDebug("InvincibleToNPCs:", myPlayer.InvincibleToNPCs)
+        end
+        if not InvisibleWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Invisibility activated", AFUtils.CriticalityLevels.Green)
+            InvisibleWasEnabled = true
+        end
+    elseif InvisibleWasEnabled then
+        InvisibleWasEnabled = false
+        myPlayer.InvincibleToNPCs = false
+        LogDebug("InvincibleToNPCs:", myPlayer.InvincibleToNPCs)
+        AFUtils.ClientDisplayWarningMessage("Invisibility activated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local NoFallDamageWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoFallDamage(myPlayer)

@@ -478,7 +478,7 @@ CreateCommand({ "heal" }, "Heal", "Player gets fully healed once (host only)", n
     end)
 
 -- Infinite Health Command
-CreateCommand({ "health", "hp", "inv", "infhp", "infhealth" }, "Infinite Health",
+CreateCommand({ "health", "hp", "infhp", "infhealth" }, "Infinite Health",
     "Player gets fully healed and becomes invincible (host only)", nil,
     function(self, OutputDevice, Parameters)
         if Settings.GodMode then
@@ -590,6 +590,14 @@ CreateCommand({ "rad", "norad", "radiation", "noradiation" }, "No Radiation",
         end
         Settings.NoRadiation = not Settings.NoRadiation
         PrintCommandState(Settings.NoRadiation, self.Name, OutputDevice)
+        return true
+    end)
+
+-- Invisible Command
+CreateCommand({ "invisible", "invis" , "invisibility" }, "Invisible", "Makes player invisible to NPCs (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.Invisible = not Settings.Invisible
+        PrintCommandState(Settings.Invisible, self.Name, OutputDevice)
         return true
     end)
 

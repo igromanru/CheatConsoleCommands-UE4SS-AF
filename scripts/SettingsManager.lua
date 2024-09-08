@@ -91,6 +91,7 @@ function SettingsManager.AutoSaveOnChange()
         or SettingsMonitor.InfiniteDurability ~= Settings.InfiniteDurability
         or SettingsMonitor.InfiniteEnergy ~= Settings.InfiniteEnergy
         or SettingsMonitor.InfiniteAmmo ~= Settings.InfiniteAmmo
+        or SettingsMonitor.Invisible ~= Settings.Invisible
         or SettingsMonitor.NoHunger ~= Settings.NoHunger
         or SettingsMonitor.NoThirst ~= Settings.NoThirst
         or SettingsMonitor.NoFatigue ~= Settings.NoFatigue

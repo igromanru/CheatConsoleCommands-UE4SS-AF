@@ -39,6 +39,7 @@ Settings = {
     LowContinence = false,
     NoRadiation = false,
     FreeCrafting = false,
+    Invisible = false,
     NoFallDamage = false,
     NoClip = false,
     NoRecoil = false,
