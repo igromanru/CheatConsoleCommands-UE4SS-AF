@@ -4,7 +4,6 @@ require("Settings")
 
 local LocationsManager = {}
 
----comment
 ---@param Location LocationStruct
 ---@return string
 function LocationToString(Location)
@@ -14,10 +13,11 @@ function LocationToString(Location)
 end
 
 ---@param Name string
+---@param LevelName string
 ---@param Location FVector
 ---@param Rotation FRotator
 ---@return LocationStruct? # Returns created or update LocationStruct or nil if failed
-local function UpdateOrCreateLocation(Name, Location, Rotation)
+local function UpdateOrCreateLocation(Name, LevelName, Location, Rotation)
     if type(Name) ~= "string" or Name == "" then return nil end
 
     local lowerName = string.lower(Name)
@@ -29,7 +29,7 @@ local function UpdateOrCreateLocation(Name, Location, Rotation)
         end
     end
 
-    local locationStruct = LocationStruct(Name, Location, Rotation)
+    local locationStruct = LocationStruct(Name, LevelName, Location, Rotation)
     table.insert(Settings.Locations, locationStruct)
     if DebugMode then
         LogDebug("New Settings.Locations:")
@@ -59,11 +59,12 @@ end
 ---@return LocationStruct?
 function LocationsManager.SaveCurrentLocation(Name)
     local myPlayer = AFUtils.GetMyPlayer()
-    if myPlayer then
+    local myPlayerController = AFUtils.GetMyPlayerController()
+    if myPlayer and myPlayerController then
         local acotrLocation = myPlayer:K2_GetActorLocation()
         acotrLocation.Z = acotrLocation.Z + 20 -- Increase Z to not get stuck
         
-        return UpdateOrCreateLocation(Name, acotrLocation, AFUtils.GetControlRotation())
+        return UpdateOrCreateLocation(Name, myPlayerController.ActiveLevelName:ToString(), acotrLocation, AFUtils.GetControlRotation())
     end
     return nil
 end
