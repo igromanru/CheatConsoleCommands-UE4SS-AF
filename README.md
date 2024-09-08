@@ -19,7 +19,7 @@ Infinite Continence | con \| infcon \| InfiniteContinence \| noneed \| constipat
 Low Continence | lowcon \| lowcontinence \| nocon \| nocontinence \| portalwc \| laxative |  | Freezes the need to go to the toilet at low value (host only)
 No Radiation | rad \| norad \| radiation \| noradiation |  | Player can't receive radiation (works partial as guest)
 No Fall Damage | falldmg \| falldamage \| nofall \| nofalldmg \| nofalldamage |  | Prevents player from taking fall damage (host only)
-Free Crafting | freecraft \| freecrafting \| crafting \| craft |  | Allows player to craft all recipes and simulates possession of all items. (Warning: You may need to restart the game to deactivate it completely!) (host only)
+Free Crafting (Debug function) | freecraft \| freecrafting \| crafting \| craft |  | Allows player to craft all recipes, simulates possession of all items and allows to unlock all chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)
 Set Money | money | {value} | Set money to desired value (works as guest)
 Infinite Ammo | infammo \| ammo \| infiniteammo |  | Keeps ammo of ranged weapons replenished (works partial as guest)
 No Recoil | norecoil \| recoil \| weaponnorecoil |  | Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)
@@ -45,3 +45,4 @@ Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a 
 Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
 Give Skill Experience to Player | givexp | {name/index} {skill alias} {XP value} | Gives Skill XP to a player (host only)
 Remove Skill Experience from Player | takexp | {name/index} {skill alias} | Remove All Skill XP from a player (host only)
+Send to Distant Shore | DistantShore \| dshore \| portalwc |  | Sends player to Distant Shore as soon you deploy a [REDACTED] (untested as guest)

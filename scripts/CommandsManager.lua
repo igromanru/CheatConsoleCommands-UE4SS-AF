@@ -1187,7 +1187,7 @@ CreateCommand({ "takexp" }, "Remove Skill Experience from Player", "Remove All S
     end)
 
 -- Send to Distant Shore Command
-CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore", "Sends player to Distant Shore as soon you deyploy a [REDACTED] (untested as guest)", nil,
+CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore", "Sends player to Distant Shore if [REDACTED] is deployed/placed. (untested as guest)", nil,
     function(self, OutputDevice, Parameters)
         Settings.DistantShore = not Settings.DistantShore
         AFUtils.DisplayWarningMessage(PrintCommandState(Settings.DistantShore, self.Name, OutputDevice), AFUtils.CriticalityLevels.Green)
