@@ -76,6 +76,19 @@ function LocationsManager.LoadLocation(Name)
     if location and not IsEmptyVector(location.Location) then
         local myPlayer = AFUtils.GetMyPlayer()
         if myPlayer then
+            if location.LevelName then
+                local outSuccess = { bSuccess = false }
+                local outNotLoaded = { bNotLoaded = false }
+                AFUtils.GetLevelStreamingCustom():LoadStreamLevel(myPlayer, location.LevelName, true, false, outSuccess, outNotLoaded)
+                LogDebug("LoadLocation: LoadStreamLevel Success: ", outSuccess.bSuccess)
+                LogDebug("LoadLocation: LoadStreamLevel NotLoaded: " .. outNotLoaded.bNotLoaded)
+                if not outNotLoaded then
+                    LogError("LoadLocation: Failed to LoadStreamLevel, LevelName: " .. location.LevelName)
+                    return false
+                end
+            else
+                LogInfo("LoadLocation: Warning! Loading a Location wtihout a LevelName!")
+            end
             LogDebug("LoadLocation: TeleportPlayer to: " .. VectorToString(location.Location))
             local success = myPlayer:TeleportPlayer(location.Location, location.Rotation)
             if success then
