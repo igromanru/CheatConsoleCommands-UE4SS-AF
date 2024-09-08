@@ -82,7 +82,7 @@ function LocationsManager.LoadLocation(Name)
                 AFUtils.GetLevelStreamingCustom():LoadStreamLevel(myPlayer, location.LevelName, true, false, outSuccess, outNotLoaded)
                 LogDebug("LoadLocation: LoadStreamLevel Success: ", outSuccess.bSuccess)
                 LogDebug("LoadLocation: LoadStreamLevel NotLoaded: " .. outNotLoaded.bNotLoaded)
-                if not outNotLoaded then
+                if not outSuccess or not outSuccess.bSuccess then
                     LogError("LoadLocation: Failed to LoadStreamLevel, LevelName: " .. location.LevelName)
                     return false
                 end

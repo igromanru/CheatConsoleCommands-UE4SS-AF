@@ -50,8 +50,9 @@ Settings = {
     InventorySlotCount = -1,
     DistantShore = false,
     Locations = {
-        -- LocationStruct("Cafeteria", FVector(12529, 128, -15377)),
-        -- LocationStruct("Flathill", FVector(335956, 1294, 6203)),
+        LocationStruct("Cafeteria", "Facility_Office1", FVector(12529, 128, -15377)),
+        LocationStruct("Flathill", "V_FOG", FVector(335956, 1294, 6203)),
+        LocationStruct("Distant Shore", "V_DistantShore", FVector(331136, -334205, 906)),
     }, ---@type LocationStruct[]
 }
 
