@@ -50,7 +50,6 @@ Settings = {
     LeyakCooldown = 0, -- 0 disable command
     SpeedhackMultiplier = 1.0,
     PlayerGravityScale = 1.0,
-    InventorySlotCount = -1,
     DistantShore = false,
     Locations = {
         LocationStruct("Cafeteria", "Facility_Office1", FVector(-15314, 12532, 128), FRotator(0, 359, 0)),

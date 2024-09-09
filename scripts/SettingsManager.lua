@@ -64,12 +64,11 @@ function SettingsManager.LoadFromFile()
         local settingsFromFile = JsonLua.decode(content)
         LogDebug("Settings file version: " .. tostring(settingsFromFile.Version) .. ", Settings object version: " .. Settings.Version)
         if settingsFromFile.Version ~= Settings.Version then
-            LogDebug("Settings version doesn't match, loading only locations from file")
-            Settings.LeyakCooldown = settingsFromFile.LeyakCooldown
+            LogDebug("Settings version doesn't match, loading only specified settings from file")
             Settings.SpeedhackMultiplier = settingsFromFile.SpeedhackMultiplier
             Settings.PlayerGravityScale = settingsFromFile.PlayerGravityScale
-            Settings.InventorySlotCount = settingsFromFile.InventorySlotCount
             Settings.Locations = settingsFromFile.Locations
+            Settings.LeyakCooldown = settingsFromFile.LeyakCooldown
             if Settings.LeyakCooldown == DefaultLeyakCooldown then
                 Settings.LeyakCooldown = 0
             end
@@ -110,7 +109,6 @@ function SettingsManager.AutoSaveOnChange()
         or SettingsMonitor.NoSway ~= Settings.NoSway
         or SettingsMonitor.MasterKey ~= Settings.MasterKey
         or SettingsMonitor.LeyakCooldown ~= Settings.LeyakCooldown
-        or SettingsMonitor.InventorySlotCount ~= Settings.InventorySlotCount
         or SettingsMonitor.SpeedhackMultiplier ~= Settings.SpeedhackMultiplier
         or SettingsMonitor.PlayerGravityScale ~= Settings.PlayerGravityScale
         or (Settings.Locations and SettingsMonitor.LocationsCount ~= #Settings.Locations) 
@@ -138,7 +136,6 @@ function SettingsManager.AutoSaveOnChange()
         SettingsMonitor.NoSway = Settings.NoSway
         SettingsMonitor.MasterKey = Settings.MasterKey
         SettingsMonitor.LeyakCooldown = Settings.LeyakCooldown
-        SettingsMonitor.InventorySlotCount = Settings.InventorySlotCount
         SettingsMonitor.SpeedhackMultiplier = Settings.SpeedhackMultiplier
         SettingsMonitor.PlayerGravityScale = Settings.PlayerGravityScale
         SettingsMonitor.LocationsCount = Settings.Locations and #Settings.Locations or 0

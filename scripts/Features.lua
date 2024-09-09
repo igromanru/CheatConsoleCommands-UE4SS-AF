@@ -551,18 +551,18 @@ function SetLeyakCooldown()
     end
 end
 
-function SetInventorySlotCount()
-    if Settings.InventorySlotCount and Settings.InventorySlotCount > 0 then
-        local myInventoryComponent = AFUtils.GetMyInventoryComponent()
-        if myInventoryComponent and myInventoryComponent.MaxSlots ~= Settings.InventorySlotCount then
-            myInventoryComponent.MaxSlots = Settings.InventorySlotCount
-            myInventoryComponent:UpdateInventorySlotCount(Settings.InventorySlotCount)
-            local message = "Inventory Size set to " .. myInventoryComponent.MaxSlots
-            LogDebug(message)
-            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
-        end
-    end
-end
+-- function SetInventorySlotCount()
+--     if Settings.InventorySlotCount and Settings.InventorySlotCount > 0 then
+--         local myInventoryComponent = AFUtils.GetMyInventoryComponent()
+--         if myInventoryComponent and myInventoryComponent.MaxSlots ~= Settings.InventorySlotCount then
+--             myInventoryComponent.MaxSlots = Settings.InventorySlotCount
+--             myInventoryComponent:UpdateInventorySlotCount(Settings.InventorySlotCount)
+--             local message = "Inventory Size set to " .. myInventoryComponent.MaxSlots
+--             LogDebug(message)
+--             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+--         end
+--     end
+-- end
 
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function DistantShore(myPlayer)
