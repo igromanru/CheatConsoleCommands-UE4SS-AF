@@ -574,8 +574,7 @@ CreateCommand({ "con", "infcon", "InfiniteContinence", "noneed", "constipation" 
     end)
 
 -- Low Continence Command
-CreateCommand({ "lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", "laxative" }, "Low Continence",
-    "Freezes the need to go to the toilet at low value (host only)", nil,
+CreateCommand({ "lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", "laxative" }, "Low Continence", "Freezes the need to go to the toilet at low value. (Each time you seat down on Portal WC you have 1% change to trigger it) (host only)", nil,
     function(self, OutputDevice, Parameters)
         Settings.LowContinence = not Settings.LowContinence
         PrintCommandState(Settings.LowContinence, self.Name, OutputDevice)

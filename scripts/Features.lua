@@ -228,7 +228,7 @@ function LowContinence(myPlayer)
     if not myPlayer then return end
 
     if Settings.LowContinence then
-        local fraction = myPlayer.MaxContinence * 0.2
+        local fraction = myPlayer.MaxContinence * 0.10
         if myPlayer.CurrentContinence > fraction then
             myPlayer.HasContinence = true
             myPlayer.CurrentContinence = fraction
