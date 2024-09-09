@@ -445,6 +445,15 @@ CreateCommand("help", "Help", "Prints a list of all commands or info about a sin
         return true
     end)
 
+-- Status Command
+CreateCommand({"status", "state", "settings"}, "Status", "Prints status of the mod, which commands are active with which values",
+    CreateCommandParam("command alias", "string", "Shows help for the specified command based on its alias."),
+    function(self, OutputDevice, Parameters)
+        
+
+        return true
+    end)
+
 -- -- God Mode Command
 CreateCommand({ "god", "godmode" }, "God Mode",
     "Activates all health, stamina and status related features at once. (You will have to disable god mode to be able to toggle them seperatly)",
@@ -570,6 +579,9 @@ CreateCommand({ "con", "infcon", "InfiniteContinence", "noneed", "constipation" 
         end
         Settings.InfiniteContinence = not Settings.InfiniteContinence
         PrintCommandState(Settings.InfiniteContinence, self.Name, OutputDevice)
+        if Settings.InfiniteContinence then
+            Settings.LowContinence = false
+        end
         return true
     end)
 
@@ -578,6 +590,9 @@ CreateCommand({ "lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", 
     function(self, OutputDevice, Parameters)
         Settings.LowContinence = not Settings.LowContinence
         PrintCommandState(Settings.LowContinence, self.Name, OutputDevice)
+        if Settings.LowContinence then
+            Settings.InfiniteContinence = false
+        end
         return true
     end)
 
@@ -726,14 +741,19 @@ CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
             return true
         end
 
-        if cooldownInMin < 0.1 or cooldownInMin >= 525600000 then
+        if cooldownInMin >= 525600000 then
             WriteErrorToConsole(OutputDevice, self.Name .. ": Invalid cooldown value!")
-            WriteErrorToConsole(OutputDevice, self.Name .. ': The value must be between 0.1 and 525600000 (minutes)')
+            WriteErrorToConsole(OutputDevice, self.Name .. ': The value must be lower than 525600000 (minutes)')
             return true
         end
+        if cooldownInMin > 0  then
+            WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. cooldownInMin)
+            Settings.LeyakCooldown = cooldownInMin * 60
+        else
+            WriteToConsole(OutputDevice, self.Name .. " disabled, set back to default value.")
+            Settings.LeyakCooldown = 0
+        end
 
-        WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. cooldownInMin)
-        Settings.LeyakCooldown = cooldownInMin * 60
         return true
     end)
 

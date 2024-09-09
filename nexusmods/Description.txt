@@ -108,6 +108,11 @@ EnableDumping = 0
 [*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload/rejoin the game. Also it let you unlock all chests without needing a special Key.
 [*]Most features work only if you host the game or in singleplayer, I'll try to find "exploits" to trick the server, but don't expect much. To make most use out of mods I recommend to host your own game.
 [/list]
+[font=Verdana][size=4][b]Compatibility[/b][/size][/font]
+Cheat Console Commands mod has zero function hooks and is compatibility with any other mod.  
+Just pay attention to features of other mods/trainers, to not use the same feature from both mods, otherwise they could interfere with each other.
+For example: if you are attempting to use Low Continence and Infinite Continence at the same time.
+
 [font=Verdana][size=4][b]Bug Reports[/b][/size][/font]
 If you have followed the installation instructions above and are 100% sure that you have done everything correctly, but you are still having problems with the mod, please provide following information if you wish to report an issue. 
 [list=1]

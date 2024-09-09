@@ -70,6 +70,9 @@ function SettingsManager.LoadFromFile()
             Settings.PlayerGravityScale = settingsFromFile.PlayerGravityScale
             Settings.InventorySlotCount = settingsFromFile.InventorySlotCount
             Settings.Locations = settingsFromFile.Locations
+            if Settings.LeyakCooldown == DefaultLeyakCooldown then
+                Settings.LeyakCooldown = 0
+            end
         else
             Settings = settingsFromFile
         end

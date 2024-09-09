@@ -529,17 +529,24 @@ function PlayerGravityScale(myPlayer)
     end
 end
 
+local PreviosLeyakCooldown = 0
 function SetLeyakCooldown()
-    if Settings.LeyakCooldown and Settings.LeyakCooldown > 0 then
+    if Settings.LeyakCooldown and Settings.LeyakCooldown ~= PreviosLeyakCooldown then
         local aiDirector = AFUtils.GetAIDirector()
         if aiDirector and aiDirector.LeyakCooldown ~= Settings.LeyakCooldown then
-            aiDirector.LeyakCooldown = Settings.LeyakCooldown
+            if Settings.LeyakCooldown <= 0 or Settings.LeyakCooldown == DefaultLeyakCooldown then
+                Settings.LeyakCooldown = 0
+                aiDirector.LeyakCooldown = DefaultLeyakCooldown
+            else
+                aiDirector.LeyakCooldown = Settings.LeyakCooldown
+            end
             aiDirector:SetLeyakOnCooldown(1.0)
-            local cooldownInMin = Settings.LeyakCooldown / 60
+            local cooldownInMin = aiDirector.LeyakCooldown / 60
             local message = "Leyak's cooldown was set to " .. aiDirector.LeyakCooldown .. " (" .. cooldownInMin .. "min)"
             LogDebug(message)
             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
             AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
+            PreviosLeyakCooldown = Settings.LeyakCooldown
         end
     end
 end
