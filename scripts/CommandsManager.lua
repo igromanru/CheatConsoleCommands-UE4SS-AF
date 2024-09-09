@@ -56,9 +56,10 @@ local CommandParam = {}
 ---@field Description string
 ---@field Parameters CommandParam[]|nil
 ---@field Function CommandFunction?
+---@field SettingName string?
 local CommandStruct = {}
 
----@type table<CommandStruct>
+---@type CommandStruct[]
 local CommandsArray = {}
 
 ---@type { [string]: CommandStruct }
@@ -178,7 +179,7 @@ local function CreateCommandParam(Name, ValidType, Description, Required, ValidV
         ValidType = ValidType,
         Description = Description,
         Required = Required,
-        ValidValues = ValidValues
+        ValidValues = ValidValues,
     }
 end
 
@@ -188,8 +189,9 @@ end
 ---@param Description string?
 ---@param Parameters CommandParam|CommandParam[]|nil
 ---@param Callback CommandFunction?
+---@param SettingName string?
 ---@return CommandStruct # Returns created command
-local function CreateCommand(Aliases, CommandName, Description, Parameters, Callback)
+local function CreateCommand(Aliases, CommandName, Description, Parameters, Callback, SettingName)
     Description = Description or ""
     if type(Aliases) == "string" then
         Aliases = { Aliases }
@@ -217,7 +219,8 @@ local function CreateCommand(Aliases, CommandName, Description, Parameters, Call
         Name = CommandName,
         Description = Description,
         Parameters = Parameters,
-        Function = Callback
+        Function = Callback,
+        SettingName = SettingName
     }
 
     table.insert(CommandsArray, commandObject)
@@ -449,7 +452,21 @@ CreateCommand("help", "Help", "Prints a list of all commands or info about a sin
 CreateCommand({"status", "state", "settings"}, "Status", "Prints status of the mod, which commands are active with which values",
     CreateCommandParam("command alias", "string", "Shows help for the specified command based on its alias."),
     function(self, OutputDevice, Parameters)
-        
+        for _, command in ipairs(CommandsArray) do
+            if command and type(command.SettingName) == "string" then
+                local settingValue = Settings[command.SettingName]
+                local valueType = type(settingValue)
+                if valueType ~= "table" then
+                    local status = "Disabled"
+                    if settingValue == true then
+                        status = "Enabled"
+                    elseif valueType == "number" and settingValue > 0 then
+                        status = tostring(settingValue)
+                    end
+                    WriteToConsole(OutputDevice, "  " .. command.Name .. ": " .. status)
+                end
+            end
+        end
 
         return true
     end)
@@ -473,7 +490,8 @@ CreateCommand({ "god", "godmode" }, "God Mode",
             Settings.InfiniteOxygen = false
         end
         return true
-    end)
+    end,
+    "GodMode")
 
 -- Heal Command
 CreateCommand({ "heal" }, "Heal", "Player gets fully healed once (host only)", nil,
@@ -499,7 +517,8 @@ CreateCommand({ "health", "hp", "infhp", "infhealth" }, "Infinite Health",
         Settings.InfiniteHealth = not Settings.InfiniteHealth
         PrintCommandState(Settings.InfiniteHealth, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "InfiniteHealth")
 
 -- Infinite Stamina Command
 CreateCommand({ "stamina", "sp", "infsp", "infstamina" }, "Infinite Stamina",
@@ -512,7 +531,8 @@ CreateCommand({ "stamina", "sp", "infsp", "infstamina" }, "Infinite Stamina",
         Settings.InfiniteStamina = not Settings.InfiniteStamina
         PrintCommandState(Settings.InfiniteStamina, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "InfiniteStamina")
 
 -- Infinite Durability Command
 CreateCommand({ "durability", "infdurability", "infdur" }, "Infinite Durability",
@@ -521,7 +541,8 @@ CreateCommand({ "durability", "infdurability", "infdur" }, "Infinite Durability"
         Settings.InfiniteDurability = not Settings.InfiniteDurability
         PrintCommandState(Settings.InfiniteDurability, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "InfiniteDurability")
 
 -- Infinite Energy Command
 CreateCommand({ "energy", "infenergy" }, "Infinite Energy",
@@ -530,7 +551,8 @@ CreateCommand({ "energy", "infenergy" }, "Infinite Energy",
         Settings.InfiniteEnergy = not Settings.InfiniteEnergy
         PrintCommandState(Settings.InfiniteEnergy, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "InfiniteEnergy")
 
 -- NoHunger Command
 CreateCommand({ "hunger", "nohunger", "eat" }, "No Hunger", "Player won't be hungry (works partial as guest)", nil,
@@ -542,7 +564,8 @@ CreateCommand({ "hunger", "nohunger", "eat" }, "No Hunger", "Player won't be hun
         Settings.NoHunger = not Settings.NoHunger
         PrintCommandState(Settings.NoHunger, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "NoHunger")
 
 -- No Thirst Command
 CreateCommand({ "thirst", "nothirst", "drink" }, "No Thirst", "Player won't be thirsty (works partial as guest)", nil,
@@ -554,7 +577,8 @@ CreateCommand({ "thirst", "nothirst", "drink" }, "No Thirst", "Player won't be t
         Settings.NoThirst = not Settings.NoThirst
         PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "NoThirst")
 
 -- No Fatigue Command
 CreateCommand({ "fat", "nofat", "fatigue", "nofatigue", "tired" }, "No Fatigue",
@@ -567,7 +591,8 @@ CreateCommand({ "fat", "nofat", "fatigue", "nofatigue", "tired" }, "No Fatigue",
         Settings.NoFatigue = not Settings.NoFatigue
         PrintCommandState(Settings.NoFatigue, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "NoFatigue")
 
 -- Infinite Continence Command
 CreateCommand({ "con", "infcon", "InfiniteContinence", "noneed", "constipation" }, "Infinite Continence",
@@ -583,7 +608,8 @@ CreateCommand({ "con", "infcon", "InfiniteContinence", "noneed", "constipation" 
             Settings.LowContinence = false
         end
         return true
-    end)
+    end,
+    "InfiniteContinence")
 
 -- Low Continence Command
 CreateCommand({ "lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", "laxative" }, "Low Continence", "Freezes the need to go to the toilet at low value. (Each time you seat down on Portal WC you have 1% change to trigger it) (host only)", nil,
@@ -594,7 +620,8 @@ CreateCommand({ "lowcon", "lowcontinence", "nocon", "nocontinence", "portalwc", 
             Settings.InfiniteContinence = false
         end
         return true
-    end)
+    end,
+    "LowContinence")
 
 -- No Radiation Command
 CreateCommand({ "rad", "norad", "radiation", "noradiation" }, "No Radiation",
@@ -607,7 +634,8 @@ CreateCommand({ "rad", "norad", "radiation", "noradiation" }, "No Radiation",
         Settings.NoRadiation = not Settings.NoRadiation
         PrintCommandState(Settings.NoRadiation, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "NoRadiation")
 
 -- Perfect Temperature Command
 CreateCommand({ "nocold", "nohot", "temperature", "temp", "perfecttemp"  }, "Perfect Temperature", "Makes player temperature resistant. (untested as guest)", nil,
@@ -619,7 +647,8 @@ CreateCommand({ "nocold", "nohot", "temperature", "temp", "perfecttemp"  }, "Per
         Settings.PerfectTemperature = not Settings.PerfectTemperature
         PrintCommandState(Settings.PerfectTemperature, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "PerfectTemperature")
 
 -- Infinite Oxygen Command
 CreateCommand({ "oxygen", "info2", "o2", "infoxygen"  }, "Infinite Oxygen", "Makes player breath under water. (untested as guest)", nil,
@@ -631,7 +660,8 @@ CreateCommand({ "oxygen", "info2", "o2", "infoxygen"  }, "Infinite Oxygen", "Mak
         Settings.InfiniteOxygen = not Settings.InfiniteOxygen
         PrintCommandState(Settings.InfiniteOxygen, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "InfiniteOxygen")
 
 -- Invisible Command
 CreateCommand({ "invisible", "invis" , "invisibility" }, "Invisible", "Makes player invisible to NPCs (host only)", nil,
@@ -639,7 +669,8 @@ CreateCommand({ "invisible", "invis" , "invisibility" }, "Invisible", "Makes pla
         Settings.Invisible = not Settings.Invisible
         PrintCommandState(Settings.Invisible, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "Invisible")
 
 -- No Fall Damage Command
 CreateCommand({ "falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage" }, "No Fall Damage",
@@ -648,7 +679,8 @@ CreateCommand({ "falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage" }
         Settings.NoFallDamage = not Settings.NoFallDamage
         PrintCommandState(Settings.NoFallDamage, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "NoFallDamage")
 
 -- FreeCrafting Command
 CreateCommand({ "freecraft", "freecrafting", "crafting", "craft" }, "Free Crafting (Debug function)",
@@ -658,7 +690,8 @@ CreateCommand({ "freecraft", "freecrafting", "crafting", "craft" }, "Free Crafti
         Settings.FreeCrafting = not Settings.FreeCrafting
         PrintCommandState(Settings.FreeCrafting, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "FreeCrafting")
 
 -- Set Money Command
 CreateCommand({ "money" }, "Set Money", "Set money to desired value (works as guest)",
@@ -703,7 +736,8 @@ CreateCommand({ "infammo", "ammo", "infiniteammo" }, "Infinite Ammo",
         Settings.InfiniteAmmo = not Settings.InfiniteAmmo
         PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "InfiniteAmmo")
 
 -- No Recoil Command
 CreateCommand({ "norecoil", "recoil", "weaponnorecoil" }, "No Recoil",
@@ -712,7 +746,8 @@ CreateCommand({ "norecoil", "recoil", "weaponnorecoil" }, "No Recoil",
         Settings.NoRecoil = not Settings.NoRecoil
         PrintCommandState(Settings.NoRecoil, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "NoRecoil")
 
 -- No Sway Command
 CreateCommand({ "nosway", "sway", "noweaponsway" }, "No Sway", "Removes weapon's sway  (works as guest)", nil,
@@ -720,7 +755,8 @@ CreateCommand({ "nosway", "sway", "noweaponsway" }, "No Sway", "Removes weapon's
         Settings.NoSway = not Settings.NoSway
         PrintCommandState(Settings.NoSway, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "NoSway")
 
 -- Set Leyak Cooldown Command
 CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
@@ -755,7 +791,8 @@ CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
         end
 
         return true
-    end)
+    end,
+    "LeyakCooldown")
 
 -- No Clip Command
 CreateCommand({ "noclip", "clip", "ghost" }, "No Clip", "Disables player's collision and makes him fly (host only)", nil,
@@ -763,7 +800,8 @@ CreateCommand({ "noclip", "clip", "ghost" }, "No Clip", "Disables player's colli
         Settings.NoClip = not Settings.NoClip
         PrintCommandState(Settings.NoClip, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "NoClip")
 
 -- Add Skill Experience
 CreateCommand({ "addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "skillxp" }, "Add Skill Experience",
@@ -856,7 +894,8 @@ CreateCommand({ "masterkey", "key", "keys", "opendoor", "opendoors" }, "Master K
         Settings.MasterKey = not Settings.MasterKey
         PrintCommandState(Settings.MasterKey, self.Name, OutputDevice)
         return true
-    end)
+    end,
+    "MasterKey")
 
 -- Set Next Weather Command
 CreateCommand({ "setweather", "nextweather", "weatherevent", "weather" }, "Weather Event",
@@ -969,7 +1008,8 @@ CreateCommand({ "locations", "showloc", "showlocations", "loc", "locs" }, "List 
         end
         WriteToConsole(OutputDevice, "--------------------")
         return true
-    end)
+    end,
+    "Locations")
 
 -- Save Location Command
 CreateCommand({ "savelocation", "saveloc", "setloc", "wp", "savewp", "setwp", "waypoint", "setwaypoint", "savewaypoint" },
@@ -1131,7 +1171,8 @@ function(self, OutputDevice, Parameters)
     Settings.SpeedhackMultiplier = multiplier
     WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. multiplier)
     return true
-end)
+end,
+"SpeedhackMultiplier")
 
 -- Player Gravity Scale Command
 CreateCommand({ "playergravity", "playergrav", "pg", "setpg" }, "Player Gravity Scale", "Sets player's gravity scale. (Default scale: 1.0) (host only)",
@@ -1151,7 +1192,8 @@ function(self, OutputDevice, Parameters)
     Settings.PlayerGravityScale = multiplier
     WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. multiplier)
     return true
-end)
+end,
+"PlayerGravityScale")
 
 -- Give Skill Experience to a Player
 CreateCommand({ "givexp" }, "Give Skill Experience to Player", "Gives Skill XP to a player (host only)",
@@ -1245,7 +1287,8 @@ CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore",
         Settings.DistantShore = not Settings.DistantShore
         AFUtils.DisplayWarningMessage(PrintCommandState(Settings.DistantShore, self.Name, OutputDevice), AFUtils.CriticalityLevels.Green)
         return true
-    end)
+    end,
+    "DistantShore")
 
 
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)

@@ -40,9 +40,9 @@ Settings = {
     NoRadiation = false,
     PerfectTemperature = false,
     InfiniteOxygen = false,
-    FreeCrafting = false,
     Invisible = false,
     NoFallDamage = false,
+    FreeCrafting = false,
     NoClip = false,
     NoRecoil = false,
     NoSway = false,
@@ -58,5 +58,3 @@ Settings = {
         LocationStruct("Distant Shore", "V_DistantShore", FVector(331428, -334214, 908), FRotator(1, 3, 0)),
     }, ---@type LocationStruct[]
 }
-
-return Settings
