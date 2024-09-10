@@ -6,7 +6,7 @@
 Command | Aliases | Parameters | Description
 ------- | ------- | ---------- | -----------
 Help | help | {command alias} | Prints a list of all commands or info about a single one
-Status | status \| state \| settings | {command alias} | Prints status of the mod, which commands are active with which values
+Status | status \| state \| settings |  | Prints status of the mod, which commands are active with which values
 God Mode | god \| godmode |  | Activates all health, stamina and status related features at once. (You will have to disable god mode to be able to toggle them seperatly)
 Heal | heal |  | Player gets fully healed once (host only)
 Infinite Health | health \| hp \| infhp \| infhealth |  | Player gets fully healed and becomes invincible (host only)
@@ -20,16 +20,16 @@ No Fatigue | fat \| nofat \| fatigue \| nofatigue \| tired |  | Player won't be 
 Infinite Continence | con \| infcon \| InfiniteContinence \| noneed \| constipation |  | Player won't need to go to the toilet (works partial as guest)
 Low Continence | lowcon \| lowcontinence \| nocon \| nocontinence \| portalwc \| laxative |  | Freezes the need to go to the toilet at low value. (Each time you seat down on Portal WC you have 1% change to trigger it) (host only)
 No Radiation | rad \| norad \| radiation \| noradiation |  | Player can't receive radiation (works partial as guest)
-Perfect Temperature | nocold \| nohot \| temperature \| temp \| perfecttemp |  | Makes player temperature resistant. (untested as guest)
-Infinite Oxygen | oxygen \| info2 \| o2 \| infoxygen |  | Makes player breath under water. (untested as guest)
+Perfect Temperature | nocold \| nohot \| temperature \| temp \| perfecttemp |  | Makes player temperature resistant. (host only)
+Infinite Oxygen | oxygen \| info2 \| o2 \| infoxygen |  | Makes player breath under water. (host only)
 Invisible | invisible \| invis \| invisibility |  | Makes player invisible to NPCs (host only)
 No Fall Damage | falldmg \| falldamage \| nofall \| nofalldmg \| nofalldamage |  | Prevents player from taking fall damage (host only)
 Free Crafting (Debug function) | freecraft \| freecrafting \| crafting \| craft |  | Allows player to craft all recipes, simulates possession of all items and allows to unlock all chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)
 Set Money | money | {value} | Set money to desired value (works as guest)
-Infinite Ammo | infammo \| ammo \| infiniteammo |  | Keeps ammo of ranged weapons replenished (works partial as guest)
+Infinite Ammo | infammo \| ammo \| infiniteammo |  | Keeps ammo of ranged weapons replenished (as guest works somehow, but is bugged)
 No Recoil | norecoil \| recoil \| weaponnorecoil |  | Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)
 No Sway | nosway \| sway \| noweaponsway |  | Removes weapon's sway  (works as guest)
-Leyak Cooldown | leyakcd \| leyakcooldown \| cdleyak | {minutes} | Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (host only)
+Leyak Cooldown | leyakcd \| leyakcooldown \| cdleyak | {minutes} | Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)
 No Clip | noclip \| clip \| ghost |  | Disables player's collision and makes him fly (host only)
 Add Skill Experience | addxp \| addexp \| xpadd \| skillxp \| skillexp \| skill \| skillxp | {skill alias} {XP value} | Adds XP to specified Skill (host only)
 Remove Skill Experience | removexp \| removeexp \| resetxp \| resetexp \| resetskill \| resetlevel \| resetlvl | {skill alias} | Removes All XP from specified Skill (host only)
@@ -50,4 +50,4 @@ Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a 
 Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
 Give Skill Experience to Player | givexp | {name/index} {skill alias} {XP value} | Gives Skill XP to a player (host only)
 Remove Skill Experience from Player | takexp | {name/index} {skill alias} | Remove All Skill XP from a player (host only)
-Send to Distant Shore | DistantShore \| dshore \| portalwc |  | Sends player to Distant Shore if [REDACTED] is deployed/placed. (untested as guest)
+Send to Distant Shore | DistantShore \| dshore \| portalwc |  | Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)
