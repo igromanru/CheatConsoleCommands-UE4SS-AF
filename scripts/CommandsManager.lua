@@ -449,8 +449,7 @@ CreateCommand("help", "Help", "Prints a list of all commands or info about a sin
     end)
 
 -- Status Command
-CreateCommand({"status", "state", "settings"}, "Status", "Prints status of the mod, which commands are active with which values",
-    CreateCommandParam("command alias", "string", "Shows help for the specified command based on its alias."),
+CreateCommand({"status", "state", "settings"}, "Status", "Prints status of the mod, which commands are active with which values", nil,
     function(self, OutputDevice, Parameters)
         for _, command in ipairs(CommandsArray) do
             if command and type(command.SettingName) == "string" then
@@ -648,7 +647,7 @@ CreateCommand({ "rad", "norad", "radiation", "noradiation" }, "No Radiation",
     "NoRadiation")
 
 -- Perfect Temperature Command
-CreateCommand({ "nocold", "nohot", "temperature", "temp", "perfecttemp"  }, "Perfect Temperature", "Makes player temperature resistant. (untested as guest)", nil,
+CreateCommand({ "nocold", "nohot", "temperature", "temp", "perfecttemp"  }, "Perfect Temperature", "Makes player temperature resistant. (host only)", nil,
     function(self, OutputDevice, Parameters)
         if Settings.GodMode then
             WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
@@ -661,7 +660,7 @@ CreateCommand({ "nocold", "nohot", "temperature", "temp", "perfecttemp"  }, "Per
     "PerfectTemperature")
 
 -- Infinite Oxygen Command
-CreateCommand({ "oxygen", "info2", "o2", "infoxygen"  }, "Infinite Oxygen", "Makes player breath under water. (untested as guest)", nil,
+CreateCommand({ "oxygen", "info2", "o2", "infoxygen"  }, "Infinite Oxygen", "Makes player breath under water. (host only)", nil,
     function(self, OutputDevice, Parameters)
         if Settings.GodMode then
             WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
@@ -741,7 +740,7 @@ CreateCommand({ "money" }, "Set Money", "Set money to desired value (works as gu
 
 -- Infinite Ammo Command
 CreateCommand({ "infammo", "ammo", "infiniteammo" }, "Infinite Ammo",
-    "Keeps ammo of ranged weapons replenished (works partial as guest)", nil,
+    "Keeps ammo of ranged weapons replenished (as guest works somehow, but is bugged)", nil,
     function(self, OutputDevice, Parameters)
         Settings.InfiniteAmmo = not Settings.InfiniteAmmo
         PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
@@ -770,7 +769,7 @@ CreateCommand({ "nosway", "sway", "noweaponsway" }, "No Sway", "Removes weapon's
 
 -- Set Leyak Cooldown Command
 CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
-    "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (host only)",
+    "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)",
     CreateCommandParam("minutes", "number", "Amount a minutes between each Leyak spawn"),
     function(self, OutputDevice, Parameters)
         local cooldownInMin = nil
@@ -1292,7 +1291,7 @@ CreateCommand({ "takexp" }, "Remove Skill Experience from Player", "Remove All S
     end)
 
 -- Send to Distant Shore Command
-CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore", "Sends player to Distant Shore if [REDACTED] is deployed/placed. (untested as guest)", nil,
+CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore", "Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)", nil,
     function(self, OutputDevice, Parameters)
         Settings.DistantShore = not Settings.DistantShore
         AFUtils.DisplayWarningMessage(PrintCommandState(Settings.DistantShore, self.Name, OutputDevice), AFUtils.CriticalityLevels.Green)
