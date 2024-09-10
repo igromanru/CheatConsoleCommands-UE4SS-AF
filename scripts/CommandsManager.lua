@@ -554,6 +554,16 @@ CreateCommand({ "energy", "infenergy" }, "Infinite Energy",
     end,
     "InfiniteEnergy")
 
+-- Infinite Max Weight Command
+CreateCommand({ "infweight", "carryweight", "maxweight", "noweight", "infcarry" }, "Infinite Max Weight",
+    "Increases maximum carry weight. (To refresh overweight status drop heavy items then pick them up again) (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.InfiniteMaxWeight = not Settings.InfiniteMaxWeight
+        PrintCommandState(Settings.InfiniteMaxWeight, self.Name, OutputDevice)
+        return true
+    end,
+    "InfiniteMaxWeight")
+
 -- NoHunger Command
 CreateCommand({ "hunger", "nohunger", "eat" }, "No Hunger", "Player won't be hungry (works partial as guest)", nil,
     function(self, OutputDevice, Parameters)

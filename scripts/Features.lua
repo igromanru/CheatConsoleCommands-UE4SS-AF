@@ -96,6 +96,38 @@ function InfiniteEnergy(myPlayer)
     end
 end
 
+local MaxInventoryWeight = 999999.0
+local LastMaxCarryWeight = 0
+local InfiniteMaxWeightWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function InfiniteMaxWeight(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.InfiniteMaxWeight then
+        if myPlayer.MaxInventoryWeight < MaxInventoryWeight then
+            LastMaxCarryWeight = myPlayer.MaxInventoryWeight
+            myPlayer.MaxInventoryWeight = MaxInventoryWeight
+            myPlayer:OnRep_MaxInventoryWeight()
+            LogDebug("MaxInventoryWeight: " .. tostring(myPlayer.MaxInventoryWeight))
+        end
+        if not InfiniteMaxWeightWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Infinite Max Weight activated", AFUtils.CriticalityLevels.Green)
+            InfiniteMaxWeightWasEnabled = true
+        end
+    elseif InfiniteMaxWeightWasEnabled then
+        InfiniteMaxWeightWasEnabled = false
+        if LastMaxCarryWeight < myPlayer.DefaultMaxInventoryWeight then
+            myPlayer.MaxInventoryWeight = myPlayer.DefaultMaxInventoryWeight
+        else
+            myPlayer.MaxInventoryWeight = LastMaxCarryWeight
+        end
+        myPlayer:OnRep_MaxInventoryWeight()
+        LogDebug("MaxInventoryWeight: " .. tostring(myPlayer.MaxInventoryWeight))
+        LastMaxCarryWeight = 0
+        AFUtils.ClientDisplayWarningMessage("Infinite Max Weight deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local InfiniteAmmoWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteAmmo(myPlayer)
