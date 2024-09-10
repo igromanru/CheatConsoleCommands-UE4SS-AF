@@ -82,7 +82,6 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Remove Skill Experience from Player[/b] [ [font=Arial]takexp[/font] ] { <name/index> <skill alias> } - [font=Georgia]Remove All Skill XP from a player (host only)[/font]
 [b]Send to Distant Shore[/b] [ [font=Arial]DistantShore[/font] | [font=Arial]dshore[/font] | [font=Arial]portalwc[/font] ] {} - [font=Georgia]Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)[/font]
 
-
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.
 For example: [b]Infinite Health[/b] can be activated by typing "health", "hp", "inv", "infhp" OR "infhealth" into the console.
@@ -104,8 +103,7 @@ Commands which has variables has to be used like this:
 [code]bUseUObjectArrayCache = false
 GuiConsoleEnabled = 0
 EnableDumping = 0
-[/code]
-4. Save the file.
+[/code]4. Save the file.
 [size=2]If you still experience performance issues, write a detailed comment what happens, your PC specs and which mods you use.[/size]
 
 [font=Verdana][size=4][b]Additional information[/b][/size][/font]
@@ -148,3 +146,4 @@ Check out my other Abiotic Factor mods.
 [list]
 [*]Gantzyo from UE4SS Discord
 [/list]
+[b][url=https://github.com/igromanru/CheatConsoleCommands-UE4SS-AF]GitHub Page[/url][/b]
