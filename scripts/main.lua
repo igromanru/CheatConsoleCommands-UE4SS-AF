@@ -10,7 +10,7 @@
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.9.0"
+ModVersion = "1.9.1"
 DebugMode = true
 IsModEnabled = true
 
@@ -19,6 +19,11 @@ require("Features")
 require("CommandsManager") -- Executes CommandsManager functions
 local SettingsManager = require("SettingsManager")
 SettingsManager.LoadFromFile()
+
+if not IsModEnabled then
+    LogInfo("Disabled with IsModEnabled")
+    return
+end
 
 -- Main loop
 LoopAsync(250, function()

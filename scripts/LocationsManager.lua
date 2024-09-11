@@ -16,6 +16,17 @@ function LocationToString(Location)
     return result
 end
 
+---@param Location LocationStruct
+---@return string
+local function LocationToConstructorString(Location)
+    if not Location or not Location.Name then return "" end
+
+    local format = "LocationStruct(\"%s\", \"%s\", FVector(%d, %d, %d), FRotator(%d, %d, %d))"
+    return string.format(format, Location.Name, Location.LevelName,
+                math.floor(Location.Location.X), math.floor(Location.Location.Y), math.floor(Location.Location.Z),
+                math.floor(Location.Rotation.Pitch), math.floor(Location.Rotation.Yaw), math.floor(Location.Rotation.Roll))
+end
+
 ---@param Name string
 ---@param LevelName string
 ---@param Location FVector
@@ -29,6 +40,9 @@ local function UpdateOrCreateLocation(Name, LevelName, Location, Rotation)
         if string.lower(location.Name) == lowerName then
             location.Location = Location
             location.Rotation = Rotation
+            if DebugMode then
+                LogDebug("Update Location: " .. LocationToConstructorString(location))
+            end
             return location
         end
     end
@@ -36,10 +50,7 @@ local function UpdateOrCreateLocation(Name, LevelName, Location, Rotation)
     local locationStruct = LocationStruct(Name, LevelName, Location, Rotation)
     table.insert(Settings.Locations, locationStruct)
     if DebugMode then
-        LogDebug("New Settings.Locations:")
-        for _, location in ipairs(Settings.Locations) do
-            LogDebug(LocationToString(location))
-        end
+        LogDebug("New Location: " .. LocationToConstructorString(locationStruct))
     end
     return locationStruct
 end
