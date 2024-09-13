@@ -18,7 +18,7 @@ No Hunger | hunger \| nohunger \| eat |  | Player won't be hungry (works partial
 No Thirst | thirst \| nothirst \| drink |  | Player won't be thirsty (works partial as guest)
 No Fatigue | fat \| nofat \| fatigue \| nofatigue \| tired |  | Player won't be tired (works partial as guest)
 Infinite Continence | con \| infcon \| InfiniteContinence \| noneed \| constipation |  | Player won't need to go to the toilet (works partial as guest)
-Low Continence | lowcon \| lowcontinence \| nocon \| nocontinence \| portalwc \| laxative |  | Freezes the need to go to the toilet at low value. (Each time you seat down on Portal WC you have 1% change to trigger it) (host only)
+Low Continence | lowcon \| lowcontinence \| nocon \| nocontinence \| laxative |  | Freezes the need to go to the toilet at low value. (Each time you seat down on Portal WC you have 1% change to trigger it) (host only)
 No Radiation | rad \| norad \| radiation \| noradiation |  | Player can't receive radiation (works partial as guest)
 Perfect Temperature | nocold \| nohot \| temperature \| temp \| perfecttemp |  | Makes player temperature resistant. (host only)
 Infinite Oxygen | oxygen \| info2 \| o2 \| infoxygen |  | Makes player breath under water. (host only)
