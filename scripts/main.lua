@@ -10,7 +10,7 @@
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.9.1"
+ModVersion = "1.10.0"
 DebugMode = true
 IsModEnabled = true
 
@@ -44,6 +44,7 @@ LoopAsync(250, function()
             PerfectTemperature(myPlayer)
             InfiniteOxygen(myPlayer)
             FreeCrafting(myPlayer)
+            InstantCrafting(myPlayer)
             Invisible(myPlayer)
             NoFallDamage(myPlayer)
             NoClip(myPlayer)

@@ -43,6 +43,7 @@ Settings = {
     Invisible = false,
     NoFallDamage = false,
     FreeCrafting = false,
+    InstantCrafting = false,
     InfiniteAmmo = false,
     NoClip = false,
     NoRecoil = false,

@@ -691,7 +691,7 @@ CreateCommand({ "falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage" }
     end,
     "NoFallDamage")
 
--- FreeCrafting Command
+-- Free Crafting Command
 CreateCommand({ "freecraft", "freecrafting", "crafting", "craft" }, "Free Crafting (Debug function)",
     "Allows player to craft all recipes, simulates possession of all items and allows to unlock all chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)",
     nil,
@@ -701,6 +701,16 @@ CreateCommand({ "freecraft", "freecrafting", "crafting", "craft" }, "Free Crafti
         return true
     end,
     "FreeCrafting")
+
+-- Instant Crafting Command
+CreateCommand({ "InstantCrafting", "instacraft", "instantcraft", "instcraft" }, "Instant Crafting",
+    "Reduces crafting duration for all recipes to minimum (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.InstantCrafting = not Settings.InstantCrafting
+        PrintCommandState(Settings.InstantCrafting, self.Name, OutputDevice)
+        return true
+    end,
+    "InstantCrafting")
 
 -- Set Money Command
 CreateCommand({ "money" }, "Set Money", "Set money to desired value (works as guest)",

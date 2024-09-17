@@ -381,6 +381,26 @@ function FreeCrafting(myPlayer)
     end
 end
 
+local InstantCraftingWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function InstantCrafting(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.InstantCrafting then
+        local craftingArea = AFUtils.GetMyInventoryCraftingArea()
+        if craftingArea and craftingArea.SelectedRecipe then
+            craftingArea.SelectedRecipe.CraftDuration_13_BFC1ED4A429775D36D12E683816868D6 = 0.01
+        end
+        if not InstantCraftingWasEnabled then
+            InstantCraftingWasEnabled = true
+            AFUtils.ClientDisplayWarningMessage("Instant Crafting activated", AFUtils.CriticalityLevels.Green)
+        end
+    elseif InstantCraftingWasEnabled then
+        InstantCraftingWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Instant Crafting deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local InvisibleWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function Invisible(myPlayer)
