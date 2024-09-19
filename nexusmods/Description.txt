@@ -10,16 +10,17 @@ I override some default UE commands which aren't working properly with the game 
 [size=3]Unreal Engine Scripting System aka. [url=https://github.com/UE4SS-RE/RE-UE4SS]RE-UE4SS[/url][/size]
 
 [font=Verdana][size=4][b]Manual Installation[/b][/size][/font]
-[size=2]As for now Vortex doesn't support the game, so you have to install the mod manually.[/size]
-1. Download the latest version of RE-UE4SS from it's [url=https://github.com/UE4SS-RE/RE-UE4SS/releases]Release[/url] section. Scroll down to [b]Assets[/b] dropdown (open it) and download the [b]UE4SS_v{version nummber}.zip[/b] (e.g. UE4SS_v3.0.1.zip)
-2. Unzip the content of the zip archive into the following location: [i](game root directory)\AbioticFactor\Binaries\Win64\[/i]
-[size=2]It should be at the location of the [b]AbioticFactor-Win64-Shipping.exe[/b] !
-For Steam users it might be something like this: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Binaries\Win64\[/i][/size]
-3. Now use the [b]Manual Download[/b] button in [i]Files[/i] tab to download the mod as a zip file as well.
-4. Unzip/extract the content of mod's zip ([b]CheatConsoleCommands[/b] folder) into the directory: [i](game root directory)\AbioticFactor\Binaries\Win64\Mods\[/i]
-[size=2]Whole mod path should be like this: [i](game root directory)\AbioticFactor\Binaries\Win64\Mods\CheatConsoleCommands\[/i]
-Steam example: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Binaries\Win64\Mods\CheatConsoleCommands\
-[/i][/size]5. Done. You can find the list of commands below.
+[size=1]As for now Vortex doesn't support the game, so you have to install the mod manually.[/size]
+1. Follow the instruction on the [url=https://www.nexusmods.com/abioticfactor/mods/35]UE4SS for Abiotic Factor[/url] page to download and install latest UE4SS from there.
+2. After use the [b]Manual Download[/b] button in [i]Files[/i] tab of this mod to download the mod as a zip file.
+4. Unzip/extract the content of mod's zip ([b]CheatConsoleCommands[/b] folder) into the directory: [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss\Mods\[/i]
+[size=2]Make sure you don't create a new folder while extracting! If you do just move the content to the destination after.[/size]
+[size=2]Whole mod path should be like this: [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss\Mods\CheatConsoleCommands\[/i][/size]
+[size=2]Steam example: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Binaries\Win64\ue4ss\Mods\CheatConsoleCommands\[/i][/size]
+5. Verify that you have installed the mod correctly.
+The mod directory should contain a [b]Scripts[/b] folder and an [b]enabled.txt[/b] file.
+[size=2][i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss\Mods\CheatConsoleCommands\Scripts\[/i]
+[i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss\Mods\CheatConsoleCommands\enabled.txt[/i][/size]
 
 [font=Verdana][size=4][b]How to use[/b][/size][/font]
 [list][*]Open game's command console with [b]F10[/b]. Press F10 one time to open in "quick type" mode and second type to open fully.
@@ -31,7 +32,7 @@ Steam example: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Bi
 Since v1.4.0 the toggle state of commands will be saved to a file and restored automatically when you start the game next time.  
 It will also automatically change Leyak's cooldown to your last set value.  
 Obviously all your saved locations will be saved as well.
-
+When updating the mod to latest version overwrite existing files instead of deleting the folder, to preserve the settings file.
 [line]
 [font=Verdana][size=4][b]Commands[/b][/size][/font]
 Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] parameters[/i] } - [i]Description[/i]
@@ -48,7 +49,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]No Thirst[/b] [ [font=Arial]thirst[/font] | [font=Arial]nothirst[/font] | [font=Arial]drink[/font] ] {} - [font=Georgia]Player won't be thirsty (works partial as guest)[/font]
 [b]No Fatigue[/b] [ [font=Arial]fat[/font] | [font=Arial]nofat[/font] | [font=Arial]fatigue[/font] | [font=Arial]nofatigue[/font] | [font=Arial]tired[/font] ] {} - [font=Georgia]Player won't be tired (works partial as guest)[/font]
 [b]Infinite Continence[/b] [ [font=Arial]con[/font] | [font=Arial]infcon[/font] | [font=Arial]InfiniteContinence[/font] | [font=Arial]noneed[/font] | [font=Arial]constipation[/font] ] {} - [font=Georgia]Player won't need to go to the toilet (works partial as guest)[/font]
-[b]Low Continence[/b] [ [font=Arial]lowcon[/font] | [font=Arial]lowcontinence[/font] | [font=Arial]nocon[/font] | [font=Arial]nocontinence[/font] | [font=Arial]portalwc[/font] | [font=Arial]laxative[/font] ] {} - [font=Georgia]Freezes the need to go to the toilet at low value. (Each time you seat down on Portal WC you have 1% change to trigger it) (host only)[/font]
+[b]Low Continence[/b] [ [font=Arial]lowcon[/font] | [font=Arial]lowcontinence[/font] | [font=Arial]nocon[/font] | [font=Arial]nocontinence[/font] | [font=Arial]laxative[/font] ] {} - [font=Georgia]Freezes the need to go to the toilet at low value. (Each time you seat down on Portal WC you have 1% change to trigger it) (host only)[/font]
 [b]No Radiation[/b] [ [font=Arial]rad[/font] | [font=Arial]norad[/font] | [font=Arial]radiation[/font] | [font=Arial]noradiation[/font] ] {} - [font=Georgia]Player can't receive radiation (works partial as guest)[/font]
 [b]Perfect Temperature[/b] [ [font=Arial]nocold[/font] | [font=Arial]nohot[/font] | [font=Arial]temperature[/font] | [font=Arial]temp[/font] | [font=Arial]perfecttemp[/font] ] {} - [font=Georgia]Makes player temperature resistant. (host only)[/font]
 [b]Infinite Oxygen[/b] [ [font=Arial]oxygen[/font] | [font=Arial]info2[/font] | [font=Arial]o2[/font] | [font=Arial]infoxygen[/font] ] {} - [font=Georgia]Makes player breath under water. (host only)[/font]
@@ -94,18 +95,6 @@ Commands which has variables has to be used like this:
 [b]Change Size[/b] [ changesize ] { size_multiplier } - [u]Changes player's size played on the multiplier value (1.0 = default size)[/u]
 [size=2]There are some more, but I haven't tested them.[/size]
 [line]
-[font=Verdana][size=4][b]Recommended UE4SS settings for better performance[/b][/size][/font]
-[size=2]If you experience lag spikes, I highly recommend to change this settings.[/size]
-1. Navigate to the game directory where you've installed the UE4SS: [i](game root directory)\AbioticFactor\Binaries\Win64\[/i]
-[size=2]e.g. [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Binaries\Win64\[/i][/size]
-2. Open [b]UE4SS-settings.ini[/b] with any text editor.
-3. Find following entries and change them as following:
-[code]bUseUObjectArrayCache = false
-GuiConsoleEnabled = 0
-EnableDumping = 0
-[/code]4. Save the file.
-[size=2]If you still experience performance issues, write a detailed comment what happens, your PC specs and which mods you use.[/size]
-
 [font=Verdana][size=4][b]Additional information[/b][/size][/font]
 [list]
 [*]Most features are based on debugging functions created by game developers to help them develop the game.
@@ -122,7 +111,7 @@ If you have followed the installation instructions above and are 100% sure that 
 [list=1]
 [*]Your game version and Platform (Steam/Cracked etc.)
 [*]Which mod version are you using
-[*]The content of [b]UE4SS.log[/b] files. UE4SS.log file should be in the installation directory of UE4SS.
+[*]The content of [b]UE4SS.log[/b] file. UE4SS.log file should be in the installation directory of UE4SS.
 [/list]
 [font=Verdana][size=4][b]Feedback and Feature requests[/b][/size][/font]
 Any feedback and feature request are currently welcome.
