@@ -1241,7 +1241,7 @@ CreateCommand({ "givexp" }, "Give Skill Experience to Player", "Gives Skill XP t
                 xpToAdd = tonumber(Parameters[3])
             end
             if xpToAdd then
-                if Skills.AddXpToMyPlayer(skill.Id, xpToAdd) then
+                if Skills.AddXp(player, skill.Id, xpToAdd) then
                     local message = skill.Name .. " " .. tostring(xpToAdd) .. " XP added to " .. playerName
                     WriteToConsole(OutputDevice, message)
                     AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
