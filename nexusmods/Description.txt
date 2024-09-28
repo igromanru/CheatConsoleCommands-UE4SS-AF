@@ -7,7 +7,7 @@ The mod makes a use of Unreal Engine's default console which gets enabled throug
 I override some default UE commands which aren't working properly with the game and add a lot of own commands to it. See the list of commands below.
 
 [font=Verdana][size=4][b]Requirements[/b][/size][/font]
-[size=3]Unreal Engine Scripting System aka. [url=https://github.com/UE4SS-RE/RE-UE4SS]RE-UE4SS[/url][/size]
+[size=3][url=https://www.nexusmods.com/abioticfactor/mods/35]UE4SS for Abiotic Factor[/url][/size]
 
 [font=Verdana][size=4][b]Manual Installation[/b][/size][/font]
 [size=1]As for now Vortex doesn't support the game, so you have to install the mod manually.[/size]
@@ -56,6 +56,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Invisible[/b] [ [font=Arial]invisible[/font] | [font=Arial]invis[/font] | [font=Arial]invisibility[/font] ] {} - [font=Georgia]Makes player invisible to NPCs (host only)[/font]
 [b]No Fall Damage[/b] [ [font=Arial]falldmg[/font] | [font=Arial]falldamage[/font] | [font=Arial]nofall[/font] | [font=Arial]nofalldmg[/font] | [font=Arial]nofalldamage[/font] ] {} - [font=Georgia]Prevents player from taking fall damage (host only)[/font]
 [b]Free Crafting (Debug function)[/b] [ [font=Arial]freecraft[/font] | [font=Arial]freecrafting[/font] | [font=Arial]crafting[/font] | [font=Arial]craft[/font] ] {} - [font=Georgia]Allows player to craft all recipes, simulates possession of all items and allows to unlock all chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/font]
+[b]Instant Crafting[/b] [ [font=Arial]InstantCrafting[/font] | [font=Arial]instacraft[/font] | [font=Arial]instantcraft[/font] | [font=Arial]instcraft[/font] ] {} - [font=Georgia]Reduces crafting duration for all recipes to minimum (works as guest)[/font]
 [b]Set Money[/b] [ [font=Arial]money[/font] ] { <value> } - [font=Georgia]Set money to desired value (works as guest)[/font]
 [b]Infinite Ammo[/b] [ [font=Arial]infammo[/font] | [font=Arial]ammo[/font] | [font=Arial]infiniteammo[/font] ] {} - [font=Georgia]Keeps ammo of ranged weapons replenished (as guest works somehow, but is bugged)[/font]
 [b]No Recoil[/b] [ [font=Arial]norecoil[/font] | [font=Arial]recoil[/font] | [font=Arial]weaponnorecoil[/font] ] {} - [font=Georgia]Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)[/font]
@@ -117,11 +118,6 @@ If you have followed the installation instructions above and are 100% sure that 
 Any feedback and feature request are currently welcome.
 Simple let me know in the comments section.
 
-[font=Verdana][size=4][b]Known Issues[/b][/size][/font]
-[list]
-[*]Console command handlers of UE4SS are currently not very stable. Expect crashes after leaving a game or trying to close the game and report any unexpected crashes. 
-[*]Current UE4SS version works well with the game, but it has a problem that causes the game to crash when you exit it. It has nothing to do with the mod and it has no negative impact on the game or your save file, it's just a bit annoying.And you might want to delete crash dump ([b].dmp[/b]) files from time to time from your game directory.
-[/list]
 [font=Verdana][size=4][b]My AF Mods[/b][/size][/font]
 Check out my other Abiotic Factor mods.
 [list]

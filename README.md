@@ -25,6 +25,7 @@ Infinite Oxygen | oxygen \| info2 \| o2 \| infoxygen |  | Makes player breath un
 Invisible | invisible \| invis \| invisibility |  | Makes player invisible to NPCs (host only)
 No Fall Damage | falldmg \| falldamage \| nofall \| nofalldmg \| nofalldamage |  | Prevents player from taking fall damage (host only)
 Free Crafting (Debug function) | freecraft \| freecrafting \| crafting \| craft |  | Allows player to craft all recipes, simulates possession of all items and allows to unlock all chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)
+Instant Crafting | InstantCrafting \| instacraft \| instantcraft \| instcraft |  | Reduces crafting duration for all recipes to minimum (works as guest)
 Set Money | money | {value} | Set money to desired value (works as guest)
 Infinite Ammo | infammo \| ammo \| infiniteammo |  | Keeps ammo of ranged weapons replenished (as guest works somehow, but is bugged)
 No Recoil | norecoil \| recoil \| weaponnorecoil |  | Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)
