@@ -470,6 +470,22 @@ CreateCommand({"status", "state", "settings"}, "Status", "Prints status of the m
         return true
     end)
 
+-- Disable All Command
+CreateCommand({"disableall", "alloff"}, "Disable All", "Disables all commands", nil,
+    function(self, OutputDevice, Parameters)
+        for _, command in ipairs(CommandsArray) do
+            if command and type(command.SettingName) == "string" then
+                local settingValue = Settings[command.SettingName]
+                if settingValue == true then
+                    Settings[command.SettingName] = false
+                    WriteToConsole(OutputDevice, "  Disable " .. command.Name)
+                end
+            end
+        end
+
+        return true
+    end)
+
 -- -- God Mode Command
 CreateCommand({ "god", "godmode" }, "God Mode",
     "Activates all health, stamina and status related features at once. (You will have to disable god mode to be able to toggle them seperatly)",
