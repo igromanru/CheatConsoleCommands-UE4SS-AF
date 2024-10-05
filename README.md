@@ -7,6 +7,7 @@ Command | Aliases | Parameters | Description
 ------- | ------- | ---------- | -----------
 Help | help | {command alias} | Prints a list of all commands or info about a single one
 Status | status \| state \| settings |  | Prints status of the mod, which commands are active with which values
+Disable All | disableall \| alloff |  | Disables all commands
 God Mode | god \| godmode |  | Activates all health, stamina and status related features at once. (You will have to disable god mode to be able to toggle them seperatly)
 Heal | heal |  | Player gets fully healed once (host only)
 Infinite Health | health \| hp \| infhp \| infhealth |  | Player gets fully healed and becomes invincible (host only)

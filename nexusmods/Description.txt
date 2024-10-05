@@ -38,6 +38,7 @@ When updating the mod to latest version overwrite existing files instead of dele
 Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] parameters[/i] } - [i]Description[/i]
 [b]Help[/b] [ [font=Arial]help[/font] ] { <command alias> } - [font=Georgia]Prints a list of all commands or info about a single one[/font]
 [b]Status[/b] [ [font=Arial]status[/font] | [font=Arial]state[/font] | [font=Arial]settings[/font] ] {} - [font=Georgia]Prints status of the mod, which commands are active with which values[/font]
+[b]Disable All[/b] [ [font=Arial]disableall[/font] | [font=Arial]alloff[/font] ] {} - [font=Georgia]Disables all commands[/font]
 [b]God Mode[/b] [ [font=Arial]god[/font] | [font=Arial]godmode[/font] ] {} - [font=Georgia]Activates all health, stamina and status related features at once. (You will have to disable god mode to be able to toggle them seperatly)[/font]
 [b]Heal[/b] [ [font=Arial]heal[/font] ] {} - [font=Georgia]Player gets fully healed once (host only)[/font]
 [b]Infinite Health[/b] [ [font=Arial]health[/font] | [font=Arial]hp[/font] | [font=Arial]infhp[/font] | [font=Arial]infhealth[/font] ] {} - [font=Georgia]Player gets fully healed and becomes invincible (host only)[/font]
