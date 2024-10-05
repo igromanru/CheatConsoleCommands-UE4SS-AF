@@ -34,6 +34,8 @@ end
 ---@return LocationStruct? # Returns created or update LocationStruct or nil if failed
 local function UpdateOrCreateLocation(Name, LevelName, Location, Rotation)
     if type(Name) ~= "string" or Name == "" then return nil end
+    Rotation = Rotation or FRotator()
+    Rotation.Roll = 0.0
 
     local lowerName = string.lower(Name)
     for _, location in ipairs(Settings.Locations) do
@@ -111,6 +113,8 @@ function LocationsManager.LoadLocation(Name)
                 LogInfo("LoadLocation: Warning! Loading a Location wtihout a LevelName!")
             end
             LogDebug("LoadLocation: TeleportPlayer to: " .. VectorToString(location.Location))
+            location.Rotation = location.Rotation or FRotator()
+            location.Rotation.Roll = 0.0
             local success = myPlayer:TeleportPlayer(location.Location, location.Rotation)
             if success then
                 AFUtils.SetControlRotation(location.Rotation)
