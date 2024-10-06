@@ -35,7 +35,6 @@ end
 local function UpdateOrCreateLocation(Name, LevelName, Location, Rotation)
     if type(Name) ~= "string" or Name == "" then return nil end
     Rotation = Rotation or FRotator()
-    Rotation.Pitch = 0.0
     Rotation.Roll = 0.0
 
     local lowerName = string.lower(Name)
@@ -101,7 +100,7 @@ function LocationsManager.LoadLocation(Name)
                     local outSuccess = { bSuccess = false }
                     local outNotLoaded = { bNotLoaded = false }
                     LogDebug("LoadLocation: LoadStreamLevel with name: " .. location.LevelName)
-                    local steamLevel = AFUtils.GetLevelStreamingCustom():LoadStreamLevel(myPlayerController:GetWorld(), location.LevelName, false, false, outSuccess, outNotLoaded)
+                    local steamLevel = AFUtils.GetLevelStreamingCustom():LoadStreamLevel(myPlayerController, location.LevelName, true, false, outSuccess, outNotLoaded)
                     LogDebug("LoadLocation: LoadStreamLevel Success: ", outSuccess.bSuccess)
                     LogDebug("LoadLocation: LoadStreamLevel NotLoaded: ", outNotLoaded.bNotLoaded)
                     if not outSuccess or not outSuccess.bSuccess then
@@ -115,9 +114,8 @@ function LocationsManager.LoadLocation(Name)
             end
             LogDebug("LoadLocation: TeleportPlayer to: " .. VectorToString(location.Location))
             location.Rotation = location.Rotation or FRotator()
-            location.Rotation.Pitch = 0.0
             location.Rotation.Roll = 0.0
-            local success = myPlayer:TeleportPlayer(location.Location, location.Rotation)
+            local success = myPlayer:TeleportPlayer(location.Location, FRotator())
             if success then
                 AFUtils.SetControlRotation(location.Rotation)
             end
