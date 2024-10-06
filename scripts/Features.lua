@@ -419,7 +419,7 @@ function Invisible(myPlayer)
         InvisibleWasEnabled = false
         myPlayer.InvincibleToNPCs = false
         LogDebug("InvincibleToNPCs:", myPlayer.InvincibleToNPCs)
-        AFUtils.ClientDisplayWarningMessage("Invisibility activated", AFUtils.CriticalityLevels.Red)
+        AFUtils.ClientDisplayWarningMessage("Invisibility deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
 
@@ -441,7 +441,7 @@ function NoFallDamage(myPlayer)
         NoFallDamageWasEnabled = false
         myPlayer.TakeFallDamage = true
         LogDebug("TakeFallDamage: " .. tostring(myPlayer.TakeFallDamage))
-        AFUtils.ClientDisplayWarningMessage("No Fall Damage activated", AFUtils.CriticalityLevels.Red)
+        AFUtils.ClientDisplayWarningMessage("No Fall Damage deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
 
