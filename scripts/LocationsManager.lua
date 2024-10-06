@@ -35,6 +35,7 @@ end
 local function UpdateOrCreateLocation(Name, LevelName, Location, Rotation)
     if type(Name) ~= "string" or Name == "" then return nil end
     Rotation = Rotation or FRotator()
+    Rotation.Pitch = 0.0
     Rotation.Roll = 0.0
 
     local lowerName = string.lower(Name)
@@ -114,6 +115,7 @@ function LocationsManager.LoadLocation(Name)
             end
             LogDebug("LoadLocation: TeleportPlayer to: " .. VectorToString(location.Location))
             location.Rotation = location.Rotation or FRotator()
+            location.Rotation.Pitch = 0.0
             location.Rotation.Roll = 0.0
             local success = myPlayer:TeleportPlayer(location.Location, location.Rotation)
             if success then
