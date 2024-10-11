@@ -134,16 +134,22 @@ function InfiniteAmmo(myPlayer)
     if not myPlayer then return end
 
     if Settings.InfiniteAmmo then
-        if AFUtils.FillHeldWeaponWithAmmo(myPlayer) then
-            myPlayer.ItemInHand_BP.ConsumeAmmoOnFire = false
+        local weapon = AFUtils.GetCurrentWeapon(myPlayer)
+        if weapon then
+            if AFUtils.FillHeldWeaponWithAmmo(myPlayer) then
+                weapon.ConsumeAmmoOnFire = false
+            end
         end
         if not InfiniteAmmoWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Infinite Ammo activated", AFUtils.CriticalityLevels.Green)
             InfiniteAmmoWasEnabled = true
         end
     elseif InfiniteAmmoWasEnabled then
-        if AFUtils.FillHeldWeaponWithAmmo(myPlayer) then
-            myPlayer.ItemInHand_BP.ConsumeAmmoOnFire = true
+        local weapon = AFUtils.GetCurrentWeapon(myPlayer)
+        if weapon then
+            if AFUtils.FillHeldWeaponWithAmmo(myPlayer) then
+                weapon.ConsumeAmmoOnFire = true
+            end
         end
         InfiniteAmmoWasEnabled = false
         AFUtils.ClientDisplayWarningMessage("Infinite Ammo deactivated", AFUtils.CriticalityLevels.Red)
@@ -621,7 +627,7 @@ function DistantShore(myPlayer)
     if not myPlayer then return end
 
     if Settings.DistantShore then
-        local deployedToiletPortal = FindFirstOf("Deployed_Toilet_Portal_C")
+        local deployedToiletPortal = FindFirstOf("Deployed_Toilet_Portal_C") ---@cast deployedToiletPortal ADeployed_Toilet_Portal_C
         if deployedToiletPortal:IsValid() and deployedToiletPortal.DeployedByPlayer then
             Settings.DistantShore = false
             local message = "Sending to Distant Shore"

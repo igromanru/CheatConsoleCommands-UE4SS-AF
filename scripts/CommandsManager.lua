@@ -1330,17 +1330,24 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
     local context = Context:get()
     -- local executor = Executor:get()
 
-    local command = string.match(Command, "^%S+")
     -- if DebugMode then
     --     LogDebug("[ProcessConsoleExec]:")
     --     LogDebug("Context: " .. context:GetFullName())
     --     LogDebug("Context.Class: " .. context:GetClass():GetFullName())
     --     LogDebug("Command: " .. Command)
     --     LogDebug("Parameters: " .. #Parameters)
-    --     if executor:IsValid() then
-    --         LogDebug("Executor: " .. executor:GetClass():GetFullName())
+    --     for i = 1, #Parameters, 1 do
+    --         LogDebug("  " .. i .. ": " .. Parameters[i])
     --     end
+    --     -- if executor:IsValid() then
+    --     --     LogDebug("Executor: " .. executor:GetClass():GetFullName())
+    --     -- end
     -- end
+
+    local command = string.match(Command, "^%S+")
+    if #Parameters > 1 and Parameters[1] == command then
+        table.remove(Parameters, 1)
+    end
 
     -- Special handling of default commands
     if command == "god" or command == "ghost" or command == "fly" or command == "teleport" then
