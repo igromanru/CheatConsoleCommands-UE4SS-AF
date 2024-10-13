@@ -365,6 +365,24 @@ function InfiniteOxygen(myPlayer)
     end
 end
 
+local UserConstructionScriptPreId, UserConstructionScriptPostId = nil, nil
+local function InitFreeCraftingHooks()
+    if not UserConstructionScriptPreId then
+        UserConstructionScriptPreId, UserConstructionScriptPostId = RegisterHook("/Game/Blueprints/DeployedObjects/Furniture/AbioticDeployed_Furniture_ParentBP.AbioticDeployed_Furniture_ParentBP_C:UserConstructionScript", function(Context)
+            local furnitureParentBP = Context:get()
+
+            if furnitureParentBP.RequiresConstruction == true then
+                local myPlayer = AFUtils.GetMyPlayer()
+                if myPlayer and myPlayer.Debug_FreeCrafting == true then
+                    furnitureParentBP.RequiresConstruction = false
+                end
+            end
+        end)
+        LogDebug("UserConstructionScriptPreId:",UserConstructionScriptPreId)
+        LogDebug("UserConstructionScriptPostId:",UserConstructionScriptPostId)
+    end
+end
+
 local FreeCraftingWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function FreeCrafting(myPlayer)
@@ -379,6 +397,7 @@ function FreeCrafting(myPlayer)
             AFUtils.ClientDisplayWarningMessage("Free Crafting activated", AFUtils.CriticalityLevels.Green)
             FreeCraftingWasEnabled = true
         end
+        InitFreeCraftingHooks()
     elseif FreeCraftingWasEnabled then
         FreeCraftingWasEnabled = false
         myPlayer.Debug_FreeCrafting = false

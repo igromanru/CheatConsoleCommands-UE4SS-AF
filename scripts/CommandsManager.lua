@@ -473,16 +473,21 @@ CreateCommand({"status", "state", "settings"}, "Status", "Prints status of the m
 -- Disable All Command
 CreateCommand({"disableall", "alloff"}, "Disable All", "Disables all commands", nil,
     function(self, OutputDevice, Parameters)
+        WriteToConsole(OutputDevice, "Disabling all features.")
+        local disabledCount = 0
         for _, command in ipairs(CommandsArray) do
             if command and type(command.SettingName) == "string" then
                 local settingValue = Settings[command.SettingName]
                 if settingValue == true then
                     Settings[command.SettingName] = false
                     WriteToConsole(OutputDevice, "  Disable " .. command.Name)
+                    disabledCount = disabledCount + 1
                 end
             end
         end
-
+        if disabledCount < 1 then
+            WriteToConsole(OutputDevice, "There is nothing to disable.")
+        end
         return true
     end)
 
