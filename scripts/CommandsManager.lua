@@ -980,20 +980,42 @@ CreateCommand({ "resetportals", "resetportal", "resetworlds", "resetportalworlds
 -- Kill All Enemies Command
 CreateCommand({ "killall", "killnpc", "killnpcs", "killallnpc", "killallnpcs", "killallenemies", "killenemies" }, "Kill All Enemies", "Kill all enemy NPCs in your vicinity. (host only)", nil,
     function(self, OutputDevice, Parameters)
-        ---@type ANPC_Base_ParentBP_C[]?
-        local npcs = FindAllOf("NPC_Base_ParentBP_C")
+        local npcs = FindAllOf("NPC_Base_ParentBP_C") ---@type ANPC_Base_ParentBP_C[]?
         if npcs and #npcs > 0 then
             local killCount = 0
             for _, npc in ipairs(npcs) do
                 if not npc.IsDead then
                     npc.IsDead = true
                     npc:OnRep_IsDead()
+                    npc:DropLoot()
                     killCount = killCount + 1
                 end
             end
             WriteToConsole(OutputDevice, killCount .. " NPCs were put to sleep.")
         else
             WriteToConsole(OutputDevice, "No hostile NPCs found in your vicinity.")
+        end
+
+        return true
+    end)
+
+-- Spawn All Enemies Command
+CreateCommand({ "spawnall", "spawnnpc", "spawnnpcs", "spawnallnpc", "spawnallnpcs", "spawnallenemies", "spawnenemies" }, "Spawn All Enemies", "Respawn all enemy NPCs in your vicinity. (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        local npcSpawns = FindAllOf("Abiotic_NPCSpawn_ParentBP_C") ---@type AAbiotic_NPCSpawn_ParentBP_C[]?
+        if npcSpawns and #npcSpawns > 0 then
+            local spawnCount = 0
+            for _, spawn in ipairs(npcSpawns) do
+                local isNight = spawn.AllowableSpawnHours == 2 and true or false
+                local outSuccess = { Success = false }
+                spawn:TrySpawnNPCNew(isNight, true, false, outSuccess, {}, {}, {})
+                if outSuccess.Success == true then
+                    spawnCount = spawnCount + 1
+                end
+            end
+            WriteToConsole(OutputDevice, spawnCount .. " NPCs were spawned.")
+        else
+            WriteToConsole(OutputDevice, "No NPC Spawns found in your vicinity.")
         end
 
         return true
@@ -1345,7 +1367,7 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
     -- end
 
     local command = string.match(Command, "^%S+")
-    if #Parameters > 1 and Parameters[1] == command then
+    if #Parameters > 0 and Parameters[1] == command then
         table.remove(Parameters, 1)
     end
 
