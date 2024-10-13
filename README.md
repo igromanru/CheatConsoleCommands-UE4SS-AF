@@ -40,6 +40,7 @@ Master Key | masterkey \| key \| keys \| opendoor \| opendoors |  | Allows to op
 Weather Event | setweather \| nextweather \| weatherevent \| weather | {weather} | Sets weather event for the next day (host only)
 Reset Portal Worlds | resetportals \| resetportal \| resetworlds \| resetportalworlds \| resetvignettes |  | Resets Portal Worlds (host only)
 Kill All Enemies | killall \| killnpc \| killnpcs \| killallnpc \| killallnpcs \| killallenemies \| killenemies |  | Kill all enemy NPCs in your vicinity. (host only)
+Spawn All Enemies | spawnall \| spawnnpc \| spawnnpcs \| spawnallnpc \| spawnallnpcs \| spawnallenemies \| spawnenemies |  | Respawn all enemy NPCs in your vicinity. (host only)
 List Locations | locations \| showloc \| showlocations \| loc \| locs |  | Shows all saved locations
 Save Location | savelocation \| saveloc \| setloc \| wp \| savewp \| setwp \| waypoint \| setwaypoint \| savewaypoint | {name} | Saves your current position and rotation under an assigned name
 Load Location | loadlocation \| loadloc \| loadwp \| tp \| goto \| loadwaypoint \| teleport | {name} | Teleports you to a named location that was previously saved (host only)
