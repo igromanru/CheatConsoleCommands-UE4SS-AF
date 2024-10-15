@@ -1352,6 +1352,32 @@ CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore",
     end,
     "DistantShore")
 
+-- Delete Object Trace Command
+CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Deletes an object in front of you. (Aim carefully, the object will be gone for good) (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        local hitActor = ForwardLineTraceByChannel(3, 10)
+        if hitActor:IsValid() then
+            local actor = nil ---@type AActor
+            LogDebug("HitActor: " .. hitActor:GetFullName())
+            LogDebug("ClassName: " .. hitActor:GetClass():GetFullName())
+            
+            if hitActor:IsA(GetStaticClassActor()) or hitActor:IsA(GetStaticClassSkeletalMeshActor()) then
+                ---@cast hitActor AActor
+                actor = hitActor
+            end
+            if hitActor:IsA(GetStaticClassStaticMeshComponent()) then
+                ---@cast hitActor UStaticMeshComponent
+                actor = hitActor:GetOwner()
+            end
+            if actor and actor:IsValid() then
+                WriteToConsole(OutputDevice, "Deleting actor: " .. actor:GetFullName())
+                WriteToConsole(OutputDevice, "Actor's class: " .. actor:GetClass():GetFullName())
+                actor:K2_DestroyActor()
+            end
+        end
+        return true
+    end)
+
 
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()

@@ -8,9 +8,10 @@
 -- Don't change code below --
 ------------------------------
 local AFUtils = require("AFUtils.AFUtils")
+local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.12.2"
+ModVersion = "1.13.0"
 DebugMode = true
 IsModEnabled = true
 
@@ -24,6 +25,28 @@ if not IsModEnabled then
     LogInfo("Disabled with IsModEnabled")
     return
 end
+
+local function RemapConsoleKeys()
+    local inputSettings = GetDefaultInputSettings()
+    if inputSettings:IsValid() then
+        local consoleKeys = inputSettings.ConsoleKeys
+        local f10Name = UEHelpers.FindFName("F10")
+        if f10Name ~= NAME_None then
+            consoleKeys[1].KeyName = f10Name
+        end
+        local tildeName = UEHelpers.FindFName("Tilde")
+        if tildeName ~= NAME_None then
+            consoleKeys[2].KeyName = tildeName
+        end
+        if DebugMode then
+            LogDebug("ConsoleKeys (" .. #consoleKeys .. "):")
+            for i = 1, #consoleKeys do
+                LogDebug(i .. ": " .. consoleKeys[i].KeyName:ToString())
+            end
+        end
+    end
+end
+RemapConsoleKeys()
 
 -- Main loop
 LoopAsync(250, function()
