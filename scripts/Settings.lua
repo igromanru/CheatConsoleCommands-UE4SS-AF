@@ -40,6 +40,7 @@ Settings = {
     NoRadiation = false,
     PerfectTemperature = false,
     InfiniteOxygen = false,
+    Invisible = false,
     NoFallDamage = false,
     FreeCrafting = false,
     InstantCrafting = false,

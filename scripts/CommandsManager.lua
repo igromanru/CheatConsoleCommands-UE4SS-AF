@@ -693,6 +693,15 @@ CreateCommand({ "oxygen", "info2", "o2", "infoxygen"  }, "Infinite Oxygen", "Mak
     end,
     "InfiniteOxygen")
 
+-- Invisible Command
+CreateCommand({ "inv", "invisible", "invis", "invisibility", "untargetable" }, "Invisible", "Makes player invisible/untargetable by enemy NPCs (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.Invisible = not Settings.Invisible
+        PrintCommandState(Settings.Invisible, self.Name, OutputDevice)
+        return true
+    end,
+    "Invisible")
+
 -- No Fall Damage Command
 CreateCommand({ "falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage" }, "No Fall Damage",
     "Prevents player from taking fall damage (host only)", nil,

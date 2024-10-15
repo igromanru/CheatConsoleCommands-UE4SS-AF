@@ -54,7 +54,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]No Radiation[/b] [ [font=Arial]rad[/font] | [font=Arial]norad[/font] | [font=Arial]radiation[/font] | [font=Arial]noradiation[/font] ] {} - [font=Georgia]Player can't receive radiation (works partial as guest)[/font]
 [b]Perfect Temperature[/b] [ [font=Arial]nocold[/font] | [font=Arial]nohot[/font] | [font=Arial]temperature[/font] | [font=Arial]temp[/font] | [font=Arial]perfecttemp[/font] ] {} - [font=Georgia]Makes player temperature resistant. (host only)[/font]
 [b]Infinite Oxygen[/b] [ [font=Arial]oxygen[/font] | [font=Arial]info2[/font] | [font=Arial]o2[/font] | [font=Arial]infoxygen[/font] ] {} - [font=Georgia]Makes player breath under water. (host only)[/font]
-[b]Invisible[/b] [ [font=Arial]invisible[/font] | [font=Arial]invis[/font] | [font=Arial]invisibility[/font] ] {} - [font=Georgia]Makes player invisible to NPCs (host only)[/font]
+[b]Invisible[/b] [ [font=Arial]inv[/font] | [font=Arial]invisible[/font] | [font=Arial]invis[/font] | [font=Arial]invisibility[/font] | [font=Arial]untargetable[/font] ] {} - [font=Georgia]Makes player invisible/untargetable by enemy NPCs (host only)[/font]
 [b]No Fall Damage[/b] [ [font=Arial]falldmg[/font] | [font=Arial]falldamage[/font] | [font=Arial]nofall[/font] | [font=Arial]nofalldmg[/font] | [font=Arial]nofalldamage[/font] ] {} - [font=Georgia]Prevents player from taking fall damage (host only)[/font]
 [b]Free Crafting (Debug function)[/b] [ [font=Arial]freecraft[/font] | [font=Arial]freecrafting[/font] | [font=Arial]crafting[/font] | [font=Arial]craft[/font] ] {} - [font=Georgia]Allows player to craft ALL recipes, upgrade the Crafting Bench, instantly build furnitue and unlock chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/font]
 [b]Instant Crafting[/b] [ [font=Arial]InstantCrafting[/font] | [font=Arial]instacraft[/font] | [font=Arial]instantcraft[/font] | [font=Arial]instcraft[/font] ] {} - [font=Georgia]Reduces crafting duration for all recipes to minimum (works as guest)[/font]
@@ -102,8 +102,7 @@ Commands which has variables has to be used like this:
 [font=Verdana][size=4][b]Additional information[/b][/size][/font]
 [list]
 [*]Most features are based on debugging functions created by game developers to help them develop the game.
-[*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload/rejoin the game. Also it let you unlock all chests without needing a special Key.
-[*]Most features work only if you host the game or in singleplayer, I'll try to find "exploits" to trick the server, but don't expect much. To make most use out of mods I recommend to host your own game.
+[*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload the game. Also it let you unlock all chests without needing a special Key.
 [/list]
 [font=Verdana][size=4][b]Compatibility[/b][/size][/font]
 Cheat Console Commands mod should be compatibility with any other mod.  

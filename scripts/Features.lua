@@ -426,6 +426,28 @@ function InstantCrafting(myPlayer)
     end
 end
 
+local InvisibleWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function Invisible(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.Invisible then
+        if myPlayer.NPC_Targetable == true then
+            myPlayer.NPC_Targetable = false
+            LogDebug("NPC_Targetable:", myPlayer.NPC_Targetable)
+        end
+        if not InvisibleWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Invisibility activated", AFUtils.CriticalityLevels.Green)
+            InvisibleWasEnabled = true
+        end
+    elseif InvisibleWasEnabled then
+        InvisibleWasEnabled = false
+        myPlayer.NPC_Targetable = true
+        LogDebug("NPC_Targetable:", myPlayer.NPC_Targetable)
+        AFUtils.ClientDisplayWarningMessage("Invisibility deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local NoFallDamageWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoFallDamage(myPlayer)
