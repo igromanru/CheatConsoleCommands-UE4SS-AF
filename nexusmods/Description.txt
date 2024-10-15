@@ -56,7 +56,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Infinite Oxygen[/b] [ [font=Arial]oxygen[/font] | [font=Arial]info2[/font] | [font=Arial]o2[/font] | [font=Arial]infoxygen[/font] ] {} - [font=Georgia]Makes player breath under water. (host only)[/font]
 [b]Invisible[/b] [ [font=Arial]invisible[/font] | [font=Arial]invis[/font] | [font=Arial]invisibility[/font] ] {} - [font=Georgia]Makes player invisible to NPCs (host only)[/font]
 [b]No Fall Damage[/b] [ [font=Arial]falldmg[/font] | [font=Arial]falldamage[/font] | [font=Arial]nofall[/font] | [font=Arial]nofalldmg[/font] | [font=Arial]nofalldamage[/font] ] {} - [font=Georgia]Prevents player from taking fall damage (host only)[/font]
-[b]Free Crafting (Debug function)[/b] [ [font=Arial]freecraft[/font] | [font=Arial]freecrafting[/font] | [font=Arial]crafting[/font] | [font=Arial]craft[/font] ] {} - [font=Georgia]Allows player to craft all recipes, simulates possession of all items and allows to unlock all chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/font]
+[b]Free Crafting (Debug function)[/b] [ [font=Arial]freecraft[/font] | [font=Arial]freecrafting[/font] | [font=Arial]crafting[/font] | [font=Arial]craft[/font] ] {} - [font=Georgia]Allows player to craft ALL recipes, upgrade the Crafting Bench, instantly build furnitue and unlock chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/font]
 [b]Instant Crafting[/b] [ [font=Arial]InstantCrafting[/font] | [font=Arial]instacraft[/font] | [font=Arial]instantcraft[/font] | [font=Arial]instcraft[/font] ] {} - [font=Georgia]Reduces crafting duration for all recipes to minimum (works as guest)[/font]
 [b]Set Money[/b] [ [font=Arial]money[/font] ] { <value> } - [font=Georgia]Set money to desired value (works as guest)[/font]
 [b]Infinite Ammo[/b] [ [font=Arial]infammo[/font] | [font=Arial]ammo[/font] | [font=Arial]infiniteammo[/font] ] {} - [font=Georgia]Keeps ammo of ranged weapons replenished (as guest works somehow, but is bugged)[/font]
@@ -94,9 +94,10 @@ Commands which has variables has to be used like this:
 [font=Courier New]leyakcd 60 [/font]--Makes Leyak spawn once per hour
 
 [font=Verdana][size=3][b]Default Unreal Engine Commands[/b][/size][/font]
-[b]Slow motion[/b] [ slomo  ] { game_speed_multiplier } - [u]Changes game's speed (0.1 = very slow, 10.0 = 10x faster)[/u]
-[b]Change Size[/b] [ changesize ] { size_multiplier } - [u]Changes player's size played on the multiplier value (1.0 = default size)[/u]
-[size=2]There are some more, but I haven't tested them.[/size]
+[b]Spawn object[/b] [ [font=Arial]summon[/font] ] { <class name> } - [font=Georgia]Spawns an object on your location based on it's short class name. (host only)[/font]
+[b]Slow motion[/b] [ [font=Arial]slomo[/font] ] { <game_speed_multiplier> } - [font=Georgia]Changes game's speed (0.1 = very slow, 10.0 = 10x faster). (host only)[/font]
+[b]Change Size[/b] [ [font=Arial]changesize[/font] ] { <size_multiplier > } - [font=Georgia]Changes player's size played on the multiplier value (1.0 = default size). (host only)[/font]
+[size=2]There are few more, but I haven't tested them.[/size]
 [line]
 [font=Verdana][size=4][b]Additional information[/b][/size][/font]
 [list]
@@ -105,8 +106,8 @@ Commands which has variables has to be used like this:
 [*]Most features work only if you host the game or in singleplayer, I'll try to find "exploits" to trick the server, but don't expect much. To make most use out of mods I recommend to host your own game.
 [/list]
 [font=Verdana][size=4][b]Compatibility[/b][/size][/font]
-Cheat Console Commands mod has zero function hooks and is compatibility with any other mod.  
-Just pay attention to features of other mods/trainers, to not use the same feature from both mods, otherwise they could interfere with each other.
+Cheat Console Commands mod should be compatibility with any other mod.  
+Obviously there will be conflicts if another mod writes the same values, just pay attention to the features of other mods/trainers not to use the same feature of both mods at the same time, otherwise they might interfere with each other.
 For example: if you are attempting to use Low Continence and Infinite Continence at the same time.
 
 [font=Verdana][size=4][b]Bug Reports[/b][/size][/font]
