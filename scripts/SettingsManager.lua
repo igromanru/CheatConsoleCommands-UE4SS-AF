@@ -103,7 +103,6 @@ function SettingsManager.AutoSaveOnChange()
         or SettingsMonitor.InfiniteOxygen ~= Settings.InfiniteOxygen
         or SettingsMonitor.FreeCrafting ~= Settings.FreeCrafting
         or SettingsMonitor.InstantCrafting ~= Settings.InstantCrafting
-        or SettingsMonitor.Invisible ~= Settings.Invisible
         or SettingsMonitor.NoFallDamage ~= Settings.NoFallDamage
         or SettingsMonitor.NoClip ~= Settings.NoClip
         or SettingsMonitor.NoRecoil ~= Settings.NoRecoil
@@ -131,7 +130,6 @@ function SettingsManager.AutoSaveOnChange()
         SettingsMonitor.InfiniteOxygen = Settings.InfiniteOxygen
         SettingsMonitor.FreeCrafting = Settings.FreeCrafting
         SettingsMonitor.InstantCrafting = Settings.InstantCrafting
-        SettingsMonitor.Invisible = Settings.Invisible
         SettingsMonitor.NoFallDamage = Settings.NoFallDamage
         SettingsMonitor.NoClip = Settings.NoClip
         SettingsMonitor.NoRecoil = Settings.NoRecoil
