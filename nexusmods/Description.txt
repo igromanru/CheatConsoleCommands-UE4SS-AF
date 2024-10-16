@@ -109,7 +109,7 @@ But for Abiotic Factor it seems to work only for deployable items, which you can
 2. Press [b]Ctrl+F[/b] and search for the item you want to spawn
 [size=2]For example: [i]aquarium[/i]
 You will find the class: [i]/Game/Blueprints/DeployedObjects/Furniture/Container_Aquarium_Large.Container_Aquarium_Large_C[/i][/size]
-3. Select of column with the class name that you want to spawn and press [b]Ctrl+C[/b] to copy the text
+3. Select the column with the class name that you want to spawn and press [b]Ctrl+C[/b] to copy the text
 4. Open console and type "summon ", then use hotkey [b]Ctrl+V[/b] to paste the class name you have copied before into the console
 [size=2]Example: [i]summon /Game/Blueprints/DeployedObjects/Furniture/Container_Aquarium_Large.Container_Aquarium_Large_C[/i][/size]
 5. After sending the command with [b]Enter[/b], the item should appear in front of your face. Items won't be saved until you pick them up first!
