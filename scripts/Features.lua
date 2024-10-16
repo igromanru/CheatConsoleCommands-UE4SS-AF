@@ -96,6 +96,26 @@ function InfiniteEnergy(myPlayer)
     end
 end
 
+local NoOverheatWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function NoOverheat(myPlayer)
+    if not myPlayer then return end
+
+    if Settings.NoOverheat then
+        local jetpack = myPlayer.Gear_BackpackBP ---@cast jetpack AGear_Jetpack_BP_C
+        if jetpack and jetpack:IsValid() and jetpack.CurrentOverheatLevel then
+            jetpack.CurrentOverheatLevel = 0
+        end
+        if not NoOverheatWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("No Overheat activated", AFUtils.CriticalityLevels.Green)
+            NoOverheatWasEnabled = true
+        end
+    elseif NoOverheatWasEnabled then
+        NoOverheatWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("No Overheat deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local MaxInventoryWeight = 999999.0
 local LastMaxCarryWeight = 0
 local InfiniteMaxWeightWasEnabled = false

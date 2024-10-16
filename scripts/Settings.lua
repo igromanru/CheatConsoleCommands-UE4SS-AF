@@ -31,6 +31,7 @@ Settings = {
     InfiniteStamina = false,
     InfiniteDurability = false,
     InfiniteEnergy = false,
+    NoOverheat = false,
     InfiniteMaxWeight = false,
     NoHunger = false,
     NoThirst = false,

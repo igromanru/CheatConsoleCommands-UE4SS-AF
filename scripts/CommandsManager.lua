@@ -574,6 +574,16 @@ CreateCommand({ "energy", "infenergy" }, "Infinite Energy",
     end,
     "InfiniteEnergy")
 
+-- No Overheat Command
+CreateCommand({ "nooverheat", "overheat" }, "No Overheat",
+    "Prevents items from overheating (currently only the Jetpack) (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.NoOverheat = not Settings.NoOverheat
+        PrintCommandState(Settings.NoOverheat, self.Name, OutputDevice)
+        return true
+    end,
+    "NoOverheat")
+
 -- Infinite Max Weight Command
 CreateCommand({ "infweight", "carryweight", "maxweight", "noweight", "infcarry" }, "Infinite Max Weight",
     "Increases maximum carry weight. (To refresh overweight status drop heavy items then pick them up again) (host only)", nil,

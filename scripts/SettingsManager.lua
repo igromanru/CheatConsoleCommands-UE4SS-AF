@@ -92,6 +92,7 @@ function SettingsManager.AutoSaveOnChange()
         or SettingsMonitor.InfiniteStamina ~= Settings.InfiniteStamina
         or SettingsMonitor.InfiniteDurability ~= Settings.InfiniteDurability
         or SettingsMonitor.InfiniteEnergy ~= Settings.InfiniteEnergy
+        or SettingsMonitor.NoOverheat ~= Settings.NoOverheat
         or SettingsMonitor.InfiniteAmmo ~= Settings.InfiniteAmmo
         or SettingsMonitor.NoHunger ~= Settings.NoHunger
         or SettingsMonitor.NoThirst ~= Settings.NoThirst
@@ -120,6 +121,7 @@ function SettingsManager.AutoSaveOnChange()
         SettingsMonitor.InfiniteStamina = Settings.InfiniteStamina
         SettingsMonitor.InfiniteDurability = Settings.InfiniteDurability
         SettingsMonitor.InfiniteEnergy = Settings.InfiniteEnergy
+        SettingsMonitor.NoOverheat = Settings.NoOverheat
         SettingsMonitor.InfiniteAmmo = Settings.InfiniteAmmo
         SettingsMonitor.NoHunger = Settings.NoHunger
         SettingsMonitor.NoThirst = Settings.NoThirst
