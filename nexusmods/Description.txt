@@ -85,6 +85,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Give Skill Experience to Player[/b] [ [font=Arial]givexp[/font] ] { <name/index> <skill alias> <XP value> } - [font=Georgia]Gives Skill XP to a player (host only)[/font]
 [b]Remove Skill Experience from Player[/b] [ [font=Arial]takexp[/font] ] { <name/index> <skill alias> } - [font=Georgia]Remove All Skill XP from a player (host only)[/font]
 [b]Send to Distant Shore[/b] [ [font=Arial]DistantShore[/font] | [font=Arial]dshore[/font] | [font=Arial]portalwc[/font] ] {} - [font=Georgia]Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)[/font]
+[b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you. (Aim carefully, the object will be gone for good) (host only)[/font]
 
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.
@@ -94,11 +95,28 @@ Commands which has variables has to be used like this:
 [font=Courier New]leyakcd 60 [/font]--Makes Leyak spawn once per hour
 
 [font=Verdana][size=3][b]Default Unreal Engine Commands[/b][/size][/font]
-[b]Spawn object[/b] [ [font=Arial]summon[/font] ] { <class name> } - [font=Georgia]Spawns an object on your location based on it's short class name. (host only)[/font]
+[b]Spawn object[/b] [ [font=Arial]summon[/font] ] { <class name> } - [font=Georgia]Spawns an object on your location based on it's class name. (host only)[/font]
 [b]Slow motion[/b] [ [font=Arial]slomo[/font] ] { <game_speed_multiplier> } - [font=Georgia]Changes game's speed (0.1 = very slow, 10.0 = 10x faster). (host only)[/font]
 [b]Change Size[/b] [ [font=Arial]changesize[/font] ] { <size_multiplier > } - [font=Georgia]Changes player's size played on the multiplier value (1.0 = default size). (host only)[/font]
 [size=2]There are few more, but I haven't tested them.[/size]
 [line]
+[font=Verdana][size=4][b]How to spawn items[/b][/size][/font]
+[size=2]At the moment I haven't found a proper way to spawn items, probably mainly because of the UE4SS Lua limitations as I can't call some functions.
+The best I have for now is the default UE [b]summon[/b] command, that allows to spawn objects in the world based on it's class name. 
+But for Abiotic Factor it seems to work only for deployable items, which you can actually place in the world.
+[/size]
+1. Navigate to my [url=https://docs.google.com/spreadsheets/d/1Twr2ITPDZEBe9oPp0keyOhJEwCAfbKGTUz00Hx-dXnY/edit?usp=sharing]Abiotic Factor Classes[/url] sheet
+2. Press [b]Ctrl+F[/b] and search for the item you want to spawn
+[size=2]For example: [i]aquarium[/i]
+You will find the class: [i]/Game/Blueprints/DeployedObjects/Furniture/Container_Aquarium_Large.Container_Aquarium_Large_C[/i][/size]
+3. Select of column with the class name that you want to spawn and press [b]Ctrl+C[/b] to copy the text
+4. Open console and type "summon ", then use hotkey [b]Ctrl+V[/b] to paste the class name you have copied before into the console
+[size=2]Example: [i]summon /Game/Blueprints/DeployedObjects/Furniture/Container_Aquarium_Large.Container_Aquarium_Large_C[/i][/size]
+5. After sending the command with [b]Enter[/b], the item should appear in front of your face. Items won't be saved until you pick them up first!
+[size=2]You can play around, try to spawn random items, then just reload the game to make them disappear or use the [b]deleteobject[/b] command (read description of the command first).[/size]
+
+[b]Attention:[/b] It works only with most objects from the category [b]DeployedObjects[/b]. [size=2]You can play around with others, but I had no luck spawning anything else.[/size]
+
 [font=Verdana][size=4][b]Additional information[/b][/size][/font]
 [list]
 [*]Most features are based on debugging functions created by game developers to help them develop the game.

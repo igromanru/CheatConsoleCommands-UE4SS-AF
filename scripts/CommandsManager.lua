@@ -1353,7 +1353,7 @@ CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore",
     "DistantShore")
 
 -- Delete Object Trace Command
-CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Deletes an object in front of you. (Aim carefully, the object will be gone for good) (host only)", nil,
+CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)", nil,
     function(self, OutputDevice, Parameters)
         local hitActor = ForwardLineTraceByChannel(3, 10)
         if hitActor:IsValid() then
