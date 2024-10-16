@@ -1365,8 +1365,8 @@ CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Delete
                 ---@cast hitActor AActor
                 actor = hitActor
             end
-            if hitActor:IsA(GetStaticClassStaticMeshComponent()) then
-                ---@cast hitActor UStaticMeshComponent
+            if hitActor:IsA(GetStaticClassStaticMeshComponent()) or hitActor:IsA(GetStaticClassSkeletalMeshComponent()) then
+                ---@cast hitActor UMeshComponent
                 actor = hitActor:GetOwner()
             end
             if actor and actor:IsValid() then
