@@ -3,7 +3,7 @@ I made the mod primary out of need to be able to stay alive while developing my 
 Also in contrast to mods based on "chat commands" you might not want other players to see that you're modding/cheating.
 
 [font=Verdana][size=4][b]Description[/b][/size][/font]
-The mod makes a use of Unreal Engine's default console which gets enabled through [b]ConsoleCommandsMod[/b] and can be accessed with the hotkey [b]F10[/b]. (ConsoleCommandsMod is a part of UE4SS and is enabled per default)
+The mod makes a use of Unreal Engine's default console which gets enabled through [b]ConsoleCommandsMod[/b] and can be accessed with the hotkey [b]F10[/b] or [b]~[/b]. (ConsoleCommandsMod is a part of UE4SS and is enabled per default)
 I override some default UE commands which aren't working properly with the game and add a lot of own commands to it. See the list of commands below.
 
 [font=Verdana][size=4][b]Requirements[/b][/size][/font]
@@ -23,7 +23,7 @@ The mod directory should contain a [b]Scripts[/b] folder and an [b]enabled.txt[/
 [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss\Mods\CheatConsoleCommands\enabled.txt[/i][/size]
 
 [font=Verdana][size=4][b]How to use[/b][/size][/font]
-[list][*]Open game's command console with [b]F10[/b]. Press F10 one time to open in "quick type" mode and second type to open fully.
+[list][*]Open game's command console with [b]F10[/b] or [b]~[/b]. Press the hotkey one time to open in "quick type" mode and second type to open fully.
 [*]Use command "help" to get a detailed list of all possible commands, with "help (command alias)" you can get information about a special command
 [*]Type one of the command aliases from below to trigger the command.
 [*]Most commands can be enabled and disabled by typing the same command, but commands like "money" will be executed once.
