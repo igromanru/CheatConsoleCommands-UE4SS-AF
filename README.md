@@ -55,3 +55,10 @@ Give Skill Experience to Player | givexp | {name/index} {skill alias} {XP value}
 Remove Skill Experience from Player | takexp | {name/index} {skill alias} | Remove All Skill XP from a player (host only)
 Send to Distant Shore | DistantShore \| dshore \| portalwc |  | Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)
 Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)
+
+
+## Highest form of appreciation
+If you like my work and feel generous, you can support me.  
+**BTC:** bc1q3frvfljn7ut09ggep2gxugv4ypqvyexz3ya7ja  
+**ADA:** addr1qyx2sd2rgwdzvjhwnc35udx4k6w9lg524pwrf0llr7d2shzrewyq3nqyxfceuhgh5n5ucx3n8ws0n48krrlpw4khtedq4hzv93  
+[![Ko-fi](https://i.imgur.com/rGcPxK8.png)](https://ko-fi.com/igromanru)

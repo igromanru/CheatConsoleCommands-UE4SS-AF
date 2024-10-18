@@ -146,9 +146,16 @@ Check out my other Abiotic Factor mods.
 [*][url=https://www.nexusmods.com/abioticfactor/mods/20]Duplicate Items[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/22]Unlimited Power (Gear - Held Item - Batteries)[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/31]Jager Corpse Remover[/url]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/41]Infinite Leyak Containment[/url]
 [/list]
 [font=Verdana][size=3][b]Credits[/b][/size][/font]
 [list]
 [*]Gantzyo from UE4SS Discord
 [/list]
 [b][url=https://github.com/igromanru/CheatConsoleCommands-UE4SS-AF]GitHub Page[/url][/b]
+
+[font=Arial][size=4]Highest form of appreciation[/size][/font]
+[size=2]If you like my work and feel generous, you can support me.[/size]
+[b]BTC:[/b] bc1q3frvfljn7ut09ggep2gxugv4ypqvyexz3ya7ja
+[b]ADA:[/b] addr1qyx2sd2rgwdzvjhwnc35udx4k6w9lg524pwrf0llr7d2shzrewyq3nqyxfceuhgh5n5ucx3n8ws0n48krrlpw4khtedq4hzv93
+[url=https://ko-fi.com/igromanru][img]https://i.imgur.com/rGcPxK8.png[/img][/url]
