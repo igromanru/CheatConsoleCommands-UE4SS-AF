@@ -878,7 +878,8 @@ CreateCommand({ "addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "ski
                 WriteToConsole(OutputDevice, message)
                 AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
             else
-                WriteErrorToConsole(OutputDevice, "Failed to add " .. tostring(xpToAdd) .. " XP to \"" .. skill.Name .. '"')
+                WriteToConsole(OutputDevice, "Failed to add " .. tostring(xpToAdd) .. " XP to \"" .. skill.Name .. '"')
+                WriteToConsole(OutputDevice, "The reason might be that the XP is maxed out.")
                 return false
             end
         else
@@ -1299,8 +1300,8 @@ CreateCommand({ "givexp" }, "Give Skill Experience to Player", "Gives Skill XP t
                     WriteToConsole(OutputDevice, message)
                     AFUtils.DisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
                 else
-                    WriteErrorToConsole(OutputDevice, "Failed to add " .. skill.Name .. " " .. tostring(xpToAdd) .. " XP to " .. playerName)
-                    return false
+                    WriteToConsole(OutputDevice, "Failed to add " .. skill.Name .. " " .. tostring(xpToAdd) .. " XP to " .. playerName)
+                    WriteToConsole(OutputDevice, "The reason might be that the XP is maxed out.")
                 end
             else
                 local skillStruct = Skills.GetCharacterSkillStructById(player, skill.Id)
@@ -1308,7 +1309,6 @@ CreateCommand({ "givexp" }, "Give Skill Experience to Player", "Gives Skill XP t
                     WriteToConsole(OutputDevice, playerName .. "'s Skill: " .. skill.Name .. ", Current value: " .. math.ceil(skillStruct.CurrentSkillXP_20_8F7934CD4A4542F036AE5C9649362556))
                 else
                     WriteErrorToConsole(OutputDevice, "Couldn't get values for " .. playerName .. "'s Skill: " .. skill.Id)
-                    return false
                 end
             end
         else
