@@ -14,6 +14,7 @@ Infinite Health | health \| hp \| infhp \| infhealth |  | Player gets fully heal
 Infinite Stamina | stamina \| sp \| infsp \| infstamina |  | Player won't consume stamina (works partial as guest)
 Infinite Durability | durability \| infdurability \| infdur |  | Keeps player's gear and hotbar items durability at maximum (works as guest)
 Infinite Energy | energy \| infenergy |  | Keeps player's gear and held item charge/energy at maximum (host only)
+No Overheat | nooverheat \| overheat |  | Prevents items from overheating (currently only the Jetpack) (host only)
 Infinite Max Weight | infweight \| carryweight \| maxweight \| noweight \| infcarry |  | Increases maximum carry weight. (To refresh overweight status drop heavy items then pick them up again) (host only)
 No Hunger | hunger \| nohunger \| eat |  | Player won't be hungry (works partial as guest)
 No Thirst | thirst \| nothirst \| drink |  | Player won't be thirsty (works partial as guest)
@@ -39,6 +40,7 @@ Reset All Skills | resetallskills \| resetallskill \| resetallxp \| resetallexp 
 Master Key | masterkey \| key \| keys \| opendoor \| opendoors |  | Allows to open all doors (host only)
 Weather Event | setweather \| nextweather \| weatherevent \| weather | {weather} | Sets weather event for the next day (host only)
 Reset Portal Worlds | resetportals \| resetportal \| resetworlds \| resetportalworlds \| resetvignettes |  | Resets Portal Worlds (host only)
+Set Time | settime |  | Set game's time in 24-hour format (0-23:0-59). (host only)
 Kill All Enemies | killall \| killnpc \| killnpcs \| killallnpc \| killallnpcs \| killallenemies \| killenemies |  | Kill all enemy NPCs in your vicinity. (host only)
 Spawn All Enemies | spawnall \| spawnnpc \| spawnnpcs \| spawnallnpc \| spawnallnpcs \| spawnallenemies \| spawnenemies |  | Respawn all enemy NPCs in your vicinity. (host only)
 List Locations | locations \| showloc \| showlocations \| loc \| locs |  | Shows all saved locations
@@ -49,10 +51,10 @@ Teleport To Player | toplayer \| teleportto \| tpto | {name/index} | Teleports t
 Teleport To Me | tome \| teleporttome \| pull | {name/index} | Teleports a player to yourself based on their name or index (host only)
 Kill Player | smite \| kill \| execute | {name/index} | Kills a player based on their name or index (host only)
 Revive Player | revive \| res \| resurrect | {name/index} | Revive a dead palyer (host only)
-Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (host only)
-Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
 Give Skill Experience to Player | givexp | {name/index} {skill alias} {XP value} | Gives Skill XP to a player (host only)
 Remove Skill Experience from Player | takexp | {name/index} {skill alias} | Remove All Skill XP from a player (host only)
+Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (host only)
+Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
 Send to Distant Shore | DistantShore \| dshore \| portalwc |  | Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)
 Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)
 
@@ -60,5 +62,6 @@ Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in fro
 ## Highest form of appreciation
 If you like my work and feel generous, you can support me.  
 **BTC:** bc1q3frvfljn7ut09ggep2gxugv4ypqvyexz3ya7ja  
+**ETH:** 0xEedBbF6eFa84198cc94fE4Bf6FBB5dfa674AF86b  
 **ADA:** addr1qyx2sd2rgwdzvjhwnc35udx4k6w9lg524pwrf0llr7d2shzrewyq3nqyxfceuhgh5n5ucx3n8ws0n48krrlpw4khtedq4hzv93  
 [![Ko-fi](https://i.imgur.com/rGcPxK8.png)](https://ko-fi.com/igromanru)
