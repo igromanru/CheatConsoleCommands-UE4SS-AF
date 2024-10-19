@@ -868,8 +868,7 @@ CreateCommand({ "addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "ski
             xpToAdd = tonumber(Parameters[2])
         end
         if not skill then
-            WriteErrorToConsole(OutputDevice,
-                'Invalid skill alias. Use command "help addxp" to see all valid skill parameters')
+            WriteErrorToConsole(OutputDevice, 'Invalid skill alias. Use command "help addxp" to see all valid skill parameters')
             return false
         end
         if xpToAdd then
@@ -905,8 +904,7 @@ CreateCommand({ "removexp", "removeexp", "resetxp", "resetexp", "resetskill", "r
             skill = Skills.GetSkillByAlias(Parameters[1])
         end
         if not skill then
-            WriteErrorToConsole(OutputDevice,
-                'Invalid skill alias. Use command "help removexp" to see all valid skill parameters')
+            WriteErrorToConsole(OutputDevice, 'Invalid skill alias. Use command "help removexp" to see all valid skill parameters')
             return false
         end
         if Skills.RemoveXpFromMyPlayer(skill.Id) then
@@ -962,7 +960,7 @@ CreateCommand({ "setweather", "nextweather", "weatherevent", "weather" }, "Weath
                 weatherNames = weatherNames .. rowName
             end
             WriteToConsole(OutputDevice, "Posible weather events: " .. weatherNames)
-            return true
+            return false
         end
 
         local weather = WeatherManager.SetNextWeatherEvent(Parameters[1])
@@ -988,6 +986,32 @@ CreateCommand({ "resetportals", "resetportal", "resetworlds", "resetportalworlds
             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
         else
             WriteErrorToConsole(OutputDevice, "Couldn't get game instance object")
+        end
+
+        return true
+    end)
+
+-- Set Time
+CreateCommand({ "settime" }, "Set Time", "Set game's time in 24-hour format (0-23:0-59). (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        local hours = nil
+        local minutes = nil
+        if Parameters and #Parameters > 0 then
+            hours, minutes = string.match(Parameters[1], "(%d+):(%d+)")
+            hours = tonumber(hours)
+            minutes = tonumber(minutes)
+        end
+        if not hours or not minutes or hours < 0 or hours > 23 or minutes < 0 or minutes >= 60 then
+            WriteErrorToConsole(OutputDevice, 'Invalid parameter. The command requires a parameter which represents time in 24h format.')
+            WriteErrorToConsole(OutputDevice, 'Time format: "0-23:0-59" -> Example: "settime 18:30" (6:30 PM).')
+            return false
+        end
+
+        if AFUtils.SetGameTime(hours, minutes) then
+            WriteToConsole(OutputDevice, 'Time set to ' .. hours .. ":" .. minutes)
+        else
+            WriteErrorToConsole(OutputDevice, 'Failed to set time. Are you in the game and the host?')
+            return false
         end
 
         return true
