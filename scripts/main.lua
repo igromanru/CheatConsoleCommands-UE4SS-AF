@@ -11,7 +11,7 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.14.0"
+ModVersion = "1.14.1"
 DebugMode = true
 IsModEnabled = true
 
@@ -52,7 +52,7 @@ RemapConsoleKeys()
 LoopAsync(250, function()
     ExecuteInGameThread(function() 
         local myPlayer = AFUtils.GetMyPlayer()
-        if myPlayer then
+        if IsValid(myPlayer) then
             InfiniteHealth(myPlayer)
             InfiniteStamina(myPlayer)
             InfiniteDurability(myPlayer)

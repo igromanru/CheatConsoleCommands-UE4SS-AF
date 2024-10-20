@@ -6,7 +6,7 @@ local LinearColors = require("AFUtils.BaseUtils.LinearColors")
 local InfiniteHealthWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteHealth(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.GodMode or Settings.InfiniteHealth then
         if not myPlayer.Invincible then
@@ -37,7 +37,7 @@ end
 local InfiniteStaminaWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteStamina(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.GodMode or Settings.InfiniteStamina then
         if not myPlayer.InfiniteStamina then
@@ -63,7 +63,7 @@ end
 local InfiniteDurabilityWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteDurability(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.InfiniteDurability then
         AFUtils.RepairAllItemsInInvetory(myPlayer, myPlayer.CharacterEquipSlotInventory)
@@ -81,7 +81,7 @@ end
 local InfiniteEnergyWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteEnergy(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.InfiniteEnergy then
         AFUtils.FillHeldItemWithEnergy(myPlayer)
@@ -99,11 +99,11 @@ end
 local NoOverheatWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoOverheat(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.NoOverheat then
         local jetpack = myPlayer.Gear_BackpackBP ---@cast jetpack AGear_Jetpack_BP_C
-        if jetpack and jetpack:IsValid() and jetpack.CurrentOverheatLevel then
+        if IsValid(jetpack) and jetpack.CurrentOverheatLevel then
             jetpack.CurrentOverheatLevel = 0
         end
         if not NoOverheatWasEnabled then
@@ -121,7 +121,7 @@ local LastMaxCarryWeight = 0
 local InfiniteMaxWeightWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteMaxWeight(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.InfiniteMaxWeight then
         if myPlayer.MaxInventoryWeight < MaxInventoryWeight then
@@ -151,7 +151,7 @@ end
 local InfiniteAmmoWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteAmmo(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.InfiniteAmmo then
         local weapon = AFUtils.GetCurrentWeapon(myPlayer)
@@ -179,7 +179,7 @@ end
 local NoHungerWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoHunger(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.GodMode or Settings.NoHunger then
         if myPlayer.HasHunger then
@@ -205,7 +205,7 @@ end
 local NoThirstWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoThirst(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.GodMode or Settings.NoThirst then
         if myPlayer.HasThirst then
@@ -231,7 +231,7 @@ end
 local NoFatigueWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoFatigue(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.GodMode or Settings.NoFatigue then
         if myPlayer.HasFatigue then
@@ -257,7 +257,7 @@ end
 local InfiniteContinenceWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteContinence(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.GodMode or Settings.InfiniteContinence then
         if myPlayer.HasContinence then
@@ -283,7 +283,7 @@ end
 local LowContinenceWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function LowContinence(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.LowContinence then
         local fraction = myPlayer.MaxContinence * 0.10
@@ -308,7 +308,7 @@ end
 local NoRadiationWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoRadiation(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.GodMode or Settings.NoRadiation then
         if  myPlayer.CanReceiveRadiation then
@@ -334,7 +334,7 @@ end
 local PerfectTemperatureWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function PerfectTemperature(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.GodMode or Settings.PerfectTemperature then
         if myPlayer.HasBodyTemperature then
@@ -362,7 +362,7 @@ local InfiniteDrownTime = 999999.0
 local DrownTimeBackUp = InfiniteDrownTime
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteOxygen(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.GodMode or Settings.InfiniteOxygen then
         if myPlayer.DrownTime ~= InfiniteDrownTime then
@@ -406,7 +406,7 @@ end
 local FreeCraftingWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function FreeCrafting(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.FreeCrafting then
         if not myPlayer.Debug_FreeCrafting then
@@ -429,7 +429,7 @@ end
 local InstantCraftingWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InstantCrafting(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.InstantCrafting then
         local craftingArea = AFUtils.GetMyInventoryCraftingArea()
@@ -449,7 +449,7 @@ end
 local InvisibleWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function Invisible(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.Invisible then
         if myPlayer.NPC_Targetable == true then
@@ -471,7 +471,7 @@ end
 local NoFallDamageWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoFallDamage(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.NoFallDamage then
         if myPlayer.TakeFallDamage then
@@ -493,7 +493,7 @@ end
 local NoClipWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoClip(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.NoClip then
         if not myPlayer.Noclip_On then
@@ -518,10 +518,10 @@ local NoRecoilWasEnabled = false
 local RecoilTimelineLengthBackUp = 0.0
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoRecoil(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.NoRecoil then
-        if myPlayer.ControllerRecoilTimeline:IsValid() then
+        if IsValid(myPlayer.ControllerRecoilTimeline) then
             if myPlayer.ControllerRecoilTimeline.TheTimeline.Length > 0 then
                 RecoilTimelineLengthBackUp = myPlayer.ControllerRecoilTimeline.TheTimeline.Length
             end
@@ -532,7 +532,7 @@ function NoRecoil(myPlayer)
             NoRecoilWasEnabled = true
         end
     elseif NoRecoilWasEnabled then
-        if myPlayer.ControllerRecoilTimeline:IsValid() and RecoilTimelineLengthBackUp > 0 then
+        if IsValid(myPlayer.ControllerRecoilTimeline) and RecoilTimelineLengthBackUp > 0 then
             myPlayer.ControllerRecoilTimeline.TheTimeline.Length = RecoilTimelineLengthBackUp
         end
         RecoilTimelineLengthBackUp = 0.0
@@ -545,7 +545,7 @@ local NoSwayWasEnabled = false
 local ScopeSwaySpeedBackUp = 0.0
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoSway(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.NoSway then
         myPlayer.BaseGunSway_Multiplier = 0.0
@@ -570,7 +570,7 @@ end
 local MasterKeyWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function MasterKey(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.MasterKey then
         if not myPlayer.HasMasterKey then
@@ -594,7 +594,7 @@ local BaseSprintSpeedBackUp =  685.0
 local LastSpeedhackMultiplier = Settings.SpeedhackMultiplier
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function Speedhack(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.SpeedhackMultiplier ~= LastSpeedhackMultiplier then
         if LastSpeedhackMultiplier == 1.0 then
@@ -613,7 +613,7 @@ end
 
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function PlayerGravityScale(myPlayer)
-    if not myPlayer or not myPlayer.CharacterMovement:IsValid() then return end
+    if IsNotValid(myPlayer) or IsNotValid(myPlayer.CharacterMovement) then return end
 
     if myPlayer.CharacterMovement.GravityScale > 0 and not NearlyEqual(Settings.PlayerGravityScale, myPlayer.CharacterMovement.GravityScale) then
         LogDebug("DefaultGravityScale was: ", myPlayer.DefaultGravityScale)
@@ -663,11 +663,11 @@ end
 
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function DistantShore(myPlayer)
-    if not myPlayer then return end
+    if IsNotValid(myPlayer) then return end
 
     if Settings.DistantShore then
         local deployedToiletPortal = FindFirstOf("Deployed_Toilet_Portal_C") ---@cast deployedToiletPortal ADeployed_Toilet_Portal_C
-        if deployedToiletPortal:IsValid() and deployedToiletPortal.DeployedByPlayer then
+        if IsValid(deployedToiletPortal) and deployedToiletPortal.DeployedByPlayer then
             Settings.DistantShore = false
             local message = "Sending to Distant Shore"
             LogDebug(message)
