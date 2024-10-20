@@ -844,6 +844,60 @@ CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
     end,
     "LeyakCooldown")
 
+-- Trap Leyak Command
+CreateCommand({ "trapleyak", "containleyak" }, "Trap Leyak", "Trap's Leyak in the next possible Containment Unit. (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        local leyakContainments = FindAllOf("Deployed_LeyakContainment_C") ---@cast leyakContainments ADeployed_LeyakContainment_C[]?
+        if leyakContainments then
+            LogDebug("Trap Leyak Command: leyakContainments:",#leyakContainments)
+            -- Check if Leyak is already trapped
+            for _, leyakContainment in ipairs(leyakContainments) do
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak then
+                    WriteErrorToConsole(OutputDevice, "Leyak is already trapped")
+                    return false
+                end
+            end
+            for _, leyakContainment in ipairs(leyakContainments) do
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed then
+                    if AFUtils.TrapLeyak(leyakContainment) then
+                        WriteToConsole(OutputDevice, "Leyak was trapped successfully.")
+                        return true
+                    else
+                        WriteErrorToConsole(OutputDevice, "Failed to trap Leyak.")
+                        return false
+                    end
+                end
+            end
+        end
+        WriteErrorToConsole(OutputDevice, "Couldn't find a deployed Containment Unit. Have you built one?")
+        return false
+    end)
+
+-- Free Leyak Command
+CreateCommand({ "freeleyak" }, "Free Leyak", "Free Leyak from a Containment Unit. (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        local leyakContainments = FindAllOf("Deployed_LeyakContainment_C") ---@cast leyakContainments ADeployed_LeyakContainment_C[]?
+        if leyakContainments then
+            LogDebug("Free Leyak Command: leyakContainments:", #leyakContainments)
+            -- Check if Leyak is already trapped
+            for _, leyakContainment in ipairs(leyakContainments) do
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak then
+                    if AFUtils.FreeLeyak(leyakContainment) then
+                        WriteToConsole(OutputDevice, "Leyak was freed successfully")
+                        return true
+                    else
+                        WriteErrorToConsole(OutputDevice, "Failed to free Leyak")
+                        return false
+                    end
+                end
+            end
+            WriteErrorToConsole(OutputDevice, "None of deployed Containment Units contain Leyak")
+            return false
+        end
+        WriteErrorToConsole(OutputDevice, "Couldn't find a deployed Containment Unit.")
+        return false
+    end)
+
 -- No Clip Command
 CreateCommand({ "noclip", "clip", "ghost" }, "No Clip", "Disables player's collision and makes him fly (host only)", nil,
     function(self, OutputDevice, Parameters)
@@ -1411,7 +1465,6 @@ CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Delete
         end
         return true
     end)
-
 
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()

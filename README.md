@@ -33,6 +33,8 @@ Infinite Ammo | infammo \| ammo \| infiniteammo |  | Keeps ammo of ranged weapon
 No Recoil | norecoil \| recoil \| weaponnorecoil |  | Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)
 No Sway | nosway \| sway \| noweaponsway |  | Removes weapon's sway  (works as guest)
 Leyak Cooldown | leyakcd \| leyakcooldown \| cdleyak | {minutes} | Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)
+Trap Leyak | trapleyak \| containleyak |  | Trap's Leyak in the next possible Containment Unit. (host only)
+Free Leyak | freeleyak |  | Free Leyak from a Containment Unit. (host only)
 No Clip | noclip \| clip \| ghost |  | Disables player's collision and makes him fly (host only)
 Add Skill Experience | addxp \| addexp \| xpadd \| skillxp \| skillexp \| skill \| skillxp | {skill alias} {XP value} | Adds XP to specified Skill (host only)
 Remove Skill Experience | removexp \| removeexp \| resetxp \| resetexp \| resetskill \| resetlevel \| resetlvl | {skill alias} | Removes All XP from specified Skill (host only)
