@@ -64,6 +64,8 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]No Recoil[/b] [ [font=Arial]norecoil[/font] | [font=Arial]recoil[/font] | [font=Arial]weaponnorecoil[/font] ] {} - [font=Georgia]Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)[/font]
 [b]No Sway[/b] [ [font=Arial]nosway[/font] | [font=Arial]sway[/font] | [font=Arial]noweaponsway[/font] ] {} - [font=Georgia]Removes weapon's sway  (works as guest)[/font]
 [b]Leyak Cooldown[/b] [ [font=Arial]leyakcd[/font] | [font=Arial]leyakcooldown[/font] | [font=Arial]cdleyak[/font] ] { <minutes> } - [font=Georgia]Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)[/font]
+[b]Trap Leyak[/b] [ [font=Arial]trapleyak[/font] | [font=Arial]containleyak[/font] ] {} - [font=Georgia]Trap's Leyak in the next possible Containment Unit. (host only)[/font]
+[b]Free Leyak[/b] [ [font=Arial]freeleyak[/font] ] {} - [font=Georgia]Free Leyak from a Containment Unit. (host only)[/font]
 [b]No Clip[/b] [ [font=Arial]noclip[/font] | [font=Arial]clip[/font] | [font=Arial]ghost[/font] ] {} - [font=Georgia]Disables player's collision and makes him fly (host only)[/font]
 [b]Add Skill Experience[/b] [ [font=Arial]addxp[/font] | [font=Arial]addexp[/font] | [font=Arial]xpadd[/font] | [font=Arial]skillxp[/font] | [font=Arial]skillexp[/font] | [font=Arial]skill[/font] | [font=Arial]skillxp[/font] ] { <skill alias> <XP value> } - [font=Georgia]Adds XP to specified Skill (host only)[/font]
 [b]Remove Skill Experience[/b] [ [font=Arial]removexp[/font] | [font=Arial]removeexp[/font] | [font=Arial]resetxp[/font] | [font=Arial]resetexp[/font] | [font=Arial]resetskill[/font] | [font=Arial]resetlevel[/font] | [font=Arial]resetlvl[/font] ] { <skill alias> } - [font=Georgia]Removes All XP from specified Skill (host only)[/font]
@@ -89,11 +91,10 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Send to Distant Shore[/b] [ [font=Arial]DistantShore[/font] | [font=Arial]dshore[/font] | [font=Arial]portalwc[/font] ] {} - [font=Georgia]Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)[/font]
 [b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)[/font]
 
-
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.
 For example: [b]Infinite Health[/b] can be activated by typing "health", "hp", "inv", "infhp" OR "infhealth" into the console.
-Commands which has variables has to be used like this:
+Commands which has parameters has to be used like this:
 [font=Courier New]money 9999  [/font]--Sets money value to 9999
 [font=Courier New]leyakcd 60 [/font]--Makes Leyak spawn once per hour
 
