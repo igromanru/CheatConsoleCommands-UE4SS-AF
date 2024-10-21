@@ -124,7 +124,7 @@ You will find the class: [i]/Game/Blueprints/DeployedObjects/Furniture/Container
 [font=Verdana][size=4][b]Additional information[/b][/size][/font]
 [list]
 [*]Most features are based on debugging functions created by game developers to help them develop the game.
-[*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload the game. Also it let you unlock all chests without needing a special Key.
+[*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload the game. Also it let you unlock all chests without needing a special Key and let you place furniture instantly.
 [/list]
 [font=Verdana][size=4][b]Compatibility[/b][/size][/font]
 Cheat Console Commands mod should be compatibility with any other mod.  
