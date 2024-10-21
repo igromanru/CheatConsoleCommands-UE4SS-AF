@@ -1484,20 +1484,22 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
     --     -- end
     -- end
 
+    if not context:IsA(AFUtils.GetClassAbiotic_Survival_GameMode_C()) then return nil end
+
     local command = string.match(Command, "^%S+")
     if #Parameters > 0 and Parameters[1] == command then
         table.remove(Parameters, 1)
     end
 
     -- Special handling of default commands
-    if command == "god" or command == "ghost" or command == "fly" or command == "teleport" then
+    if not AFUtils.IsDedicatedServer() and (command == "god" or command == "ghost" or command == "fly" or command == "teleport") then
         LogDebug("Default command, skip")
         return nil
     end
 
     local commandObj = GetCommandByAlias(command)
     if commandObj then
-        if commandObj.Function ~= nil and context:IsA(AFUtils.GetClassAbioticGameViewportClient()) then
+        if commandObj.Function ~= nil then
             commandObj.Function(commandObj, OutputDevice, Parameters)
             OutputDevice:Log("-- Ignore the message below, it comes from UE:")
         end
@@ -1510,37 +1512,39 @@ end)
 
 -- Overwriting default UE commands (most aren't made for the game and causes issues)
 ------------------------------------------------------------
-RegisterConsoleCommandGlobalHandler("god", function(FullCommand, Parameters, OutputDevice)
-    local godMode = GetCommandByAlias("God Mode")
-    if godMode and godMode.Function then
-        godMode.Function(godMode, OutputDevice, Parameters)
-    end
-    return true
-end)
-
-RegisterConsoleCommandGlobalHandler("ghost", function(FullCommand, Parameters, OutputDevice)
-    local noClip = GetCommandByAlias("No Clip")
-    if noClip and noClip.Function then
-        noClip.Function(noClip, OutputDevice, Parameters)
-    end
-    return true
-end)
-
-RegisterConsoleCommandGlobalHandler("fly", function(FullCommand, Parameters, OutputDevice)
-    local noClip = GetCommandByAlias("No Clip")
-    if noClip and noClip.Function then
-        noClip.Function(noClip, OutputDevice, Parameters)
-    end
-    return true
-end)
-
-RegisterConsoleCommandGlobalHandler("teleport", function(FullCommand, Parameters, OutputDevice)
-    local loadLocation = GetCommandByAlias("Load Location")
-    if loadLocation and loadLocation.Function then
-        loadLocation.Function(loadLocation, OutputDevice, Parameters)
-    end
-    return true
-end)
+if not AFUtils.IsDedicatedServer() then
+    RegisterConsoleCommandGlobalHandler("god", function(FullCommand, Parameters, OutputDevice)
+        local godMode = GetCommandByAlias("God Mode")
+        if godMode and godMode.Function then
+            godMode.Function(godMode, OutputDevice, Parameters)
+        end
+        return true
+    end)
+    
+    RegisterConsoleCommandGlobalHandler("ghost", function(FullCommand, Parameters, OutputDevice)
+        local noClip = GetCommandByAlias("No Clip")
+        if noClip and noClip.Function then
+            noClip.Function(noClip, OutputDevice, Parameters)
+        end
+        return true
+    end)
+    
+    RegisterConsoleCommandGlobalHandler("fly", function(FullCommand, Parameters, OutputDevice)
+        local noClip = GetCommandByAlias("No Clip")
+        if noClip and noClip.Function then
+            noClip.Function(noClip, OutputDevice, Parameters)
+        end
+        return true
+    end)
+    
+    RegisterConsoleCommandGlobalHandler("teleport", function(FullCommand, Parameters, OutputDevice)
+        local loadLocation = GetCommandByAlias("Load Location")
+        if loadLocation and loadLocation.Function then
+            loadLocation.Function(loadLocation, OutputDevice, Parameters)
+        end
+        return true
+    end)
+end
 
 -- if DebugMode then
 --     LogDebug(string.format("-- CommandsArray (%d) --", #CommandsArray))
