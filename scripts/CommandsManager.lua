@@ -1469,22 +1469,24 @@ CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Delete
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
     -- local executor = Executor:get()
+    if DebugMode then
+        LogDebug("[ProcessConsoleExec]:")
+        LogDebug("Context: " .. context:GetFullName())
+        LogDebug("Context.Class: " .. context:GetClass():GetFullName())
+        LogDebug("Command: " .. Command)
+        LogDebug("Parameters: " .. #Parameters)
+        for i = 1, #Parameters, 1 do
+            LogDebug("  " .. i .. ": " .. Parameters[i])
+        end
+        -- if executor:IsValid() then
+        --     LogDebug("Executor: " .. executor:GetClass():GetFullName())
+        -- end
+    end
 
-    -- if DebugMode then
-    --     LogDebug("[ProcessConsoleExec]:")
-    --     LogDebug("Context: " .. context:GetFullName())
-    --     LogDebug("Context.Class: " .. context:GetClass():GetFullName())
-    --     LogDebug("Command: " .. Command)
-    --     LogDebug("Parameters: " .. #Parameters)
-    --     for i = 1, #Parameters, 1 do
-    --         LogDebug("  " .. i .. ": " .. Parameters[i])
-    --     end
-    --     -- if executor:IsValid() then
-    --     --     LogDebug("Executor: " .. executor:GetClass():GetFullName())
-    --     -- end
-    -- end
-
-    if not context:IsA(AFUtils.GetClassAbiotic_Survival_GameMode_C()) then return nil end
+    local IsDedicatedServer = AFUtils.IsDedicatedServer()
+    if (IsDedicatedServer and not context:IsA(AFUtils.GetClassAbiotic_Survival_GameMode_C())) or (not IsDedicatedServer and not context:IsA(AFUtils.GetClassAbioticGameViewportClient()))  then
+        return nil
+    end
 
     local command = string.match(Command, "^%S+")
     if #Parameters > 0 and Parameters[1] == command then
@@ -1492,7 +1494,7 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
     end
 
     -- Special handling of default commands
-    if not AFUtils.IsDedicatedServer() and (command == "god" or command == "ghost" or command == "fly" or command == "teleport") then
+    if not IsDedicatedServer and (command == "god" or command == "ghost" or command == "fly" or command == "teleport") then
         LogDebug("Default command, skip")
         return nil
     end
