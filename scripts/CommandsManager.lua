@@ -1469,19 +1469,20 @@ CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Delete
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
     -- local executor = Executor:get()
-    if DebugMode then
-        LogDebug("[ProcessConsoleExec]:")
-        LogDebug("Context: " .. context:GetFullName())
-        LogDebug("Context.Class: " .. context:GetClass():GetFullName())
-        LogDebug("Command: " .. Command)
-        LogDebug("Parameters: " .. #Parameters)
-        for i = 1, #Parameters, 1 do
-            LogDebug("  " .. i .. ": " .. Parameters[i])
-        end
-        -- if executor:IsValid() then
-        --     LogDebug("Executor: " .. executor:GetClass():GetFullName())
-        -- end
-    end
+    
+    -- if DebugMode then
+    --     LogDebug("[ProcessConsoleExec]:")
+    --     LogDebug("Context: " .. context:GetFullName())
+    --     LogDebug("Context.Class: " .. context:GetClass():GetFullName())
+    --     LogDebug("Command: " .. Command)
+    --     LogDebug("Parameters: " .. #Parameters)
+    --     for i = 1, #Parameters, 1 do
+    --         LogDebug("  " .. i .. ": " .. Parameters[i])
+    --     end
+    --     -- if executor:IsValid() then
+    --     --     LogDebug("Executor: " .. executor:GetClass():GetFullName())
+    --     -- end
+    -- end
 
     local IsDedicatedServer = AFUtils.IsDedicatedServer()
     if (IsDedicatedServer and not context:IsA(AFUtils.GetClassAbiotic_Survival_GameMode_C())) or (not IsDedicatedServer and not context:IsA(AFUtils.GetClassAbioticGameViewportClient()))  then
