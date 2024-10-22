@@ -7,6 +7,9 @@ local LocationsManager = require("LocationsManager")
 local WeatherManager = require("WeatherManager")
 local PlayersManager = require("PlayersManager")
 
+local IsDedicatedServer = AFUtils.IsDedicatedServer()
+LogDebug("IsDedicatedServer",IsDedicatedServer)
+
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
 ---@param Message string
@@ -38,6 +41,17 @@ local function WriteToConsoleDebug(OutputDevice, Message)
             OutputDevice:Log(Message)
         end
     end
+end
+
+---Returns true if IsDedicatedServer and error was printed
+---@param OutputDevice any
+---@return boolean IsDedicatedServer
+local function CheckAndLogDedicatedServerCommandSupport(OutputDevice)
+    if IsDedicatedServer then
+        WriteErrorToConsole(OutputDevice, "The command is not supported on Dedicated Server!")
+        return true
+    end
+    return false
 end
 
 ---@alias CommandFunction fun(self: CommandStruct, OutputDevice: FOutputDevice, Parameters: table): boolean
@@ -1443,6 +1457,10 @@ CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore",
 -- Delete Object Trace Command
 CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)", nil,
     function(self, OutputDevice, Parameters)
+        if CheckAndLogDedicatedServerCommandSupport(OutputDevice) then
+            return false
+        end
+
         local hitActor = ForwardLineTraceByChannel(3, 10)
         if hitActor:IsValid() then
             local actor = nil ---@type AActor
@@ -1484,7 +1502,7 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
     --     -- end
     -- end
 
-    local IsDedicatedServer = AFUtils.IsDedicatedServer()
+    -- local IsDedicatedServer = AFUtils.IsDedicatedServer()
     if (IsDedicatedServer and not context:IsA(AFUtils.GetClassAbiotic_Survival_GameMode_C())) or (not IsDedicatedServer and not context:IsA(AFUtils.GetClassAbioticGameViewportClient()))  then
         return nil
     end

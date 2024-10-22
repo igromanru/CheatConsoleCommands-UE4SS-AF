@@ -138,9 +138,12 @@ If you have followed the installation instructions above and are 100% sure that 
 [*]Which mod version are you using
 [*]The content of [b]UE4SS.log[/b] file. UE4SS.log file should be in the installation directory of UE4SS.
 [/list]
-[font=Verdana][size=4][b]Feedback and Feature requests[/b][/size][/font]
-Any feedback and feature request are currently welcome.
-Simple let me know in the comments section.
+[font=Verdana][size=4][b]Dedicated Server[/b][/size][/font]
+[size=2]Currently all player related commands work only for the first player on the server. You can still use commands like "givexp", "takexp", "smite" etc. for each player and player independent commands like Leyak Cooldown etc.[/size]
+1. To use Console Commands you have to start the Server with an additional argument [url=https://github.com/DFJacob/AbioticFactorDedicatedServer/wiki/Technical-%E2%80%90-Launch-Parameters#-log--newconsole]-NewConsole[/url]. 
+2. At the top right corner press the double up arrow button to expend console to show the command line.
+See picture: [url=https://staticdelivery.nexusmods.com/mods/6412/images/28/28-1729573933-724491234.png]Screenshot link[/url]
+3. In the command line you can now use the console commands as usual, but the only feedback you get from the mod will be text output to the console.
 
 [font=Verdana][size=4][b]My AF Mods[/b][/size][/font]
 Check out my other Abiotic Factor mods.
