@@ -92,7 +92,7 @@ local function GetArrayIndexBySkillId(CharacterSkillId)
     if not SkillIdToIndexMap or #SkillIdToIndexMap < 1 then
         SkillIdToIndexMap = {}
         local progressionComponent =  AFUtils.GetMyCharacterProgressionComponent()
-        if progressionComponent and progressionComponent.CharacterSkills_Keys then
+        if IsValid(progressionComponent) and progressionComponent.CharacterSkills_Keys then
            for i = 1, #progressionComponent.CharacterSkills_Keys, 1 do
                 local skillId = progressionComponent.CharacterSkills_Keys[i]
                 SkillIdToIndexMap[skillId] = i
@@ -112,7 +112,7 @@ function Skills.GetCharacterSkillStructById(Player, CharacterSkillId)
 
     local index = GetArrayIndexBySkillId(CharacterSkillId)
     local progressionComponent =  Player.CharacterProgressionComponent
-    if progressionComponent and #progressionComponent.CharacterSkills_Values >= index then
+    if IsValid(progressionComponent) and #progressionComponent.CharacterSkills_Values >= index then
         return progressionComponent.CharacterSkills_Values[index]
     end
 

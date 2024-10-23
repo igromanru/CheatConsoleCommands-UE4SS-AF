@@ -992,7 +992,7 @@ CreateCommand({ "resetallskills", "resetallskill", "resetallxp", "resetallexp", 
     "Resets all character skills! (works as guest)", nil,
     function(self, OutputDevice, Parameters)
         local progressionComponen = AFUtils.GetMyCharacterProgressionComponent()
-        if progressionComponen then
+        if IsValid(progressionComponen) then
             progressionComponen:Request_ResetAllSkills()
             local message = "All skills were reset"
             WriteToConsole(OutputDevice, message)
@@ -1000,6 +1000,29 @@ CreateCommand({ "resetallskills", "resetallskill", "resetallxp", "resetallexp", 
             return true
         else
             WriteErrorToConsole(OutputDevice, "Failed to get character progress component. Are you ingame?")
+        end
+        return false
+    end)
+
+-- Show Traits
+CreateCommand({ "traits" }, "Show Traits", "Show player's Traits.", nil,
+    function(self, OutputDevice, Parameters)
+        local progressionComponen = AFUtils.GetMyCharacterProgressionComponent()
+        if IsValid(progressionComponen) then
+            WriteToConsole(OutputDevice, "Your Traits (" .. #progressionComponen.Traits .. "):")
+            for i = 1, #progressionComponen.Traits do
+                local trait = progressionComponen.Traits[i]
+                local traitName = trait:ToString()
+                local traitDesc = AFUtils.Traits[traitName]
+                local output = "  " .. traitName .. " -> "
+                if traitDesc then
+                    output = output .. traitDesc
+                else
+                    output = output .. "Unknown Trait"
+                end
+                WriteToConsole(OutputDevice, output)
+            end
+            return true
         end
         return false
     end)
