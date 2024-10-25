@@ -18,6 +18,13 @@ local Traits = {
     TraitsArray = {}, ---@type TraitStruct[]
     TraitsMap = {}, ---@type { [string]: TraitStruct }
 }
+
+---@param Id string
+---@return TraitStruct
+function Traits.GetById(Id)
+    return Traits.TraitsMap[string.lower(Id)]
+end
+
 ---@param Id string
 ---@param Info { Description: string, Buff: boolean }
 ---@return TraitStruct?
@@ -35,7 +42,7 @@ local function CreateTrait(Id, Info)
         }
     }
     table.insert(Traits.TraitsArray, trait)
-    Traits.TraitsMap[Id] = trait
+    Traits.TraitsMap[string.lower(Id)] = trait
 
     return trait
 end
@@ -46,7 +53,9 @@ local function InitTraits()
     end
 end
 
-InitTraits()
 
+
+
+InitTraits()
 
 return Traits
