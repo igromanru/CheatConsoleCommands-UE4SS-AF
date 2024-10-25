@@ -531,7 +531,7 @@ CreateCommand({ "god", "godmode" }, "God Mode",
 CreateCommand({ "heal" }, "Heal", "Player gets fully healed once (host only)", nil,
     function(self, OutputDevice, Parameters)
         local myPlayer = AFUtils.GetMyPlayer()
-        if myPlayer then
+        if IsValid(myPlayer) then
             WriteToConsole(OutputDevice, "Healing player")
             AFUtils.HealAllLimbs(myPlayer)
             AFUtils.ClientDisplayWarningMessage("All Limbs were healed", AFUtils.CriticalityLevels.Green)
@@ -767,7 +767,7 @@ CreateCommand({ "money" }, "Set Money", "Set money to desired value (works as gu
         end
         if type(moneyValue) ~= "number" then
             local myPlayer = AFUtils.GetMyPlayer()
-            if myPlayer then
+            if IsValid(myPlayer) then
                 WriteToConsole(OutputDevice, self.Name .. ": Current money value: " .. myPlayer.CurrentMoney)
             else
                 WriteToConsole(OutputDevice, "Error: Player character not found. Are you ingame?")
@@ -782,7 +782,7 @@ CreateCommand({ "money" }, "Set Money", "Set money to desired value (works as gu
         end
         WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. moneyValue)
         local myPlayer = AFUtils.GetMyPlayer()
-        if myPlayer then
+        if IsValid(myPlayer) then
             myPlayer:Request_ModifyMoney(moneyValue - myPlayer.CurrentMoney)
             myPlayer.CurrentMoney = moneyValue
             LogDebug("CurrentMoney: " .. tostring(myPlayer.CurrentMoney))
@@ -1070,7 +1070,7 @@ CreateCommand({ "setweather", "nextweather", "weatherevent", "weather" }, "Weath
 CreateCommand({ "resetportals", "resetportal", "resetworlds", "resetportalworlds", "resetvignettes" }, "Reset Portal Worlds", "Resets Portal Worlds (host only)", nil,
     function(self, OutputDevice, Parameters)
         local gameInstance = AFUtils.GetGameInstance()
-        if gameInstance then
+        if IsValid(gameInstance) then
             gameInstance:ResetVignettes()
             local message = "Reset Portal Worlds"
             WriteToConsole(OutputDevice, message)

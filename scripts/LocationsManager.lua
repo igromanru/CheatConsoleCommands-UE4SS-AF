@@ -77,7 +77,7 @@ end
 function LocationsManager.SaveCurrentLocation(Name)
     local myPlayer = AFUtils.GetMyPlayer()
     local myPlayerController = AFUtils.GetMyPlayerController()
-    if myPlayer and myPlayerController then
+    if IsValid(myPlayer) and IsValid(myPlayerController) then
         local acotrLocation = myPlayer:K2_GetActorLocation()
         acotrLocation.Z = acotrLocation.Z + 20 -- Increase Z to not get stuck
         
@@ -92,10 +92,10 @@ function LocationsManager.LoadLocation(Name)
     local location = LocationsManager.GetLocationByName(Name)
     if location and not IsEmptyVector(location.Location) then
         local myPlayer = AFUtils.GetMyPlayer()
-        if myPlayer then
+        if IsValid(myPlayer) then
             if location.LevelName then
                 local myPlayerController = AFUtils.GetMyPlayerController()
-                if myPlayerController and myPlayerController.ActiveLevelName:ToString() ~= location.LevelName then
+                if IsValid(myPlayerController) and myPlayerController.ActiveLevelName:ToString() ~= location.LevelName then
                     LogDebug("LoadLocation: ActiveLevelName: " .. myPlayerController.ActiveLevelName:ToString())
                     local outSuccess = { bSuccess = false }
                     local outNotLoaded = { bNotLoaded = false }
