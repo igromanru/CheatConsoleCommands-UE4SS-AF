@@ -1075,11 +1075,25 @@ CreateCommand({ "resetportals", "resetportal", "resetworlds", "resetportalworlds
             local message = "Reset Portal Worlds"
             WriteToConsole(OutputDevice, message)
             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+            return true
         else
             WriteErrorToConsole(OutputDevice, "Couldn't get game instance object")
         end
 
-        return true
+        return false
+    end)
+
+-- Poop on Floor Command
+CreateCommand({ "poop" }, "Poop on Floor", "Poop on the Floor (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        local player = AFUtils.GetMyPlayer()
+        if IsValid(player) then
+            player:Server_PoopOnFloor()
+            return true
+        else
+            WriteErrorToConsole(OutputDevice, "Couldn't find the player")
+        end
+        return false
     end)
 
 -- Set Time
