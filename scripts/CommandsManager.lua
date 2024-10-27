@@ -1084,7 +1084,7 @@ CreateCommand({ "resetportals", "resetportal", "resetworlds", "resetportalworlds
     end)
 
 -- Poop on Floor Command
-CreateCommand({ "poop" }, "Poop on Floor", "Poop on the Floor (works as guest)", nil,
+CreateCommand({ "poop", "pooponfloor" }, "Poop on Floor", "Poop on the Floor (works as guest)", nil,
     function(self, OutputDevice, Parameters)
         local player = AFUtils.GetMyPlayer()
         if IsValid(player) then
