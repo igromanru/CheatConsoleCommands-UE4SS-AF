@@ -15,6 +15,9 @@ ModVersion = "1.16.0"
 DebugMode = true
 IsModEnabled = true
 
+-- ToDo
+-- Add a No Spore command
+
 LogInfo("Starting mod initialization")
 require("Features")
 require("CommandsManager") -- Executes CommandsManager functions
