@@ -4,6 +4,7 @@ Also in contrast to mods based on "chat commands" you might not want other playe
 
 [font=Verdana][size=4][b]Description[/b][/size][/font]
 The mod makes a use of Unreal Engine's default console which gets enabled through [b]ConsoleCommandsMod[/b] and can be accessed with the hotkey [b]F10[/b] or [b]~[/b]. (ConsoleCommandsMod is a part of UE4SS and is enabled per default)
+[size=2]Keep in mind that F10 is also game's default Hotkey to hide the HUD, you might want to change it in "Controls" setting to something else.[/size]
 I override some default UE commands which aren't working properly with the game and add a lot of own commands to it. See the list of commands below.
 
 [font=Verdana][size=4][b]Requirements[/b][/size][/font]
@@ -70,9 +71,11 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Add Skill Experience[/b] [ [font=Arial]addxp[/font] | [font=Arial]addexp[/font] | [font=Arial]xpadd[/font] | [font=Arial]skillxp[/font] | [font=Arial]skillexp[/font] | [font=Arial]skill[/font] | [font=Arial]skillxp[/font] ] { <skill alias> <XP value> } - [font=Georgia]Adds XP to specified Skill (host only)[/font]
 [b]Remove Skill Experience[/b] [ [font=Arial]removexp[/font] | [font=Arial]removeexp[/font] | [font=Arial]resetxp[/font] | [font=Arial]resetexp[/font] | [font=Arial]resetskill[/font] | [font=Arial]resetlevel[/font] | [font=Arial]resetlvl[/font] ] { <skill alias> } - [font=Georgia]Removes All XP from specified Skill (host only)[/font]
 [b]Reset All Skills[/b] [ [font=Arial]resetallskills[/font] | [font=Arial]resetallskill[/font] | [font=Arial]resetallxp[/font] | [font=Arial]resetallexp[/font] | [font=Arial]resetalllvl[/font] ] {} - [font=Georgia]Resets all character skills! (works as guest)[/font]
+[b]Show Traits[/b] [ [font=Arial]traits[/font] ] {} - [font=Georgia]Show player's Traits.[/font]
 [b]Master Key[/b] [ [font=Arial]masterkey[/font] | [font=Arial]key[/font] | [font=Arial]keys[/font] | [font=Arial]opendoor[/font] | [font=Arial]opendoors[/font] ] {} - [font=Georgia]Allows to open all doors (host only)[/font]
 [b]Weather Event[/b] [ [font=Arial]setweather[/font] | [font=Arial]nextweather[/font] | [font=Arial]weatherevent[/font] | [font=Arial]weather[/font] ] { <weather> } - [font=Georgia]Sets weather event for the next day (host only)[/font]
 [b]Reset Portal Worlds[/b] [ [font=Arial]resetportals[/font] | [font=Arial]resetportal[/font] | [font=Arial]resetworlds[/font] | [font=Arial]resetportalworlds[/font] | [font=Arial]resetvignettes[/font] ] {} - [font=Georgia]Resets Portal Worlds (host only)[/font]
+[b]Poop on Floor[/b] [ [font=Arial]poop[/font] | [font=Arial]pooponfloor[/font] ] {} - [font=Georgia]Poop on the Floor (works as guest)[/font]
 [b]Set Time[/b] [ [font=Arial]settime[/font] ] {} - [font=Georgia]Set game's time in 24-hour format (0-23:0-59). (host only)[/font]
 [b]Kill All Enemies[/b] [ [font=Arial]killall[/font] | [font=Arial]killnpc[/font] | [font=Arial]killnpcs[/font] | [font=Arial]killallnpc[/font] | [font=Arial]killallnpcs[/font] | [font=Arial]killallenemies[/font] | [font=Arial]killenemies[/font] ] {} - [font=Georgia]Kill all enemy NPCs in your vicinity. (host only)[/font]
 [b]Spawn All Enemies[/b] [ [font=Arial]spawnall[/font] | [font=Arial]spawnnpc[/font] | [font=Arial]spawnnpcs[/font] | [font=Arial]spawnallnpc[/font] | [font=Arial]spawnallnpcs[/font] | [font=Arial]spawnallenemies[/font] | [font=Arial]spawnenemies[/font] ] {} - [font=Georgia]Respawn all enemy NPCs in your vicinity. (host only)[/font]
@@ -88,8 +91,8 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Remove Skill Experience from Player[/b] [ [font=Arial]takexp[/font] ] { <name/index> <skill alias> } - [font=Georgia]Remove All Skill XP from a player (host only)[/font]
 [b]Speedhack[/b] [ [font=Arial]speedhack[/font] | [font=Arial]speedmulti[/font] | [font=Arial]speedscale[/font] ] { <multiplier/scale> } - [font=Georgia]Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (host only)[/font]
 [b]Player Gravity Scale[/b] [ [font=Arial]playergravity[/font] | [font=Arial]playergrav[/font] | [font=Arial]pg[/font] | [font=Arial]setpg[/font] ] { <scale> } - [font=Georgia]Sets player's gravity scale. (Default scale: 1.0) (host only)[/font]
-[b]Send to Distant Shore[/b] [ [font=Arial]DistantShore[/font] | [font=Arial]dshore[/font] | [font=Arial]portalwc[/font] ] {} - [font=Georgia]Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)[/font]
 [b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)[/font]
+
 
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.

@@ -39,9 +39,11 @@ No Clip | noclip \| clip \| ghost |  | Disables player's collision and makes him
 Add Skill Experience | addxp \| addexp \| xpadd \| skillxp \| skillexp \| skill \| skillxp | {skill alias} {XP value} | Adds XP to specified Skill (host only)
 Remove Skill Experience | removexp \| removeexp \| resetxp \| resetexp \| resetskill \| resetlevel \| resetlvl | {skill alias} | Removes All XP from specified Skill (host only)
 Reset All Skills | resetallskills \| resetallskill \| resetallxp \| resetallexp \| resetalllvl |  | Resets all character skills! (works as guest)
+Show Traits | traits |  | Show player's Traits.
 Master Key | masterkey \| key \| keys \| opendoor \| opendoors |  | Allows to open all doors (host only)
 Weather Event | setweather \| nextweather \| weatherevent \| weather | {weather} | Sets weather event for the next day (host only)
 Reset Portal Worlds | resetportals \| resetportal \| resetworlds \| resetportalworlds \| resetvignettes |  | Resets Portal Worlds (host only)
+Poop on Floor | poop \| pooponfloor |  | Poop on the Floor (works as guest)
 Set Time | settime |  | Set game's time in 24-hour format (0-23:0-59). (host only)
 Kill All Enemies | killall \| killnpc \| killnpcs \| killallnpc \| killallnpcs \| killallenemies \| killenemies |  | Kill all enemy NPCs in your vicinity. (host only)
 Spawn All Enemies | spawnall \| spawnnpc \| spawnnpcs \| spawnallnpc \| spawnallnpcs \| spawnallenemies \| spawnenemies |  | Respawn all enemy NPCs in your vicinity. (host only)
@@ -57,7 +59,6 @@ Give Skill Experience to Player | givexp | {name/index} {skill alias} {XP value}
 Remove Skill Experience from Player | takexp | {name/index} {skill alias} | Remove All Skill XP from a player (host only)
 Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (host only)
 Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
-Send to Distant Shore | DistantShore \| dshore \| portalwc |  | Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)
 Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)
 
 
