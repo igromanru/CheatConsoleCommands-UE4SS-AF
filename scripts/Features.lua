@@ -661,20 +661,20 @@ end
 --     end
 -- end
 
----@param myPlayer AAbiotic_PlayerCharacter_C
-function DistantShore(myPlayer)
-    if IsNotValid(myPlayer) then return end
+-- ---@param myPlayer AAbiotic_PlayerCharacter_C
+-- function DistantShore(myPlayer)
+--     if IsNotValid(myPlayer) then return end
 
-    if Settings.DistantShore then
-        local deployedToiletPortal = FindFirstOf("Deployed_Toilet_Portal_C") ---@cast deployedToiletPortal ADeployed_Toilet_Portal_C
-        if IsValid(deployedToiletPortal) and deployedToiletPortal.DeployedByPlayer then
-            Settings.DistantShore = false
-            local message = "Sending to Distant Shore"
-            LogDebug(message)
-            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
-            LogDebug("DistantShore: SendToDistantShore")
-            deployedToiletPortal:SendToDistantShore(myPlayer)
-            AFUtils.ClientDisplayWarningMessage("Send to Distant Shore Disabled", AFUtils.CriticalityLevels.Red)
-        end
-    end
-end
+--     if Settings.DistantShore then
+--         local deployedToiletPortal = FindFirstOf("Deployed_Toilet_Portal_C") ---@cast deployedToiletPortal ADeployed_Toilet_Portal_C
+--         if IsValid(deployedToiletPortal) and deployedToiletPortal.DeployedByPlayer then
+--             Settings.DistantShore = false
+--             local message = "Sending to Distant Shore"
+--             LogDebug(message)
+--             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+--             LogDebug("DistantShore: SendToDistantShore")
+--             pcall(deployedToiletPortal.InteractTeleportUpdate, deployedToiletPortal, myPlayer, true, true)
+--             AFUtils.ClientDisplayWarningMessage("Send to Distant Shore Disabled", AFUtils.CriticalityLevels.Red)
+--         end
+--     end
+-- end

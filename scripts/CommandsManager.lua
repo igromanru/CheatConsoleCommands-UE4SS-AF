@@ -7,8 +7,7 @@ local LocationsManager = require("LocationsManager")
 local WeatherManager = require("WeatherManager")
 local PlayersManager = require("PlayersManager")
 
-local IsDedicatedServer = AFUtils.IsDedicatedServer()
-LogDebug("IsDedicatedServer",IsDedicatedServer)
+LogDebug("IsDedicatedServer",AFUtils.IsDedicatedServer())
 
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
@@ -47,7 +46,7 @@ end
 ---@param OutputDevice any
 ---@return boolean IsDedicatedServer
 local function CheckAndLogDedicatedServerCommandSupport(OutputDevice)
-    if IsDedicatedServer then
+    if AFUtils.IsDedicatedServer() then
         WriteErrorToConsole(OutputDevice, "The command is not supported on Dedicated Server!")
         return true
     end
@@ -1483,13 +1482,13 @@ end,
 "PlayerGravityScale")
 
 -- Send to Distant Shore Command
-CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore", "Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)", nil,
-    function(self, OutputDevice, Parameters)
-        Settings.DistantShore = not Settings.DistantShore
-        AFUtils.DisplayWarningMessage(PrintCommandState(Settings.DistantShore, self.Name, OutputDevice), AFUtils.CriticalityLevels.Green)
-        return true
-    end,
-    "DistantShore")
+-- CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore", "Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)", nil,
+--     function(self, OutputDevice, Parameters)
+--         Settings.DistantShore = not Settings.DistantShore
+--         AFUtils.DisplayWarningMessage(PrintCommandState(Settings.DistantShore, self.Name, OutputDevice), AFUtils.CriticalityLevels.Green)
+--         return true
+--     end,
+--     "DistantShore")
 
 -- Delete Object Trace Command
 CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)", nil,
@@ -1539,7 +1538,7 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
     --     -- end
     -- end
 
-    -- local IsDedicatedServer = AFUtils.IsDedicatedServer()
+    local IsDedicatedServer = AFUtils.IsDedicatedServer()
     if (IsDedicatedServer and not context:IsA(AFUtils.GetClassAbiotic_Survival_GameMode_C())) or (not IsDedicatedServer and not context:IsA(AFUtils.GetClassAbioticGameViewportClient()))  then
         return nil
     end

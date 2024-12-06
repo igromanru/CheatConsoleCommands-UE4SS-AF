@@ -82,7 +82,6 @@ LoopAsync(250, function()
             Speedhack(myPlayer)
             PlayerGravityScale(myPlayer)
             SetLeyakCooldown()
-            DistantShore(myPlayer)
         end
     end)
     SettingsManager.AutoSaveOnChange()
