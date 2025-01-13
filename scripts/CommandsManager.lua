@@ -7,7 +7,8 @@ local LocationsManager = require("LocationsManager")
 local WeatherManager = require("WeatherManager")
 local PlayersManager = require("PlayersManager")
 
-LogDebug("IsDedicatedServer",AFUtils.IsDedicatedServer())
+LogDebug("CommandLine:", GetKismetSystemLibrary():GetCommandLine():ToString())
+LogInfo("IsDedicatedServer:", AFUtils.IsDedicatedServer())
 
 ---Write to lua console and the OutputDevice
 ---@param OutputDevice FOutputDevice
