@@ -568,6 +568,16 @@ CreateCommand({ "stamina", "sp", "infsp", "infstamina" }, "Infinite Stamina",
     end,
     "InfiniteStamina")
 
+-- Infinite Crouch Roll
+CreateCommand({ "infroll", "crouchroll", "stealthroll" }, "Infinite Crouch Roll",
+    "Allows player to use the crouch roll ability from Sneaking LvL 5 without a cooldown.", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.InfiniteCrouchRoll = not Settings.InfiniteCrouchRoll
+        PrintCommandState(Settings.InfiniteCrouchRoll, self.Name, OutputDevice)
+        return true
+    end,
+    "InfiniteCrouchRoll")
+
 -- Infinite Durability Command
 CreateCommand({ "durability", "infdurability", "infdur" }, "Infinite Durability",
     "Keeps player's gear and hotbar items durability at maximum (works as guest)", nil,

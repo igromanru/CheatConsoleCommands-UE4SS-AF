@@ -648,6 +648,33 @@ function SetLeyakCooldown()
     end
 end
 
+local CanCrouchRollPreId, CanCrouchRollPostId = nil, nil
+local function InitCanCrouchRollHooks()
+    if not CanCrouchRollPreId then
+        CanCrouchRollPreId, CanCrouchRollPostId = RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:CanCrouchRoll?", function(Context, CanRoll)
+            if Settings.InfiniteCrouchRoll then
+                CanRoll:set(true)
+            end
+        end)
+        LogDebug("CanCrouchRollPreId:", CanCrouchRollPreId)
+        LogDebug("CanCrouchRollPostId:", CanCrouchRollPostId)
+    end
+end
+
+local InfiniteCrouchRollWasEnabled = false
+function InfiniteCrouchRoll()
+    if Settings.InfiniteCrouchRoll then
+        if not InfiniteCrouchRollWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Infinite Crouch Roll activated", AFUtils.CriticalityLevels.Green)
+            InfiniteCrouchRollWasEnabled = true
+        end
+        InitCanCrouchRollHooks()
+    elseif InfiniteCrouchRollWasEnabled then
+        InfiniteCrouchRollWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Infinite Crouch Roll deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 -- function SetInventorySlotCount()
 --     if Settings.InventorySlotCount and Settings.InventorySlotCount > 0 then
 --         local myInventoryComponent = AFUtils.GetMyInventoryComponent()
