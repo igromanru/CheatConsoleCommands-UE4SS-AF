@@ -44,6 +44,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Heal[/b] [ [font=Arial]heal[/font] ] {} - [font=Georgia]Player gets fully healed once (host only)[/font]
 [b]Infinite Health[/b] [ [font=Arial]health[/font] | [font=Arial]hp[/font] | [font=Arial]infhp[/font] | [font=Arial]infhealth[/font] ] {} - [font=Georgia]Player gets fully healed and becomes invincible (host only)[/font]
 [b]Infinite Stamina[/b] [ [font=Arial]stamina[/font] | [font=Arial]sp[/font] | [font=Arial]infsp[/font] | [font=Arial]infstamina[/font] ] {} - [font=Georgia]Player won't consume stamina (works partial as guest)[/font]
+[b]Infinite Crouch Roll[/b] [ [font=Arial]infroll[/font] | [font=Arial]crouchroll[/font] | [font=Arial]stealthroll[/font] ] {} - [font=Georgia]Allows player to use the crouch roll ability from Sneaking LvL 5 without a cooldown.[/font]
 [b]Infinite Durability[/b] [ [font=Arial]durability[/font] | [font=Arial]infdurability[/font] | [font=Arial]infdur[/font] ] {} - [font=Georgia]Keeps player's gear and hotbar items durability at maximum (works as guest)[/font]
 [b]Infinite Energy[/b] [ [font=Arial]energy[/font] | [font=Arial]infenergy[/font] ] {} - [font=Georgia]Keeps player's gear and held item charge/energy at maximum (host only)[/font]
 [b]No Overheat[/b] [ [font=Arial]nooverheat[/font] | [font=Arial]overheat[/font] ] {} - [font=Georgia]Prevents items from overheating (currently only the Jetpack) (host only)[/font]
@@ -92,6 +93,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Speedhack[/b] [ [font=Arial]speedhack[/font] | [font=Arial]speedmulti[/font] | [font=Arial]speedscale[/font] ] { <multiplier/scale> } - [font=Georgia]Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (host only)[/font]
 [b]Player Gravity Scale[/b] [ [font=Arial]playergravity[/font] | [font=Arial]playergrav[/font] | [font=Arial]pg[/font] | [font=Arial]setpg[/font] ] { <scale> } - [font=Georgia]Sets player's gravity scale. (Default scale: 1.0) (host only)[/font]
 [b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)[/font]
+
 
 
 [b]How to use example:[/b]
@@ -167,7 +169,5 @@ Check out my other Abiotic Factor mods.
 
 [font=Arial][size=4]Highest form of appreciation[/size][/font]
 [size=2]If you like my work and feel generous, you can support me.[/size]
-[b]BTC:[/b] bc1q3frvfljn7ut09ggep2gxugv4ypqvyexz3ya7ja
-[b]ETH:[/b] 0xEedBbF6eFa84198cc94fE4Bf6FBB5dfa674AF86b
-[b]ADA:[/b] addr1qyx2sd2rgwdzvjhwnc35udx4k6w9lg524pwrf0llr7d2shzrewyq3nqyxfceuhgh5n5ucx3n8ws0n48krrlpw4khtedq4hzv93
 [url=https://ko-fi.com/igromanru][img]https://i.imgur.com/rGcPxK8.png[/img][/url]
+[url=https://buymeacoffee.com/igromanru][img]https://i.imgur.com/JG0mNZg.png[/img][/url]

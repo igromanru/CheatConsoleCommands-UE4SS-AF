@@ -114,6 +114,7 @@ function SettingsManager.AutoSaveOnChange()
         or SettingsMonitor.SpeedhackMultiplier ~= Settings.SpeedhackMultiplier
         or SettingsMonitor.PlayerGravityScale ~= Settings.PlayerGravityScale
         or (Settings.Locations and SettingsMonitor.LocationsCount ~= #Settings.Locations) 
+        or SettingsMonitor.InfiniteCrouchRoll ~= Settings.InfiniteCrouchRoll
     then
         LogDebug("AutoSaveOnChange: Changes detected")
         SettingsMonitor.GodMode = Settings.GodMode
@@ -143,6 +144,7 @@ function SettingsManager.AutoSaveOnChange()
         SettingsMonitor.SpeedhackMultiplier = Settings.SpeedhackMultiplier
         SettingsMonitor.PlayerGravityScale = Settings.PlayerGravityScale
         SettingsMonitor.LocationsCount = Settings.Locations and #Settings.Locations or 0
+        SettingsMonitor.InfiniteCrouchRoll = Settings.InfiniteCrouchRoll
         SettingsManager.SaveToFile()
     end
 end

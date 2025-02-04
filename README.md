@@ -12,6 +12,7 @@ God Mode | god \| godmode |  | Activates all health, stamina and status related 
 Heal | heal |  | Player gets fully healed once (host only)
 Infinite Health | health \| hp \| infhp \| infhealth |  | Player gets fully healed and becomes invincible (host only)
 Infinite Stamina | stamina \| sp \| infsp \| infstamina |  | Player won't consume stamina (works partial as guest)
+Infinite Crouch Roll | infroll \| crouchroll \| stealthroll |  | Allows player to use the crouch roll ability from Sneaking LvL 5 without a cooldown.
 Infinite Durability | durability \| infdurability \| infdur |  | Keeps player's gear and hotbar items durability at maximum (works as guest)
 Infinite Energy | energy \| infenergy |  | Keeps player's gear and held item charge/energy at maximum (host only)
 No Overheat | nooverheat \| overheat |  | Prevents items from overheating (currently only the Jetpack) (host only)
@@ -64,7 +65,4 @@ Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in fro
 
 ## Highest form of appreciation
 If you like my work and feel generous, you can support me.  
-**BTC:** bc1q3frvfljn7ut09ggep2gxugv4ypqvyexz3ya7ja  
-**ETH:** 0xEedBbF6eFa84198cc94fE4Bf6FBB5dfa674AF86b  
-**ADA:** addr1qyx2sd2rgwdzvjhwnc35udx4k6w9lg524pwrf0llr7d2shzrewyq3nqyxfceuhgh5n5ucx3n8ws0n48krrlpw4khtedq4hzv93  
 [![Ko-fi](https://i.imgur.com/rGcPxK8.png)](https://ko-fi.com/igromanru)
