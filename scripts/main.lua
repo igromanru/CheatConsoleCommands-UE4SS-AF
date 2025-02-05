@@ -11,7 +11,7 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.17.0"
+ModVersion = "1.17.1"
 DebugMode = true
 IsModEnabled = true
 
