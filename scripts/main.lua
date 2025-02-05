@@ -17,6 +17,7 @@ IsModEnabled = true
 
 -- ToDo
 -- Add a No Spore command
+-- Add Vacuum command
 
 LogInfo("Starting mod initialization")
 require("Features")
