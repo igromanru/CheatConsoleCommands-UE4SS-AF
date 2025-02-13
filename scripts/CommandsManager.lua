@@ -1139,7 +1139,7 @@ CreateCommand({ "killall", "killnpc", "killnpcs", "killallnpc", "killallnpcs", "
         if npcs and #npcs > 0 then
             local killCount = 0
             for _, npc in ipairs(npcs) do
-                if not npc.IsDead then
+                if not npc.IsDead and not npc.Invincible and not npc.IsDisabled then
                     npc.IsDead = true
                     npc:OnRep_IsDead()
                     npc:DropLoot()
