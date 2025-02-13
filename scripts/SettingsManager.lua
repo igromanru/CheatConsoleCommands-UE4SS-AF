@@ -61,20 +61,25 @@ function SettingsManager.LoadFromFile()
         LogDebug("Opened file \"" .. FileName .. "\" for reading")
         local content = file:read("*all")
         LogDebug("File content: " .. content)
-        local settingsFromFile = JsonLua.decode(content)
-        LogDebug("Settings file version: " .. tostring(settingsFromFile.Version) .. ", Settings object version: " .. Settings.Version)
-        if settingsFromFile.Version ~= Settings.Version then
-            LogDebug("Settings version doesn't match, loading only specified settings from file")
-            Settings.SpeedhackMultiplier = settingsFromFile.SpeedhackMultiplier
-            Settings.PlayerGravityScale = settingsFromFile.PlayerGravityScale
-            Settings.Locations = settingsFromFile.Locations
-            Settings.LeyakCooldown = settingsFromFile.LeyakCooldown
-            if Settings.LeyakCooldown == DefaultLeyakCooldown then
-                Settings.LeyakCooldown = 0
+        local status, settingsFromFile = pcall(JsonLua.decode, content) ---@type boolean, Settings
+        if status and settingsFromFile then
+            LogDebug("Settings file version: " .. tostring(settingsFromFile.Version) .. ", Settings object version: " .. Settings.Version)
+            if settingsFromFile.Version ~= Settings.Version then
+                LogDebug("Settings version doesn't match, loading only specified settings from file")
+                Settings.SpeedhackMultiplier = settingsFromFile.SpeedhackMultiplier
+                Settings.PlayerGravityScale = settingsFromFile.PlayerGravityScale
+                Settings.Locations = settingsFromFile.Locations
+                Settings.LeyakCooldown = settingsFromFile.LeyakCooldown
+                if Settings.LeyakCooldown == DefaultLeyakCooldown then
+                    Settings.LeyakCooldown = 0
+                end
+            else
+                Settings = settingsFromFile
             end
         else
-            Settings = settingsFromFile
+            LogError("Failed to decode json settings from file, status:", status)
         end
+
         --Overwrite values that shouldn't reapply
         Settings.NoClip = false
         Settings.DistantShore = false

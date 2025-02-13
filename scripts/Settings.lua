@@ -24,6 +24,7 @@ end
 
 DefaultLeyakCooldown = 900 -- 15min
 
+---@class Settings
 Settings = {
     Version = ModVersion,
     GodMode = false,
