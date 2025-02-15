@@ -61,8 +61,10 @@ Remove Skill Experience from Player | takexp | {name/index} {skill alias} | Remo
 Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (host only)
 Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
 Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)
+Fix Item Liquid Type | fixliquid \| fixliquidtype \| fixitemliquid |  | Fixes the liquid level and type of currently held object, if it doesn't match. (host only)
 
 
 ## Highest form of appreciation
 If you like my work and feel generous, you can support me.  
-[![Ko-fi](https://i.imgur.com/rGcPxK8.png)](https://ko-fi.com/igromanru)
+[![Ko-fi](https://i.imgur.com/rGcPxK8.png)](https://ko-fi.com/igromanru)  
+[![Buy Me a Coffee](https://i.imgur.com/JG0mNZg.png)](https://buymeacoffee.com/igromanru)

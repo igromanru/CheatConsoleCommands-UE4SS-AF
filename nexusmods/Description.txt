@@ -93,7 +93,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Speedhack[/b] [ [font=Arial]speedhack[/font] | [font=Arial]speedmulti[/font] | [font=Arial]speedscale[/font] ] { <multiplier/scale> } - [font=Georgia]Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (host only)[/font]
 [b]Player Gravity Scale[/b] [ [font=Arial]playergravity[/font] | [font=Arial]playergrav[/font] | [font=Arial]pg[/font] | [font=Arial]setpg[/font] ] { <scale> } - [font=Georgia]Sets player's gravity scale. (Default scale: 1.0) (host only)[/font]
 [b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)[/font]
-
+[b]Fix Item Liquid Type[/b] [ [font=Arial]fixliquid[/font] | [font=Arial]fixliquidtype[/font] | [font=Arial]fixitemliquid[/font] ] {} - [font=Georgia]Fixes the liquid level and type of currently held object, if it doesn't match. (host only)[/font]
 
 
 [b]How to use example:[/b]
@@ -136,10 +136,10 @@ Cheat Console Commands mod should be compatibility with any other mod.
 Obviously there will be conflicts if another mod writes the same values, just pay attention to the features of other mods/trainers not to use the same feature of both mods at the same time, otherwise they might interfere with each other.
 For example: if you are attempting to use Low Continence and Infinite Continence at the same time.
 
-[font=Verdana][size=4][b]Bug Reports[/b][/size][/font]
+[font=Verdana][size=4][b]Bug/Issue Reports[/b][/size][/font]
 If you have followed the installation instructions above and are 100% sure that you have done everything correctly, but you are still having problems with the mod, please provide following information if you wish to report an issue. 
 [list=1]
-[*]Your game version and Platform (Steam/Cracked etc.)
+[*]Your game version and Platform (Steam/GoG etc.)
 [*]Which mod version are you using
 [*]The content of [b]UE4SS.log[/b] file. UE4SS.log file should be in the installation directory of UE4SS.
 [/list]
@@ -160,6 +160,7 @@ Check out my other Abiotic Factor mods.
 [*][url=https://www.nexusmods.com/abioticfactor/mods/31]Jager Corpse Remover[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/41]Infinite Leyak Containment[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/42]Customization Unlocker[/url]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/50]Always Outline[/url]
 [/list]
 [font=Verdana][size=3][b]Credits[/b][/size][/font]
 [list]
