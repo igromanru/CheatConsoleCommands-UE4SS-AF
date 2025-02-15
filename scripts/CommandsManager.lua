@@ -1531,6 +1531,27 @@ CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Delete
         return true
     end)
 
+-- Fix Item Liquid Type Command
+CreateCommand({ "fixliquid", "fixliquidtype", "fixitemliquid" }, "Fix Item Liquid Type", "Fixes the liquid level and type of currently held object, if it doesn't match. (host only)", nil,
+function(self, OutputDevice, Parameters)
+    if CheckAndLogDedicatedServerCommandSupport(OutputDevice) then
+        return false
+    end
+
+    local myPlayer = AFUtils.GetMyPlayer()
+    if IsValid(myPlayer) then
+        if AFUtils.FixHeldItemLiquid(myPlayer) then
+            WriteToConsole(OutputDevice, "Item's liquid type fixed.")
+        else
+            WriteErrorToConsole(OutputDevice, "No item in hand or something went wrong")
+        end
+    else
+        WriteErrorToConsole(OutputDevice, "Couldn't find the player")
+    end
+    
+    return true
+end)
+
 RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputDevice, Executor)
     local context = Context:get()
     -- local executor = Executor:get()
