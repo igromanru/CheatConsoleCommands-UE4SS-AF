@@ -1187,6 +1187,28 @@ CreateCommand({ "spawnall", "spawnnpc", "spawnnpcs", "spawnallnpc", "spawnallnpc
         return true
     end)
 
+-- Destroy All Dropped Items Command
+CreateCommand({ "killdropped", "killalldrop", "killalldropped", "killdropped", "destroydropped", "destroyallitems", "destroyalldroppeds" }, "Destroy All Dropped Items", "Destroy all dropped items in your vicinity. Caution! It will destroy ALL items that were dropped on the ground, by you or NPCs! (host only)", 
+    nil,
+    function(self, OutputDevice, Parameters)
+        local items = FindAllOf("Abiotic_Item_Dropped_C") ---@type AAbiotic_Item_Dropped_C[]?
+        if items and #items > 0 then
+            WriteToConsole(OutputDevice, "Found " .. #items .. " dropped items.")
+            local killCount = 0
+            for _, item in ipairs(items) do
+                if not item.HasBeenPickedUp then
+                    item:K2_DestroyActor()
+                    killCount = killCount + 1
+                end
+            end
+            WriteToConsole(OutputDevice, killCount .. " Items were destroyed.")
+        else
+            WriteToConsole(OutputDevice, "No dropped Items were found in your vicinity.")
+        end
+
+        return true
+    end)
+
 -- Set Inventory Size Command
 -- CreateCommand({ "invsize", "inventorysize", "invslotcount", "backpacksize", "bpsize", "bpslotcount" }, "Set Inventory Size", "Changes inventory size / slots count.\nWarning! Each time you load into the game the game restores the slot count and all items in extra slots will be dropped on the ground.", 
 --     CreateCommandParam("slot count", "number", "Size / Slot count", false, "Between -1 and 100 (-1 will disable the feature)"),
