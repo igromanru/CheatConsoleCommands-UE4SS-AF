@@ -1133,16 +1133,27 @@ CreateCommand({ "settime" }, "Set Time", "Set game's time in 24-hour format (0-2
     end)
 
 -- Kill All Enemies Command
-CreateCommand({ "killall", "killnpc", "killnpcs", "killallnpc", "killallnpcs", "killallenemies", "killenemies" }, "Kill All Enemies", "Kill all enemy NPCs in your vicinity. (host only)", nil,
+CreateCommand({ "killall", "killnpc", "killnpcs", "killallnpc", "killallnpcs", "killallenemies", "killenemies" }, "Kill All Enemies", "Kill all enemy NPCs in your vicinity. (host only)", 
+    { CreateCommandParam("drop loot", "boolean | number", "Drop loot from killed NPCs", false, { "true", "1" }) },
     function(self, OutputDevice, Parameters)
+        local dropLoot = false
+        if Parameters and #Parameters > 0 then
+            if tonumber(Parameters[1]) == 1 or Parameters[1] == "true" then
+                WriteToConsole(OutputDevice, "Drop Loot enabled")
+                dropLoot = true
+            end
+        end
         local npcs = FindAllOf("NPC_Base_ParentBP_C") ---@type ANPC_Base_ParentBP_C[]?
         if npcs and #npcs > 0 then
+            WriteToConsole(OutputDevice, "Found " .. #npcs .. " NPCs.")
             local killCount = 0
             for _, npc in ipairs(npcs) do
                 if not npc.IsDead and not npc.Invincible and not npc.IsDisabled and npc.Faction > 0 then
                     npc.IsDead = true
                     npc:OnRep_IsDead()
-                    npc:DropLoot()
+                    if dropLoot then
+                        npc:DropLoot()
+                    end
                     killCount = killCount + 1
                 end
             end
