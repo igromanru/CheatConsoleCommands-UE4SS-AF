@@ -85,6 +85,7 @@ LoopAsync(250, function()
             PlayerGravityScale(myPlayer)
             SetLeyakCooldown()
             InfiniteCrouchRoll()
+            InstantToilet(myPlayer)
         end
     end)
     SettingsManager.AutoSaveOnChange()

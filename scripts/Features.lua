@@ -264,9 +264,9 @@ function InfiniteContinence(myPlayer)
             myPlayer.HasContinence = false
             myPlayer.CurrentContinence = myPlayer.MaxContinence
             myPlayer:OnRep_CurrentContinence()
-            LogDebug("HasContinence: " .. tostring(myPlayer.HasContinence))
-            LogDebug("CurrentContinence: " .. tostring(myPlayer.CurrentContinence))
-            LogDebug("MaxContinence: " .. tostring(myPlayer.MaxContinence))
+            LogDebug("InfiniteContinence: HasContinence: " .. tostring(myPlayer.HasContinence))
+            LogDebug("InfiniteContinence: CurrentContinence: " .. tostring(myPlayer.CurrentContinence))
+            LogDebug("InfiniteContinence: MaxContinence: " .. tostring(myPlayer.MaxContinence))
         end
         if not InfiniteContinenceWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Infinite Continence activated", AFUtils.CriticalityLevels.Green)
@@ -275,7 +275,7 @@ function InfiniteContinence(myPlayer)
     elseif InfiniteContinenceWasEnabled then
         InfiniteContinenceWasEnabled = false
         myPlayer.HasContinence = true
-        LogDebug("HasContinence: " .. tostring(myPlayer.HasContinence))
+        LogDebug("InfiniteContinence: HasContinence: " .. tostring(myPlayer.HasContinence))
         AFUtils.ClientDisplayWarningMessage("Infinite Continence deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
@@ -291,10 +291,11 @@ function LowContinence(myPlayer)
             myPlayer.HasContinence = true
             myPlayer.CurrentContinence = fraction
             myPlayer:OnRep_CurrentContinence()
-            LogDebug("HasContinence: " .. tostring(myPlayer.HasContinence))
-            LogDebug("CurrentContinence: " .. tostring(myPlayer.CurrentContinence))
-            LogDebug("MaxContinence: " .. tostring(myPlayer.MaxContinence))
+            LogDebug("LowContinence: HasContinence: " .. tostring(myPlayer.HasContinence))
+            LogDebug("LowContinence: CurrentContinence: " .. tostring(myPlayer.CurrentContinence))
+            LogDebug("LowContinence: MaxContinence: " .. tostring(myPlayer.MaxContinence))
         end
+        
         if not LowContinenceWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Low Continence activated", AFUtils.CriticalityLevels.Green)
             LowContinenceWasEnabled = true
@@ -302,6 +303,34 @@ function LowContinence(myPlayer)
     elseif LowContinenceWasEnabled then
         LowContinenceWasEnabled = false
         AFUtils.ClientDisplayWarningMessage("Low Continence deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
+local InstantToiletWasEnabled = false
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function InstantToilet(myPlayer)
+    if IsNotValid(myPlayer) then return end
+
+    if Settings.InstantToilet then
+        local myPlayerController = myPlayer.MyPlayerController
+        if IsValid(myPlayerController) and myPlayerController.ContinenceMinigameActive then
+            LogDebug("InstantToilet: HasContinence: " .. tostring(myPlayer.HasContinence))
+            LogDebug("InstantToilet: CurrentContinence: " .. tostring(myPlayer.CurrentContinence))
+            myPlayer.HasContinence = true
+            if myPlayer.CurrentContinence < myPlayer.MaxContinence - 1 then
+                myPlayer.CurrentContinence = myPlayer.MaxContinence - 1
+                myPlayer:OnRep_CurrentContinence()
+            end
+            myPlayerController:Request_ContinenceReduction(AFUtils.CriticalityLevels.Green)
+        end
+
+        if not InstantToiletWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Instant Toilet activated", AFUtils.CriticalityLevels.Green)
+            InstantToiletWasEnabled = true
+        end
+    elseif InstantToiletWasEnabled then
+        InstantToiletWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Instant Toilet deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
 

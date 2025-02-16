@@ -56,6 +56,7 @@ Settings = {
     PlayerGravityScale = 1.0,
     DistantShore = false,
     InfiniteCrouchRoll = false,
+    InstantToilet = false,
     Locations = {
         LocationStruct("Cafeteria", "Facility_Office1", FVector(-15314, 12532, 128), FRotator(0, 359, 0)),
         LocationStruct("Manufacturing", "Facility_MFWest", FVector(-10393, 35181, 128), FRotator(356, 46, 0)),

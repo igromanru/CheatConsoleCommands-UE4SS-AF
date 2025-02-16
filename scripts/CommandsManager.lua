@@ -687,6 +687,15 @@ CreateCommand({ "lowcon", "lowcontinence", "nocon", "nocontinence", "laxative" }
     end,
     "LowContinence")
 
+-- Instant Toilet Command
+CreateCommand({ "instwc", "insttoilet", "fastpoop", "instpoop", "instanttoilet", "instantpoop" }, "Instant Toilet", "Automatically, instantly finishes your toilet business. Combined with \"Low Continence\" command (host only), it can generate infinite amount of poop. (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.InstantToilet = not Settings.InstantToilet
+        PrintCommandState(Settings.InstantToilet, self.Name, OutputDevice)
+        return true
+    end,
+"InstantToilet")
+
 -- No Radiation Command
 CreateCommand({ "rad", "norad", "radiation", "noradiation" }, "No Radiation",
     "Player can't receive radiation (works partial as guest)", nil,
