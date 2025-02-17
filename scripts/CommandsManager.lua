@@ -1024,27 +1024,27 @@ CreateCommand({ "resetallskills", "resetallskill", "resetallxp", "resetallexp", 
     end)
 
 -- Show Traits
-CreateCommand({ "traits" }, "Show Traits", "Show player's Traits.", nil,
-    function(self, OutputDevice, Parameters)
-        local progressionComponen = AFUtils.GetMyCharacterProgressionComponent()
-        if IsValid(progressionComponen) then
-            WriteToConsole(OutputDevice, "Your Traits (" .. #progressionComponen.Traits .. "):")
-            for i = 1, #progressionComponen.Traits do
-                local trait = progressionComponen.Traits[i]
-                local traitName = trait:ToString()
-                local traitDesc = AFUtils.Traits[traitName]
-                local output = "  " .. traitName .. " -> "
-                if traitDesc then
-                    output = output .. traitDesc
-                else
-                    output = output .. "Unknown Trait"
-                end
-                WriteToConsole(OutputDevice, output)
-            end
-            return true
-        end
-        return false
-    end)
+-- CreateCommand({ "traits" }, "Show Traits", "Show player's Traits.", nil,
+--     function(self, OutputDevice, Parameters)
+--         local progressionComponen = AFUtils.GetMyCharacterProgressionComponent()
+--         if IsValid(progressionComponen) then
+--             WriteToConsole(OutputDevice, "Your Traits (" .. #progressionComponen.Traits .. "):")
+--             for i = 1, #progressionComponen.Traits do
+--                 local trait = progressionComponen.Traits[i]
+--                 local traitName = trait:ToString()
+--                 local traitDesc = AFUtils.Traits[traitName]
+--                 local output = "  " .. traitName .. " -> "
+--                 if traitDesc then
+--                     output = output .. traitDesc
+--                 else
+--                     output = output .. "Unknown Trait"
+--                 end
+--                 WriteToConsole(OutputDevice, output)
+--             end
+--             return true
+--         end
+--         return false
+--     end)
 
 -- Master Key Command
 CreateCommand({ "masterkey", "key", "keys", "opendoor", "opendoors" }, "Master Key",
