@@ -76,6 +76,7 @@ local InfiniteEnergyWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteEnergy(myPlayer)
     if Settings.InfiniteEnergy then
+        -- AFUtils.FixHeldItemLiquid(myPlayer)
         AFUtils.FillHeldItemWithEnergy(myPlayer)
         AFUtils.FillAllEquippedItemsWithEnergy(myPlayer)
         if not InfiniteEnergyWasEnabled then
@@ -667,8 +668,6 @@ end
 
 -- ---@param myPlayer AAbiotic_PlayerCharacter_C
 -- function DistantShore(myPlayer)
---     if IsNotValid(myPlayer) then return end
-
 --     if Settings.DistantShore then
 --         local deployedToiletPortal = FindFirstOf("Deployed_Toilet_Portal_C") ---@cast deployedToiletPortal ADeployed_Toilet_Portal_C
 --         if IsValid(deployedToiletPortal) and deployedToiletPortal.DeployedByPlayer then
