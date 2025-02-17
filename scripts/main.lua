@@ -33,7 +33,7 @@ end
 
 local function RemapConsoleKeys()
     local inputSettings = GetDefaultInputSettings()
-    if inputSettings:IsValid() then
+    if IsValid(inputSettings) then
         local consoleKeys = inputSettings.ConsoleKeys
         local f10Name = UEHelpers.FindFName("F10")
         if f10Name ~= NAME_None then
@@ -73,7 +73,7 @@ LoopAsync(250, function()
             PerfectTemperature(myPlayer)
             InfiniteOxygen(myPlayer)
             FreeCrafting(myPlayer)
-            InstantCrafting(myPlayer)
+            InstantCrafting()
             Invisible(myPlayer)
             NoFallDamage(myPlayer)
             NoClip(myPlayer)
