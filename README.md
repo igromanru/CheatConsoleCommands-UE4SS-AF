@@ -22,6 +22,7 @@ No Thirst | thirst \| nothirst \| drink |  | Player won't be thirsty (works part
 No Fatigue | fat \| nofat \| fatigue \| nofatigue \| tired |  | Player won't be tired (works partial as guest)
 Infinite Continence | con \| infcon \| InfiniteContinence \| noneed \| constipation |  | Player won't need to go to the toilet (works partial as guest)
 Low Continence | lowcon \| lowcontinence \| nocon \| nocontinence \| laxative |  | Freezes the need to go to the toilet at low value. (Each time you seat down on Portal WC you have 1% change to trigger it) (host only)
+Instant Toilet | instwc \| insttoilet \| fastpoop \| instpoop \| instanttoilet \| instantpoop |  | Automatically, instantly finishes your toilet business. Combined with "Low Continence" command (host only), it can generate infinite amount of poop. (works as guest)
 No Radiation | rad \| norad \| radiation \| noradiation |  | Player can't receive radiation (works partial as guest)
 Perfect Temperature | nocold \| nohot \| temperature \| temp \| perfecttemp |  | Makes player temperature resistant. (host only)
 Infinite Oxygen | oxygen \| info2 \| o2 \| infoxygen |  | Makes player breath under water. (host only)
@@ -46,8 +47,9 @@ Weather Event | setweather \| nextweather \| weatherevent \| weather | {weather}
 Reset Portal Worlds | resetportals \| resetportal \| resetworlds \| resetportalworlds \| resetvignettes |  | Resets Portal Worlds (host only)
 Poop on Floor | poop \| pooponfloor |  | Poop on the Floor (works as guest)
 Set Time | settime |  | Set game's time in 24-hour format (0-23:0-59). (host only)
-Kill All Enemies | killall \| killnpc \| killnpcs \| killallnpc \| killallnpcs \| killallenemies \| killenemies |  | Kill all enemy NPCs in your vicinity. (host only)
+Kill All Enemies | killall \| killnpc \| killnpcs \| killallnpc \| killallnpcs \| killallenemies \| killenemies | {drop loot} | Kill all enemy NPCs in your vicinity. (host only)
 Spawn All Enemies | spawnall \| spawnnpc \| spawnnpcs \| spawnallnpc \| spawnallnpcs \| spawnallenemies \| spawnenemies |  | Respawn all enemy NPCs in your vicinity. (host only)
+Destroy All Dropped Items | killdropped \| killalldrop \| killalldropped \| killdropped \| destroydropped \| destroyallitems \| destroyalldroppeds |  | Destroy all dropped items in your vicinity. Caution! It will destroy ALL items that were dropped on the ground, by you or NPCs! (host only)
 List Locations | locations \| showloc \| showlocations \| loc \| locs |  | Shows all saved locations
 Save Location | savelocation \| saveloc \| setloc \| wp \| savewp \| setwp \| waypoint \| setwaypoint \| savewaypoint | {name} | Saves your current position and rotation under an assigned name
 Load Location | loadlocation \| loadloc \| loadwp \| tp \| goto \| loadwaypoint \| teleport | {name} | Teleports you to a named location that was previously saved (host only)
