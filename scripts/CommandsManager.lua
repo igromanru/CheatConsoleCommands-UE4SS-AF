@@ -1197,7 +1197,7 @@ CreateCommand({ "spawnall", "spawnnpc", "spawnnpcs", "spawnallnpc", "spawnallnpc
     end)
 
 -- Destroy All Dropped Items Command
-CreateCommand({ "killdropped", "killalldrop", "killalldropped", "killdropped", "destroydropped", "destroyallitems", "destroyalldroppeds" }, "Destroy All Dropped Items", "Destroy all dropped items in your vicinity. Caution! It will destroy ALL items that were dropped on the ground, by you or NPCs! (host only)", 
+CreateCommand({ "killdropped", "killalldrop", "killalldropped", "killdropped", "destroydropped", "destroyallitems", "destroyalldroppeds" }, "Destroy All Dropped Items", "Destroy all dropped items in your vicinity. Caution! It will destroy ALL items dropped on the ground, by you, by NPCs or by destroyed items! (not item spawns) (host only)", 
     nil,
     function(self, OutputDevice, Parameters)
         local items = FindAllOf("Abiotic_Item_Dropped_C") ---@type AAbiotic_Item_Dropped_C[]?
