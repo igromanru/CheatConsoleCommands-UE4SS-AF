@@ -549,6 +549,41 @@ function NoSway(myPlayer)
     end
 end
 
+
+local PreInstantPlantGrowthId, PostInstantPlantGrowthId = nil, nil
+local InstantPlantGrowthWasEnabled = false
+function InstantPlantGrowth()
+    if Settings.InstantPlantGrowth then
+        if not PreInstantPlantGrowthId and not PostInstantPlantGrowthId then
+            LoadAsset("/Game/Blueprints/DeployedObjects/Farming/FarmingPlot_BP.FarmingPlot_BP_C")
+            _, PreInstantPlantGrowthId, PostInstantPlantGrowthId = pcall(RegisterHook, "/Game/Blueprints/DeployedObjects/Farming/FarmingPlot_BP.FarmingPlot_BP_C:GrowthTick", function(Context)
+                local farmingPlot = Context:get()
+                farmingPlot:SetCurrentGrowthProgress(farmingPlot.PlantGrowthStageMax)
+                farmingPlot:SetCurrentGrowthStage(4, false) -- EPlantGrowthStage.Grown = 4
+                if DebugMode then
+                    LogDebug("-- [GrowthTick] --")
+                    LogDebug("GrowthAmountPerTick:", farmingPlot.GrowthAmountPerTick)
+                    LogDebug("PlantGrowthStageMax:", farmingPlot.PlantGrowthStageMax)
+                    LogDebug("GetCurrentGrowthProgress:", farmingPlot:GetCurrentGrowthProgress())
+                end
+            end)
+            LogDebug("PreInstantPlantGrowthId:", PreInstantPlantGrowthId)
+            LogDebug("PostInstantPlantGrowthId:", PostInstantPlantGrowthId)
+        end
+        if not InstantPlantGrowthWasEnabled and PreInstantPlantGrowthId and PostInstantPlantGrowthId then
+            AFUtils.ClientDisplayWarningMessage("Instant Plant Growth activated", AFUtils.CriticalityLevels.Green)
+            InstantPlantGrowthWasEnabled = true
+        end
+    elseif InstantPlantGrowthWasEnabled then
+        if PreInstantPlantGrowthId and PostInstantPlantGrowthId then
+            pcall(UnregisterHook, "/Game/Blueprints/DeployedObjects/Farming/FarmingPlot_BP.FarmingPlot_BP_C:GrowthTick", PreInstantPlantGrowthId, PostInstantPlantGrowthId)
+            PreInstantPlantGrowthId, PostInstantPlantGrowthId = nil, nil
+        end
+        InstantPlantGrowthWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Instant Plant Growth deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local MasterKeyWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function MasterKey(myPlayer)

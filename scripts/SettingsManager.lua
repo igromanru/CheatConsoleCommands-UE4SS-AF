@@ -121,6 +121,7 @@ function SettingsManager.AutoSaveOnChange()
         or SettingsMonitor.InfiniteCrouchRoll ~= Settings.InfiniteCrouchRoll
         or (Settings.Locations and SettingsMonitor.LocationsCount ~= #Settings.Locations) 
         or SettingsMonitor.InstantToilet ~= Settings.InstantToilet
+        or SettingsMonitor.InstantPlantGrowth ~= Settings.InstantPlantGrowth
     then
         LogDebug("AutoSaveOnChange: Changes detected")
         SettingsMonitor.GodMode = Settings.GodMode
@@ -152,6 +153,7 @@ function SettingsManager.AutoSaveOnChange()
         SettingsMonitor.InfiniteCrouchRoll = Settings.InfiniteCrouchRoll
         SettingsMonitor.LocationsCount = Settings.Locations and #Settings.Locations or 0
         SettingsMonitor.InstantToilet = Settings.InstantToilet
+        SettingsMonitor.InstantPlantGrowth = Settings.InstantPlantGrowth
         SettingsManager.SaveToFile()
     end
 end

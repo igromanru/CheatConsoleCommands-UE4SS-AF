@@ -11,7 +11,7 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.18.1"
+ModVersion = "1.19.0"
 DebugMode = true
 IsModEnabled = true
 
@@ -86,6 +86,7 @@ LoopAsync(250, function()
             SetLeyakCooldown()
             InfiniteCrouchRoll()
             InstantToilet(myPlayer)
+            InstantPlantGrowth()
         end
     end)
     SettingsManager.AutoSaveOnChange()

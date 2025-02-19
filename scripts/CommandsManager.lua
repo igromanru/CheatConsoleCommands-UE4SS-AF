@@ -833,13 +833,23 @@ CreateCommand({ "norecoil", "recoil", "weaponnorecoil" }, "No Recoil",
     "NoRecoil")
 
 -- No Sway Command
-CreateCommand({ "nosway", "sway", "noweaponsway" }, "No Sway", "Removes weapon's sway  (works as guest)", nil,
+CreateCommand({ "nosway", "sway", "noweaponsway" }, "No Sway", "Removes weapon's sway. (works as guest)", nil,
     function(self, OutputDevice, Parameters)
         Settings.NoSway = not Settings.NoSway
         PrintCommandState(Settings.NoSway, self.Name, OutputDevice)
         return true
     end,
     "NoSway")
+
+-- Instant Plant Growth Command
+CreateCommand({ "instplants", "instplant", "instantplants", "instgrowth", "instantplantgrowth", "instantgrowth", "growplants" }, "Instant Plant Growth",
+    "Makes planted plants fully grow instantly. (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.InstantPlantGrowth = not Settings.InstantPlantGrowth
+        PrintCommandState(Settings.InstantPlantGrowth, self.Name, OutputDevice)
+        return true
+    end,
+    "InstantPlantGrowth")
 
 -- Set Leyak Cooldown Command
 CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
