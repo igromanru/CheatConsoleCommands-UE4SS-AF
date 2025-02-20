@@ -624,6 +624,7 @@ function Speedhack(myPlayer)
     end
 end
 
+local PlayerGravityScaleLastValue = nil
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function PlayerGravityScale(myPlayer)
     if IsNotValid(myPlayer) or IsNotValid(myPlayer.CharacterMovement) then return end
@@ -634,8 +635,11 @@ function PlayerGravityScale(myPlayer)
         myPlayer.DefaultGravityScale = Settings.PlayerGravityScale
         myPlayer.CharacterMovement.GravityScale = Settings.PlayerGravityScale
         myPlayer:OnRep_ReplicateMovement()
-        LogInfo("Player's Gravity x" .. myPlayer.CharacterMovement.GravityScale)
-        AFUtils.ClientDisplayWarningMessage("Player's Gravity x" .. Settings.PlayerGravityScale, AFUtils.CriticalityLevels.Green)
+        if PlayerGravityScaleLastValue ~= Settings.PlayerGravityScale then
+            PlayerGravityScaleLastValue = Settings.PlayerGravityScale
+            LogInfo("Player's Gravity x" .. myPlayer.CharacterMovement.GravityScale)
+            AFUtils.ClientDisplayWarningMessage("Player's Gravity x" .. Settings.PlayerGravityScale, AFUtils.CriticalityLevels.Green)
+        end
     end
 end
 
