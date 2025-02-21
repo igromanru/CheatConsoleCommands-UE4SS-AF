@@ -66,6 +66,7 @@ Settings = {
         LocationStruct("Train", "V_Train", FVector(333744, 12772, 988), FRotator(353, 90, 0)),
         LocationStruct("Store", "Vignette_FurnitureWarehouse", FVector(343302, -119069, 118), FRotator(359, 90, 0)),
         LocationStruct("Mycofields", "V_Anteverse_B", FVector(324726, 329753, 2162), FRotator(2, 189, 0)),
-        LocationStruct("Distant Shore", "V_DistantShore", FVector(331428, -334214, 908), FRotator(1, 3, 0)),
+        LocationStruct("Night Realm", "V_NIGHT", FVector(324726, 329753, 2162), FRotator(2, 189, 0)),
+        LocationStruct("Distant Shore", "V_DistantShore", FVector(5442, 31087, -237874), FRotator(358, 135, 0)),
     }, ---@type LocationStruct[]
 }
