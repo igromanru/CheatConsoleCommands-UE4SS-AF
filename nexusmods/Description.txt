@@ -65,7 +65,8 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Set Money[/b] [ [font=Arial]money[/font] ] { <value> } - [font=Georgia]Set money to desired value (works as guest)[/font]
 [b]Infinite Ammo[/b] [ [font=Arial]infammo[/font] | [font=Arial]ammo[/font] | [font=Arial]infiniteammo[/font] ] {} - [font=Georgia]Keeps ammo of ranged weapons replenished (as guest works somehow, but is bugged)[/font]
 [b]No Recoil[/b] [ [font=Arial]norecoil[/font] | [font=Arial]recoil[/font] | [font=Arial]weaponnorecoil[/font] ] {} - [font=Georgia]Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)[/font]
-[b]No Sway[/b] [ [font=Arial]nosway[/font] | [font=Arial]sway[/font] | [font=Arial]noweaponsway[/font] ] {} - [font=Georgia]Removes weapon's sway  (works as guest)[/font]
+[b]No Sway[/b] [ [font=Arial]nosway[/font] | [font=Arial]sway[/font] | [font=Arial]noweaponsway[/font] ] {} - [font=Georgia]Removes weapon's sway. (works as guest)[/font]
+[b]Instant Plant Growth[/b] [ [font=Arial]instplants[/font] | [font=Arial]instplant[/font] | [font=Arial]instantplants[/font] | [font=Arial]instgrowth[/font] | [font=Arial]instantplantgrowth[/font] | [font=Arial]instantgrowth[/font] | [font=Arial]growplants[/font] ] {} - [font=Georgia]Makes planted plants fully grow instantly. (host only)[/font]
 [b]Leyak Cooldown[/b] [ [font=Arial]leyakcd[/font] | [font=Arial]leyakcooldown[/font] | [font=Arial]cdleyak[/font] ] { <minutes> } - [font=Georgia]Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)[/font]
 [b]Trap Leyak[/b] [ [font=Arial]trapleyak[/font] | [font=Arial]containleyak[/font] ] {} - [font=Georgia]Trap's Leyak in the next possible Containment Unit. (host only)[/font]
 [b]Free Leyak[/b] [ [font=Arial]freeleyak[/font] ] {} - [font=Georgia]Free Leyak from a Containment Unit. (host only)[/font]
@@ -81,7 +82,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Set Time[/b] [ [font=Arial]settime[/font] ] {} - [font=Georgia]Set game's time in 24-hour format (0-23:0-59). (host only)[/font]
 [b]Kill All Enemies[/b] [ [font=Arial]killall[/font] | [font=Arial]killnpc[/font] | [font=Arial]killnpcs[/font] | [font=Arial]killallnpc[/font] | [font=Arial]killallnpcs[/font] | [font=Arial]killallenemies[/font] | [font=Arial]killenemies[/font] ] { <drop loot> } - [font=Georgia]Kill all enemy NPCs in your vicinity. (host only)[/font]
 [b]Spawn All Enemies[/b] [ [font=Arial]spawnall[/font] | [font=Arial]spawnnpc[/font] | [font=Arial]spawnnpcs[/font] | [font=Arial]spawnallnpc[/font] | [font=Arial]spawnallnpcs[/font] | [font=Arial]spawnallenemies[/font] | [font=Arial]spawnenemies[/font] ] {} - [font=Georgia]Respawn all enemy NPCs in your vicinity. (host only)[/font]
-[b]Destroy All Dropped Items[/b] [ [font=Arial]killdropped[/font] | [font=Arial]killalldrop[/font] | [font=Arial]killalldropped[/font] | [font=Arial]killdropped[/font] | [font=Arial]destroydropped[/font] | [font=Arial]destroyallitems[/font] | [font=Arial]destroyalldroppeds[/font] ] {} - [font=Georgia]Destroy all dropped items in your vicinity. Caution! It will destroy ALL items that were dropped on the ground, by you or NPCs! (host only)[/font]
+[b]Destroy All Dropped Items[/b] [ [font=Arial]killdropped[/font] | [font=Arial]killalldrop[/font] | [font=Arial]killalldropped[/font] | [font=Arial]killdropped[/font] | [font=Arial]destroydropped[/font] | [font=Arial]destroyallitems[/font] | [font=Arial]destroyalldroppeds[/font] ] {} - [font=Georgia]Destroy all dropped items in your vicinity. Caution! It will destroy ALL items dropped on the ground, by you, by NPCs or by destroyed items! (not item spawns) (host only)[/font]
 [b]List Locations[/b] [ [font=Arial]locations[/font] | [font=Arial]showloc[/font] | [font=Arial]showlocations[/font] | [font=Arial]loc[/font] | [font=Arial]locs[/font] ] {} - [font=Georgia]Shows all saved locations[/font]
 [b]Save Location[/b] [ [font=Arial]savelocation[/font] | [font=Arial]saveloc[/font] | [font=Arial]setloc[/font] | [font=Arial]wp[/font] | [font=Arial]savewp[/font] | [font=Arial]setwp[/font] | [font=Arial]waypoint[/font] | [font=Arial]setwaypoint[/font] | [font=Arial]savewaypoint[/font] ] { <name> } - [font=Georgia]Saves your current position and rotation under an assigned name[/font]
 [b]Load Location[/b] [ [font=Arial]loadlocation[/font] | [font=Arial]loadloc[/font] | [font=Arial]loadwp[/font] | [font=Arial]tp[/font] | [font=Arial]goto[/font] | [font=Arial]loadwaypoint[/font] | [font=Arial]teleport[/font] ] { <name> } - [font=Georgia]Teleports you to a named location that was previously saved (host only)[/font]
@@ -144,8 +145,11 @@ If you have followed the installation instructions above and are 100% sure that 
 [list=1]
 [*]Your game version and Platform (Steam/GoG etc.)
 [*]Which mod version are you using
-[*]The content of [b]UE4SS.log[/b] file. UE4SS.log file should be in the installation directory of UE4SS.
-[/list]
+[*]The content of [b]UE4SS.log[/b] file.
+[/list]The log file is located in the [b]ue4ss[/b] directory.
+Path: [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss[/i]
+The easiest way to share the content of the log file is to upload it to a site like: [url=https://pastebin.com/]pastebin.com[/url]
+
 [font=Verdana][size=4][b]Dedicated Server[/b][/size][/font]
 [size=2]Currently all player related commands work only for the first player on the server. You can still use commands like "givexp", "takexp", "smite" etc. for each player and player independent commands like Leyak Cooldown etc.[/size]
 1. To use Console Commands you have to start the Server with an additional argument [url=https://github.com/DFJacob/AbioticFactorDedicatedServer/wiki/Technical-%E2%80%90-Launch-Parameters#-log--newconsole]-NewConsole[/url]. 

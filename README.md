@@ -33,7 +33,8 @@ Instant Crafting | InstantCrafting \| instacraft \| instantcraft \| instcraft | 
 Set Money | money | {value} | Set money to desired value (works as guest)
 Infinite Ammo | infammo \| ammo \| infiniteammo |  | Keeps ammo of ranged weapons replenished (as guest works somehow, but is bugged)
 No Recoil | norecoil \| recoil \| weaponnorecoil |  | Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)
-No Sway | nosway \| sway \| noweaponsway |  | Removes weapon's sway  (works as guest)
+No Sway | nosway \| sway \| noweaponsway |  | Removes weapon's sway. (works as guest)
+Instant Plant Growth | instplants \| instplant \| instantplants \| instgrowth \| instantplantgrowth \| instantgrowth \| growplants |  | Makes planted plants fully grow instantly. (host only)
 Leyak Cooldown | leyakcd \| leyakcooldown \| cdleyak | {minutes} | Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)
 Trap Leyak | trapleyak \| containleyak |  | Trap's Leyak in the next possible Containment Unit. (host only)
 Free Leyak | freeleyak |  | Free Leyak from a Containment Unit. (host only)
@@ -49,7 +50,7 @@ Poop on Floor | poop \| pooponfloor |  | Poop on the Floor (works as guest)
 Set Time | settime |  | Set game's time in 24-hour format (0-23:0-59). (host only)
 Kill All Enemies | killall \| killnpc \| killnpcs \| killallnpc \| killallnpcs \| killallenemies \| killenemies | {drop loot} | Kill all enemy NPCs in your vicinity. (host only)
 Spawn All Enemies | spawnall \| spawnnpc \| spawnnpcs \| spawnallnpc \| spawnallnpcs \| spawnallenemies \| spawnenemies |  | Respawn all enemy NPCs in your vicinity. (host only)
-Destroy All Dropped Items | killdropped \| killalldrop \| killalldropped \| killdropped \| destroydropped \| destroyallitems \| destroyalldroppeds |  | Destroy all dropped items in your vicinity. Caution! It will destroy ALL items that were dropped on the ground, by you or NPCs! (host only)
+Destroy All Dropped Items | killdropped \| killalldrop \| killalldropped \| killdropped \| destroydropped \| destroyallitems \| destroyalldroppeds |  | Destroy all dropped items in your vicinity. Caution! It will destroy ALL items dropped on the ground, by you, by NPCs or by destroyed items! (not item spawns) (host only)
 List Locations | locations \| showloc \| showlocations \| loc \| locs |  | Shows all saved locations
 Save Location | savelocation \| saveloc \| setloc \| wp \| savewp \| setwp \| waypoint \| setwaypoint \| savewaypoint | {name} | Saves your current position and rotation under an assigned name
 Load Location | loadlocation \| loadloc \| loadwp \| tp \| goto \| loadwaypoint \| teleport | {name} | Teleports you to a named location that was previously saved (host only)
@@ -64,6 +65,7 @@ Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a 
 Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
 Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)
 Fix Item Liquid Type | fixliquid \| fixliquidtype \| fixitemliquid |  | Fixes the liquid level and type of currently held object, if it doesn't match. (host only)
+
 
 
 ## Highest form of appreciation
