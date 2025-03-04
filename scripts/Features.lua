@@ -549,7 +549,6 @@ function NoSway(myPlayer)
     end
 end
 
-
 local PreInstantPlantGrowthId, PostInstantPlantGrowthId = nil, nil
 local InstantPlantGrowthWasEnabled = false
 function InstantPlantGrowth()
@@ -557,7 +556,7 @@ function InstantPlantGrowth()
         if not PreInstantPlantGrowthId and not PostInstantPlantGrowthId then
             LoadAsset("/Game/Blueprints/DeployedObjects/Farming/FarmingPlot_BP.FarmingPlot_BP_C")
             _, PreInstantPlantGrowthId, PostInstantPlantGrowthId = pcall(RegisterHook, "/Game/Blueprints/DeployedObjects/Farming/FarmingPlot_BP.FarmingPlot_BP_C:GrowthTick", function(Context)
-                local farmingPlot = Context:get()
+                local farmingPlot = Context:get() ---@type AFarmingPlot_BP_C
                 farmingPlot:SetCurrentGrowthProgress(farmingPlot.PlantGrowthStageMax)
                 farmingPlot:SetCurrentGrowthStage(4, false) -- EPlantGrowthStage.Grown = 4
                 if DebugMode then
@@ -581,6 +580,36 @@ function InstantPlantGrowth()
         end
         InstantPlantGrowthWasEnabled = false
         AFUtils.ClientDisplayWarningMessage("Instant Plant Growth deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
+local PreInfiniteTraitPointsId, PostInfiniteTraitPointsId = nil, nil
+local InfiniteTraitPointsWasEnabled = false
+function InfiniteTraitPoints()
+    if Settings.InfiniteTraitPoints then
+        if not PreInfiniteTraitPointsId and not PostInfiniteTraitPointsId then
+            LoadAsset("/Game/Blueprints/Widgets/TraitSelect/W_Character_Trait_Selection.W_Character_Trait_Selection_C")
+            _, PreInfiniteTraitPointsId, PostInfiniteTraitPointsId = pcall(RegisterHook, "/Game/Blueprints/Widgets/TraitSelect/W_Character_Trait_Selection.W_Character_Trait_Selection_C:CalculatePointsAvailable", function(Context)
+                local trait_Selection = Context:get() ---@type UW_Character_Trait_Selection_C
+                LogDebug("TraitsAndPoints.Num:", #trait_Selection.TraitsAndPoints)
+                trait_Selection.TraitsAndPoints:ForEach(function (key, value)
+                    value:set(20)
+                end)
+            end)
+            LogDebug("PreInfiniteTraitPointsId:", PreInfiniteTraitPointsId)
+            LogDebug("PostInfiniteTraitPointsId:", PostInfiniteTraitPointsId)
+        end
+        if not InfiniteTraitPointsWasEnabled and PreInfiniteTraitPointsId and PostInfiniteTraitPointsId then
+            AFUtils.ClientDisplayWarningMessage("Infinite Trait Points activated", AFUtils.CriticalityLevels.Green)
+            InfiniteTraitPointsWasEnabled = true
+        end
+    elseif InfiniteTraitPointsWasEnabled then
+        if PreInfiniteTraitPointsId and PostInfiniteTraitPointsId then
+            pcall(UnregisterHook, "/Game/Blueprints/Widgets/TraitSelect/W_Character_Trait_Selection.W_Character_Trait_Selection_C:CalculatePointsAvailable", PreInfiniteTraitPointsId, PostInfiniteTraitPointsId)
+            PreInfiniteTraitPointsId, PostInfiniteTraitPointsId = nil, nil
+        end
+        InfiniteTraitPointsWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Infinite Trait Points deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
 

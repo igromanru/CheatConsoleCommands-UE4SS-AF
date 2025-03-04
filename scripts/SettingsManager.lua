@@ -83,6 +83,7 @@ function SettingsManager.LoadFromFile()
         --Overwrite values that shouldn't reapply
         Settings.NoClip = false
         Settings.DistantShore = false
+        Settings.InfiniteTraitPoints = false
         return file:close()
     else
         LogDebug("LoadFromFile: Failed to open file: " .. settingsFilePath)

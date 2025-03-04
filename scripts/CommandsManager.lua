@@ -941,6 +941,17 @@ CreateCommand({ "freeleyak" }, "Free Leyak", "Free Leyak from a Containment Unit
         return false
     end)
 
+
+-- Infinite Trait Points Command
+CreateCommand({ "inftraits", "inftrait", "traitpoints ", "inftraitpoints" }, "Infinite Trait Points",
+    "Lets you select as many Traits as you want while creating a new character. (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.InfiniteTraitPoints = not Settings.InfiniteTraitPoints
+        PrintCommandState(Settings.InfiniteTraitPoints, self.Name, OutputDevice)
+        return true
+    end,
+    "InfiniteTraitPoints")
+
 -- No Clip Command
 CreateCommand({ "noclip", "clip", "ghost" }, "No Clip", "Disables player's collision and makes him fly (host only)", nil,
     function(self, OutputDevice, Parameters)
@@ -1631,10 +1642,11 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
     if #Parameters > 0 and Parameters[1] == command then
         table.remove(Parameters, 1)
     end
+    command = string.lower(command)
 
     -- Special handling of default commands
     if not IsDedicatedServer and (command == "god" or command == "ghost" or command == "fly" or command == "teleport") then
-        LogDebug("Default command, skip")
+        LogDebug("Skip default command:", command)
         return nil
     end
 
@@ -1643,6 +1655,8 @@ RegisterProcessConsoleExecPreHook(function(Context, Command, Parameters, OutputD
         if commandObj.Function ~= nil then
             commandObj.Function(commandObj, OutputDevice, Parameters)
             OutputDevice:Log("-- Ignore the message below, it comes from UE:")
+        else
+            WriteErrorToConsole(OutputDevice, "Command has no assigned function")
         end
         return true
     end

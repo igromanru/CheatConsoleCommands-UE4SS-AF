@@ -11,14 +11,13 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.19.1"
+ModVersion = "1.20.0"
 DebugMode = true
 IsModEnabled = true
 
 -- ToDo
 -- No Spore command
 -- Item vacuum command
--- Starting Trait points
 
 LogInfo("Starting mod initialization")
 require("Features")
@@ -84,10 +83,11 @@ LoopAsync(250, function()
             Speedhack(myPlayer)
             PlayerGravityScale(myPlayer)
             SetLeyakCooldown()
-            InfiniteCrouchRoll()
             InstantToilet(myPlayer)
-            InstantPlantGrowth()
         end
+        InfiniteCrouchRoll()
+        InstantPlantGrowth()
+        InfiniteTraitPoints()
     end)
     SettingsManager.AutoSaveOnChange()
     return false
