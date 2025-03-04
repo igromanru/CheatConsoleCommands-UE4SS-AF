@@ -70,6 +70,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Leyak Cooldown[/b] [ [font=Arial]leyakcd[/font] | [font=Arial]leyakcooldown[/font] | [font=Arial]cdleyak[/font] ] { <minutes> } - [font=Georgia]Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)[/font]
 [b]Trap Leyak[/b] [ [font=Arial]trapleyak[/font] | [font=Arial]containleyak[/font] ] {} - [font=Georgia]Trap's Leyak in the next possible Containment Unit. (host only)[/font]
 [b]Free Leyak[/b] [ [font=Arial]freeleyak[/font] ] {} - [font=Georgia]Free Leyak from a Containment Unit. (host only)[/font]
+[b]Infinite Trait Points[/b] [ [font=Arial]inftraits[/font] | [font=Arial]inftrait[/font] | [font=Arial]traitpoints [/font] | [font=Arial]inftraitpoints[/font] ] {} - [font=Georgia]Lets you select as many Traits as you want while creating a new character. (works as guest)[/font]
 [b]No Clip[/b] [ [font=Arial]noclip[/font] | [font=Arial]clip[/font] | [font=Arial]ghost[/font] ] {} - [font=Georgia]Disables player's collision and makes him fly (host only)[/font]
 [b]Add Skill Experience[/b] [ [font=Arial]addxp[/font] | [font=Arial]addexp[/font] | [font=Arial]xpadd[/font] | [font=Arial]skillxp[/font] | [font=Arial]skillexp[/font] | [font=Arial]skill[/font] | [font=Arial]skillxp[/font] ] { <skill alias> <XP value> } - [font=Georgia]Adds XP to specified Skill (host only)[/font]
 [b]Remove Skill Experience[/b] [ [font=Arial]removexp[/font] | [font=Arial]removeexp[/font] | [font=Arial]resetxp[/font] | [font=Arial]resetexp[/font] | [font=Arial]resetskill[/font] | [font=Arial]resetlevel[/font] | [font=Arial]resetlvl[/font] ] { <skill alias> } - [font=Georgia]Removes All XP from specified Skill (host only)[/font]
@@ -97,7 +98,6 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Player Gravity Scale[/b] [ [font=Arial]playergravity[/font] | [font=Arial]playergrav[/font] | [font=Arial]pg[/font] | [font=Arial]setpg[/font] ] { <scale> } - [font=Georgia]Sets player's gravity scale. (Default scale: 1.0) (host only)[/font]
 [b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)[/font]
 [b]Fix Item Liquid Type[/b] [ [font=Arial]fixliquid[/font] | [font=Arial]fixliquidtype[/font] | [font=Arial]fixitemliquid[/font] ] {} - [font=Georgia]Fixes the liquid level and type of currently held object, if it doesn't match. (host only)[/font]
-
 
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.

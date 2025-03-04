@@ -38,6 +38,7 @@ Instant Plant Growth | instplants \| instplant \| instantplants \| instgrowth \|
 Leyak Cooldown | leyakcd \| leyakcooldown \| cdleyak | {minutes} | Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)
 Trap Leyak | trapleyak \| containleyak |  | Trap's Leyak in the next possible Containment Unit. (host only)
 Free Leyak | freeleyak |  | Free Leyak from a Containment Unit. (host only)
+Infinite Trait Points | inftraits \| inftrait \| traitpoints  \| inftraitpoints |  | Lets you select as many Traits as you want while creating a new character. (works as guest)
 No Clip | noclip \| clip \| ghost |  | Disables player's collision and makes him fly (host only)
 Add Skill Experience | addxp \| addexp \| xpadd \| skillxp \| skillexp \| skill \| skillxp | {skill alias} {XP value} | Adds XP to specified Skill (host only)
 Remove Skill Experience | removexp \| removeexp \| resetxp \| resetexp \| resetskill \| resetlevel \| resetlvl | {skill alias} | Removes All XP from specified Skill (host only)
@@ -65,7 +66,6 @@ Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a 
 Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
 Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)
 Fix Item Liquid Type | fixliquid \| fixliquidtype \| fixitemliquid |  | Fixes the liquid level and type of currently held object, if it doesn't match. (host only)
-
 
 
 ## Highest form of appreciation
