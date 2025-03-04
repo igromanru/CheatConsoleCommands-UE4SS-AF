@@ -18,7 +18,7 @@ IsModEnabled = true
 -- ToDo
 -- No Spore command
 -- Item vacuum command
--- 
+-- Starting Trait points
 
 LogInfo("Starting mod initialization")
 require("Features")
