@@ -1227,7 +1227,8 @@ CreateCommand({ "killdropped", "killalldrop", "killalldropped", "killdropped", "
             local killCount = 0
             for _, item in ipairs(items) do
                 if not item.HasBeenPickedUp then
-                    item:K2_DestroyActor()
+                    item:InitDespawn()
+                    item:OnItemDespawn()
                     killCount = killCount + 1
                 end
             end
