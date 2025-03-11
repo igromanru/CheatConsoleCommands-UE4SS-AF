@@ -99,6 +99,25 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)[/font]
 [b]Fix Item Liquid Type[/b] [ [font=Arial]fixliquid[/font] | [font=Arial]fixliquidtype[/font] | [font=Arial]fixitemliquid[/font] ] {} - [font=Georgia]Fixes the liquid level and type of currently held object, if it doesn't match. (host only)[/font]
 
+[font=Verdana][size=3][b]Skill Aliases[/b][/size][/font]
+Used is commands [b]Add Skill Experience[/b], [b]Remove Skill Experience[/b], [b]Give Skill Experience to Player[/b] and [b]Remove Skill Experience from Player[/b].
+[b]Sprinting:[/b] [font=Arial]sprinting[/font] | [font=Arial]sprint[/font] | [font=Arial]spr[/font] | [font=Arial]stamina[/font] | [font=Arial]sp[/font]
+[b]Strength:[/b] [font=Arial]strength[/font] | [font=Arial]str[/font] | [font=Arial]weight[/font]
+[b]Throwing:[/b] [font=Arial]throwing[/font] | [font=Arial]throw[/font] | [font=Arial]thr[[/font]
+[b]Sneaking:[/b] [font=Arial]sneaking[/font] | [font=Arial]sneak[/font] | [font=Arial]stealth[/font] | [font=Arial]snk[/font]
+[b]Blunt Melee:[/b] [font=Arial]bluntmelee[/font] | [font=Arial]blunt[/font]
+[b]Sharp Meele:[/b] [font=Arial]sharpmeele[/font] | [font=Arial]sharp[/font]
+[b]Accuracy:[/b] [font=Arial]accuracy[/font] | [font=Arial]acc[/font] | [font=Arial]aim[/font]
+[b]Reloading:[/b] [font=Arial]reloading[/font] | [font=Arial]reload[/font] | [font=Arial]magazine[/font]
+[b]Fortitude:[/b] [font=Arial]fortitude[/font] | [font=Arial]fort[/font] | [font=Arial]tough[/font] | [font=Arial]health[/font] | [font=Arial]hp[/font]
+[b]Crafting:[/b] [font=Arial]crafting[/font] | [font=Arial]craft[/font] | [font=Arial]bench[/font]
+[b]Construction:[/b] [font=Arial]construction[/font] | [font=Arial]const[/font] | [font=Arial]cons[/font] | [font=Arial]build[/font]
+[b]First Aid:[/b] [font=Arial]firstaid[/font] | [font=Arial]aid[/font] | [font=Arial]healing[/font] | [font=Arial]heal[/font] | [font=Arial]wound[/font]
+[b]Cooking:[/b] [font=Arial]cooking[/font] | [font=Arial]cook[/font] | [font=Arial]heisenberg[/font]
+[b]Agriculture:[/b] [font=Arial]agriculture[/font] | [font=Arial]agr[/font] | [font=Arial]grow[/font] | [font=Arial]plant[/font] | [font=Arial]plants[/font]
+[b]Fishing:[/b] [font=Arial]fishing[/font] | [font=Arial]fish[/font]
+
+
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.
 For example: [b]Infinite Health[/b] can be activated by typing "health", "hp", "inv", "infhp" OR "infhealth" into the console.
