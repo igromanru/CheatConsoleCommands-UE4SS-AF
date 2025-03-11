@@ -125,6 +125,8 @@ Commands which has parameters has to be used like this:
 [font=Courier New]money 9999  [/font]--Sets money value to 9999
 [font=Courier New]leyakcd 60 [/font]--Makes Leyak spawn once per hour
 [font=Courier New]killall 1[/font]    --Kills all NPCs that are loaded and drops their loot
+[font=Courier New]givexp 1 sharp 1000[/font] --Gives player on index 1, 1000 XP for Sharp Meele skill
+[font=Courier New]settime 22:00[/font] --Sets ingame time to 10:00 PM.
 
 [font=Verdana][size=3][b]Default Unreal Engine Commands[/b][/size][/font]
 [b]Spawn object[/b] [ [font=Arial]summon[/font] ] { <class name> } - [font=Georgia]Spawns an object on your location based on it's class name. (host only)[/font]
