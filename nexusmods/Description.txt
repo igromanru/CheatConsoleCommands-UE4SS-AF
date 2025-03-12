@@ -30,10 +30,11 @@ The mod directory should contain a [b]Scripts[/b] folder and an [b]enabled.txt[/
 [*]Most commands can be enabled and disabled by typing the same command, but commands like "money" will be executed once.
 [/list]
 [font=Verdana][size=4][b]Settings Auto Save System[/b][/size][/font]
-Since v1.4.0 the toggle state of commands will be saved to a file and restored automatically when you start the game next time.  
+Since v1.4.0 the toggle state of commands will be saved to the file [b]CheatConsoleCommands.json[/b] and restored automatically when you start the game next time.  
 It will also automatically change Leyak's cooldown to your last set value.  
 Obviously all your saved locations will be saved as well.
 When updating the mod to latest version overwrite existing files instead of deleting the folder, to preserve the settings file.
+Or create back up the [b]CheatConsoleCommands.json[/b] to be able to restore it later.
 [line]
 [font=Verdana][size=4][b]Commands[/b][/size][/font]
 Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] parameters[/i] } - [i]Description[/i]
@@ -117,7 +118,6 @@ Used is commands [b]Add Skill Experience[/b], [b]Remove Skill Experience[/b], [b
 [b]Agriculture:[/b] [font=Arial]agriculture[/font] | [font=Arial]agr[/font] | [font=Arial]grow[/font] | [font=Arial]plant[/font] | [font=Arial]plants[/font]
 [b]Fishing:[/b] [font=Arial]fishing[/font] | [font=Arial]fish[/font]
 
-
 [b]How to use example:[/b]
 Most commands has multiple aliases that you can use to trigger it.
 For example: [b]Infinite Health[/b] can be activated by typing "health", "hp", "inv", "infhp" OR "infhealth" into the console.
@@ -149,8 +149,8 @@ You will find the class: [i]/Game/Blueprints/DeployedObjects/Furniture/Container
 5. After sending the command with [b]Enter[/b], the item should appear in front of your face. Items won't be saved until you pick them up first!
 [size=2]You can play around, try to spawn random items, then just reload the game to make them disappear or use the [b]deleteobject[/b] command (read description of the command first).[/size]
 
-[b]Attention:[/b] It works only with most objects from the category [b]DeployedObjects[/b]. [size=2]You can play around with others, but I had no luck spawning anything else.[/size]
-
+[b]Attention:[/b] It works only with most objects from the category [b]DeployedObjects[/b] and [b]Environment[/b]. [size=2]You can play around with others, but I had no luck spawning anything else.[/size]
+[line]
 [font=Verdana][size=4][b]Additional information[/b][/size][/font]
 [list]
 [*]Most features are based on debugging functions created by game developers to help them develop the game.
@@ -177,7 +177,7 @@ The easiest way to share the content of the log file is to upload it to a site l
 2. At the top right corner press the double up arrow button to expend console to show the command line.
 See picture: [url=https://staticdelivery.nexusmods.com/mods/6412/images/28/28-1729573933-724491234.png]Screenshot link[/url]
 3. In the command line you can now use the console commands as usual, but the only feedback you get from the mod will be text output to the console.
-
+[line]
 [font=Verdana][size=4][b]My AF Mods[/b][/size][/font]
 Check out my other Abiotic Factor mods.
 [list]
