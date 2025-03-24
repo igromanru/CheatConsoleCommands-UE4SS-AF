@@ -721,6 +721,42 @@ function InfiniteCrouchRoll()
     end
 end
 
+local SetLockedContentTextPreId, SetLockedContentTextPostId = nil, nil
+local function InitSetLockedContentTextHooks()
+    if not SetLockedContentTextPreId then
+        LoadAsset("/Game/Blueprints/Widgets/Journal/W_Compendium_Section.W_Compendium_Section_C")
+        SetLockedContentTextPreId, SetLockedContentTextPostId = RegisterHook("/Game/Blueprints/Widgets/Journal/W_Compendium_Section.W_Compendium_Section_C:SetLockedContentText", function(Context)
+            local context = Context:get() ---@type UW_Compendium_Section_C
+            if Settings.JournalEntryUnlocker and not context.Unlocked then
+                local progressComponent = AFUtils.GetMyCharacterProgressionComponent()
+                if IsValid(progressComponent) then
+                    if DebugMode then
+                        LogInfo("Unlocking:", context.CompendiumRow.RowName:ToString())
+                        LogInfo("SectionType:", context.SectionType)
+                    end
+                    progressComponent:Request_UnlockCompendiumSection(context.CompendiumRow.RowName, context.SectionType)
+                end
+            end
+        end)
+        LogDebug("SetLockedContentTextPreId:", SetLockedContentTextPreId)
+        LogDebug("SetLockedContentTextPostId:", SetLockedContentTextPostId)
+    end
+end
+
+local JournalEntryUnlockerWasEnabled = false
+function JournalEntryUnlocker()
+    if Settings.JournalEntryUnlocker then
+        if not JournalEntryUnlockerWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Journal Entry Unlocker activated", AFUtils.CriticalityLevels.Green)
+            JournalEntryUnlockerWasEnabled = true
+        end
+        InitSetLockedContentTextHooks()
+    elseif JournalEntryUnlockerWasEnabled then
+        JournalEntryUnlockerWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Journal Entry Unlocker deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 -- function SetInventorySlotCount()
 --     if Settings.InventorySlotCount and Settings.InventorySlotCount > 0 then
 --         local myInventoryComponent = AFUtils.GetMyInventoryComponent()

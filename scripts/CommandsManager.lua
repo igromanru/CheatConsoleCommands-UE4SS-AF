@@ -1067,6 +1067,16 @@ CreateCommand({ "traits" }, "Show Traits", "Show player's Traits.", nil,
         return false
     end)
 
+-- Journal Entry Unlocker Command
+CreateCommand({ "journalentry", "journalunlocker", "entryunlocker" }, "Journal Entry Unlocker",
+    "After enabling, the Journal Entry you click on will be unlocked. (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.JournalEntryUnlocker = not Settings.JournalEntryUnlocker
+        PrintCommandState(Settings.JournalEntryUnlocker, self.Name, OutputDevice)
+        return true
+    end,
+    "JournalEntryUnlocker")
+
 -- Master Key Command
 CreateCommand({ "masterkey", "key", "keys", "opendoor", "opendoors" }, "Master Key",
     "Allows to open all doors (host only)", nil,
