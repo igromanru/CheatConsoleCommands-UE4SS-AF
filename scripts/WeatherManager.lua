@@ -39,6 +39,16 @@ end
 
 ---@param Substr string
 ---@return string?
+function WeatherManager.TriggerWeatherEvent(Substr)
+    local weather = WeatherManager.GetWeatherBySubstring(Substr)
+    if weather and AFUtils.TriggerWeatherEvent(weather) then
+        return weather
+    end
+    return nil
+end
+
+---@param Substr string
+---@return string?
 function WeatherManager.SetNextWeatherEvent(Substr)
     local weather = WeatherManager.GetWeatherBySubstring(Substr)
     if weather and AFUtils.SetNextWeatherEvent(weather) then

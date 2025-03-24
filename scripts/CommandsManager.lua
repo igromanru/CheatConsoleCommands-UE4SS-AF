@@ -1087,8 +1087,37 @@ CreateCommand({ "masterkey", "key", "keys", "opendoor", "opendoors" }, "Master K
     end,
     "MasterKey")
 
--- Set Next Weather Command
-CreateCommand({ "setweather", "nextweather", "weatherevent", "weather" }, "Weather Event",
+-- Set Weather Command
+CreateCommand({ "setweather", "weather", "weatherevent" }, "Set Weather",
+    "Triggers weather event (host only)",
+    CreateCommandParam("weather", "string", "", false, { "None", "Fog", "RadLeak", "Spores" }),
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 1 then
+            local weatherNames = ""
+            for i, rowName in ipairs(WeatherManager.GetAllWeatherEventNames()) do
+                if i > 1 then
+                    weatherNames = weatherNames .. ", "
+                end
+                weatherNames = weatherNames .. rowName
+            end
+            WriteToConsole(OutputDevice, "Posible weather events: " .. weatherNames)
+            return false
+        end
+
+        local weather = WeatherManager.TriggerWeatherEvent(Parameters[1])
+        if weather then
+            local message = "Set weather to " .. weather
+            WriteToConsole(OutputDevice, message)
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+        else
+            WriteErrorToConsole(OutputDevice, "Couldn't find any weather events with name: " .. Parameters[1])
+        end
+
+        return true
+    end)
+
+-- Next Weather Command
+CreateCommand({ "setnextweather", "nextweather", "nextweatherevent" }, "Next Weather",
     "Sets weather event for the next day (host only)",
     CreateCommandParam("weather", "string", "", false, { "None", "Fog", "RadLeak", "Spores" }),
     function(self, OutputDevice, Parameters)
