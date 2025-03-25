@@ -559,8 +559,9 @@ end
 
 local PreInstantPlantGrowthId, PostInstantPlantGrowthId = nil, nil
 local InstantPlantGrowthWasEnabled = false
-function InstantPlantGrowth()
-    if Settings.InstantPlantGrowth then
+---@param hasAuthority boolean?
+function InstantPlantGrowth(hasAuthority)
+    if Settings.InstantPlantGrowth and hasAuthority then
         if not PreInstantPlantGrowthId and not PostInstantPlantGrowthId then
             LoadAsset("/Game/Blueprints/DeployedObjects/Farming/FarmingPlot_BP.FarmingPlot_BP_C")
             _, PreInstantPlantGrowthId, PostInstantPlantGrowthId = pcall(RegisterHook, "/Game/Blueprints/DeployedObjects/Farming/FarmingPlot_BP.FarmingPlot_BP_C:GrowthTick", function(Context)
@@ -593,8 +594,9 @@ end
 
 local PreInfiniteTraitPointsId, PostInfiniteTraitPointsId = nil, nil
 local InfiniteTraitPointsWasEnabled = false
-function InfiniteTraitPoints()
-    if Settings.InfiniteTraitPoints then
+---@param hasAuthority boolean?
+function InfiniteTraitPoints(hasAuthority)
+    if Settings.InfiniteTraitPoints and hasAuthority then
         if not PreInfiniteTraitPointsId and not PostInfiniteTraitPointsId then
             LoadAsset("/Game/Blueprints/Widgets/TraitSelect/W_Character_Trait_Selection.W_Character_Trait_Selection_C")
             _, PreInfiniteTraitPointsId, PostInfiniteTraitPointsId = pcall(RegisterHook, "/Game/Blueprints/Widgets/TraitSelect/W_Character_Trait_Selection.W_Character_Trait_Selection_C:CalculatePointsAvailable", function(Context)

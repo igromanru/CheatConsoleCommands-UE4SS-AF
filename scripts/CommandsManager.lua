@@ -44,11 +44,22 @@ local function WriteToConsoleDebug(OutputDevice, Message)
 end
 
 ---Returns true if IsDedicatedServer and error was printed
----@param OutputDevice any
+---@param OutputDevice table
 ---@return boolean IsDedicatedServer
 local function CheckAndLogDedicatedServerCommandSupport(OutputDevice)
     if AFUtils.IsDedicatedServer() then
         WriteErrorToConsole(OutputDevice, "The command is not supported on Dedicated Server!")
+        return true
+    end
+    return false
+end
+
+---Returns true if the local player has no authority
+---@param OutputDevice table
+---@return boolean NoAuthority
+local function CheckHasNoAuthority(OutputDevice)
+    if not IsHost() then
+        WriteErrorToConsole(OutputDevice, "You don't have the authority to use this command!")
         return true
     end
     return false
@@ -967,6 +978,10 @@ CreateCommand({ "addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "ski
     { CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()),
     CreateCommandParam("XP value", "number", "Amount of XP added to the skill.") },
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         local skill = nil ---@type SkillStruct?
         local xpToAdd = nil ---@type integer?
         if #Parameters > 0 then
@@ -1007,6 +1022,10 @@ CreateCommand({ "removexp", "removeexp", "resetxp", "resetexp", "resetskill", "r
     "Remove Skill Experience", "Removes All XP from specified Skill (host only)",
     CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings()),
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         local skill = nil ---@type SkillStruct?
         if #Parameters > 0 then
             skill = Skills.GetSkillByAlias(Parameters[1])
@@ -1031,6 +1050,10 @@ CreateCommand({ "removexp", "removeexp", "resetxp", "resetexp", "resetskill", "r
 CreateCommand({ "resetallskills", "resetallskill", "resetallxp", "resetallexp", "resetalllvl" }, "Reset All Skills",
     "Resets all character skills! (works as guest)", nil,
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         local progressionComponen = AFUtils.GetMyCharacterProgressionComponent()
         if IsValid(progressionComponen) then
             progressionComponen:Request_ResetAllSkills()
@@ -1092,6 +1115,10 @@ CreateCommand({ "setweather", "weather", "weatherevent" }, "Set Weather",
     "Triggers weather event (host only)",
     CreateCommandParam("weather", "string", "", false, { "None", "Fog", "RadLeak", "Spores" }),
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         if not Parameters or #Parameters < 1 then
             local weatherNames = ""
             for i, rowName in ipairs(WeatherManager.GetAllWeatherEventNames()) do
@@ -1121,6 +1148,10 @@ CreateCommand({ "setnextweather", "nextweather", "nextweatherevent" }, "Next Wea
     "Sets weather event for the next day (host only)",
     CreateCommandParam("weather", "string", "", false, { "None", "Fog", "RadLeak", "Spores" }),
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         if not Parameters or #Parameters < 1 then
             local weatherNames = ""
             for i, rowName in ipairs(WeatherManager.GetAllWeatherEventNames()) do
@@ -1148,6 +1179,10 @@ CreateCommand({ "setnextweather", "nextweather", "nextweatherevent" }, "Next Wea
 -- Reset Portal Worlds Command
 CreateCommand({ "resetportals", "resetportal", "resetworlds", "resetportalworlds", "resetvignettes" }, "Reset Portal Worlds", "Resets Portal Worlds (host only)", nil,
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         local gameInstance = AFUtils.GetGameInstance()
         if IsValid(gameInstance) then
             gameInstance:ResetVignettes()
@@ -1178,6 +1213,10 @@ CreateCommand({ "poop", "pooponfloor" }, "Poop on Floor", "Poop on the Floor (wo
 -- Set Time
 CreateCommand({ "settime" }, "Set Time", "Set game's time in 24-hour format (0-23:0-59). (host only)", nil,
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         local hours = nil
         local minutes = nil
         if Parameters and #Parameters > 0 then
@@ -1205,6 +1244,10 @@ CreateCommand({ "settime" }, "Set Time", "Set game's time in 24-hour format (0-2
 CreateCommand({ "killall", "killnpc", "killnpcs", "killallnpc", "killallnpcs", "killallenemies", "killenemies" }, "Kill All Enemies", "Kill all enemy NPCs in your vicinity. (host only)", 
     { CreateCommandParam("drop loot", "boolean | number", "Drop loot from killed NPCs", false, { "true", "1" }) },
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         local dropLoot = false
         if Parameters and #Parameters > 0 then
             if tonumber(Parameters[1]) == 1 or Parameters[1] == "true" then
@@ -1237,6 +1280,10 @@ CreateCommand({ "killall", "killnpc", "killnpcs", "killallnpc", "killallnpcs", "
 -- Spawn All Enemies Command
 CreateCommand({ "spawnall", "spawnnpc", "spawnnpcs", "spawnallnpc", "spawnallnpcs", "spawnallenemies", "spawnenemies" }, "Spawn All Enemies", "Respawn all enemy NPCs in your vicinity. (host only)", nil,
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         local npcSpawns = FindAllOf("Abiotic_NPCSpawn_ParentBP_C") ---@type AAbiotic_NPCSpawn_ParentBP_C[]?
         if npcSpawns and #npcSpawns > 0 then
             local spawnCount = 0
@@ -1260,6 +1307,10 @@ CreateCommand({ "spawnall", "spawnnpc", "spawnnpcs", "spawnallnpc", "spawnallnpc
 CreateCommand({ "killdropped", "killalldrop", "killalldropped", "killdropped", "destroydropped", "destroyallitems", "destroyalldroppeds" }, "Destroy All Dropped Items", "Destroy all dropped items in your vicinity. Caution! It will destroy ALL items dropped on the ground, by you, by NPCs or by destroyed items! (not item spawns) (host only)", 
     nil,
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         local items = FindAllOf("Abiotic_Item_Dropped_C") ---@type AAbiotic_Item_Dropped_C[]?
         if items and #items > 0 then
             WriteToConsole(OutputDevice, "Found " .. #items .. " dropped items.")
@@ -1430,6 +1481,10 @@ CreateCommand({ "tome", "teleporttome", "pull" }, "Teleport To Me",
 CreateCommand({ "smite", "kill", "execute" }, "Kill Player", "Kills a player based on their name or index (host only)",
     CreateCommandParam("name/index", "string", "Name or index of a player"),
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         if not Parameters or #Parameters < 1 then
             WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
             WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'smite igromanru'")
@@ -1449,6 +1504,10 @@ CreateCommand({ "smite", "kill", "execute" }, "Kill Player", "Kills a player bas
 CreateCommand({ "revive", "res", "resurrect" }, "Revive Player", "Revive a dead palyer (host only)",
     CreateCommandParam("name/index", "string", "Name or index of a player"),
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         if not Parameters or #Parameters < 1 then
             WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
             WriteToConsole(OutputDevice, "The command requires part of player's name or his index. e.g. 'revive igromanru'")
@@ -1476,6 +1535,10 @@ CreateCommand({ "givexp" }, "Give Skill Experience to Player", "Gives Skill XP t
         CreateCommandParam("XP value", "number", "Amount of XP added to the skill.")
     },
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         if not Parameters or #Parameters < 2 then
             WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
             WriteToConsole(OutputDevice, "The command requires part of player's name or his index, skill's alias and amount of XP to add. e.g. 'givexp igromanru stealth 1000'")
@@ -1525,6 +1588,10 @@ CreateCommand({ "takexp" }, "Remove Skill Experience from Player", "Remove All S
         CreateCommandParam("skill alias", "string", "Skill's alias", true, Skills.GetSkillsAsStrings())
     },
     function(self, OutputDevice, Parameters)
+        if CheckHasNoAuthority(OutputDevice) then
+            return false
+        end
+
         if not Parameters or #Parameters < 2 then
             WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
             WriteToConsole(OutputDevice, "The command requires part of player's name or his index and skill's alias. e.g. 'takexp igromanru stealth'")
@@ -1607,7 +1674,7 @@ end,
 -- Delete Object Trace Command
 CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)", nil,
     function(self, OutputDevice, Parameters)
-        if CheckAndLogDedicatedServerCommandSupport(OutputDevice) then
+        if CheckAndLogDedicatedServerCommandSupport(OutputDevice) or CheckHasNoAuthority(OutputDevice) then
             return false
         end
 
