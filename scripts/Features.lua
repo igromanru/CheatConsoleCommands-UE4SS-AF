@@ -443,8 +443,11 @@ function InstantCrafting()
 end
 
 local InvisibleWasEnabled = false
-function Invisible(myPlayer)
-    if Settings.Invisible then
+---comment
+---@param myPlayer AAbiotic_PlayerCharacter_C
+---@param hasAuthority boolean?
+function Invisible(myPlayer, hasAuthority)
+    if Settings.Invisible and hasAuthority then
         if myPlayer.NPC_Targetable == true then
             myPlayer.NPC_Targetable = false
             LogDebug("NPC_Targetable:", myPlayer.NPC_Targetable)
@@ -463,8 +466,9 @@ end
 
 local NoFallDamageWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
-function NoFallDamage(myPlayer)
-    if Settings.NoFallDamage then
+---@param hasAuthority boolean?
+function NoFallDamage(myPlayer, hasAuthority)
+    if Settings.NoFallDamage and hasAuthority then
         if myPlayer.TakeFallDamage then
             myPlayer.TakeFallDamage = false
             LogDebug("TakeFallDamage: " .. tostring(myPlayer.TakeFallDamage))
@@ -483,9 +487,10 @@ end
 
 local NoClipWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
-function NoClip(myPlayer)
-    if Settings.NoClip then
-        if not myPlayer.Noclip_On then
+---@param hasAuthority boolean?
+function NoClip(myPlayer, hasAuthority)
+    if Settings.NoClip and hasAuthority then
+        if  not myPlayer.Noclip_On then
             myPlayer.Noclip_On = true
             myPlayer:OnRep_Noclip_On()
             LogDebug("Noclip_On: " .. tostring(myPlayer.Noclip_On))
