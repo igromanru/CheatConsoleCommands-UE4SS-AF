@@ -58,8 +58,9 @@ end
 
 local InfiniteDurabilityWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
-function InfiniteDurability(myPlayer)
-    if Settings.InfiniteDurability then
+---@param hasAuthority boolean?
+function InfiniteDurability(myPlayer, hasAuthority)
+    if Settings.InfiniteDurability and hasAuthority then
         AFUtils.RepairAllItemsInInvetory(myPlayer, myPlayer.CharacterEquipSlotInventory)
         AFUtils.RepairAllItemsInInvetory(myPlayer, myPlayer.CharacterHotbarInventory)
         if not InfiniteDurabilityWasEnabled then
@@ -74,8 +75,9 @@ end
 
 local InfiniteEnergyWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
-function InfiniteEnergy(myPlayer)
-    if Settings.InfiniteEnergy then
+---@param hasAuthority boolean?
+function InfiniteEnergy(myPlayer, hasAuthority)
+    if Settings.InfiniteEnergy and hasAuthority then
         -- AFUtils.FixHeldItemLiquid(myPlayer)
         AFUtils.FillHeldItemWithEnergy(myPlayer)
         AFUtils.FillAllEquippedItemsWithEnergy(myPlayer)
@@ -91,8 +93,9 @@ end
 
 local NoOverheatWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
-function NoOverheat(myPlayer)
-    if Settings.NoOverheat then
+---@param hasAuthority boolean?
+function NoOverheat(myPlayer, hasAuthority)
+    if Settings.NoOverheat and hasAuthority then
         local jetpack = myPlayer.Gear_BackpackBP ---@cast jetpack AGear_Jetpack_BP_C
         if IsValid(jetpack) and jetpack.CurrentOverheatLevel then
             jetpack.CurrentOverheatLevel = 0
@@ -637,8 +640,9 @@ local BaseWalkSpeedBackUp = 500.0
 local BaseSprintSpeedBackUp =  685.0
 local LastSpeedhackMultiplier = Settings.SpeedhackMultiplier
 ---@param myPlayer AAbiotic_PlayerCharacter_C
-function Speedhack(myPlayer)
-    if Settings.SpeedhackMultiplier ~= LastSpeedhackMultiplier then
+---@param hasAuthority boolean?
+function Speedhack(myPlayer, hasAuthority)
+    if Settings.SpeedhackMultiplier ~= LastSpeedhackMultiplier and hasAuthority then
         if LastSpeedhackMultiplier == 1.0 then
             BaseWalkSpeedBackUp = myPlayer.BaseWalkSpeed
             BaseSprintSpeedBackUp = myPlayer.BaseSprintSpeed
@@ -655,8 +659,9 @@ end
 
 local PlayerGravityScaleLastValue = nil
 ---@param myPlayer AAbiotic_PlayerCharacter_C
-function PlayerGravityScale(myPlayer)
-    if IsNotValid(myPlayer) or IsNotValid(myPlayer.CharacterMovement) then return end
+---@param hasAuthority boolean?
+function PlayerGravityScale(myPlayer, hasAuthority)
+    if not hasAuthority or IsNotValid(myPlayer) or IsNotValid(myPlayer.CharacterMovement) then return end
 
     if myPlayer.CharacterMovement.GravityScale > 0 and not NearlyEqual(Settings.PlayerGravityScale, myPlayer.CharacterMovement.GravityScale) then
         LogDebug("DefaultGravityScale was: ", myPlayer.DefaultGravityScale)
@@ -673,8 +678,9 @@ function PlayerGravityScale(myPlayer)
 end
 
 local PreviosLeyakCooldown = 0
-function SetLeyakCooldown()
-    if Settings.LeyakCooldown and Settings.LeyakCooldown ~= PreviosLeyakCooldown then
+---@param hasAuthority boolean?
+function SetLeyakCooldown(hasAuthority)
+    if hasAuthority and Settings.LeyakCooldown and Settings.LeyakCooldown ~= PreviosLeyakCooldown then
         local aiDirector = AFUtils.GetAIDirector()
         if aiDirector and aiDirector.LeyakCooldown ~= Settings.LeyakCooldown then
             if Settings.LeyakCooldown <= 0 or Settings.LeyakCooldown == DefaultLeyakCooldown then

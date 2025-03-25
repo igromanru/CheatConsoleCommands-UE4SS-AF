@@ -1069,7 +1069,7 @@ CreateCommand({ "traits" }, "Show Traits", "Show player's Traits.", nil,
 
 -- Journal Entry Unlocker Command
 CreateCommand({ "journalentry", "journalunlocker", "entryunlocker" }, "Journal Entry Unlocker",
-    "After enabling, the Journal Entry you click on will be unlocked. (host only)", nil,
+    "After enabling, the Journal Entry you click on will be unlocked. (works as guest)", nil,
     function(self, OutputDevice, Parameters)
         Settings.JournalEntryUnlocker = not Settings.JournalEntryUnlocker
         PrintCommandState(Settings.JournalEntryUnlocker, self.Name, OutputDevice)
