@@ -44,8 +44,10 @@ Add Skill Experience | addxp \| addexp \| xpadd \| skillxp \| skillexp \| skill 
 Remove Skill Experience | removexp \| removeexp \| resetxp \| resetexp \| resetskill \| resetlevel \| resetlvl | {skill alias} | Removes All XP from specified Skill (host only)
 Reset All Skills | resetallskills \| resetallskill \| resetallxp \| resetallexp \| resetalllvl |  | Resets all character skills! (works as guest)
 Show Traits | traits |  | Show player's Traits.
+Journal Entry Unlocker | journalentry \| journalunlocker \| entryunlocker |  | After enabling, the Journal Entry you click on will be unlocked. (works as guest)
 Master Key | masterkey \| key \| keys \| opendoor \| opendoors |  | Allows to open all doors (host only)
-Weather Event | setweather \| nextweather \| weatherevent \| weather | {weather} | Sets weather event for the next day (host only)
+Set Weather | setweather \| weather \| weatherevent | {weather} | Triggers weather event (host only)
+Next Weather | setnextweather \| nextweather \| nextweatherevent | {weather} | Sets weather event for the next day (host only)
 Reset Portal Worlds | resetportals \| resetportal \| resetworlds \| resetportalworlds \| resetvignettes |  | Resets Portal Worlds (host only)
 Poop on Floor | poop \| pooponfloor |  | Poop on the Floor (works as guest)
 Set Time | settime |  | Set game's time in 24-hour format (0-23:0-59). (host only)
