@@ -117,12 +117,13 @@ function SettingsManager.AutoSaveOnChange()
         or SettingsMonitor.NoSway ~= Settings.NoSway
         or SettingsMonitor.MasterKey ~= Settings.MasterKey
         or SettingsMonitor.LeyakCooldown ~= Settings.LeyakCooldown
-        or SettingsMonitor.SpeedhackMultiplier ~= Settings.SpeedhackMultiplier
+        -- or SettingsMonitor.SpeedhackMultiplier ~= Settings.SpeedhackMultiplier
         or SettingsMonitor.PlayerGravityScale ~= Settings.PlayerGravityScale
         or SettingsMonitor.InfiniteCrouchRoll ~= Settings.InfiniteCrouchRoll
         or (Settings.Locations and SettingsMonitor.LocationsCount ~= #Settings.Locations) 
         or SettingsMonitor.InstantToilet ~= Settings.InstantToilet
         or SettingsMonitor.InstantPlantGrowth ~= Settings.InstantPlantGrowth
+        or SettingsMonitor.AutoSaveInterval ~= Settings.AutoSaveInterval
     then
         LogDebug("AutoSaveOnChange: Changes detected")
         SettingsMonitor.GodMode = Settings.GodMode
@@ -149,12 +150,13 @@ function SettingsManager.AutoSaveOnChange()
         SettingsMonitor.NoSway = Settings.NoSway
         SettingsMonitor.MasterKey = Settings.MasterKey
         SettingsMonitor.LeyakCooldown = Settings.LeyakCooldown
-        SettingsMonitor.SpeedhackMultiplier = Settings.SpeedhackMultiplier
+        -- SettingsMonitor.SpeedhackMultiplier = Settings.SpeedhackMultiplier
         SettingsMonitor.PlayerGravityScale = Settings.PlayerGravityScale
         SettingsMonitor.InfiniteCrouchRoll = Settings.InfiniteCrouchRoll
         SettingsMonitor.LocationsCount = Settings.Locations and #Settings.Locations or 0
         SettingsMonitor.InstantToilet = Settings.InstantToilet
         SettingsMonitor.InstantPlantGrowth = Settings.InstantPlantGrowth
+        SettingsMonitor.AutoSaveInterval = Settings.AutoSaveInterval
         SettingsManager.SaveToFile()
     end
 end
