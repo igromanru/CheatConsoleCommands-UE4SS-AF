@@ -645,21 +645,40 @@ end
 
 local BaseWalkSpeedBackUp = 500.0
 local BaseSprintSpeedBackUp =  685.0
-local LastSpeedhackMultiplier = Settings.SpeedhackMultiplier
+local LastSpeedhackMultiplier = 1.0
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 ---@param hasAuthority boolean?
 function Speedhack(myPlayer, hasAuthority)
-    if Settings.SpeedhackMultiplier ~= LastSpeedhackMultiplier and hasAuthority then
-        if LastSpeedhackMultiplier == 1.0 then
-            BaseWalkSpeedBackUp = myPlayer.BaseWalkSpeed
-            BaseSprintSpeedBackUp = myPlayer.BaseSprintSpeed
-            LogDebug("Speedhack: Back up original values: ")
-            LogDebug("Speedhack: BaseWalkSpeedBackUp: ", BaseWalkSpeedBackUp)
-            LogDebug("Speedhack: BaseSprintSpeedBackUp: ", BaseSprintSpeedBackUp)
+    local newBaseWalkSpeed = BaseWalkSpeedBackUp * Settings.SpeedhackMultiplier
+    local newBaseSprintSpeed = BaseSprintSpeedBackUp * Settings.SpeedhackMultiplier
+    if hasAuthority then
+        if myPlayer.BaseWalkSpeed == newBaseWalkSpeed and myPlayer.BaseSprintSpeed == newBaseSprintSpeed then
+            return
         end
+    elseif myPlayer.CustomTimeDilation == Settings.SpeedhackMultiplier then
+        return
+    end
+
+    if LastSpeedhackMultiplier == 1.0 then
+        BaseWalkSpeedBackUp = myPlayer.BaseWalkSpeed
+        BaseSprintSpeedBackUp = myPlayer.BaseSprintSpeed
+        LogDebug("Speedhack: Back up original values: ")
+        LogDebug("Speedhack: BaseWalkSpeedBackUp: ", BaseWalkSpeedBackUp)
+        LogDebug("Speedhack: BaseSprintSpeedBackUp: ", BaseSprintSpeedBackUp)
+    end
+    
+    if hasAuthority then
+        myPlayer.BaseWalkSpeed = newBaseWalkSpeed
+        myPlayer.BaseSprintSpeed = newBaseSprintSpeed
+        myPlayer.CustomTimeDilation = 1.0
+    else
+        myPlayer.BaseWalkSpeed = BaseWalkSpeedBackUp
+        myPlayer.BaseSprintSpeed = BaseSprintSpeedBackUp
+        myPlayer.CustomTimeDilation = Settings.SpeedhackMultiplier
+    end
+    if Settings.SpeedhackMultiplier ~= LastSpeedhackMultiplier then
         LastSpeedhackMultiplier = Settings.SpeedhackMultiplier
-        myPlayer.BaseWalkSpeed = BaseWalkSpeedBackUp * LastSpeedhackMultiplier
-        myPlayer.BaseSprintSpeed = BaseSprintSpeedBackUp * LastSpeedhackMultiplier
+        LogDebug("Speedhack multiplier:", LastSpeedhackMultiplier)
         AFUtils.ClientDisplayWarningMessage("Speed x" .. LastSpeedhackMultiplier, AFUtils.CriticalityLevels.Green)
     end
 end
@@ -706,6 +725,17 @@ function SetLeyakCooldown(hasAuthority)
         end
     end
 end
+
+-- local PreviosAutoSaveInterval = 0
+-- ---@param hasAuthority boolean?
+-- function SetAutoSaveInterval(hasAuthority)
+--     if hasAuthority and Settings.AutoSaveInterval and Settings.AutoSaveInterval ~= PreviosAutoSaveInterval then
+--         local gameInstance = AFUtils.GetGameInstance()
+--         if gameInstance and gameInstance.AutosaveInterval ~= Settings.AutosaveInterval then
+            
+--         end
+--     end
+-- end
 
 local CanCrouchRollPreId, CanCrouchRollPostId = nil, nil
 local function InitCanCrouchRollHooks()

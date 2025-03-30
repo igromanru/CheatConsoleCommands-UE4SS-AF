@@ -1240,6 +1240,27 @@ CreateCommand({ "settime" }, "Set Time", "Set game's time in 24-hour format (0-2
         return true
     end)
 
+-- Set Auto Save Interval Command
+-- CreateCommand({ "autosave", "autosaveinterval", "savetime", "saveinterval" }, "Auto Save Interval", "Sets game's auto save interval in seconds. (Default speed: 1.0) (host only)",
+-- CreateCommandParam("seconds", "number", "Time in seconds. (Set to 0 to disable)"),
+-- function(self, OutputDevice, Parameters)
+--     if not Parameters or #Parameters < 1 then
+--         WriteToConsole(OutputDevice, "Current Auto Save Interval is set to: " .. Settings.AutoSaveInterval)
+--         WriteToConsole(OutputDevice, "The command requires a value which represents the interval time in seconds. e.g. 'saveinterval 180' (3min interval)")
+--         return true
+--     end
+--     local seconds = tonumber(Parameters[1])
+--     if not seconds or seconds < 0 then
+--         WriteErrorToConsole(OutputDevice, "The required paramter must be a positive numeric value!")
+--         WriteToConsole(OutputDevice, "The command requires a value which represents the interval time in seconds. e.g. 'saveinterval 180' (3min interval)")
+--         return true
+--     end
+--     Settings.AutoSaveInterval = seconds
+--     WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. seconds)
+--     return true
+-- end,
+-- "AutoSaveInterval")
+
 -- Kill All Enemies Command
 CreateCommand({ "killall", "killnpc", "killnpcs", "killallnpc", "killallnpcs", "killallenemies", "killenemies" }, "Kill All Enemies", "Kill all enemy NPCs in your vicinity. (host only)", 
     { CreateCommandParam("drop loot", "boolean | number", "Drop loot from killed NPCs", false, { "true", "1" }) },
