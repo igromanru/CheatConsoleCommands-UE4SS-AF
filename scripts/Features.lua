@@ -58,9 +58,8 @@ end
 
 local InfiniteDurabilityWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
----@param hasAuthority boolean?
-function InfiniteDurability(myPlayer, hasAuthority)
-    if Settings.InfiniteDurability and hasAuthority then
+function InfiniteDurability(myPlayer)
+    if Settings.InfiniteDurability then
         AFUtils.RepairAllItemsInInvetory(myPlayer, myPlayer.CharacterEquipSlotInventory)
         AFUtils.RepairAllItemsInInvetory(myPlayer, myPlayer.CharacterHotbarInventory)
         if not InfiniteDurabilityWasEnabled then
