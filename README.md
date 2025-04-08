@@ -64,7 +64,7 @@ Kill Player | smite \| kill \| execute | {name/index} | Kills a player based on 
 Revive Player | revive \| res \| resurrect | {name/index} | Revive a dead palyer (host only)
 Give Skill Experience to Player | givexp | {name/index} {skill alias} {XP value} | Gives Skill XP to a player (host only)
 Remove Skill Experience from Player | takexp | {name/index} {skill alias} | Remove All Skill XP from a player (host only)
-Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (host only)
+Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (works as guest)
 Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
 Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)
 Fix Item Liquid Type | fixliquid \| fixliquidtype \| fixitemliquid |  | Fixes the liquid level and type of currently held object, if it doesn't match. (host only)
