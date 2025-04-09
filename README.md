@@ -11,6 +11,7 @@ Disable All | disableall \| alloff |  | Disables all commands
 God Mode | god \| godmode |  | Activates all health, stamina and status related features at once. (You will have to disable god mode to be able to toggle them seperatly)
 Heal | heal |  | Player gets fully healed once (host only)
 Infinite Health | health \| hp \| infhp \| infhealth |  | Player gets fully healed and becomes invincible (host only)
+Health Regeneration | hpreg \| hpregen \| regenhp \| healthregeneration | {hp/s} | Sets automatic health regeneration in health points per second. (To disable set to: 0) (host only)
 Infinite Stamina | stamina \| sp \| infsp \| infstamina |  | Player won't consume stamina (works partial as guest)
 Infinite Crouch Roll | infroll \| crouchroll \| stealthroll |  | Allows player to use the crouch roll ability from Sneaking LvL 5 without a cooldown.
 Infinite Durability | durability \| infdurability \| infdur |  | Keeps player's gear and hotbar items durability at maximum (works as guest)
