@@ -95,6 +95,7 @@ local SettingsMonitor = {}
 function SettingsManager.AutoSaveOnChange()
     if SettingsMonitor.GodMode ~= Settings.GodMode
         or SettingsMonitor.InfiniteHealth ~= Settings.InfiniteHealth
+        or SettingsMonitor.HealthRegeneration ~= Settings.HealthRegeneration
         or SettingsMonitor.InfiniteStamina ~= Settings.InfiniteStamina
         or SettingsMonitor.InfiniteDurability ~= Settings.InfiniteDurability
         or SettingsMonitor.InfiniteEnergy ~= Settings.InfiniteEnergy
@@ -128,6 +129,7 @@ function SettingsManager.AutoSaveOnChange()
         LogDebug("AutoSaveOnChange: Changes detected")
         SettingsMonitor.GodMode = Settings.GodMode
         SettingsMonitor.InfiniteHealth = Settings.InfiniteHealth
+        SettingsMonitor.HealthRegeneration = Settings.HealthRegeneration
         SettingsMonitor.InfiniteStamina = Settings.InfiniteStamina
         SettingsMonitor.InfiniteDurability = Settings.InfiniteDurability
         SettingsMonitor.InfiniteEnergy = Settings.InfiniteEnergy

@@ -525,6 +525,7 @@ CreateCommand({ "god", "godmode" }, "God Mode",
         PrintCommandState(Settings.GodMode, self.Name, OutputDevice)
         if Settings.GodMode then
             Settings.InfiniteHealth = false
+            Settings.HealthRegeneration = 0.0
             Settings.InfiniteStamina = false
             Settings.NoHunger = false
             Settings.NoThirst = false
@@ -564,6 +565,27 @@ CreateCommand({ "health", "hp", "infhp", "infhealth" }, "Infinite Health",
         return true
     end,
     "InfiniteHealth")
+
+-- Health Regeneration Command
+CreateCommand({ "hpreg", "hpregen", "regenhp", "healthregeneration" }, "Health Regeneration", "Sets automatic health regeneration in health points per second. (To disable set to: 0) (host only)",
+CreateCommandParam("hp/s", "number", "Health points per seconds (hp/s)"),
+function(self, OutputDevice, Parameters)
+    if not Parameters or #Parameters < 1 then
+        WriteToConsole(OutputDevice, "Current health regeneration is set to: " .. Settings.HealthRegeneration)
+        WriteToConsole(OutputDevice, "The command requires a value by which the health will be regenerated each second. e.g. 'hpreg 1.5'")
+        return true
+    end
+    local healthPerSecond = tonumber(Parameters[1])
+    if not healthPerSecond then
+        WriteErrorToConsole(OutputDevice, "The required parameter must be a numeric value.")
+        WriteToConsole(OutputDevice, "The command requires a value by which the health will be regenerated each second. e.g. 'hpreg 1.5'")
+        return true
+    end
+    Settings.HealthRegeneration = healthPerSecond
+    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. healthPerSecond)
+    return true
+end,
+"HealthRegeneration")
 
 -- Infinite Stamina Command
 CreateCommand({ "stamina", "sp", "infsp", "infstamina" }, "Infinite Stamina",
@@ -1251,7 +1273,7 @@ CreateCommand({ "settime" }, "Set Time", "Set game's time in 24-hour format (0-2
 --     end
 --     local seconds = tonumber(Parameters[1])
 --     if not seconds or seconds < 0 then
---         WriteErrorToConsole(OutputDevice, "The required paramter must be a positive numeric value!")
+--         WriteErrorToConsole(OutputDevice, "The required parameter must be a positive numeric value!")
 --         WriteToConsole(OutputDevice, "The command requires a value which represents the interval time in seconds. e.g. 'saveinterval 180' (3min interval)")
 --         return true
 --     end
@@ -1405,7 +1427,7 @@ CreateCommand({ "savelocation", "saveloc", "setloc", "wp", "savewp", "setwp", "w
     function(self, OutputDevice, Parameters)
         if not Parameters or #Parameters < 1 then
             WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
-            WriteToConsole(OutputDevice, "The command requires a \"name\" paramter. e.g. 'saveloc Cafeteria'")
+            WriteToConsole(OutputDevice, "The command requires a \"name\" parameter. e.g. 'saveloc Cafeteria'")
             return false
         end
         
@@ -1427,7 +1449,7 @@ CreateCommand({ "loadlocation", "loadloc", "loadwp", "tp", "goto", "loadwaypoint
     function(self, OutputDevice, Parameters)
         if not Parameters or #Parameters < 1 then
             WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
-            WriteToConsole(OutputDevice, "The command requires a \"name\" paramter. e.g. 'loadloc Cafeteria'")
+            WriteToConsole(OutputDevice, "The command requires a \"name\" parameter. e.g. 'loadloc Cafeteria'")
             return false
         end
 
@@ -1652,7 +1674,7 @@ function(self, OutputDevice, Parameters)
     end
     local multiplier = tonumber(Parameters[1])
     if not multiplier or multiplier < 0.1 or multiplier > 10  then
-        WriteErrorToConsole(OutputDevice, "The required paramter must be a float value between 0.1 and 10")
+        WriteErrorToConsole(OutputDevice, "The required parameter must be a float value between 0.1 and 10")
         WriteToConsole(OutputDevice, "The command requires a value by which the speed will be multiplied. e.g. 'speedhack 1.5'")
         return true
     end
@@ -1673,7 +1695,7 @@ function(self, OutputDevice, Parameters)
     end
     local multiplier = tonumber(Parameters[1])
     if not multiplier or multiplier < 0.1 or multiplier > 2  then
-        WriteErrorToConsole(OutputDevice, "The required paramter must be a float value between 0.1 and 2")
+        WriteErrorToConsole(OutputDevice, "The required parameter must be a float value between 0.1 and 2")
         WriteToConsole(OutputDevice, "The command requires a value by which the gravity will be multiplied. e.g. 'pg 0.5'")
         return true
     end

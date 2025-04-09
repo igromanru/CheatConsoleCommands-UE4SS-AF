@@ -26,6 +26,10 @@ end
 function WeatherManager.GetWeatherBySubstring(Substr)
     if type(Substr) ~= "string" or Substr == "" then return nil end
 
+    if string.lower(Substr) == "none" then
+        return AFUtils.WeatherEvents.None
+    end
+
     for i, eventName in ipairs(WeatherManager.GetAllWeatherEventNames()) do
         LogDebug("GetWeatherBySubstring: EventName: " .. eventName .. ", to find: " .. Substr)
         local startIndex = string.find(string.lower(eventName), string.lower(Substr))

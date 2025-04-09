@@ -29,6 +29,7 @@ Settings = {
     Version = ModVersion,
     GodMode = false,
     InfiniteHealth = false,
+    HealthRegeneration = 0.0,
     InfiniteStamina = false,
     InfiniteDurability = false,
     InfiniteEnergy = false,

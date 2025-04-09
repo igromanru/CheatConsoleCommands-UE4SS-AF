@@ -32,6 +32,26 @@ function InfiniteHealth(myPlayer)
     end
 end
 
+local LastHealthRegeneration = 0.0
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function HealthRegeneration(myPlayer)
+    if Settings.HealthRegeneration > 0 and not Settings.GodMode then
+        -- The loop runs each 250ms, we divide the health regeneration by 4 to get the correct value for 1s
+        local healthRegeneration = Settings.HealthRegeneration / 4
+        AFUtils.HealAllLimbs(myPlayer, healthRegeneration)
+        myPlayer:OnRep_CurrentHealth()
+        if LastHealthRegeneration ~= Settings.HealthRegeneration then
+            LastHealthRegeneration = Settings.HealthRegeneration
+            LogDebug("HealthRegeneration:", LastHealthRegeneration)
+            AFUtils.ClientDisplayWarningMessage("Health Regeneration " .. LastHealthRegeneration .. "hp/s", AFUtils.CriticalityLevels.Green)
+        end
+    elseif LastHealthRegeneration > 0 and Settings.HealthRegeneration <= 0 then
+        LastHealthRegeneration = 0.0
+        Settings.HealthRegeneration = 0.0
+        AFUtils.ClientDisplayWarningMessage("Health Regeneration deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local InfiniteStaminaWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteStamina(myPlayer)

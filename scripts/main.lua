@@ -11,12 +11,11 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.22.0"
+ModVersion = "1.23.0"
 DebugMode = true
 IsModEnabled = true
 
 -- ToDo
--- Health regeneration command (health per second)
 -- No Spore command
 -- Item vacuum command
 
@@ -61,6 +60,7 @@ LoopAsync(250, function()
         if IsValid(myPlayer) then
             local hasAuthority = myPlayer:HasAuthority()
             InfiniteHealth(myPlayer)
+            HealthRegeneration(myPlayer)
             InfiniteStamina(myPlayer)
             InfiniteDurability(myPlayer)
             InfiniteEnergy(myPlayer, hasAuthority)
