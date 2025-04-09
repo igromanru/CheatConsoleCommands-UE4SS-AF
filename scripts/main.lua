@@ -16,6 +16,7 @@ DebugMode = true
 IsModEnabled = true
 
 -- ToDo
+-- Health regeneration command (health per second)
 -- No Spore command
 -- Item vacuum command
 
