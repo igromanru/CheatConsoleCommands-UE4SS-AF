@@ -96,8 +96,8 @@ local InfiniteEnergyWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 ---@param hasAuthority boolean?
 function InfiniteEnergy(myPlayer, hasAuthority)
-    if Settings.InfiniteEnergy and hasAuthority then
-        -- AFUtils.FixHeldItemLiquid(myPlayer)
+    if Settings.InfiniteEnergy then
+        AFUtils.FixHeldItemLiquid(myPlayer)
         AFUtils.FillHeldItemWithEnergy(myPlayer)
         AFUtils.FillAllEquippedItemsWithEnergy(myPlayer)
         if not InfiniteEnergyWasEnabled then
