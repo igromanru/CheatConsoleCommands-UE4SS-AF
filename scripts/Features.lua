@@ -9,8 +9,7 @@ function InfiniteHealth(myPlayer)
     if Settings.GodMode or Settings.InfiniteHealth then
         if not myPlayer.Invincible then
             myPlayer.Invincible = true
-            AFUtils.HealAllLimbs(myPlayer)
-            myPlayer:OnRep_CurrentHealth()
+            AFUtils.HealFullAllLimbs(myPlayer)
             LogDebug("Invincible: " .. tostring(myPlayer.Invincible))
             LogDebug("CurrentHealth_Head: " .. tostring(myPlayer.CurrentHealth_Head))
             LogDebug("CurrentHealth_Torso: " .. tostring(myPlayer.CurrentHealth_Torso))
@@ -38,7 +37,7 @@ function HealthRegeneration(myPlayer)
     if Settings.HealthRegeneration > 0 and not Settings.GodMode then
         -- The loop runs each 250ms, we divide the health regeneration by 4 to get the correct value for 1s
         local healthRegeneration = Settings.HealthRegeneration / 4
-        AFUtils.HealAllLimbs(myPlayer, healthRegeneration)
+        myPlayer:Server_HealRandomLimb(healthRegeneration, {})
         myPlayer:OnRep_CurrentHealth()
         if LastHealthRegeneration ~= Settings.HealthRegeneration then
             LastHealthRegeneration = Settings.HealthRegeneration
