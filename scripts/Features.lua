@@ -641,6 +641,34 @@ function InfiniteTraitPoints(hasAuthority)
     end
 end
 
+local PreInstantFishingId, PostInstantFishingId = nil, nil
+local InstantFishingWasEnabled = false
+function InstantFishing()
+    if Settings.InstantFishing then
+        if not PreInstantFishingId and not PostInstantFishingId then
+            LoadAsset("/Game/Blueprints/Items/Weapons/Guns/Weapon_FishingRod.Weapon_FishingRod_C")
+            _, PreInstantFishingId, PostInstantFishingId = pcall(RegisterHook, "/Game/Blueprints/Items/Weapons/Guns/Weapon_FishingRod.Weapon_FishingRod_C:Start Fishing Minigame", function(Context)
+                local fishingRod = Context:get() ---@type AWeapon_FishingRod_C
+                fishingRod:Request_TriggerBaitUsage()
+                fishingRod:FishingSuccess()
+            end)
+            LogDebug("PreInstantFishingId:", PreInstantFishingId)
+            LogDebug("PostInstantFishingId:", PostInstantFishingId)
+        end
+        if not InstantFishingWasEnabled and PreInstantFishingId and PostInstantFishingId then
+            AFUtils.ClientDisplayWarningMessage("Instant Fishing activated", AFUtils.CriticalityLevels.Green)
+            InstantFishingWasEnabled = true
+        end
+    elseif InstantFishingWasEnabled then
+        if PreInstantFishingId and PostInstantFishingId then
+            pcall(UnregisterHook, "/Game/Blueprints/Items/Weapons/Guns/Weapon_FishingRod.Weapon_FishingRod_C:Start Fishing Minigame", PreInstantFishingId, PostInstantFishingId)
+            PreInstantFishingId, PostInstantFishingId = nil, nil
+        end
+        InstantFishingWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Instant Fishing deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local MasterKeyWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function MasterKey(myPlayer)

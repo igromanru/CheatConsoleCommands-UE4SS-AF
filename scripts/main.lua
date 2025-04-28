@@ -11,7 +11,7 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.23.1"
+ModVersion = "1.24.0"
 DebugMode = true
 IsModEnabled = true
 
@@ -87,6 +87,7 @@ LoopAsync(250, function()
             PlayerGravityScale(myPlayer)
             InstantToilet(myPlayer)
             JournalEntryUnlocker()
+            InstantFishing()
         end
         SetLeyakCooldown(isHost)
         InfiniteCrouchRoll()

@@ -884,6 +884,16 @@ CreateCommand({ "instplants", "instplant", "instantplants", "instgrowth", "insta
     end,
     "InstantPlantGrowth")
 
+-- Instant Fishing Command
+CreateCommand({ "instantfishing", "instfish", "instantfish" }, "Instant Fishing",
+    "Makes you instantly finish the fishing minigame with success (junk items are still random). (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.InstantFishing = not Settings.InstantFishing
+        PrintCommandState(Settings.InstantFishing, self.Name, OutputDevice)
+        return true
+    end,
+    "InstantFishing")
+
 -- Set Leyak Cooldown Command
 CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
     "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)",
