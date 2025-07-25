@@ -754,7 +754,7 @@ local PreviosLeyakCooldown = 0
 function SetLeyakCooldown(hasAuthority)
     if hasAuthority and Settings.LeyakCooldown and Settings.LeyakCooldown ~= PreviosLeyakCooldown then
         local aiDirector = AFUtils.GetAIDirector()
-        if aiDirector and aiDirector.LeyakCooldown ~= Settings.LeyakCooldown then
+        if IsValid(aiDirector) and aiDirector.LeyakCooldown ~= Settings.LeyakCooldown then
             if Settings.LeyakCooldown <= 0 or Settings.LeyakCooldown == DefaultLeyakCooldown then
                 Settings.LeyakCooldown = 0
                 aiDirector.LeyakCooldown = DefaultLeyakCooldown

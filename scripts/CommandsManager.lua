@@ -905,9 +905,8 @@ CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
         end
         if type(cooldownInMin) ~= "number" then
             local aiDirector = AFUtils.GetAIDirector()
-            if aiDirector then
-                WriteToConsole(OutputDevice,
-                    self.Name .. ": Current cooldown: " .. (aiDirector.LeyakCooldown / 60) .. " minutes")
+            if IsValid(aiDirector) then
+                WriteToConsole(OutputDevice, self.Name .. ": Current cooldown: " .. (aiDirector.LeyakCooldown / 60) .. " minutes")
             end
             WriteToConsole(OutputDevice, self.Name .. ': To change it write: "leyakcd (cooldown value in minutes here)"')
             return true
@@ -996,13 +995,13 @@ CreateCommand({ "inftraits", "inftrait", "traitpoints ", "inftraitpoints" }, "In
     "InfiniteTraitPoints")
 
 -- No Clip Command
-CreateCommand({ "noclip", "clip", "ghost" }, "No Clip", "Disables player's collision and makes him fly (host only)", nil,
-    function(self, OutputDevice, Parameters)
-        Settings.NoClip = not Settings.NoClip
-        PrintCommandState(Settings.NoClip, self.Name, OutputDevice)
-        return true
-    end,
-    "NoClip")
+-- CreateCommand({ "noclip", "clip", "ghost" }, "No Clip", "Disables player's collision and makes him fly (host only)", nil,
+--     function(self, OutputDevice, Parameters)
+--         Settings.NoClip = not Settings.NoClip
+--         PrintCommandState(Settings.NoClip, self.Name, OutputDevice)
+--         return true
+--     end,
+--     "NoClip")
 
 -- Add Skill Experience
 CreateCommand({ "addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "skillxp" }, "Add Skill Experience",

@@ -11,7 +11,7 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.24.0"
+ModVersion = "1.25.0"
 DebugMode = true
 IsModEnabled = true
 
@@ -78,7 +78,7 @@ LoopAsync(250, function()
             InstantCrafting()
             Invisible(myPlayer, hasAuthority)
             NoFallDamage(myPlayer, hasAuthority)
-            NoClip(myPlayer, hasAuthority)
+            -- NoClip(myPlayer, hasAuthority)
             InfiniteAmmo(myPlayer)
             NoRecoil(myPlayer)
             NoSway(myPlayer)
