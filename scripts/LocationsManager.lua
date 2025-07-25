@@ -115,7 +115,7 @@ function LocationsManager.LoadLocation(Name)
             LogDebug("LoadLocation: TeleportPlayer to: " .. VectorToString(location.Location))
             location.Rotation = location.Rotation or FRotator()
             location.Rotation.Roll = 0.0
-            local success = myPlayer:TeleportPlayer(location.Location, FRotator(), true)
+            local success = myPlayer:TeleportPlayer(location.Location, FRotator(), true, false)
             if success then
                 AFUtils.SetControlRotation(location.Rotation)
             end
