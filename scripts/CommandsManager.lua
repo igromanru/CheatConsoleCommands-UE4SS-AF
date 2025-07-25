@@ -937,7 +937,7 @@ CreateCommand({ "trapleyak", "containleyak" }, "Trap Leyak", "Trap's Leyak in th
             LogDebug("Trap Leyak Command: leyakContainments:",#leyakContainments)
             -- Check if Leyak is already trapped
             for _, leyakContainment in ipairs(leyakContainments) do
-                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak then
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() > 0 then
                     WriteErrorToConsole(OutputDevice, "Leyak is already trapped")
                     return false
                 end
@@ -966,7 +966,7 @@ CreateCommand({ "freeleyak" }, "Free Leyak", "Free Leyak from a Containment Unit
             LogDebug("Free Leyak Command: leyakContainments:", #leyakContainments)
             -- Check if Leyak is already trapped
             for _, leyakContainment in ipairs(leyakContainments) do
-                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak then
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() > 0 then
                     if AFUtils.FreeLeyak(leyakContainment) then
                         WriteToConsole(OutputDevice, "Leyak was freed successfully")
                         return true
