@@ -11,8 +11,14 @@ local SettingsManager = {}
 ---@return string?
 local function GetModPath()
     local info = debug.getinfo(1, "S")
+    LogDebug("GetModPath: info:", info)
     if info and info.source then
-        return info.source:match("@(.+\\)Scripts")
+        local src = info.source
+        LogDebug("GetModPath: info.source:", src)
+        local modPath = src:match("^@(.*/)[Ss]cripts/")
+        modPath = modPath or ".."
+        LogDebug("GetModPath: modPath:", modPath)
+        return modPath
     end
     return nil
 end
