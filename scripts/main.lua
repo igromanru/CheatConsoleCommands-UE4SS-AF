@@ -89,7 +89,7 @@ LoopAsync(250, function()
             JournalEntryUnlocker()
             InstantFishing()
         end
-        SetLeyakCooldown(isHost)
+        -- SetLeyakCooldown(isHost)
         InfiniteCrouchRoll()
         InstantPlantGrowth(isHost)
         InfiniteTraitPoints(isHost)
