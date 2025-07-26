@@ -995,13 +995,13 @@ CreateCommand({ "inftraits", "inftrait", "traitpoints ", "inftraitpoints" }, "In
     "InfiniteTraitPoints")
 
 -- No Clip Command
--- CreateCommand({ "noclip", "clip", "ghost" }, "No Clip", "Disables player's collision and makes him fly (host only)", nil,
---     function(self, OutputDevice, Parameters)
---         Settings.NoClip = not Settings.NoClip
---         PrintCommandState(Settings.NoClip, self.Name, OutputDevice)
---         return true
---     end,
---     "NoClip")
+CreateCommand({ "noclip", "clip", "ghost" }, "No Clip", "Disables player's collision and makes him fly (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.NoClip = not Settings.NoClip
+        PrintCommandState(Settings.NoClip, self.Name, OutputDevice)
+        return true
+    end,
+    "NoClip")
 
 -- Add Skill Experience
 CreateCommand({ "addxp", "addexp", "xpadd", "skillxp", "skillexp", "skill", "skillxp" }, "Add Skill Experience",

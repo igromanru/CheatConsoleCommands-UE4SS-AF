@@ -2,6 +2,7 @@
 require("Settings")
 local AFUtils = require("AFUtils.AFUtils")
 local LinearColors = require("AFUtils.BaseUtils.LinearColors")
+local NoClipMod = require("AFUtils.BaseUtils.NoClip")
 
 local InfiniteHealthWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
@@ -508,20 +509,22 @@ local NoClipWasEnabled = false
 ---@param hasAuthority boolean?
 function NoClip(myPlayer, hasAuthority)
     if Settings.NoClip and hasAuthority then
-        if  not myPlayer.Noclip_On then
-            myPlayer.Noclip_On = true
-            myPlayer:OnRep_Noclip_On()
-            LogDebug("Noclip_On: " .. tostring(myPlayer.Noclip_On))
+        if not IsValid(myPlayer.CharacterMovement) then return end
+
+        if not myPlayer.CharacterMovement.bCheatFlying or myPlayer.CharacterMovement.MovementMode ~= 5 then
+            if not NoClipMod.Enable() then
+                AFUtils.ClientDisplayWarningMessage("No Clip Error", AFUtils.CriticalityLevels.Red)
+                return
+            end
         end
+
         if not NoClipWasEnabled then
             AFUtils.ClientDisplayWarningMessage("No Clip activated", AFUtils.CriticalityLevels.Green)
             NoClipWasEnabled = true
         end
     elseif NoClipWasEnabled then
         NoClipWasEnabled = false
-        myPlayer.Noclip_On = false
-        myPlayer:OnRep_Noclip_On()
-        LogDebug("Noclip_On: " .. tostring(myPlayer.Noclip_On))
+        NoClipMod.Disable() 
         AFUtils.ClientDisplayWarningMessage("No Clip deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
