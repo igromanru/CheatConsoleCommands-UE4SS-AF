@@ -11,12 +11,11 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.24.1"
+ModVersion = "1.25.0"
 DebugMode = true
 IsModEnabled = true
 
 -- ToDo
--- No Spore command
 -- Item vacuum command
 
 LogInfo("Starting mod initialization")
