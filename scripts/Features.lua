@@ -756,17 +756,17 @@ local PreviosLeyakCooldown = 0
 ---@param hasAuthority boolean?
 function SetLeyakCooldown(hasAuthority)
     if hasAuthority and Settings.LeyakCooldown and Settings.LeyakCooldown ~= PreviosLeyakCooldown then
-        local aiDirector = AFUtils.GetAIDirector()
-        if IsValid(aiDirector) and aiDirector.LeyakCooldown ~= Settings.LeyakCooldown then
+        local leyakDirectorComponent = AFUtils.GetLeyakDirectorComponent()
+        if IsValid(leyakDirectorComponent) and leyakDirectorComponent.LeyakCooldown ~= Settings.LeyakCooldown then
             if Settings.LeyakCooldown <= 0 or Settings.LeyakCooldown == DefaultLeyakCooldown then
                 Settings.LeyakCooldown = 0
-                aiDirector.LeyakCooldown = DefaultLeyakCooldown
+                leyakDirectorComponent.LeyakCooldown = DefaultLeyakCooldown
             else
-                aiDirector.LeyakCooldown = Settings.LeyakCooldown
+                leyakDirectorComponent.LeyakCooldown = Settings.LeyakCooldown
             end
-            aiDirector:SetLeyakOnCooldown(1.0)
-            local cooldownInMin = aiDirector.LeyakCooldown / 60
-            local message = "Leyak's cooldown was set to " .. aiDirector.LeyakCooldown .. " (" .. cooldownInMin .. "min)"
+            leyakDirectorComponent:SetLeyakOnCooldown(1.0)
+            local cooldownInMin = leyakDirectorComponent.LeyakCooldown / 60
+            local message = "Leyak's cooldown was set to " .. leyakDirectorComponent.LeyakCooldown .. " (" .. cooldownInMin .. "min)"
             LogDebug(message)
             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
             AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)

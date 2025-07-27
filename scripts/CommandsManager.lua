@@ -895,39 +895,39 @@ CreateCommand({ "instantfishing", "instfish", "instantfish" }, "Instant Fishing"
     "InstantFishing")
 
 -- Set Leyak Cooldown Command
--- CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
---     "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)",
---     CreateCommandParam("minutes", "number", "Amount a minutes between each Leyak spawn"),
---     function(self, OutputDevice, Parameters)
---         local cooldownInMin = nil
---         if Parameters and #Parameters > 0 then
---             cooldownInMin = tonumber(Parameters[1])
---         end
---         if type(cooldownInMin) ~= "number" then
---             local aiDirector = AFUtils.GetAIDirector()
---             if IsValid(aiDirector) then
---                 WriteToConsole(OutputDevice, self.Name .. ": Current cooldown: " .. (aiDirector.LeyakCooldown / 60) .. " minutes")
---             end
---             WriteToConsole(OutputDevice, self.Name .. ': To change it write: "leyakcd (cooldown value in minutes here)"')
---             return true
---         end
+CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
+    "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)",
+    CreateCommandParam("minutes", "number", "Amount a minutes between each Leyak spawn"),
+    function(self, OutputDevice, Parameters)
+        local cooldownInMin = nil
+        if Parameters and #Parameters > 0 then
+            cooldownInMin = tonumber(Parameters[1])
+        end
+        if type(cooldownInMin) ~= "number" then
+            local leyakDirectorComponent = AFUtils.GetLeyakDirectorComponent()
+            if IsValid(leyakDirectorComponent) then
+                WriteToConsole(OutputDevice, self.Name .. ": Current cooldown: " .. (leyakDirectorComponent.LeyakCooldown / 60) .. " minutes")
+            end
+            WriteToConsole(OutputDevice, self.Name .. ': To change it write: "leyakcd (cooldown value in minutes here)"')
+            return true
+        end
 
---         if cooldownInMin >= 525600000 then
---             WriteErrorToConsole(OutputDevice, self.Name .. ": Invalid cooldown value!")
---             WriteErrorToConsole(OutputDevice, self.Name .. ': The value must be lower than 525600000 (minutes)')
---             return true
---         end
---         if cooldownInMin > 0  then
---             WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. cooldownInMin)
---             Settings.LeyakCooldown = cooldownInMin * 60
---         else
---             WriteToConsole(OutputDevice, self.Name .. " disabled, set back to default value.")
---             Settings.LeyakCooldown = 0
---         end
+        if cooldownInMin >= 525600000 then
+            WriteErrorToConsole(OutputDevice, self.Name .. ": Invalid cooldown value!")
+            WriteErrorToConsole(OutputDevice, self.Name .. ': The value must be lower than 525600000 (minutes)')
+            return true
+        end
+        if cooldownInMin > 0  then
+            WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. cooldownInMin)
+            Settings.LeyakCooldown = cooldownInMin * 60
+        else
+            WriteToConsole(OutputDevice, self.Name .. " disabled, set back to default value.")
+            Settings.LeyakCooldown = 0
+        end
 
---         return true
---     end,
---     "LeyakCooldown")
+        return true
+    end,
+    "LeyakCooldown")
 
 -- Trap Leyak Command
 CreateCommand({ "trapleyak", "containleyak" }, "Trap Leyak", "Trap's Leyak in the next possible Containment Unit. (host only)", nil,
