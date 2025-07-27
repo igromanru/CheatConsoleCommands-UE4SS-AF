@@ -102,6 +102,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Player Gravity Scale[/b] [ [font=Arial]playergravity[/font] | [font=Arial]playergrav[/font] | [font=Arial]pg[/font] | [font=Arial]setpg[/font] ] { <scale> } - [font=Georgia]Sets player's gravity scale. (Default scale: 1.0) (host only)[/font]
 [b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)[/font]
 [b]Fix Item Liquid Type[/b] [ [font=Arial]fixliquid[/font] | [font=Arial]fixliquidtype[/font] | [font=Arial]fixitemliquid[/font] ] {} - [font=Georgia]Fixes the liquid level and type of currently held object, if it doesn't match. (host only)[/font]
+[b]Leyak Cooldown[/b] [ [font=Arial]leyakcd[/font] | [font=Arial]leyakcooldown[/font] | [font=Arial]cdleyak[/font] ] { <minutes> } - [font=Georgia]Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)[/font]
 
 [font=Verdana][size=3][b]Skill Aliases[/b][/size][/font]
 Used is commands [b]Add Skill Experience[/b], [b]Remove Skill Experience[/b], [b]Give Skill Experience to Player[/b] and [b]Remove Skill Experience from Player[/b].
@@ -126,6 +127,7 @@ Most commands has multiple aliases that you can use to trigger it.
 For example: [b]Infinite Health[/b] can be activated by typing "health", "hp", "inv", "infhp" OR "infhealth" into the console.
 Commands which has parameters has to be used like this:
 [font=Courier New]money 9999  [/font]--Sets money value to 9999
+[font=Courier New]leyakcd 60 [/font]--Makes Leyak spawn once per hour
 [font=Courier New]killall 1[/font]    --Kills all NPCs that are loaded and drops their loot
 [font=Courier New]givexp 1 sharp 1000[/font] --Gives player on index 1, 1000 XP for Sharp Meele skill
 [font=Courier New]settime 22:00[/font] --Sets ingame time to 10:00 PM.

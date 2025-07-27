@@ -17,6 +17,8 @@ IsModEnabled = true
 
 -- ToDo
 -- Item vacuum command
+-- Teleport player to player command for other players
+-- No Radiation to remove active radiation poisoning
 
 LogInfo("Starting mod initialization")
 require("Features")
