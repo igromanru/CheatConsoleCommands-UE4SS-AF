@@ -37,6 +37,7 @@ No Recoil | norecoil \| recoil \| weaponnorecoil |  | Reduces weapon's fire reco
 No Sway | nosway \| sway \| noweaponsway |  | Removes weapon's sway. (works as guest)
 Instant Plant Growth | instplants \| instplant \| instantplants \| instgrowth \| instantplantgrowth \| instantgrowth \| growplants |  | Makes planted plants fully grow instantly. (host only)
 Instant Fishing | instantfishing \| instfish \| instantfish |  | Makes you instantly finish the fishing minigame with success (junk items are still random). (works as guest)
+Leyak Cooldown | leyakcd \| leyakcooldown \| cdleyak | {minutes} | Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)
 Trap Leyak | trapleyak \| containleyak |  | Trap's Leyak in the next possible Containment Unit. (host only)
 Free Leyak | freeleyak |  | Free Leyak from a Containment Unit. (host only)
 Infinite Trait Points | inftraits \| inftrait \| traitpoints  \| inftraitpoints |  | Lets you select as many Traits as you want while creating a new character. (works as guest)
