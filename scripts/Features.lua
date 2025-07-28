@@ -335,13 +335,15 @@ local NoRadiationWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoRadiation(myPlayer)
     if Settings.GodMode or Settings.NoRadiation then
-        if  myPlayer.CanReceiveRadiation then
+        if  myPlayer.CanReceiveRadiation or myPlayer.CurrentRadiation > 0 then
             myPlayer.CanReceiveRadiation = false
             myPlayer.CurrentRadiation = 0.0
             myPlayer:OnRep_CurrentContinence()
-            LogDebug("CanReceiveRadiation: " .. tostring(myPlayer.CanReceiveRadiation))
-            LogDebug("CurrentRadiation: " .. tostring(myPlayer.CurrentRadiation))
-            LogDebug("MaxRadiation: " .. tostring(myPlayer.MaxRadiation))
+            if DebugMode then
+                LogDebug("CanReceiveRadiation: " .. tostring(myPlayer.CanReceiveRadiation))
+                LogDebug("CurrentRadiation: " .. tostring(myPlayer.CurrentRadiation))
+                LogDebug("MaxRadiation: " .. tostring(myPlayer.MaxRadiation))
+            end
         end
         if not NoRadiationWasEnabled then
             AFUtils.ClientDisplayWarningMessage("No Radiation activated", AFUtils.CriticalityLevels.Green)
@@ -359,13 +361,15 @@ local PerfectTemperatureWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function PerfectTemperature(myPlayer)
     if Settings.GodMode or Settings.PerfectTemperature then
-        if myPlayer.HasBodyTemperature then
+        if myPlayer.HasBodyTemperature or myPlayer.CurrentBodyTemperature ~= myPlayer.PreferredBodyTemperature then
             myPlayer.HasBodyTemperature = false
             myPlayer.CurrentBodyTemperature = myPlayer.PreferredBodyTemperature
             myPlayer:OnRep_CurrentBodyTemperature()
-            LogDebug("HasBodyTemperature: " .. tostring(myPlayer.HasBodyTemperature))
-            LogDebug("CurrentBodyTemperature: " .. tostring(myPlayer.CurrentBodyTemperature))
-            LogDebug("PreferredBodyTemperature: " .. tostring(myPlayer.PreferredBodyTemperature))
+            if DebugMode then
+                LogDebug("HasBodyTemperature: " .. tostring(myPlayer.HasBodyTemperature))
+                LogDebug("CurrentBodyTemperature: " .. tostring(myPlayer.CurrentBodyTemperature))
+                LogDebug("PreferredBodyTemperature: " .. tostring(myPlayer.PreferredBodyTemperature))
+            end
         end
         if not PerfectTemperatureWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Perfect Temperature activated", AFUtils.CriticalityLevels.Green)
