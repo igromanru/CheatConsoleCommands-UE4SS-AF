@@ -1144,7 +1144,7 @@ CreateCommand({ "masterkey", "key", "keys", "opendoor", "opendoors" }, "Master K
 -- Set Weather Command
 CreateCommand({ "setweather", "weather", "weatherevent" }, "Set Weather",
     "Triggers weather event (host only)",
-    CreateCommandParam("weather", "string", "", false, { "None", "Fog", "RadLeak", "Spores" }),
+    CreateCommandParam("weather", "string", "", false, { "None", "Fog", "RadLeak", "Spores", "ColdSnap", "ColdSnap", " Blackout", "BlackFog" }),
     function(self, OutputDevice, Parameters)
         if CheckHasNoAuthority(OutputDevice) then
             return false
@@ -1523,6 +1523,29 @@ CreateCommand({ "tome", "teleporttome", "pull" }, "Teleport To Me",
             WriteToConsole(OutputDevice, "Teleporting \"" .. playerName .. '" to you')
             if not AFUtils.TeleportPlayerToPlayer(player, myPlayer) then
                 WriteErrorToConsole(OutputDevice, "Teleportation failed, are you the host?")
+            end
+        end
+
+        return true
+    end)
+
+-- Teleport Player To Player Command
+CreateCommand({ "tpplayertoplayer", "tpptop", "ptp" }, "Teleport Player To Player", "Teleports a player to another player based on their name or index. (host only)",
+    { CreateCommandParam("name/index", "string", "Name or index of a player 1"), CreateCommandParam("name/index", "string", "Name or index of a player 2") },
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 2 then
+            WriteErrorToConsole(OutputDevice, "Invalid number of parameters!")
+            WriteToConsole(OutputDevice, "The command requires part of players name or their index. e.g. 'ptp igromanru obi-wan'")
+            WriteToConsole(OutputDevice, "Use the player list command to get a list of all players in the lobby. e.g. 'players'")
+            return true
+        end
+        
+        local player, playerName = GetPlayerByNameOrIndex(OutputDevice, Parameters[1])
+        local player2, playerName2 = GetPlayerByNameOrIndex(OutputDevice, Parameters[2])
+        if player and player2 then
+            WriteToConsole(OutputDevice, "Teleporting \"" .. playerName .. "\" to " .. '"' .. playerName2..  '"')
+            if not AFUtils.TeleportPlayerToPlayer(player, player2, true) then
+                WriteErrorToConsole(OutputDevice, "Teleportation failed, are you the host/server?")
             end
         end
 
