@@ -1,4 +1,4 @@
-[size=4]Introduction[/size][/b][/font]
+[font=Verdana][b][size=4]Introduction[/size][/b][/font]
 I made the mod primary out of need to be able to stay alive while developing my mods.
 Also in contrast to mods based on "chat commands" you might not want other players to see that you're modding/cheating.
 
@@ -95,6 +95,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Player List[/b] [ [font=Arial]playerlist[/font] | [font=Arial]listplayers[/font] | [font=Arial]players[/font] ] {} - [font=Georgia]Prints a list of all players in the game. Format: (index): (player name)[/font]
 [b]Teleport To Player[/b] [ [font=Arial]toplayer[/font] | [font=Arial]teleportto[/font] | [font=Arial]tpto[/font] ] { <name/index> } - [font=Georgia]Teleports to a player based on their name or index (host only)[/font]
 [b]Teleport To Me[/b] [ [font=Arial]tome[/font] | [font=Arial]teleporttome[/font] | [font=Arial]pull[/font] ] { <name/index> } - [font=Georgia]Teleports a player to yourself based on their name or index (host only)[/font]
+[b]Teleport Player To Player[/b] [ [font=Arial]tpplayertoplayer[/font] | [font=Arial]tpptop[/font] | [font=Arial]ptp[/font] ] { <name/index> <name/index> } - [font=Georgia]Teleports a player to another player based on their name or index. (host only)[/font]
 [b]Kill Player[/b] [ [font=Arial]smite[/font] | [font=Arial]kill[/font] | [font=Arial]execute[/font] ] { <name/index> } - [font=Georgia]Kills a player based on their name or index (host only)[/font]
 [b]Revive Player[/b] [ [font=Arial]revive[/font] | [font=Arial]res[/font] | [font=Arial]resurrect[/font] ] { <name/index> } - [font=Georgia]Revive a dead palyer (host only)[/font]
 [b]Give Skill Experience to Player[/b] [ [font=Arial]givexp[/font] ] { <name/index> <skill alias> <XP value> } - [font=Georgia]Gives Skill XP to a player (host only)[/font]
@@ -103,6 +104,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Player Gravity Scale[/b] [ [font=Arial]playergravity[/font] | [font=Arial]playergrav[/font] | [font=Arial]pg[/font] | [font=Arial]setpg[/font] ] { <scale> } - [font=Georgia]Sets player's gravity scale. (Default scale: 1.0) (host only)[/font]
 [b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)[/font]
 [b]Fix Item Liquid Type[/b] [ [font=Arial]fixliquid[/font] | [font=Arial]fixliquidtype[/font] | [font=Arial]fixitemliquid[/font] ] {} - [font=Georgia]Fixes the liquid level and type of currently held object, if it doesn't match. (host only)[/font]
+
 
 [font=Verdana][size=3][b]Skill Aliases[/b][/size][/font]
 Used is commands [b]Add Skill Experience[/b], [b]Remove Skill Experience[/b], [b]Give Skill Experience to Player[/b] and [b]Remove Skill Experience from Player[/b].
