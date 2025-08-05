@@ -1747,7 +1747,7 @@ end,
 --     "DistantShore")
 
 -- Delete Object Trace Command
-CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)", nil,
+CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Deletes an object in front of you (up to 10 meters). Objects that are part of the map can't be permanently removed! (Aim carefully, the object will be gone for good) (host only)", nil,
     function(self, OutputDevice, Parameters)
         if CheckAndLogDedicatedServerCommandSupport(OutputDevice) or CheckHasNoAuthority(OutputDevice) then
             return false
