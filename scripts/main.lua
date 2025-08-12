@@ -11,13 +11,14 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.26.0"
+ModVersion = "1.27.0"
 DebugMode = true
 IsModEnabled = true
 
 -- ToDo
+-- Improve trap leyak and free leyak to ignore containers with Krasue inside
+-- Add trap and free Krasue commands
 -- Item vacuum command
--- Teleport player to player command for other players
 
 LogInfo("Starting mod initialization")
 require("Features")
@@ -90,6 +91,7 @@ LoopAsync(250, function()
             InstantFishing()
         end
         SetLeyakCooldown(isHost)
+        SetKrasueCooldown(isHost)
         InfiniteCrouchRoll()
         InstantPlantGrowth(isHost)
         InfiniteTraitPoints(isHost)

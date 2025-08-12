@@ -779,6 +779,29 @@ function SetLeyakCooldown(hasAuthority)
     end
 end
 
+local PreviosKrasueCooldown = 0
+---@param hasAuthority boolean?
+function SetKrasueCooldown(hasAuthority)
+    if hasAuthority and Settings.KrasueCooldown and Settings.KrasueCooldown ~= PreviosKrasueCooldown then
+        local krasueDirectorComponent = AFUtils.GetKrasueDirectorComponent()
+        if IsValid(krasueDirectorComponent) and krasueDirectorComponent.LeyakCooldown ~= Settings.KrasueCooldown then
+            if Settings.KrasueCooldown <= 0 or Settings.KrasueCooldown == DefaultKrasueCooldown then
+                Settings.KrasueCooldown = 0
+                krasueDirectorComponent.LeyakCooldown = DefaultKrasueCooldown
+            else
+                krasueDirectorComponent.LeyakCooldown = Settings.KrasueCooldown
+            end
+            krasueDirectorComponent:SetLeyakOnCooldown(1.0)
+            local cooldownInMin = krasueDirectorComponent.LeyakCooldown / 60
+            local message = "Krasue's cooldown was set to " .. krasueDirectorComponent.LeyakCooldown .. " (" .. cooldownInMin .. "min)"
+            LogDebug(message)
+            AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
+            AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
+            PreviosKrasueCooldown = Settings.KrasueCooldown
+        end
+    end
+end
+
 -- local PreviosAutoSaveInterval = 0
 -- ---@param hasAuthority boolean?
 -- function SetAutoSaveInterval(hasAuthority)

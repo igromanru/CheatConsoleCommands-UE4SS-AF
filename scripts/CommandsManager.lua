@@ -983,6 +983,41 @@ CreateCommand({ "freeleyak" }, "Free Leyak", "Free Leyak from a Containment Unit
         return false
     end)
 
+-- Set Krasue Cooldown Command
+CreateCommand({ "krasuecd", "rasuecooldown", "cdrasue" }, "Krasue Cooldown",
+    "Changes Krasue's spawn cooldown in minutes (Default: 10min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 10) (host only)",
+    CreateCommandParam("minutes", "number", "Amount a minutes between each Krasue spawn"),
+    function(self, OutputDevice, Parameters)
+        local cooldownInMin = nil
+        if Parameters and #Parameters > 0 then
+            cooldownInMin = tonumber(Parameters[1])
+        end
+        if type(cooldownInMin) ~= "number" then
+            local directorComponent = AFUtils.GetKrasueDirectorComponent()
+            if IsValid(directorComponent) then
+                WriteToConsole(OutputDevice, self.Name .. ": Current cooldown: " .. (directorComponent.LeyakCooldown / 60) .. " minutes")
+            end
+            WriteToConsole(OutputDevice, self.Name .. ': To change it write: "krasuecd (cooldown value in minutes here)"')
+            return true
+        end
+
+        if cooldownInMin >= 525600000 then
+            WriteErrorToConsole(OutputDevice, self.Name .. ": Invalid cooldown value!")
+            WriteErrorToConsole(OutputDevice, self.Name .. ': The value must be lower than 525600000 (minutes)')
+            return true
+        end
+        if cooldownInMin > 0  then
+            WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. cooldownInMin)
+            Settings.KrasueCooldown = cooldownInMin * 60
+        else
+            WriteToConsole(OutputDevice, self.Name .. " disabled, set back to default value.")
+            Settings.KrasueCooldown = 0
+        end
+
+        return true
+    end,
+    "KrasueCooldown")
+
 
 -- Infinite Trait Points Command
 CreateCommand({ "inftraits", "inftrait", "traitpoints ", "inftraitpoints" }, "Infinite Trait Points",

@@ -23,6 +23,7 @@ function LocationStruct(Name, LevelName, Location, Rotation)
 end
 
 DefaultLeyakCooldown = 900 -- 15min
+DefaultKrasueCooldown = 600 -- 10min
 
 ---@class Settings
 Settings = {
@@ -53,6 +54,7 @@ Settings = {
     NoSway = false,
     MasterKey = false,
     LeyakCooldown = 0, -- 0 disable command
+    KrasueCooldown = 0, -- 0 disable command
     SpeedhackMultiplier = 1.0,
     PlayerGravityScale = 1.0,
     DistantShore = false,
