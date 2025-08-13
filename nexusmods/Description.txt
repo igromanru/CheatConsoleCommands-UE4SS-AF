@@ -11,17 +11,23 @@ I override some default UE commands which aren't working properly with the game 
 [size=3][url=https://www.nexusmods.com/abioticfactor/mods/35]UE4SS for Abiotic Factor[/url][/size]
 
 [font=Verdana][size=4][b]Manual Installation[/b][/size][/font]
-[size=1]As for now Vortex doesn't support the game, so you have to install the mod manually.[/size]
 1. Follow the instruction on the [url=https://www.nexusmods.com/abioticfactor/mods/35]UE4SS for Abiotic Factor[/url] page to download and install latest UE4SS from there.
-2. After use the [b]Manual Download[/b] button in [i]Files[/i] tab of this mod to download the mod as a zip file.
-4. Unzip/extract the content of mod's zip ([b]CheatConsoleCommands[/b] folder) into the directory: [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss\Mods\[/i]
-[size=2]Make sure you don't create a new folder while extracting! If you do just move the content to the destination after.[/size]
-[size=2]Whole mod path should be like this: [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss\Mods\CheatConsoleCommands\[/i][/size]
+2. Then use the [b]Manual Download[/b] button in [i]Files[/i] tab of this mod to download the mod as a zip file.
+4. Unzip/extract the content of mod's zip ([b]CheatConsoleCommands[/b] folder) into the directory: 
+[b]Steam:[/b] [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss\Mods\[/i]
+[b]XboxGames:[/b] [i](game root directory)\Abiotic Factor\Content\AbioticFactor\Binaries\WinGDK\ue4ss\Mods\[/i]
+[size=2]Make sure you don't create a new folder while extracting! If you do, just move the content to the destination after.[/size]
+[size=2]Whole mod path should be like this:[/size]
 [size=2]Steam example: [i]C:\Program Files (x86)\Steam\steamapps\common\AbioticFactor\Binaries\Win64\ue4ss\Mods\CheatConsoleCommands\[/i][/size]
+[size=2]XboxGames example: [i]C:\XboxGames\Abiotic Factor\Content\AbioticFactor\Binaries\WinGDK\ue4ss\Mods\CheatConsoleCommands\[/i][/size]
 5. Verify that you have installed the mod correctly.
 The mod directory should contain a [b]Scripts[/b] folder and an [b]enabled.txt[/b] file.
+[b]Steam example:[/b]
 [size=2][i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss\Mods\CheatConsoleCommands\Scripts\[/i]
 [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss\Mods\CheatConsoleCommands\enabled.txt[/i][/size]
+[b]XboxGames example:[/b]
+[size=2][i](game root directory)\Abiotic Factor\Content\AbioticFactor\Binaries\WinGDK\ue4ss\Mods\CheatConsoleCommands\Scripts\[/i]
+[i](game root directory)\Abiotic Factor\Content\AbioticFactor\Binaries\WinGDK\ue4ss\Mods\CheatConsoleCommands\enabled.txt[/i][/size]
 
 [font=Verdana][size=4][b]How to use[/b][/size][/font]
 [list][*]Open game's command console with [b]F10[/b] or [b]~[/b]. Press the hotkey one time to open in "quick type" mode and second type to open fully.
@@ -73,6 +79,9 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Leyak Cooldown[/b] [ [font=Arial]leyakcd[/font] | [font=Arial]leyakcooldown[/font] | [font=Arial]cdleyak[/font] ] { <minutes> } - [font=Georgia]Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)[/font]
 [b]Trap Leyak[/b] [ [font=Arial]trapleyak[/font] | [font=Arial]containleyak[/font] ] {} - [font=Georgia]Trap's Leyak in the next possible Containment Unit. (host only)[/font]
 [b]Free Leyak[/b] [ [font=Arial]freeleyak[/font] ] {} - [font=Georgia]Free Leyak from a Containment Unit. (host only)[/font]
+[b]Krasue Cooldown[/b] [ [font=Arial]krasuecd[/font] | [font=Arial]rasuecooldown[/font] | [font=Arial]cdrasue[/font] ] { <minutes> } - [font=Georgia]Changes Krasue's spawn cooldown in minutes (Default: 10min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 10) (host only)[/font]
+[b]Trap Krasue[/b] [ [font=Arial]trapkrasue[/font] | [font=Arial]containkrasue[/font] ] {} - [font=Georgia]Trap's Krasue in the next possible Containment Unit. (host only)[/font]
+[b]Free Krasue[/b] [ [font=Arial]freekrasue[/font] ] {} - [font=Georgia]Free Krasue from a Containment Unit. (host only)[/font]
 [b]Infinite Trait Points[/b] [ [font=Arial]inftraits[/font] | [font=Arial]inftrait[/font] | [font=Arial]traitpoints [/font] | [font=Arial]inftraitpoints[/font] ] {} - [font=Georgia]Lets you select as many Traits as you want while creating a new character. (works as guest)[/font]
 [b]No Clip[/b] [ [font=Arial]noclip[/font] | [font=Arial]clip[/font] | [font=Arial]ghost[/font] ] {} - [font=Georgia]Disables player's collision and makes him fly (host only)[/font]
 [b]Add Skill Experience[/b] [ [font=Arial]addxp[/font] | [font=Arial]addexp[/font] | [font=Arial]xpadd[/font] | [font=Arial]skillxp[/font] | [font=Arial]skillexp[/font] | [font=Arial]skill[/font] | [font=Arial]skillxp[/font] ] { <skill alias> <XP value> } - [font=Georgia]Adds XP to specified Skill (host only)[/font]
@@ -102,7 +111,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Remove Skill Experience from Player[/b] [ [font=Arial]takexp[/font] ] { <name/index> <skill alias> } - [font=Georgia]Remove All Skill XP from a player (host only)[/font]
 [b]Speedhack[/b] [ [font=Arial]speedhack[/font] | [font=Arial]speedmulti[/font] | [font=Arial]speedscale[/font] ] { <multiplier/scale> } - [font=Georgia]Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (works as guest)[/font]
 [b]Player Gravity Scale[/b] [ [font=Arial]playergravity[/font] | [font=Arial]playergrav[/font] | [font=Arial]pg[/font] | [font=Arial]setpg[/font] ] { <scale> } - [font=Georgia]Sets player's gravity scale. (Default scale: 1.0) (host only)[/font]
-[b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you (up to 10 meters). (Aim carefully, the object will be gone for good) (host only)[/font]
+[b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you (up to 10 meters). Objects that are part of the map can't be permanently removed! (Aim carefully, the object will be gone for good) (host only)[/font]
 [b]Fix Item Liquid Type[/b] [ [font=Arial]fixliquid[/font] | [font=Arial]fixliquidtype[/font] | [font=Arial]fixitemliquid[/font] ] {} - [font=Georgia]Fixes the liquid level and type of currently held object, if it doesn't match. (host only)[/font]
 
 
