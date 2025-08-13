@@ -16,8 +16,6 @@ DebugMode = true
 IsModEnabled = true
 
 -- ToDo
--- Improve trap leyak and free leyak to ignore containers with Krasue inside
--- Add trap and free Krasue commands
 -- Item vacuum command
 
 LogInfo("Starting mod initialization")

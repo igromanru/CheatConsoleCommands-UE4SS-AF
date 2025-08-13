@@ -937,13 +937,13 @@ CreateCommand({ "trapleyak", "containleyak" }, "Trap Leyak", "Trap's Leyak in th
             LogDebug("Trap Leyak Command: leyakContainments:",#leyakContainments)
             -- Check if Leyak is already trapped
             for _, leyakContainment in ipairs(leyakContainments) do
-                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() > 0 then
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak == AFUtils.LeyakRowName then
                     WriteErrorToConsole(OutputDevice, "Leyak is already trapped")
                     return false
                 end
             end
             for _, leyakContainment in ipairs(leyakContainments) do
-                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed then
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() == 0 then
                     if AFUtils.TrapLeyak(leyakContainment) then
                         WriteToConsole(OutputDevice, "Leyak was trapped successfully.")
                         return true
@@ -966,7 +966,7 @@ CreateCommand({ "freeleyak" }, "Free Leyak", "Free Leyak from a Containment Unit
             LogDebug("Free Leyak Command: leyakContainments:", #leyakContainments)
             -- Check if Leyak is already trapped
             for _, leyakContainment in ipairs(leyakContainments) do
-                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() > 0 then
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak == AFUtils.LeyakRowName then
                     if AFUtils.FreeLeyak(leyakContainment) then
                         WriteToConsole(OutputDevice, "Leyak was freed successfully")
                         return true
@@ -1018,6 +1018,59 @@ CreateCommand({ "krasuecd", "rasuecooldown", "cdrasue" }, "Krasue Cooldown",
     end,
     "KrasueCooldown")
 
+-- Trap Krasue Command
+CreateCommand({ "trapkrasue", "containkrasue" }, "Trap Krasue", "Trap's Krasue in the next possible Containment Unit. (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        local leyakContainments = FindAllOf("Deployed_LeyakContainment_C") ---@cast leyakContainments ADeployed_LeyakContainment_C[]?
+        if leyakContainments then
+            LogDebug("Trap Krasue Command: leyakContainments:",#leyakContainments)
+            -- Check if Leyak is already trapped
+            for _, leyakContainment in ipairs(leyakContainments) do
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak == AFUtils.KrasueRowName then
+                    WriteErrorToConsole(OutputDevice, "Krasue is already trapped")
+                    return false
+                end
+            end
+            for _, leyakContainment in ipairs(leyakContainments) do
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() == 0 then
+                    if AFUtils.TrapKrasue(leyakContainment) then
+                        WriteToConsole(OutputDevice, "Krasue was trapped successfully.")
+                        return true
+                    else
+                        WriteErrorToConsole(OutputDevice, "Failed to trap Krasue.")
+                        return false
+                    end
+                end
+            end
+        end
+        WriteErrorToConsole(OutputDevice, "Couldn't find a deployed Containment Unit. Have you built one?")
+        return false
+    end)
+
+-- Free Krasue Command
+CreateCommand({ "freekrasue" }, "Free Krasue", "Free Krasue from a Containment Unit. (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        local leyakContainments = FindAllOf("Deployed_LeyakContainment_C") ---@cast leyakContainments ADeployed_LeyakContainment_C[]?
+        if leyakContainments then
+            LogDebug("Free Krasue Command: leyakContainments:", #leyakContainments)
+            -- Check if Krasue is already trapped
+            for _, leyakContainment in ipairs(leyakContainments) do
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak == AFUtils.KrasueRowName then
+                    if AFUtils.FreeKrasue(leyakContainment) then
+                        WriteToConsole(OutputDevice, "Krasue was freed successfully")
+                        return true
+                    else
+                        WriteErrorToConsole(OutputDevice, "Failed to free Krasue")
+                        return false
+                    end
+                end
+            end
+            WriteErrorToConsole(OutputDevice, "None of deployed Containment Units contain Krasue")
+            return false
+        end
+        WriteErrorToConsole(OutputDevice, "Couldn't find a deployed Containment Unit.")
+        return false
+    end)
 
 -- Infinite Trait Points Command
 CreateCommand({ "inftraits", "inftrait", "traitpoints ", "inftraitpoints" }, "Infinite Trait Points",
