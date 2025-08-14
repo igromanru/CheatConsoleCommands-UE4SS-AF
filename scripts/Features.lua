@@ -112,9 +112,8 @@ end
 
 local NoOverheatWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
----@param hasAuthority boolean?
-function NoOverheat(myPlayer, hasAuthority)
-    if Settings.NoOverheat and hasAuthority then
+function NoOverheat(myPlayer)
+    if Settings.NoOverheat then
         local jetpack = myPlayer.Gear_BackpackBP ---@cast jetpack AGear_Jetpack_BP_C
         if IsValid(jetpack) and jetpack.CurrentOverheatLevel then
             jetpack.CurrentOverheatLevel = 0

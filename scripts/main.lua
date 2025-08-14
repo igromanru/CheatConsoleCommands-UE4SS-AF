@@ -11,7 +11,7 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.27.0"
+ModVersion = "1.27.1"
 DebugMode = true
 IsModEnabled = true
 
@@ -63,7 +63,7 @@ LoopAsync(250, function()
             InfiniteStamina(myPlayer)
             InfiniteDurability(myPlayer)
             InfiniteEnergy(myPlayer, hasAuthority)
-            NoOverheat(myPlayer, hasAuthority)
+            NoOverheat(myPlayer)
             InfiniteMaxWeight(myPlayer)
             NoHunger(myPlayer)
             NoThirst(myPlayer)
