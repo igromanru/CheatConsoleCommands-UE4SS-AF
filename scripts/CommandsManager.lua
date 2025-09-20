@@ -1256,7 +1256,7 @@ CreateCommand({ "setweather", "weather", "weatherevent" }, "Set Weather",
             WriteToConsole(OutputDevice, message)
             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
         else
-            WriteErrorToConsole(OutputDevice, "Couldn't find any weather events with name: " .. Parameters[1])
+            WriteErrorToConsole(OutputDevice, "Couldn't trigger weather event with name: " .. Parameters[1])
         end
 
         return true

@@ -3,10 +3,19 @@ local AFUtils = require("AFUtils.AFUtils")
 
 local WeatherManager = {}
 
-local WeatherEventNames = { AFUtils.WeatherEvents.None }
+local WeatherEventNames = {
+    AFUtils.WeatherEvents.None,
+    AFUtils.WeatherEvents.Fog,
+    AFUtils.WeatherEvents.RadLeak,
+    AFUtils.WeatherEvents.Spores,
+    AFUtils.WeatherEvents.ColdSnap,
+    AFUtils.WeatherEvents.Blackout,
+    AFUtils.WeatherEvents.BlackFog,
+}
+local WeatherEventNamesInitialized = false
 ---@return string[]
 function WeatherManager.GetAllWeatherEventNames()
-    if WeatherEventNames and #WeatherEventNames > 1 then
+    if WeatherEventNamesInitialized then
         return WeatherEventNames
     end
 
@@ -16,8 +25,20 @@ function WeatherManager.GetAllWeatherEventNames()
     for i = 1, #outRowNames, 1 do
         local eventName = outRowNames[i]:get():ToString()
         LogDebug(i .. ": " .. eventName)
-        table.insert(WeatherEventNames, eventName)
+        local exists = false
+        for _, value in ipairs(WeatherEventNames) do
+            if string.lower(value) == string.lower(eventName) then
+                exists = true
+                break
+            end
+        end
+        if not exists then
+            table.insert(WeatherEventNames, eventName)
+        end
     end
+
+    WeatherEventNamesInitialized = true
+
     return WeatherEventNames
 end
 
@@ -30,10 +51,10 @@ function WeatherManager.GetWeatherBySubstring(Substr)
         return AFUtils.WeatherEvents.None
     end
 
-    for i, eventName in ipairs(WeatherManager.GetAllWeatherEventNames()) do
+    for _, eventName in ipairs(WeatherManager.GetAllWeatherEventNames()) do
         LogDebug("GetWeatherBySubstring: EventName: " .. eventName .. ", to find: " .. Substr)
         local startIndex = string.find(string.lower(eventName), string.lower(Substr))
-        LogDebug("GetWeatherBySubstring: startIndex: " .. tostring(startIndex))
+        LogDebug("GetWeatherBySubstring: startIndex:", startIndex)
         if startIndex and startIndex > 0 then
             return eventName
         end
