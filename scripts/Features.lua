@@ -464,6 +464,51 @@ function InstantCrafting()
     end
 end
 
+local RunOverlapChecksPreId, RunOverlapChecksPostId = nil, nil
+local function InitBuildAnywhereHooks()
+    if not RunOverlapChecksPreId then
+        LoadAsset("/Game/Blueprints/DeployedObjects/DeployCollisions/DeployProxy_ParentBP.DeployProxy_ParentBP_C")
+        RunOverlapChecksPreId, RunOverlapChecksPostId = RegisterHook("/Game/Blueprints/DeployedObjects/DeployCollisions/DeployProxy_ParentBP.DeployProxy_ParentBP_C:RunOverlapChecks",
+        function(Context, ComponentsToOverlap, PlacementBlocked, OverlappedActors)
+            if Settings.BuildAnywhere then
+                PlacementBlocked:set(false)
+            end
+        end)
+        LogDebug("RunOverlapChecksPreId:", RunOverlapChecksPreId)
+        LogDebug("RunOverlapChecksPostId:", RunOverlapChecksPostId)
+        local CalculatePlacementOrientationPreId, CalculatePlacementOrientationPostId = RegisterHook("/Game/Blueprints/DeployedObjects/DeployCollisions/DeployProxy_ParentBP.DeployProxy_ParentBP_C:CalculatePlacementOrientation",
+        function(Context, PlacementOrienationsAllowed, QueryComponent, TraceChannel, IsHit, Location, Rotation, TraceEnd, CanBePlaced, Normal)
+            if Settings.BuildAnywhere then
+                CanBePlaced:set(true)
+            end
+        end)
+        LogDebug("CalculatePlacementOrientationPreId:", CalculatePlacementOrientationPreId)
+        LogDebug("CalculatePlacementOrientationPostId:", CalculatePlacementOrientationPostId)
+        local TryUpdateDeployableHologramPreId, TryUpdateDeployableHologramPostId = RegisterHook("/Game/Blueprints/DeployedObjects/DeployCollisions/DeployProxy_ParentBP.DeployProxy_ParentBP_C:TryUpdateDeployableHologram",
+        function(Context, Show, PlacementOrienationsAllowed, QueryComponent, HeldFire, CanPlaceDeployable)
+            if Settings.BuildAnywhere then
+                CanPlaceDeployable:set(true)
+            end
+        end)
+        LogDebug("TryUpdateDeployableHologramPreId:", TryUpdateDeployableHologramPreId)
+        LogDebug("TryUpdateDeployableHologramPostId:", TryUpdateDeployableHologramPostId)
+    end
+end
+
+local BuildAnywhereWasEnabled = false
+function BuildAnywhere()
+    if Settings.BuildAnywhere then
+        InitBuildAnywhereHooks()
+        if not BuildAnywhereWasEnabled then
+            BuildAnywhereWasEnabled = true
+            AFUtils.ClientDisplayWarningMessage("Build Anywhere activated", AFUtils.CriticalityLevels.Green)
+        end
+    elseif BuildAnywhereWasEnabled then
+        BuildAnywhereWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Build Anywhere deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local InvisibleWasEnabled = false
 ---comment
 ---@param myPlayer AAbiotic_PlayerCharacter_C
