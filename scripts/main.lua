@@ -11,12 +11,11 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.27.1"
+ModVersion = "1.28.0"
 DebugMode = true
 IsModEnabled = true
 
 -- ToDo
--- Build Anywhere (disable collision checks placing items/buildings)
 -- Item vacuum command
 
 LogInfo("Starting mod initialization")
@@ -94,6 +93,7 @@ LoopAsync(250, function()
         InfiniteCrouchRoll()
         InstantPlantGrowth(isHost)
         InfiniteTraitPoints(isHost)
+        BuildAnywhere()
     end)
     SettingsManager.AutoSaveOnChange()
     return false

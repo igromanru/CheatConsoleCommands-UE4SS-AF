@@ -132,6 +132,7 @@ function SettingsManager.AutoSaveOnChange()
         or SettingsMonitor.InstantPlantGrowth ~= Settings.InstantPlantGrowth
         or SettingsMonitor.AutoSaveInterval ~= Settings.AutoSaveInterval
         or SettingsMonitor.InstantFishing ~= Settings.InstantFishing
+        or SettingsMonitor.BuildAnywhere ~= Settings.BuildAnywhere
     then
         LogDebug("AutoSaveOnChange: Changes detected")
         SettingsMonitor.GodMode = Settings.GodMode
@@ -167,6 +168,7 @@ function SettingsManager.AutoSaveOnChange()
         SettingsMonitor.InstantPlantGrowth = Settings.InstantPlantGrowth
         SettingsMonitor.AutoSaveInterval = Settings.AutoSaveInterval
         SettingsMonitor.InstantFishing = Settings.InstantFishing
+        SettingsMonitor.BuildAnywhere = Settings.BuildAnywhere
         SettingsManager.SaveToFile()
     end
 end

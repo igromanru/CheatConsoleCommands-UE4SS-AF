@@ -809,6 +809,16 @@ CreateCommand({ "InstantCrafting", "instacraft", "instantcraft", "instcraft" }, 
     end,
     "InstantCrafting")
 
+-- Build Anywhere Command
+CreateCommand({ "BuildAnywhere" }, "Build Anywhere",
+    "Allows you to build deployables even if they overlap with the objects (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.BuildAnywhere = not Settings.BuildAnywhere
+        PrintCommandState(Settings.BuildAnywhere, self.Name, OutputDevice)
+        return true
+    end,
+    "BuildAnywhere")
+
 -- Set Money Command
 CreateCommand({ "money" }, "Set Money", "Set money to desired value (works as guest)",
     CreateCommandParam("value", "number", "Money value to set"),
