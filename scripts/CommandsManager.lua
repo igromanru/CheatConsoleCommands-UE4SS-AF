@@ -811,7 +811,7 @@ CreateCommand({ "InstantCrafting", "instacraft", "instantcraft", "instcraft" }, 
 
 -- Build Anywhere Command
 CreateCommand({ "BuildAnywhere" }, "Build Anywhere",
-    "Allows you to build deployables even if they overlap with the objects (works as guest)", nil,
+    "Allows you to build deployables even if they overlap with the objects (Attention! The command might conflict with other build-related mods) (works as guest)", nil,
     function(self, OutputDevice, Parameters)
         Settings.BuildAnywhere = not Settings.BuildAnywhere
         PrintCommandState(Settings.BuildAnywhere, self.Name, OutputDevice)

@@ -100,9 +100,9 @@ LoopAsync(250, function()
     return false
 end)
 
--- if DebugMode then
---     LogCommandsAsMarkdownTable()
---     LogCommandsAsBBCode()
--- end
+if DebugMode then
+    LogCommandsAsMarkdownTable()
+    LogCommandsAsBBCode()
+end
 
 LogInfo("Mod loaded successfully")
