@@ -16,6 +16,7 @@ DebugMode = true
 IsModEnabled = true
 
 -- ToDo
+-- Build Anywhere (disable collision checks placing items/buildings)
 -- Item vacuum command
 
 LogInfo("Starting mod initialization")
