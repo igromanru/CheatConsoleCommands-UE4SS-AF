@@ -31,6 +31,7 @@ Invisible | inv \| invisible \| invis \| invisibility \| untargetable |  | Makes
 No Fall Damage | falldmg \| falldamage \| nofall \| nofalldmg \| nofalldamage |  | Prevents player from taking fall damage (host only)
 Free Crafting (Debug function) | freecraft \| freecrafting \| crafting \| craft |  | Allows player to craft ALL recipes, upgrade the Crafting Bench, instantly build furnitue and unlock chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)
 Instant Crafting | InstantCrafting \| instacraft \| instantcraft \| instcraft |  | Reduces crafting duration for all recipes to minimum (works as guest)
+Build Anywhere | BuildAnywhere |  | Allows you to build deployables even if they overlap with the objects (Attention! The command might conflict with other build-related mods) (works as guest)
 Set Money | money | {value} | Set money to desired value (works as guest)
 Infinite Ammo | infammo \| ammo \| infiniteammo |  | Keeps ammo of ranged weapons replenished (as guest works somehow, but is bugged)
 No Recoil | norecoil \| recoil \| weaponnorecoil |  | Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)
@@ -74,7 +75,6 @@ Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a 
 Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
 Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in front of you (up to 10 meters). Objects that are part of the map can't be permanently removed! (Aim carefully, the object will be gone for good) (host only)
 Fix Item Liquid Type | fixliquid \| fixliquidtype \| fixitemliquid |  | Fixes the liquid level and type of currently held object, if it doesn't match. (host only)
-
 
 ## Highest form of appreciation
 If you like my work and feel generous, you can support me.  

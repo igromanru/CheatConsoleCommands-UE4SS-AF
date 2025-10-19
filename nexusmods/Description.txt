@@ -70,6 +70,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]No Fall Damage[/b] [ [font=Arial]falldmg[/font] | [font=Arial]falldamage[/font] | [font=Arial]nofall[/font] | [font=Arial]nofalldmg[/font] | [font=Arial]nofalldamage[/font] ] {} - [font=Georgia]Prevents player from taking fall damage (host only)[/font]
 [b]Free Crafting (Debug function)[/b] [ [font=Arial]freecraft[/font] | [font=Arial]freecrafting[/font] | [font=Arial]crafting[/font] | [font=Arial]craft[/font] ] {} - [font=Georgia]Allows player to craft ALL recipes, upgrade the Crafting Bench, instantly build furnitue and unlock chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/font]
 [b]Instant Crafting[/b] [ [font=Arial]InstantCrafting[/font] | [font=Arial]instacraft[/font] | [font=Arial]instantcraft[/font] | [font=Arial]instcraft[/font] ] {} - [font=Georgia]Reduces crafting duration for all recipes to minimum (works as guest)[/font]
+[b]Build Anywhere[/b] [ [font=Arial]BuildAnywhere[/font] ] {} - [font=Georgia]Allows you to build deployables even if they overlap with the objects (Attention! The command might conflict with other build-related mods) (works as guest)[/font]
 [b]Set Money[/b] [ [font=Arial]money[/font] ] { <value> } - [font=Georgia]Set money to desired value (works as guest)[/font]
 [b]Infinite Ammo[/b] [ [font=Arial]infammo[/font] | [font=Arial]ammo[/font] | [font=Arial]infiniteammo[/font] ] {} - [font=Georgia]Keeps ammo of ranged weapons replenished (as guest works somehow, but is bugged)[/font]
 [b]No Recoil[/b] [ [font=Arial]norecoil[/font] | [font=Arial]recoil[/font] | [font=Arial]weaponnorecoil[/font] ] {} - [font=Georgia]Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)[/font]
@@ -113,7 +114,6 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Player Gravity Scale[/b] [ [font=Arial]playergravity[/font] | [font=Arial]playergrav[/font] | [font=Arial]pg[/font] | [font=Arial]setpg[/font] ] { <scale> } - [font=Georgia]Sets player's gravity scale. (Default scale: 1.0) (host only)[/font]
 [b]Delete Object Trace[/b] [ [font=Arial]deleteobject[/font] | [font=Arial]removeobject[/font] ] {} - [font=Georgia]Deletes an object in front of you (up to 10 meters). Objects that are part of the map can't be permanently removed! (Aim carefully, the object will be gone for good) (host only)[/font]
 [b]Fix Item Liquid Type[/b] [ [font=Arial]fixliquid[/font] | [font=Arial]fixliquidtype[/font] | [font=Arial]fixitemliquid[/font] ] {} - [font=Georgia]Fixes the liquid level and type of currently held object, if it doesn't match. (host only)[/font]
-
 
 [font=Verdana][size=3][b]Skill Aliases[/b][/size][/font]
 Used is commands [b]Add Skill Experience[/b], [b]Remove Skill Experience[/b], [b]Give Skill Experience to Player[/b] and [b]Remove Skill Experience from Player[/b].
@@ -183,10 +183,12 @@ If you have followed the installation instructions above and are 100% sure that 
 [*]Which mod version are you using
 [*]The content of [b]UE4SS.log[/b] file.
 [/list]The log file is located in the [b]ue4ss[/b] directory.
-Path: [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss[/i]
+Steam Path: [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss[/i]
+Xbox Path: [i](game root directory)\AbioticFactor\Binaries\WinGDK\ue4ss[/i]
 The easiest way to share the content of the log file is to upload it to a site like: [url=https://pastebin.com/]pastebin.com[/url]
 
 [font=Verdana][size=4][b]Dedicated Server[/b][/size][/font]
+The mod has to be installed on the Dedicated Server itself and can only be used from Server's own console!
 [size=2]Currently all player related commands work only for the first player on the server. You can still use commands like "givexp", "takexp", "smite" etc. for each player and player independent commands like Leyak Cooldown etc.[/size]
 1. To use Console Commands you have to start the Server with an additional argument [url=https://github.com/DFJacob/AbioticFactorDedicatedServer/wiki/Technical-%E2%80%90-Launch-Parameters#-log--newconsole]-NewConsole[/url]. 
 2. At the top right corner press the double up arrow button to expend console to show the command line.
@@ -200,7 +202,6 @@ Check out my other Abiotic Factor mods.
 [*][url=https://www.nexusmods.com/abioticfactor/mods/33]Stack Manager[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/20]Duplicate Items[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/22]Unlimited Power (Gear - Held Item - Batteries)[/url]
-[*][url=https://www.nexusmods.com/abioticfactor/mods/31]Jager Corpse Remover[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/41]Infinite Leyak Containment[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/42]Customization Unlocker[/url]
 [*][url=https://www.nexusmods.com/abioticfactor/mods/50]Always Outline[/url]
