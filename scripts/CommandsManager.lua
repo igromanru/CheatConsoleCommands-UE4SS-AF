@@ -790,7 +790,7 @@ CreateCommand({ "falldmg", "falldamage", "nofall", "nofalldmg", "nofalldamage" }
 
 -- Free Crafting Command
 CreateCommand({ "freecraft", "freecrafting", "crafting", "craft" }, "Free Crafting (Debug function)",
-    "Allows player to craft ALL recipes, upgrade the Crafting Bench, instantly build furnitue and unlock chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)",
+    "Allows player to craft ALL recipes, upgrade the Crafting Bench, instantly build furniture and unlock chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)",
     nil,
     function(self, OutputDevice, Parameters)
         Settings.FreeCrafting = not Settings.FreeCrafting
@@ -811,7 +811,7 @@ CreateCommand({ "InstantCrafting", "instacraft", "instantcraft", "instcraft" }, 
 
 -- Build Anywhere Command
 CreateCommand({ "BuildAnywhere" }, "Build Anywhere",
-    "Allows you to build deployables even if they overlap with the objects (Attention! The command might conflict with other build-related mods) (works as guest)", nil,
+    "Allows you to build deployables even if they overlap with other objects (Attention! The command might conflict with other build-related mods) (works as guest)", nil,
     function(self, OutputDevice, Parameters)
         Settings.BuildAnywhere = not Settings.BuildAnywhere
         PrintCommandState(Settings.BuildAnywhere, self.Name, OutputDevice)
