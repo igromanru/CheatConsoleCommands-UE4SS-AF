@@ -16,6 +16,7 @@ DebugMode = true
 IsModEnabled = true
 
 -- ToDo
+-- Re-Spawn all items command, to trigger all spawn points
 -- Item vacuum command
 
 LogInfo("Starting mod initialization")
@@ -99,9 +100,9 @@ LoopAsync(250, function()
     return false
 end)
 
-if DebugMode then
-    LogCommandsAsMarkdownTable()
-    LogCommandsAsBBCode()
-end
+-- if DebugMode then
+--     LogCommandsAsMarkdownTable()
+--     LogCommandsAsBBCode()
+-- end
 
 LogInfo("Mod loaded successfully")
