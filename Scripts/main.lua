@@ -16,6 +16,7 @@ DebugMode = true
 IsModEnabled = true
 
 -- ToDo
+-- Check why Reset Portals doesn't reset the latest one
 -- Re-Spawn all items command, to trigger all spawn points
 -- Item vacuum command
 
