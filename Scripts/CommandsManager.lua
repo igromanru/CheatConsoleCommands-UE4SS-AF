@@ -1084,7 +1084,7 @@ CreateCommand({ "freekrasue" }, "Free Krasue", "Free Krasue from a Containment U
 
 -- Infinite Trait Points Command
 CreateCommand({ "inftraits", "inftrait", "traitpoints ", "inftraitpoints" }, "Infinite Trait Points",
-    "Lets you select as many Traits as you want while creating a new character. (works as guest)", nil,
+    "Lets you select as many Traits as you want while creating a new character. (host only)", nil,
     function(self, OutputDevice, Parameters)
         Settings.InfiniteTraitPoints = not Settings.InfiniteTraitPoints
         PrintCommandState(Settings.InfiniteTraitPoints, self.Name, OutputDevice)
