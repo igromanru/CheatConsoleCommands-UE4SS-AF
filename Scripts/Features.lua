@@ -800,10 +800,10 @@ function PlayerGravityScale(myPlayer, hasAuthority)
     end
 end
 
-local PreviosLeyakCooldown = 0
+local PreviousLeyakCooldown = 0
 ---@param hasAuthority boolean?
 function SetLeyakCooldown(hasAuthority)
-    if hasAuthority and Settings.LeyakCooldown and Settings.LeyakCooldown ~= PreviosLeyakCooldown then
+    if hasAuthority and Settings.LeyakCooldown and Settings.LeyakCooldown ~= PreviousLeyakCooldown then
         local leyakDirectorComponent = AFUtils.GetLeyakDirectorComponent()
         if IsValid(leyakDirectorComponent) and leyakDirectorComponent.LeyakCooldown ~= Settings.LeyakCooldown then
             if Settings.LeyakCooldown <= 0 or Settings.LeyakCooldown == DefaultLeyakCooldown then
@@ -818,15 +818,15 @@ function SetLeyakCooldown(hasAuthority)
             LogDebug(message)
             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
             AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
-            PreviosLeyakCooldown = Settings.LeyakCooldown
+            PreviousLeyakCooldown = Settings.LeyakCooldown
         end
     end
 end
 
-local PreviosKrasueCooldown = 0
+local PreviousKrasueCooldown = 0
 ---@param hasAuthority boolean?
 function SetKrasueCooldown(hasAuthority)
-    if hasAuthority and Settings.KrasueCooldown and Settings.KrasueCooldown ~= PreviosKrasueCooldown then
+    if hasAuthority and Settings.KrasueCooldown and Settings.KrasueCooldown ~= PreviousKrasueCooldown then
         local krasueDirectorComponent = AFUtils.GetKrasueDirectorComponent()
         if IsValid(krasueDirectorComponent) and krasueDirectorComponent.LeyakCooldown ~= Settings.KrasueCooldown then
             if Settings.KrasueCooldown <= 0 or Settings.KrasueCooldown == DefaultKrasueCooldown then
@@ -841,15 +841,15 @@ function SetKrasueCooldown(hasAuthority)
             LogDebug(message)
             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
             AFUtils.DisplayTextChatMessage(message, "", LinearColors.Green)
-            PreviosKrasueCooldown = Settings.KrasueCooldown
+            PreviousKrasueCooldown = Settings.KrasueCooldown
         end
     end
 end
 
--- local PreviosAutoSaveInterval = 0
+-- local PreviousAutoSaveInterval = 0
 -- ---@param hasAuthority boolean?
 -- function SetAutoSaveInterval(hasAuthority)
---     if hasAuthority and Settings.AutoSaveInterval and Settings.AutoSaveInterval ~= PreviosAutoSaveInterval then
+--     if hasAuthority and Settings.AutoSaveInterval and Settings.AutoSaveInterval ~= PreviousAutoSaveInterval then
 --         local gameInstance = AFUtils.GetGameInstance()
 --         if gameInstance and gameInstance.AutosaveInterval ~= Settings.AutosaveInterval then
             
