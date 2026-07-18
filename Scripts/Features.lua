@@ -699,9 +699,13 @@ function InstantFishing()
         if not PreInstantFishingId and not PostInstantFishingId then
             LoadAsset("/Game/Blueprints/Items/Weapons/Guns/Weapon_FishingRod.Weapon_FishingRod_C")
             _, PreInstantFishingId, PostInstantFishingId = pcall(RegisterHook, "/Game/Blueprints/Items/Weapons/Guns/Weapon_FishingRod.Weapon_FishingRod_C:Start Fishing Minigame", function(Context)
-                local fishingRod = Context:get() ---@type AWeapon_FishingRod_C
-                fishingRod:Request_TriggerBaitUsage()
-                fishingRod:FishingSuccess()
+                ExecuteInGameThread(function()
+                    local fishingRod = AFUtils.GetCurrentFishingRod()
+                    if fishingRod then
+                        fishingRod:Request_TriggerBaitUsage()
+                        fishingRod:FishingSuccess()
+                    end
+                end)
             end)
             LogDebug("PreInstantFishingId:", PreInstantFishingId)
             LogDebug("PostInstantFishingId:", PostInstantFishingId)
