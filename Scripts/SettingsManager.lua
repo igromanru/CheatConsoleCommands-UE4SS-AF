@@ -70,23 +70,13 @@ function SettingsManager.LoadFromFile()
         local status, settingsFromFile = pcall(JsonLua.decode, content) ---@type boolean, Settings
         if status and settingsFromFile then
             LogDebug("Settings file version: " .. tostring(settingsFromFile.Version) .. ", Settings object version: " .. Settings.Version)
-            if settingsFromFile.Version ~= Settings.Version then
-                LogDebug("Settings version doesn't match, loading only specified settings from file")
-                Settings.SpeedhackMultiplier = settingsFromFile.SpeedhackMultiplier
-                Settings.PlayerGravityScale = settingsFromFile.PlayerGravityScale
-                Settings.Locations = settingsFromFile.Locations
-                Settings.LeyakCooldown = settingsFromFile.LeyakCooldown
-                if Settings.LeyakCooldown == DefaultLeyakCooldown then
-                    Settings.LeyakCooldown = 0
-                end
-            else
-                Settings = settingsFromFile
-            end
+            MergeSettingsFromFile(settingsFromFile)
+            ApplySettingsMeta()
         else
             LogError("Failed to decode json settings from file, status:", status)
         end
 
-        --Overwrite values that shouldn't reapply
+        -- Overwrite values that shouldn't reapply after load
         Settings.Dirty = false
         Settings.NoClip = false
         Settings.DistantShore = false

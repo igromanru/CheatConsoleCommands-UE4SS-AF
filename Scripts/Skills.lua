@@ -14,6 +14,7 @@ local Skills = {
 }
 
 local SkillIdToIndexMap = {} ---@type { [CharacterSkills]: integer }
+local SkillIdToIndexMapInitialized = false
 
 ---@param CharacterSkillId CharacterSkills|integer
 ---@param SkillName string
@@ -88,7 +89,7 @@ end
 ---@param CharacterSkillId CharacterSkills|integer
 ---@return integer
 local function GetArrayIndexBySkillId(CharacterSkillId)
-    if not SkillIdToIndexMap or #SkillIdToIndexMap < 1 then
+    if not SkillIdToIndexMapInitialized then
         SkillIdToIndexMap = {}
         local progressionComponent = AFUtils.GetMyCharacterProgressionComponent()
         if IsValid(progressionComponent) and progressionComponent.CharacterSkills_Keys then
@@ -97,6 +98,7 @@ local function GetArrayIndexBySkillId(CharacterSkillId)
                 SkillIdToIndexMap[skillId] = i
             end
         end
+        SkillIdToIndexMapInitialized = true
     end
 
     return SkillIdToIndexMap[CharacterSkillId]

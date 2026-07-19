@@ -1242,7 +1242,7 @@ CreateCommand({ "masterkey", "key", "keys", "opendoor", "opendoors" }, "Master K
 -- Set Weather Command
 CreateCommand({ "setweather", "weather", "weatherevent" }, "Set Weather",
     "Triggers weather event (host only)",
-    CreateCommandParam("weather", "string", "", false, { "None", "Fog", "RadLeak", "Spores", "ColdSnap", "ColdSnap", " Blackout", "BlackFog" }),
+    CreateCommandParam("weather", "string", "", false, { "None", "Fog", "RadLeak", "Spores", "ColdSnap", "Blackout", "BlackFog" }),
     function(self, OutputDevice, Parameters)
         if CheckHasNoAuthority(OutputDevice) then
             return false

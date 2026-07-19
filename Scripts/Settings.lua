@@ -82,7 +82,7 @@ Settings = {
 }
 
 -- Metatable to track dirty flag when values change
-local SettingsMeta = {
+SettingsMeta = {
     __newindex = function(table, key, value)
         -- Check if we're writing to the Dirty field itself (to avoid recursion)
         if key == "Dirty" then
@@ -100,5 +100,36 @@ local SettingsMeta = {
     end
 }
 
--- Apply metatable to Settings
-setmetatable(Settings, SettingsMeta)
+---Re-applies dirty-tracking metatable after Settings table replacement or bulk load
+function ApplySettingsMeta()
+    setmetatable(Settings, SettingsMeta)
+end
+
+local SessionOnlySettingsKeys = {
+    Dirty = true,
+    NoClip = true,
+    DistantShore = true,
+    InfiniteTraitPoints = true,
+}
+
+---@param settingsFromFile Settings
+function MergeSettingsFromFile(settingsFromFile)
+    if not settingsFromFile then return end
+
+    for key, value in pairs(settingsFromFile) do
+        if key ~= "Version" and not SessionOnlySettingsKeys[key] then
+            Settings[key] = value
+        end
+    end
+
+    if Settings.LeyakCooldown == DefaultLeyakCooldown then
+        Settings.LeyakCooldown = 0
+    end
+    if Settings.KrasueCooldown == DefaultKrasueCooldown then
+        Settings.KrasueCooldown = 0
+    end
+
+    Settings.Version = ModVersion
+end
+
+ApplySettingsMeta()
