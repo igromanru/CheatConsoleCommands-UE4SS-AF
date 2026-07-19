@@ -672,7 +672,7 @@ CreateCommand({ "thirst", "nothirst", "drink" }, "No Thirst", "Player won't be t
             return true
         end
         Settings.NoThirst = not Settings.NoThirst
-        PrintCommandState(Settings.InfiniteAmmo, self.Name, OutputDevice)
+        PrintCommandState(Settings.NoThirst, self.Name, OutputDevice)
         return true
     end,
     "NoThirst")
