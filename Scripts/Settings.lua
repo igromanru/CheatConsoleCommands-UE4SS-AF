@@ -84,8 +84,19 @@ Settings = {
 -- Metatable to track dirty flag when values change
 local SettingsMeta = {
     __newindex = function(table, key, value)
-        table[key] = value
-        table.Dirty = true
+        -- Check if we're writing to the Dirty field itself (to avoid recursion)
+        if key == "Dirty" then
+            rawset(table, "Dirty", value)
+            return
+        end
+        
+        -- Use rawset for actual value storage to avoid triggering metatable again
+        rawset(table, key, value)
+        
+        -- Mark dirty on all write operations except internal tracking fields
+        if key ~= "Version" and key ~= "Locations" then
+            table.Dirty = true
+        end
     end
 }
 

@@ -337,7 +337,7 @@ function NoRadiation(myPlayer)
         if  myPlayer.CanReceiveRadiation or myPlayer.CurrentRadiation > 0 then
             myPlayer.CanReceiveRadiation = false
             myPlayer.CurrentRadiation = 0.0
-            myPlayer:OnRep_CurrentContinence()
+            myPlayer:OnRep_CurrentRadiation()
             if DebugMode then
                 LogDebug("CanReceiveRadiation: " .. tostring(myPlayer.CanReceiveRadiation))
                 LogDebug("CurrentRadiation: " .. tostring(myPlayer.CurrentRadiation))
