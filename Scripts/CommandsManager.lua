@@ -944,7 +944,7 @@ CreateCommand({ "trapleyak", "containleyak" }, "Trap Leyak", "Trap's Leyak in th
     function(self, OutputDevice, Parameters)
         local leyakContainments = FindAllOf("Deployed_LeyakContainment_C") ---@cast leyakContainments ADeployed_LeyakContainment_C[]?
         if leyakContainments then
-            LogDebug("Trap Leyak Command: leyakContainments:",#leyakContainments)
+            LogDebug("Trap Leyak Command: leyakContainments:", #leyakContainments)
             -- Check if Leyak is already trapped
             for _, leyakContainment in ipairs(leyakContainments) do
                 if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak == AFUtils.LeyakRowName then
@@ -953,7 +953,7 @@ CreateCommand({ "trapleyak", "containleyak" }, "Trap Leyak", "Trap's Leyak in th
                 end
             end
             for _, leyakContainment in ipairs(leyakContainments) do
-                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() == 0 then
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak == NAME_None then
                     if AFUtils.TrapLeyak(leyakContainment) then
                         WriteToConsole(OutputDevice, "Leyak was trapped successfully.")
                         return true
