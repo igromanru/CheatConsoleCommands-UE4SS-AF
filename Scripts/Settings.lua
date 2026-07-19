@@ -26,8 +26,10 @@ DefaultLeyakCooldown = 900 -- 15min
 DefaultKrasueCooldown = 600 -- 10min
 
 ---@class Settings
+---@field Dirty boolean
 Settings = {
     Version = ModVersion,
+    Dirty = false,
     GodMode = false,
     InfiniteHealth = false,
     HealthRegeneration = 0.0,
@@ -78,3 +80,14 @@ Settings = {
         LocationStruct("Distant Shore", "V_DistantShore", FVector(5442, 31087, -237874), FRotator(358, 135, 0)),
     }, ---@type LocationStruct[]
 }
+
+-- Metatable to track dirty flag when values change
+local SettingsMeta = {
+    __newindex = function(table, key, value)
+        table[key] = value
+        table.Dirty = true
+    end
+}
+
+-- Apply metatable to Settings
+setmetatable(Settings, SettingsMeta)

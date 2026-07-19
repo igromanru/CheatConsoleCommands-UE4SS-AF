@@ -131,12 +131,12 @@ local function LogDebugCommandStruct(Command, Prefix)
 end
 
 ---@param StringArray string[]|string
----@param Seperator string? # Default: " | "
+---@param Separator string? # Default: " | "
 ---@param WrapperLeft string? # Default: ""
 ---@param WrapperRight string? # Default: ""
 ---@return string
-local function ArrayToString(StringArray, Seperator, WrapperLeft, WrapperRight)
-    Seperator = Seperator or " | "
+local function ArrayToString(StringArray, Separator, WrapperLeft, WrapperRight)
+    Separator = Separator or " | "
     WrapperLeft = WrapperLeft or ""
     WrapperRight = WrapperRight or ""
     if type(StringArray) == "string" then
@@ -150,7 +150,7 @@ local function ArrayToString(StringArray, Seperator, WrapperLeft, WrapperRight)
     local result = ""
     for _, value in ipairs(StringArray) do
         if result ~= "" then
-            result = result .. Seperator
+            result = result .. Separator
         end
         result = result .. WrapperLeft .. value .. WrapperRight
     end
