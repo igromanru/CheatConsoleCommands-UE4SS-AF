@@ -1,4 +1,3 @@
-
 local AFUtils = require("AFUtils.AFUtils")
 
 ---@class SkillStruct
@@ -48,21 +47,21 @@ local function CreateSkill(CharacterSkillId, SkillName, Aliases, Description)
     return skill
 end
 
-CreateSkill(AFUtils.CharacterSkills.Sprinting, "Sprinting", {"sprinting", "sprint", "spr", "stamina", "sp"})
-CreateSkill(AFUtils.CharacterSkills.Strength, "Strength", {"strength", "str", "weight"})
-CreateSkill(AFUtils.CharacterSkills.Throwing, "Throwing", {"throwing", "throw", "thr"})
-CreateSkill(AFUtils.CharacterSkills.Sneaking, "Sneaking", {"sneaking", "sneak", "stealth", "snk"})
-CreateSkill(AFUtils.CharacterSkills.BluntMelee, "Blunt Melee", {"bluntmelee", "blunt"})
-CreateSkill(AFUtils.CharacterSkills.SharpMeele, "Sharp Meele", {"sharpmeele", "sharp"})
-CreateSkill(AFUtils.CharacterSkills.Accuracy, "Accuracy", {"accuracy", "acc", "aim"})
-CreateSkill(AFUtils.CharacterSkills.Reloading, "Reloading", {"reloading", "reload", "magazine"})
-CreateSkill(AFUtils.CharacterSkills.Fortitude, "Fortitude", {"fortitude", "fort", "tough", "health", "hp"})
-CreateSkill(AFUtils.CharacterSkills.Crafting, "Crafting", {"crafting", "craft", "bench"})
-CreateSkill(AFUtils.CharacterSkills.Construction, "Construction", {"construction", "const", "cons", "build"})
-CreateSkill(AFUtils.CharacterSkills.FirstAid, "First Aid", {"firstaid", "aid", "healing", "heal", "wound"})
-CreateSkill(AFUtils.CharacterSkills.Cooking, "Cooking", {"cooking", "cook", "heisenberg"})
-CreateSkill(AFUtils.CharacterSkills.Agriculture, "Agriculture", {"agriculture", "agr", "grow", "plant", "plants"})
-CreateSkill(AFUtils.CharacterSkills.Fishing, "Fishing", {"fishing", "fish"})
+CreateSkill(AFUtils.CharacterSkills.Sprinting, "Sprinting", { "sprinting", "sprint", "spr", "stamina", "sp" })
+CreateSkill(AFUtils.CharacterSkills.Strength, "Strength", { "strength", "str", "weight" })
+CreateSkill(AFUtils.CharacterSkills.Throwing, "Throwing", { "throwing", "throw", "thr" })
+CreateSkill(AFUtils.CharacterSkills.Sneaking, "Sneaking", { "sneaking", "sneak", "stealth", "snk" })
+CreateSkill(AFUtils.CharacterSkills.BluntMelee, "Blunt Melee", { "bluntmelee", "blunt" })
+CreateSkill(AFUtils.CharacterSkills.SharpMeele, "Sharp Meele", { "sharpmeele", "sharp" })
+CreateSkill(AFUtils.CharacterSkills.Accuracy, "Accuracy", { "accuracy", "acc", "aim" })
+CreateSkill(AFUtils.CharacterSkills.Reloading, "Reloading", { "reloading", "reload", "magazine" })
+CreateSkill(AFUtils.CharacterSkills.Fortitude, "Fortitude", { "fortitude", "fort", "tough", "health", "hp" })
+CreateSkill(AFUtils.CharacterSkills.Crafting, "Crafting", { "crafting", "craft", "bench" })
+CreateSkill(AFUtils.CharacterSkills.Construction, "Construction", { "construction", "const", "cons", "build" })
+CreateSkill(AFUtils.CharacterSkills.FirstAid, "First Aid", { "firstaid", "aid", "healing", "heal", "wound" })
+CreateSkill(AFUtils.CharacterSkills.Cooking, "Cooking", { "cooking", "cook", "heisenberg" })
+CreateSkill(AFUtils.CharacterSkills.Agriculture, "Agriculture", { "agriculture", "agr", "grow", "plant", "plants" })
+CreateSkill(AFUtils.CharacterSkills.Fishing, "Fishing", { "fishing", "fish" })
 
 
 function Skills.GetSkillByAlias(Alias)
@@ -91,12 +90,12 @@ end
 local function GetArrayIndexBySkillId(CharacterSkillId)
     if not SkillIdToIndexMap or #SkillIdToIndexMap < 1 then
         SkillIdToIndexMap = {}
-        local progressionComponent =  AFUtils.GetMyCharacterProgressionComponent()
+        local progressionComponent = AFUtils.GetMyCharacterProgressionComponent()
         if IsValid(progressionComponent) and progressionComponent.CharacterSkills_Keys then
-           for i = 1, #progressionComponent.CharacterSkills_Keys, 1 do
+            for i = 1, #progressionComponent.CharacterSkills_Keys, 1 do
                 local skillId = progressionComponent.CharacterSkills_Keys[i]
                 SkillIdToIndexMap[skillId] = i
-           end 
+            end
         end
     end
 
@@ -111,7 +110,7 @@ function Skills.GetCharacterSkillStructById(Player, CharacterSkillId)
     if not Player or not Player:IsValid() or not Player.CharacterProgressionComponent:IsValid() then return nil end
 
     local index = GetArrayIndexBySkillId(CharacterSkillId)
-    local progressionComponent =  Player.CharacterProgressionComponent
+    local progressionComponent = Player.CharacterProgressionComponent
     if IsValid(progressionComponent) and #progressionComponent.CharacterSkills_Values >= index then
         return progressionComponent.CharacterSkills_Values[index]
     end
@@ -132,7 +131,7 @@ end
 function Skills.AddXp(Player, CharacterSkillId, Amount)
     if not Player or not Player:IsValid() or not Player.CharacterProgressionComponent:IsValid() then return false end
 
-    local outSuccess = {  Success = false }
+    local outSuccess = { Success = false }
     Player.CharacterProgressionComponent:Server_AddXPToSkill(CharacterSkillId, Amount, true, outSuccess)
     return outSuccess and outSuccess.Success
 end
