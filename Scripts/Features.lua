@@ -309,7 +309,7 @@ local InstantToiletWasEnabled = false
 function InstantToilet(myPlayer)
     if Settings.InstantToilet then
         local myPlayerController = myPlayer.MyPlayerController
-        if IsValid(myPlayerController) and myPlayerController.ContinenceMinigameActive then
+        if IsValid(myPlayerController) and myPlayerController.MinigameActive then
             LogDebug("InstantToilet: HasContinence: " .. tostring(myPlayer.HasContinence))
             LogDebug("InstantToilet: CurrentContinence: " .. tostring(myPlayer.CurrentContinence))
             myPlayer.HasContinence = true
