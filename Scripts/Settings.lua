@@ -25,9 +25,8 @@ end
 DefaultLeyakCooldown = 900 -- 15min
 DefaultKrasueCooldown = 600 -- 10min
 
----@class Settings
----@field Dirty boolean
-Settings = {
+---@class SettingsData
+local SettingsData = {
     Version = ModVersion,
     Dirty = false,
     GodMode = false,
@@ -81,43 +80,41 @@ Settings = {
     }, ---@type LocationStruct[]
 }
 
--- Metatable to track dirty flag when values change
-SettingsMeta = {
-    __newindex = function(table, key, value)
-        -- Check if we're writing to the Dirty field itself (to avoid recursion)
-        if key == "Dirty" then
-            rawset(table, "Dirty", value)
-            return
-        end
-        
-        -- Use rawset for actual value storage to avoid triggering metatable again
-        rawset(table, key, value)
-        
-        -- Mark dirty on all write operations except internal tracking fields
-        if key ~= "Version" and key ~= "Locations" then
-            table.Dirty = true
-        end
-    end
-}
-
----Re-applies dirty-tracking metatable after Settings table replacement or bulk load
-function ApplySettingsMeta()
-    setmetatable(Settings, SettingsMeta)
+SettingsData.MarkAsDirty = function ()
+    SettingsData.Dirty = true
 end
 
+---@type SettingsData
+Settings = setmetatable({}, {
+    __index = SettingsData,
+
+    __newindex = function(_, key, value)
+        if SettingsData[key] ~= value then
+            SettingsData[key] = value
+
+            if key ~= "Dirty" then
+                SettingsData.Dirty = true
+            end
+        end
+    end
+})
+
+
+
 local SessionOnlySettingsKeys = {
+    Version = true,
     Dirty = true,
     NoClip = true,
     DistantShore = true,
     InfiniteTraitPoints = true,
 }
 
----@param settingsFromFile Settings
+---@param settingsFromFile SettingsData
 function MergeSettingsFromFile(settingsFromFile)
     if not settingsFromFile then return end
 
     for key, value in pairs(settingsFromFile) do
-        if key ~= "Version" and not SessionOnlySettingsKeys[key] then
+        if not SessionOnlySettingsKeys[key] then
             Settings[key] = value
         end
     end
@@ -132,4 +129,7 @@ function MergeSettingsFromFile(settingsFromFile)
     Settings.Version = ModVersion
 end
 
-ApplySettingsMeta()
+return {
+    Settings = Settings,
+    SettingsData = SettingsData
+}

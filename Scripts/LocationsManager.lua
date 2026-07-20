@@ -42,6 +42,7 @@ local function UpdateOrCreateLocation(Name, LevelName, Location, Rotation)
         if string.lower(location.Name) == lowerName then
             location.Location = Location
             location.Rotation = Rotation
+            Settings.MarkAsDirty()
             if DebugMode then
                 LogDebug("Update Location: " .. LocationToConstructorString(location))
             end
@@ -51,6 +52,7 @@ local function UpdateOrCreateLocation(Name, LevelName, Location, Rotation)
 
     local locationStruct = LocationStruct(Name, LevelName, Location, Rotation)
     table.insert(Settings.Locations, locationStruct)
+    Settings.MarkAsDirty()
     if DebugMode then
         LogDebug("New Location: " .. LocationToConstructorString(locationStruct))
     end

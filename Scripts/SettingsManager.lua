@@ -1,6 +1,6 @@
 
 local BaseUtils = require("AFUtils.BaseUtils.BaseUtils")
-require("Settings")
+local SettingsPair = require("Settings")
 local JsonLua = require("json")
 
 local FileName = ModName .. ".json"
@@ -48,7 +48,7 @@ function SettingsManager.SaveToFile()
     local file = io.open(settingsFilePath, "w")
     if file then
         LogDebug("Opened file \"" .. FileName .. "\" for writing")
-        local json = JsonLua.encode(Settings)
+        local json = JsonLua.encode(SettingsPair.SettingsData)
         LogDebug("Write JSON to File: " .. json)
         file:write(json)
         return file:close()
@@ -62,30 +62,29 @@ function SettingsManager.LoadFromFile()
     local settingsFilePath = SettingsManager.GetSettingsFilePath()
     if not settingsFilePath then return false end
 
+    local result = false
+
     local file = io.open(settingsFilePath, "r")
     if file then
         LogDebug("Opened file \"" .. FileName .. "\" for reading")
         local content = file:read("*all")
         LogDebug("File content: " .. content)
-        local status, settingsFromFile = pcall(JsonLua.decode, content) ---@type boolean, Settings
+        local status, settingsFromFile = pcall(JsonLua.decode, content) ---@type boolean, SettingsData
         if status and settingsFromFile then
-            LogDebug("Settings file version: " .. tostring(settingsFromFile.Version) .. ", Settings object version: " .. Settings.Version)
+            LogDebug("Settings file version: " .. tostring(settingsFromFile.Version) .. ", Settings object version: " .. SettingsPair.SettingsData.Version)
             MergeSettingsFromFile(settingsFromFile)
-            ApplySettingsMeta()
         else
             LogError("Failed to decode json settings from file, status:", status)
         end
 
-        -- Overwrite values that shouldn't reapply after load
-        Settings.Dirty = false
-        Settings.NoClip = false
-        Settings.DistantShore = false
-        Settings.InfiniteTraitPoints = false
-        return file:close()
+        result = file:close() == true
     else
         LogDebug("LoadFromFile: Failed to open file: " .. settingsFilePath)
     end
-    return false
+
+    Settings.Dirty = true
+
+    return result
 end
 
 function SettingsManager.AutoSaveOnChange()
