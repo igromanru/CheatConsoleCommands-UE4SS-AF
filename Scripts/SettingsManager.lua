@@ -68,16 +68,15 @@ function SettingsManager.LoadFromFile()
     if file then
         LogDebug("Opened file \"" .. FileName .. "\" for reading")
         local content = file:read("*all")
+        file:close()
         LogDebug("File content: " .. content)
-        local status, settingsFromFile = pcall(JsonLua.decode, content) ---@type boolean, SettingsData
-        if status and settingsFromFile then
+        local result, settingsFromFile = pcall(JsonLua.decode, content) ---@type boolean, SettingsData
+        if result and settingsFromFile then
             LogDebug("Settings file version: " .. tostring(settingsFromFile.Version) .. ", Settings object version: " .. SettingsPair.SettingsData.Version)
-            MergeSettingsFromFile(settingsFromFile)
+            result = MergeSettingsFromFile(settingsFromFile)
         else
             LogError("Failed to decode json settings from file, status:", status)
         end
-
-        result = file:close() == true
     else
         LogDebug("LoadFromFile: Failed to open file: " .. settingsFilePath)
     end

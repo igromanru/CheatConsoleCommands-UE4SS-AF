@@ -95,16 +95,18 @@ function LocationsManager.LoadLocation(Name)
     if location and not IsEmptyVector(location.Location) then
         local myPlayer = AFUtils.GetMyPlayer()
         if IsValid(myPlayer) then
+            LogDebug("LoadLocation: Name:", location.Name)
             if location.LevelName then
                 local myPlayerController = AFUtils.GetMyPlayerController()
                 if IsValid(myPlayerController) and myPlayerController.ActiveLevelName:ToString() ~= location.LevelName then
                     LogDebug("LoadLocation: ActiveLevelName: " .. myPlayerController.ActiveLevelName:ToString())
                     local outSuccess = { bSuccess = false }
-                    local outNotLoaded = { bNotLoaded = false }
+                    local outAlreadyLoaded = { bAlreadyLoaded = false }
                     LogDebug("LoadLocation: LoadStreamLevel with name: " .. location.LevelName)
-                    local steamLevel = AFUtils.GetLevelStreamingCustom():LoadStreamLevel(myPlayerController, location.LevelName, true, false, outSuccess, outNotLoaded)
+                    local steamLevel = AFUtils.GetLevelStreamingCustom():LoadStreamLevel(myPlayerController, location.LevelName, true, false, outSuccess, outAlreadyLoaded)
                     LogDebug("LoadLocation: LoadStreamLevel Success: ", outSuccess.bSuccess)
-                    LogDebug("LoadLocation: LoadStreamLevel NotLoaded: ", outNotLoaded.bNotLoaded)
+                    LogDebug("LoadLocation: LoadStreamLevel AlreadyLoaded: ", outAlreadyLoaded.bAlreadyLoaded)
+                    LogDebug("LoadLocation: LoadStreamLevel Result: ", steamLevel)
                     if not outSuccess or not outSuccess.bSuccess then
                         LogError("LoadLocation: Failed to LoadStreamLevel, LevelName: " .. location.LevelName)
                     end
@@ -112,7 +114,7 @@ function LocationsManager.LoadLocation(Name)
                     LogDebug("LoadLocation: Skip LoadStreamLevel, ActiveLevelName and location LevelName are the same")
                 end
             else
-                LogInfo("LoadLocation: Warning! Loading a Location wtihout a LevelName!")
+                LogInfo("LoadLocation: Warning! Loading a Location without a LevelName!")
             end
             LogDebug("LoadLocation: TeleportPlayer to: " .. VectorToString(location.Location))
             location.Rotation = location.Rotation or FRotator()

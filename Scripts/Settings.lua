@@ -80,10 +80,6 @@ local SettingsData = {
     }, ---@type LocationStruct[]
 }
 
-SettingsData.MarkAsDirty = function ()
-    SettingsData.Dirty = true
-end
-
 ---@type SettingsData
 Settings = setmetatable({}, {
     __index = SettingsData,
@@ -99,7 +95,9 @@ Settings = setmetatable({}, {
     end
 })
 
-
+rawset(Settings, "MarkAsDirty", function(self)
+    SettingsData.Dirty = false
+end)
 
 local SessionOnlySettingsKeys = {
     Version = true,
@@ -110,8 +108,9 @@ local SessionOnlySettingsKeys = {
 }
 
 ---@param settingsFromFile SettingsData
+---@return boolean
 function MergeSettingsFromFile(settingsFromFile)
-    if not settingsFromFile then return end
+    if not settingsFromFile then return false end
 
     for key, value in pairs(settingsFromFile) do
         if not SessionOnlySettingsKeys[key] then
@@ -127,6 +126,8 @@ function MergeSettingsFromFile(settingsFromFile)
     end
 
     Settings.Version = ModVersion
+
+    return true
 end
 
 return {
