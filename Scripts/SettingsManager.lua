@@ -48,9 +48,13 @@ function SettingsManager.SaveToFile()
     local file = io.open(settingsFilePath, "w")
     if file then
         LogDebug("Opened file \"" .. FileName .. "\" for writing")
-        local json = JsonLua.encode(SettingsPair.SettingsData)
-        LogDebug("Write JSON to File: " .. json)
-        file:write(json)
+        local status, json = pcall(JsonLua.encode, SettingsPair.SettingsData)
+        if status and json then
+            LogDebug("Write JSON to File: " .. json)
+            file:write(json)
+        else
+            LogError("Failed to encode settings to json string. Status:", status)
+        end
         return file:close()
     else
         LogDebug("SaveToFile: Failed to open file: " .. settingsFilePath)
@@ -75,7 +79,7 @@ function SettingsManager.LoadFromFile()
             LogDebug("Settings file version: " .. tostring(settingsFromFile.Version) .. ", Settings object version: " .. SettingsPair.SettingsData.Version)
             result = MergeSettingsFromFile(settingsFromFile)
         else
-            LogError("Failed to decode json settings from file, status:", status)
+            LogError("Failed to decode json settings from file. Status:", result)
         end
     else
         LogDebug("LoadFromFile: Failed to open file: " .. settingsFilePath)
