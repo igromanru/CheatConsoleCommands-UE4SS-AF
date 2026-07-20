@@ -86,10 +86,14 @@ Settings = setmetatable({}, {
 
     __newindex = function(_, key, value)
         if SettingsData[key] ~= value then
-            SettingsData[key] = value
+            if SettingsData[key] ~= nil then
+                SettingsData[key] = value
 
-            if key ~= "Dirty" then
-                SettingsData.Dirty = true
+                if key ~= "Dirty" then
+                    SettingsData.Dirty = true
+                end
+            else
+                LogError("Settings value assignment. Key:", key, "doesn't exist in SettingsData! Value:", value)
             end
         end
     end
