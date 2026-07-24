@@ -13,7 +13,7 @@ I override some default UE commands which aren't working properly with the game 
 [font=Verdana][size=4][b]Manual Installation[/b][/size][/font]
 1. Follow the instruction on the [url=https://www.nexusmods.com/abioticfactor/mods/35]UE4SS for Abiotic Factor[/url] page to download and install latest UE4SS from there.
 2. Then use the [b]Manual Download[/b] button in [i]Files[/i] tab of this mod to download the mod as a zip file.
-4. Unzip/extract the content of mod's zip ([b]CheatConsoleCommands[/b] folder) into the directory: 
+4. Unzip/extract the content of mod's zip ([b]CheatConsoleCommands[/b] folder) into the directory:
 [b]Steam:[/b] [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss\Mods\[/i]
 [b]XboxGames:[/b] [i](game root directory)\Abiotic Factor\Content\AbioticFactor\Binaries\WinGDK\ue4ss\Mods\[/i]
 [size=2]Make sure you don't create a new folder while extracting! If you do, just move the content to the destination after.[/size]
@@ -30,14 +30,16 @@ The mod directory should contain a [b]Scripts[/b] folder and an [b]enabled.txt[/
 [i](game root directory)\Abiotic Factor\Content\AbioticFactor\Binaries\WinGDK\ue4ss\Mods\CheatConsoleCommands\enabled.txt[/i][/size]
 
 [font=Verdana][size=4][b]How to use[/b][/size][/font]
-[list][*]Open game's command console with [b]F10[/b] or [b]~[/b]. Press the hotkey one time to open in "quick type" mode and second type to open fully.
-[*]Use command "help" to get a detailed list of all possible commands, with "help (command alias)" you can get information about a special command
-[*]Type one of the command aliases from below to trigger the command.
-[*]Most commands can be enabled and disabled by typing the same command, but commands like "money" will be executed once.
+[list]
+[*]Open game's command console with [b]F10[/b] or [b]~[/b]. Press the hotkey one time to open in "quick type" mode and second type to open fully.[/*]
+[*]Use command "help" to get a detailed list of all possible commands, with "help (command alias)" you can get information about a special command[/*]
+[*]Type one of the command aliases from below to trigger the command.[/*]
+[*]Most commands can be enabled and disabled by typing the same command, but commands like "money" will be executed once.[/*]
 [/list]
+
 [font=Verdana][size=4][b]Settings Auto Save System[/b][/size][/font]
-Since v1.4.0 the toggle state of commands will be saved to the file [b]CheatConsoleCommands.json[/b] and restored automatically when you start the game next time.  
-It will also automatically change Leyak's cooldown to your last set value.  
+Since v1.4.0 the toggle state of commands will be saved to the file [b]CheatConsoleCommands.json[/b] and restored automatically when you start the game next time.
+It will also automatically change Leyak's cooldown to your last set value.
 Obviously all your saved locations will be saved as well.
 When updating the mod to latest version overwrite existing files instead of deleting the folder, to preserve the settings file.
 Or create back up the [b]CheatConsoleCommands.json[/b] to be able to restore it later.
@@ -68,9 +70,9 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Infinite Oxygen[/b] [ [font=Arial]oxygen[/font] | [font=Arial]info2[/font] | [font=Arial]o2[/font] | [font=Arial]infoxygen[/font] ] {} - [font=Georgia]Makes player breath under water. (host only)[/font]
 [b]Invisible[/b] [ [font=Arial]inv[/font] | [font=Arial]invisible[/font] | [font=Arial]invis[/font] | [font=Arial]invisibility[/font] | [font=Arial]untargetable[/font] ] {} - [font=Georgia]Makes player invisible/untargetable by enemy NPCs (host only)[/font]
 [b]No Fall Damage[/b] [ [font=Arial]falldmg[/font] | [font=Arial]falldamage[/font] | [font=Arial]nofall[/font] | [font=Arial]nofalldmg[/font] | [font=Arial]nofalldamage[/font] ] {} - [font=Georgia]Prevents player from taking fall damage (host only)[/font]
-[b]Free Crafting (Debug function)[/b] [ [font=Arial]freecraft[/font] | [font=Arial]freecrafting[/font] | [font=Arial]crafting[/font] | [font=Arial]craft[/font] ] {} - [font=Georgia]Allows player to craft ALL recipes, upgrade the Crafting Bench, instantly build furnitue and unlock chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/font]
+[b]Free Crafting (Debug function)[/b] [ [font=Arial]freecraft[/font] | [font=Arial]freecrafting[/font] | [font=Arial]crafting[/font] | [font=Arial]craft[/font] ] {} - [font=Georgia]Allows player to craft ALL recipes, upgrade the Crafting Bench, instantly build furniture and unlock chests without keys. (Warning: You may need to restart the game to deactivate it completely!) (host only)[/font]
 [b]Instant Crafting[/b] [ [font=Arial]InstantCrafting[/font] | [font=Arial]instacraft[/font] | [font=Arial]instantcraft[/font] | [font=Arial]instcraft[/font] ] {} - [font=Georgia]Reduces crafting duration for all recipes to minimum (works as guest)[/font]
-[b]Build Anywhere[/b] [ [font=Arial]BuildAnywhere[/font] ] {} - [font=Georgia]Allows you to build deployables even if they overlap with the objects (Attention! The command might conflict with other build-related mods) (works as guest)[/font]
+[b]Build Anywhere[/b] [ [font=Arial]BuildAnywhere[/font] ] {} - [font=Georgia]Allows you to build deployables even if they overlap with other objects (Attention! The command might conflict with other build-related mods) (works as guest)[/font]
 [b]Set Money[/b] [ [font=Arial]money[/font] ] { <value> } - [font=Georgia]Set money to desired value (works as guest)[/font]
 [b]Infinite Ammo[/b] [ [font=Arial]infammo[/font] | [font=Arial]ammo[/font] | [font=Arial]infiniteammo[/font] ] {} - [font=Georgia]Keeps ammo of ranged weapons replenished (as guest works somehow, but is bugged)[/font]
 [b]No Recoil[/b] [ [font=Arial]norecoil[/font] | [font=Arial]recoil[/font] | [font=Arial]weaponnorecoil[/font] ] {} - [font=Georgia]Reduces weapon's fire recoil to minimum (haven't found a way to remove completely yet) (works as guest)[/font]
@@ -83,7 +85,7 @@ Format of the list: [b]Feature name[/b] [ [i]command aliases[/i] ] {[i] paramete
 [b]Krasue Cooldown[/b] [ [font=Arial]krasuecd[/font] | [font=Arial]rasuecooldown[/font] | [font=Arial]cdrasue[/font] ] { <minutes> } - [font=Georgia]Changes Krasue's spawn cooldown in minutes (Default: 10min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 10) (host only)[/font]
 [b]Trap Krasue[/b] [ [font=Arial]trapkrasue[/font] | [font=Arial]containkrasue[/font] ] {} - [font=Georgia]Trap's Krasue in the next possible Containment Unit. (host only)[/font]
 [b]Free Krasue[/b] [ [font=Arial]freekrasue[/font] ] {} - [font=Georgia]Free Krasue from a Containment Unit. (host only)[/font]
-[b]Infinite Trait Points[/b] [ [font=Arial]inftraits[/font] | [font=Arial]inftrait[/font] | [font=Arial]traitpoints [/font] | [font=Arial]inftraitpoints[/font] ] {} - [font=Georgia]Lets you select as many Traits as you want while creating a new character. (works as guest)[/font]
+[b]Infinite Trait Points[/b] [ [font=Arial]inftraits[/font] | [font=Arial]inftrait[/font] | [font=Arial]traitpoints [/font] | [font=Arial]inftraitpoints[/font] ] {} - [font=Georgia]Lets you select as many Traits as you want while creating a new character. (host only)[/font]
 [b]No Clip[/b] [ [font=Arial]noclip[/font] | [font=Arial]clip[/font] | [font=Arial]ghost[/font] ] {} - [font=Georgia]Disables player's collision and makes him fly (host only)[/font]
 [b]Add Skill Experience[/b] [ [font=Arial]addxp[/font] | [font=Arial]addexp[/font] | [font=Arial]xpadd[/font] | [font=Arial]skillxp[/font] | [font=Arial]skillexp[/font] | [font=Arial]skill[/font] | [font=Arial]skillxp[/font] ] { <skill alias> <XP value> } - [font=Georgia]Adds XP to specified Skill (host only)[/font]
 [b]Remove Skill Experience[/b] [ [font=Arial]removexp[/font] | [font=Arial]removeexp[/font] | [font=Arial]resetxp[/font] | [font=Arial]resetexp[/font] | [font=Arial]resetskill[/font] | [font=Arial]resetlevel[/font] | [font=Arial]resetlvl[/font] ] { <skill alias> } - [font=Georgia]Removes All XP from specified Skill (host only)[/font]
@@ -137,7 +139,7 @@ Used is commands [b]Add Skill Experience[/b], [b]Remove Skill Experience[/b], [b
 Most commands has multiple aliases that you can use to trigger it.
 For example: [b]Infinite Health[/b] can be activated by typing "health", "hp", "inv", "infhp" OR "infhealth" into the console.
 Commands which has parameters has to be used like this:
-[font=Courier New]money 9999  [/font]--Sets money value to 9999
+[font=Courier New]money 9999  [/font]--Sets money value to 9999
 [font=Courier New]leyakcd 60 [/font]--Makes Leyak spawn once per hour
 [font=Courier New]killall 1[/font]    --Kills all NPCs that are loaded and drops their loot
 [font=Courier New]givexp 1 sharp 1000[/font] --Gives player on index 1, 1000 XP for Sharp Meele skill
@@ -151,9 +153,9 @@ Commands which has parameters has to be used like this:
 [line]
 [font=Verdana][size=4][b]How to spawn items[/b][/size][/font]
 [size=2]At the moment I haven't found a proper way to spawn items, probably mainly because of the UE4SS Lua limitations as I can't call some functions.
-The best I have for now is the default UE [b]summon[/b] command, that allows to spawn objects in the world based on it's class name. 
-But for Abiotic Factor it seems to work only for deployable items, which you can actually place in the world.
-[/size]
+The best I have for now is the default UE [b]summon[/b] command, that allows to spawn objects in the world based on it's class name.
+But for Abiotic Factor it seems to work only for deployable items, which you can actually place in the world.[/size]
+
 1. Navigate to my [url=https://docs.google.com/spreadsheets/d/1Twr2ITPDZEBe9oPp0keyOhJEwCAfbKGTUz00Hx-dXnY/edit?usp=sharing]Abiotic Factor Classes[/url] sheet
 2. Press [b]Ctrl+F[/b] and search for the item you want to spawn
 [size=2]For example: [i]aquarium[/i]
@@ -168,21 +170,23 @@ You will find the class: [i]/Game/Blueprints/DeployedObjects/Furniture/Container
 [line]
 [font=Verdana][size=4][b]Additional information[/b][/size][/font]
 [list]
-[*]Most features are based on debugging functions created by game developers to help them develop the game.
-[*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload the game. Also it let you unlock all chests without needing a special Key and let you place furniture instantly.
+[*]Most features are based on debugging functions created by game developers to help them develop the game.[/*]
+[*]The most noticeable is [b]Free Crafting[/b]. It doesn't behave as you would expect. It unlocks ALL recipes and simulates the possession of all possible items temporary, but after disabling it might take a while until it resets OR you have to reload the game. Also it let you unlock all chests without needing a special Key and let you place furniture instantly.[/*]
 [/list]
+
 [font=Verdana][size=4][b]Compatibility[/b][/size][/font]
-Cheat Console Commands mod should be compatibility with any other mod.  
+Cheat Console Commands mod should be compatibility with any other mod.
 Obviously there will be conflicts if another mod writes the same values, just pay attention to the features of other mods/trainers not to use the same feature of both mods at the same time, otherwise they might interfere with each other.
 For example: if you are attempting to use Low Continence and Infinite Continence at the same time.
 
 [font=Verdana][size=4][b]Bug/Issue Reports[/b][/size][/font]
-If you have followed the installation instructions above and are 100% sure that you have done everything correctly, but you are still having problems with the mod, please provide following information if you wish to report an issue. 
+If you have followed the installation instructions above and are 100% sure that you have done everything correctly, but you are still having problems with the mod, please provide following information if you wish to report an issue.
 [list=1]
-[*]Your game version and Platform (Steam/GoG etc.)
-[*]Which mod version are you using
-[*]The content of [b]UE4SS.log[/b] file.
-[/list]The log file is located in the [b]ue4ss[/b] directory.
+[*]Your game version and Platform (Steam/GoG etc.)[/*]
+[*]Which mod version are you using[/*]
+[*]The content of [b]UE4SS.log[/b] file.[/*]
+[/list]
+The log file is located in the [b]ue4ss[/b] directory.
 Steam Path: [i](game root directory)\AbioticFactor\Binaries\Win64\ue4ss[/i]
 Xbox Path: [i](game root directory)\AbioticFactor\Binaries\WinGDK\ue4ss[/i]
 The easiest way to share the content of the log file is to upload it to a site like: [url=https://pastebin.com/]pastebin.com[/url]
@@ -190,7 +194,7 @@ The easiest way to share the content of the log file is to upload it to a site l
 [font=Verdana][size=4][b]Dedicated Server[/b][/size][/font]
 The mod has to be installed on the Dedicated Server itself and can only be used from Server's own console!
 [size=2]Currently all player related commands work only for the first player on the server. You can still use commands like "givexp", "takexp", "smite" etc. for each player and player independent commands like Leyak Cooldown etc.[/size]
-1. To use Console Commands you have to start the Server with an additional argument [url=https://github.com/DFJacob/AbioticFactorDedicatedServer/wiki/Technical-%E2%80%90-Launch-Parameters#-log--newconsole]-NewConsole[/url]. 
+1. To use Console Commands you have to start the Server with an additional argument [url=https://github.com/DFJacob/AbioticFactorDedicatedServer/wiki/Technical-%E2%80%90-Launch-Parameters#-log--newconsole]-NewConsole[/url].
 2. At the top right corner press the double up arrow button to expend console to show the command line.
 See picture: [url=https://staticdelivery.nexusmods.com/mods/6412/images/28/28-1729573933-724491234.png]Screenshot link[/url]
 3. In the command line you can now use the console commands as usual, but the only feedback you get from the mod will be text output to the console.
@@ -198,18 +202,20 @@ See picture: [url=https://staticdelivery.nexusmods.com/mods/6412/images/28/28-17
 [font=Verdana][size=4][b]My AF Mods[/b][/size][/font]
 Check out my other Abiotic Factor mods.
 [list]
-[*][url=https://www.nexusmods.com/abioticfactor/mods/23]Instant Fishing[/url]
-[*][url=https://www.nexusmods.com/abioticfactor/mods/33]Stack Manager[/url]
-[*][url=https://www.nexusmods.com/abioticfactor/mods/20]Duplicate Items[/url]
-[*][url=https://www.nexusmods.com/abioticfactor/mods/22]Unlimited Power (Gear - Held Item - Batteries)[/url]
-[*][url=https://www.nexusmods.com/abioticfactor/mods/41]Infinite Leyak Containment[/url]
-[*][url=https://www.nexusmods.com/abioticfactor/mods/42]Customization Unlocker[/url]
-[*][url=https://www.nexusmods.com/abioticfactor/mods/50]Always Outline[/url]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/23]Instant Fishing[/url][/*]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/33]Stack Manager[/url][/*]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/20]Duplicate Items[/url][/*]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/22]Unlimited Power (Gear - Held Item - Batteries)[/url][/*]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/41]Infinite Leyak Containment[/url][/*]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/42]Customization Unlocker[/url][/*]
+[*][url=https://www.nexusmods.com/abioticfactor/mods/50]Always Outline[/url][/*]
 [/list]
+
 [font=Verdana][size=3][b]Credits[/b][/size][/font]
 [list]
-[*]Gantzyo from UE4SS Discord
+[*]Gantzyo from UE4SS Discord[/*]
 [/list]
+
 [b][url=https://github.com/igromanru/CheatConsoleCommands-UE4SS-AF]GitHub Page[/url][/b]
 
 [font=Arial][size=4]Highest form of appreciation[/size][/font]
