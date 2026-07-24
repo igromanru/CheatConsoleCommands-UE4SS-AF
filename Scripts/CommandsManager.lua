@@ -1835,14 +1835,14 @@ function(self, OutputDevice, Parameters)
 end,
 "PlayerGravityScale")
 
--- Send to Distant Shore Command
--- CreateCommand({ "DistantShore", "dshore", "portalwc" }, "Send to Distant Shore", "Sends player to Distant Shore if [REDACTED] is deployed/placed. (host only)", nil,
---     function(self, OutputDevice, Parameters)
---         Settings.DistantShore = not Settings.DistantShore
---         AFUtils.DisplayWarningMessage(PrintCommandState(Settings.DistantShore, self.Name, OutputDevice), AFUtils.CriticalityLevels.Green)
---         return true
---     end,
---     "DistantShore")
+-- Instant Distant Shore Command
+CreateCommand({ "InstantDistantShore", "DistantShore", "instantshore", "instshore", "instds", "dshore", "portalwc" }, "Instant Distant Shore", "Sends the player to Distant Shore as soon as they sit on the [REDACTED]. (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.InstantDistantShore = not Settings.InstantDistantShore
+        PrintCommandState(Settings.InstantDistantShore, self.Name, OutputDevice)
+        return true
+    end,
+    "InstantDistantShore")
 
 -- Delete Object Trace Command
 CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Deletes an object in front of you (up to 10 meters). Objects that are part of the map can't be permanently removed! (Aim carefully, the object will be gone for good) (host only)", nil,

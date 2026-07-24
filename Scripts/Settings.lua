@@ -58,7 +58,7 @@ local SettingsData = {
     KrasueCooldown = 0, -- 0 disable command
     SpeedhackMultiplier = 1.0,
     PlayerGravityScale = 1.0,
-    DistantShore = false,
+    InstantDistantShore = false,
     InfiniteCrouchRoll = false,
     InstantToilet = false,
     InstantPlantGrowth = false,
@@ -76,7 +76,7 @@ local SettingsData = {
         LocationStruct("Store", "Vignette_FurnitureWarehouse", FVector(343302, -119069, 118), FRotator(359, 90, 0)),
         LocationStruct("Mycofields", "V_Anteverse_B", FVector(324726, 329753, 2162), FRotator(2, 189, 0)),
         LocationStruct("Night Realm", "V_NIGHT", FVector(324726, 329753, 2162), FRotator(2, 189, 0)),
-        LocationStruct("Distant Shore", "V_DistantShore", FVector(5442, 31087, -237874), FRotator(358, 135, 0)),
+        LocationStruct("Distant Shore", "V_DistantShore", FVector(331480, -334311, 920), FRotator(0, 0, 0)),
     }, ---@type LocationStruct[]
 }
 

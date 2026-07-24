@@ -961,31 +961,31 @@ function JournalEntryUnlocker()
     end
 end
 
--- function SetInventorySlotCount()
---     if Settings.InventorySlotCount and Settings.InventorySlotCount > 0 then
---         local myInventoryComponent = AFUtils.GetMyInventoryComponent()
---         if myInventoryComponent and myInventoryComponent.MaxSlots ~= Settings.InventorySlotCount then
---             myInventoryComponent.MaxSlots = Settings.InventorySlotCount
---             myInventoryComponent:UpdateInventorySlotCount(Settings.InventorySlotCount)
---             local message = "Inventory Size set to " .. myInventoryComponent.MaxSlots
---             LogDebug(message)
---             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
---         end
---     end
--- end
 
--- ---@param myPlayer AAbiotic_PlayerCharacter_C
--- function DistantShore(myPlayer)
---     if Settings.DistantShore then
---         local deployedToiletPortal = FindFirstOf("Deployed_Toilet_Portal_C") ---@cast deployedToiletPortal ADeployed_Toilet_Portal_C
---         if IsValid(deployedToiletPortal) and deployedToiletPortal.DeployedByPlayer then
---             Settings.DistantShore = false
---             local message = "Sending to Distant Shore"
---             LogDebug(message)
---             AFUtils.ClientDisplayWarningMessage(message, AFUtils.CriticalityLevels.Green)
---             LogDebug("DistantShore: SendToDistantShore")
---             pcall(deployedToiletPortal.InteractTeleportUpdate, deployedToiletPortal, myPlayer, true, true)
---             AFUtils.ClientDisplayWarningMessage("Send to Distant Shore Disabled", AFUtils.CriticalityLevels.Red)
---         end
---     end
--- end
+local InstantDistantShorePreId, InstantDistantShorePostId = nil, nil
+local function InitInstantDistantShoreHooks()
+    if not InstantDistantShorePreId then
+        LoadAsset("/Game/Blueprints/DeployedObjects/Furniture/Deployed_Toilet_Portal.Deployed_Toilet_Portal_C")
+        InstantDistantShorePreId, InstantDistantShorePostId = RegisterHook("/Game/Blueprints/DeployedObjects/Furniture/Deployed_Toilet_Portal.Deployed_Toilet_Portal_C:DistantShoreCheck", function(Context, Character, DistantShore)
+            if Settings.InstantDistantShore then
+                DistantShore:set(true)
+            end
+        end)
+        LogDebug("InstantDistantShorePreId:", InstantDistantShorePreId)
+        LogDebug("InstantDistantShorePostId:", InstantDistantShorePostId)
+    end
+end
+
+local InstantDistantShoreWasEnabled = false
+function InstantDistantShore()
+    if Settings.InstantDistantShore then
+        if not InstantDistantShoreWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Instant Distant Shore activated", AFUtils.CriticalityLevels.Green)
+            InstantDistantShoreWasEnabled = true
+        end
+        InitInstantDistantShoreHooks()
+    elseif InstantDistantShoreWasEnabled then
+        InstantDistantShoreWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Instant Distant Shore deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
