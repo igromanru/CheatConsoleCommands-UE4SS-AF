@@ -129,35 +129,68 @@ function NoOverheat(myPlayer)
 end
 
 local MaxInventoryWeight = 999999.0
-local LastMaxCarryWeight = 0
+-- local GetInventoryWeightPercentPreId, GetInventoryWeightPercentPostId = nil, nil
+-- local RefreshCurrentMaxCarryWeightPreId, RefreshCurrentMaxCarryWeightPostId = nil, nil
+-- local function InitInfiniteMaxWeightHooks()
+--     if not GetInventoryWeightPercentPreId then
+--         GetInventoryWeightPercentPreId, GetInventoryWeightPercentPostId = RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:GetInventoryWeightPercent", function(Context)
+--             if Settings.InfiniteMaxWeight then
+--                 local playerCharacter = Context:get() ---@type AAbiotic_PlayerCharacter_C
+--                 local myPlayer = AFUtils.GetMyPlayer()
+--                 if playerCharacter == myPlayer and playerCharacter.MaxInventoryWeight < MaxInventoryWeight then
+--                     playerCharacter.MaxInventoryWeight = MaxInventoryWeight
+--                     LogDebug("GetInventoryWeightPercent: MaxInventoryWeight:", playerCharacter.MaxInventoryWeight)
+--                 end
+--             end
+--         end)
+--         LogDebug("GetInventoryWeightPercentPreId:", GetInventoryWeightPercentPreId)
+--         LogDebug("GetInventoryWeightPercentPostId:", GetInventoryWeightPercentPostId)
+--     end
+--     if not RefreshCurrentMaxCarryWeightPreId then
+--         RefreshCurrentMaxCarryWeightPreId, RefreshCurrentMaxCarryWeightPostId = RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Refresh Current Max Carry Weight", function(Context)
+--             if Settings.InfiniteMaxWeight then
+--                 local playerCharacter = Context:get() ---@type AAbiotic_PlayerCharacter_C
+--                 local myPlayer = AFUtils.GetMyPlayer()
+--                 if playerCharacter == myPlayer and playerCharacter.MaxInventoryWeight < MaxInventoryWeight then
+--                     playerCharacter.MaxInventoryWeight = MaxInventoryWeight
+--                     LogDebug("Refresh Current Max Carry Weight: MaxInventoryWeight:", playerCharacter.MaxInventoryWeight)
+--                 end
+--             end
+--         end)
+--         LogDebug("RefreshCurrentMaxCarryWeightPreId:", RefreshCurrentMaxCarryWeightPreId)
+--         LogDebug("RefreshCurrentMaxCarryWeightPostId:", RefreshCurrentMaxCarryWeightPostId)
+--     end
+-- end
+
+local LastDefaultMaxCarryWeight = 0
 local InfiniteMaxWeightWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function InfiniteMaxWeight(myPlayer)
     if Settings.InfiniteMaxWeight then
         if myPlayer.MaxInventoryWeight < MaxInventoryWeight then
-            LastMaxCarryWeight = myPlayer.MaxInventoryWeight
+            -- InitInfiniteMaxWeightHooks()
+            if LastDefaultMaxCarryWeight == 0 and myPlayer.DefaultMaxInventoryWeight < MaxInventoryWeight then
+                LastDefaultMaxCarryWeight = myPlayer.DefaultMaxInventoryWeight
+                LogDebug("LastDefaultMaxCarryWeight:", LastDefaultMaxCarryWeight)
+            end
+            myPlayer.DefaultMaxInventoryWeight = MaxInventoryWeight
             myPlayer.MaxInventoryWeight = MaxInventoryWeight
-            myPlayer:OnRep_MaxInventoryWeight()
-            -- myPlayer["Server Refresh New Inventory Weight"]()
+            myPlayer:OnRep_MaxInventoryWeight();
             -- myPlayer["Refresh Current Max Carry Weight"]()
-            LogDebug("MaxInventoryWeight: " .. tostring(myPlayer.MaxInventoryWeight))
+            LogDebug("Set MaxInventoryWeight:", myPlayer.MaxInventoryWeight)
         end
         if not InfiniteMaxWeightWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Infinite Max Weight activated", AFUtils.CriticalityLevels.Green)
             InfiniteMaxWeightWasEnabled = true
         end
     elseif InfiniteMaxWeightWasEnabled then
-        InfiniteMaxWeightWasEnabled = false
-        -- if LastMaxCarryWeight < myPlayer.DefaultMaxInventoryWeight then
-        --     myPlayer.MaxInventoryWeight = myPlayer.DefaultMaxInventoryWeight
-        -- else
-        --     myPlayer.MaxInventoryWeight = LastMaxCarryWeight
-        -- end
-        -- myPlayer:OnRep_MaxInventoryWeight()
-        myPlayer["Server Refresh New Inventory Weight"]()
-        myPlayer["Refresh Current Max Carry Weight"]()
         AFUtils.ClientDisplayWarningMessage("Infinite Max Weight deactivated", AFUtils.CriticalityLevels.Red)
-        LogDebug("MaxInventoryWeight: " .. tostring(myPlayer.MaxInventoryWeight))
+        InfiniteMaxWeightWasEnabled = false
+        if LastDefaultMaxCarryWeight > 0 then
+            myPlayer.DefaultMaxInventoryWeight = LastDefaultMaxCarryWeight
+        end
+        myPlayer["Refresh Current Max Carry Weight"]()
+        LogDebug("Restored MaxInventoryWeight:", myPlayer.MaxInventoryWeight)
         LastMaxCarryWeight = 0
     end
 end
