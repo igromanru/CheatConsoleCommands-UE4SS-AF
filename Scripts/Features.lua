@@ -138,6 +138,8 @@ function InfiniteMaxWeight(myPlayer)
             LastMaxCarryWeight = myPlayer.MaxInventoryWeight
             myPlayer.MaxInventoryWeight = MaxInventoryWeight
             myPlayer:OnRep_MaxInventoryWeight()
+            -- myPlayer["Server Refresh New Inventory Weight"]()
+            -- myPlayer["Refresh Current Max Carry Weight"]()
             LogDebug("MaxInventoryWeight: " .. tostring(myPlayer.MaxInventoryWeight))
         end
         if not InfiniteMaxWeightWasEnabled then
@@ -146,15 +148,17 @@ function InfiniteMaxWeight(myPlayer)
         end
     elseif InfiniteMaxWeightWasEnabled then
         InfiniteMaxWeightWasEnabled = false
-        if LastMaxCarryWeight < myPlayer.DefaultMaxInventoryWeight then
-            myPlayer.MaxInventoryWeight = myPlayer.DefaultMaxInventoryWeight
-        else
-            myPlayer.MaxInventoryWeight = LastMaxCarryWeight
-        end
-        myPlayer:OnRep_MaxInventoryWeight()
+        -- if LastMaxCarryWeight < myPlayer.DefaultMaxInventoryWeight then
+        --     myPlayer.MaxInventoryWeight = myPlayer.DefaultMaxInventoryWeight
+        -- else
+        --     myPlayer.MaxInventoryWeight = LastMaxCarryWeight
+        -- end
+        -- myPlayer:OnRep_MaxInventoryWeight()
+        myPlayer["Server Refresh New Inventory Weight"]()
+        myPlayer["Refresh Current Max Carry Weight"]()
+        AFUtils.ClientDisplayWarningMessage("Infinite Max Weight deactivated", AFUtils.CriticalityLevels.Red)
         LogDebug("MaxInventoryWeight: " .. tostring(myPlayer.MaxInventoryWeight))
         LastMaxCarryWeight = 0
-        AFUtils.ClientDisplayWarningMessage("Infinite Max Weight deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
 
@@ -403,8 +407,8 @@ function InfiniteOxygen(myPlayer)
         InfiniteOxygenWasEnabled = false
         myPlayer.DrownTime = DrownTimeBackUp
         DrownTimeBackUp = InfiniteDrownTime
-        LogDebug("DrownTime: " .. tostring(myPlayer.DrownTime))
         AFUtils.ClientDisplayWarningMessage("Infinite Oxygen deactivated", AFUtils.CriticalityLevels.Red)
+        LogDebug("DrownTime: " .. tostring(myPlayer.DrownTime))
     end
 end
 
