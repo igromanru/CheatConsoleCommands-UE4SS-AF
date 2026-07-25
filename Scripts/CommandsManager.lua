@@ -604,7 +604,7 @@ CreateCommand({ "stamina", "sp", "infsp", "infstamina" }, "Infinite Stamina",
 
 -- No Debuffs
 CreateCommand({ "nodebuffs", "disabledebuffs", "nodebuff" }, "No Debuffs",
-    "All debuffs applied to the player will expire instantly. (Doesn't remove existing debuffs! Reload the save to remove them.) (host only)", nil,
+    "All debuffs applied to the player will expire instantly. (Bleeding, Injured Legs etc.) (Doesn't remove existing debuffs! Reload the save to remove them.) (host only)", nil,
     function(self, OutputDevice, Parameters)
         if Settings.GodMode then
             WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
