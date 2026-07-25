@@ -790,6 +790,7 @@ function Speedhack(myPlayer, hasAuthority)
     local newBaseWalkSpeed = BaseWalkSpeedBackUp * Settings.SpeedhackMultiplier
     local newBaseSprintSpeed = BaseSprintSpeedBackUp * Settings.SpeedhackMultiplier
     if hasAuthority then
+        myPlayer.GlobalSwimSpeedModifier = Settings.SpeedhackMultiplier
         if myPlayer.BaseWalkSpeed == newBaseWalkSpeed and myPlayer.BaseSprintSpeed == newBaseSprintSpeed then
             return
         end
@@ -817,6 +818,7 @@ function Speedhack(myPlayer, hasAuthority)
     if Settings.SpeedhackMultiplier ~= LastSpeedhackMultiplier then
         LastSpeedhackMultiplier = Settings.SpeedhackMultiplier
         LogDebug("Speedhack multiplier:", LastSpeedhackMultiplier)
+        LogDebug("GlobalSwimSpeedModifier:", myPlayer.GlobalSwimSpeedModifier)
         AFUtils.ClientDisplayWarningMessage("Speed x" .. LastSpeedhackMultiplier, AFUtils.CriticalityLevels.Green)
     end
 end
