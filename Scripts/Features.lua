@@ -989,3 +989,49 @@ function InstantDistantShore()
         AFUtils.ClientDisplayWarningMessage("Instant Distant Shore deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
+
+local ServerApplyBuffPreId, ServerApplyBuffPostId = nil, nil
+local function InitBuffHooks()
+    if not ServerApplyBuffPreId then
+        ServerApplyBuffPreId, ServerApplyBuffPostId = RegisterHook("/Script/AbioticFactor.CharacterBuffComponent:Server_ApplyBuff", function(Context, BuffRow, bOverrideDefaultDuration, NewDuration, Limb, LinkedActor, bSkipDialog)
+            -- local overrideDefaultDuration = bOverrideDefaultDuration:get() ---@type boolean
+            -- local newDuration = NewDuration:get() ---@type float
+            -- local limb = Limb:get() ---@type EBodyLimbs
+            -- local linkedActor = LinkedActor:get() ---@type AActor
+            -- local skipDialog = bSkipDialog:get() ---@type boolean
+
+            if Settings.GodMode or Settings.NoDebuffs then
+                -- local context = Context:get() ---@type UCharacterBuffComponent
+                -- local componentOwner = context:GetOwner()
+                -- Looks like the component owner is not my player...
+                -- if IsValid(componentOwner) and componentOwner == AFUtils.GetMyPlayer() then
+                    local buffRow = BuffRow:get() ---@type FBuffDebuffRowHandle
+                    
+                    local buffRowName = buffRow.RowName:ToString()
+                    if #buffRowName > 5 and buffRowName:sub(1, 6) == "Debuff" then
+                        NewDuration:set(0.001)
+                        bOverrideDefaultDuration:set(true)
+                        bSkipDialog:set(true)
+                        LogDebug("Server_ApplyBuff: Debuff detected:", buffRowName)
+                    end
+                -- end
+            end
+        end)
+        LogDebug("ServerApplyBuffPreId:", ServerApplyBuffPreId)
+        LogDebug("ServerApplyBuffPostId:", ServerApplyBuffPostId)
+    end
+end
+
+local NoDebuffsWasEnabled = false
+function NoDebuffs()
+    if Settings.GodMode or Settings.NoDebuffs then
+        InitBuffHooks()
+        if not NoDebuffsWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("No Debuffs activated", AFUtils.CriticalityLevels.Green)
+            NoDebuffsWasEnabled = true
+        end
+    elseif NoDebuffsWasEnabled then
+        NoDebuffsWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("No Debuffs deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end

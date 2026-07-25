@@ -33,6 +33,7 @@ local SettingsData = {
     InfiniteHealth = false,
     HealthRegeneration = 0.0,
     InfiniteStamina = false,
+    NoDebuffs = false,
     InfiniteDurability = false,
     InfiniteEnergy = false,
     NoOverheat = false,

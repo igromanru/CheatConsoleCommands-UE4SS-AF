@@ -527,6 +527,7 @@ CreateCommand({ "god", "godmode" }, "God Mode",
             Settings.InfiniteHealth = false
             Settings.HealthRegeneration = 0.0
             Settings.InfiniteStamina = false
+            Settings.NoDebuffs = false
             Settings.NoHunger = false
             Settings.NoThirst = false
             Settings.NoFatigue = false
@@ -600,6 +601,20 @@ CreateCommand({ "stamina", "sp", "infsp", "infstamina" }, "Infinite Stamina",
         return true
     end,
     "InfiniteStamina")
+
+-- No Debuffs
+CreateCommand({ "nodebuffs", "disabledebuffs", "nodebuff" }, "No Debuffs",
+    "All debuffs applied to the player will expire instantly. (Doesn't remove existing debuffs! Reload the save to remove them.) (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        if Settings.GodMode then
+            WriteToConsole(OutputDevice, self.Name .. " can't be activated while God Mode is enabled!")
+            return true
+        end
+        Settings.NoDebuffs = not Settings.NoDebuffs
+        PrintCommandState(Settings.NoDebuffs, self.Name, OutputDevice)
+        return true
+    end,
+    "NoDebuffs")
 
 -- Infinite Crouch Roll
 CreateCommand({ "infroll", "crouchroll", "stealthroll" }, "Infinite Crouch Roll",
@@ -1836,7 +1851,7 @@ end,
 "PlayerGravityScale")
 
 -- Instant Distant Shore Command
-CreateCommand({ "InstantDistantShore", "DistantShore", "instantshore", "instshore", "instds", "dshore", "portalwc" }, "Instant Distant Shore", "Sends the player to Distant Shore as soon as they sit on the [REDACTED]. (host only)", nil,
+CreateCommand({ "InstantDistantShore", "DistantShore", "instantshore", "instshore", "instashore", "instds", "dshore", "portalwc" }, "Instant Distant Shore", "Guarantees that player will be sent to Distant Shore instantly when using the related item. (host only)", nil,
     function(self, OutputDevice, Parameters)
         Settings.InstantDistantShore = not Settings.InstantDistantShore
         PrintCommandState(Settings.InstantDistantShore, self.Name, OutputDevice)
