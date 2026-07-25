@@ -13,6 +13,7 @@ Heal | heal |  | Player gets fully healed once (host only)
 Infinite Health | health \| hp \| infhp \| infhealth |  | Player gets fully healed and becomes invincible (host only)
 Health Regeneration | hpreg \| hpregen \| regenhp \| healthregeneration | {hp/s} | Sets automatic health regeneration in health points per second. (To disable set to: 0) (host only)
 Infinite Stamina | stamina \| sp \| infsp \| infstamina |  | Player won't consume stamina (works partial as guest)
+No Debuffs | nodebuffs \| disabledebuffs \| nodebuff |  | All debuffs applied to the player will expire instantly. (Doesn't remove existing debuffs! Reload the save to remove them.) (host only)
 Infinite Crouch Roll | infroll \| crouchroll \| stealthroll |  | Allows player to use the crouch roll ability from Sneaking LvL 5 without a cooldown.
 Infinite Durability | durability \| infdurability \| infdur |  | Keeps player's gear and hotbar items durability at maximum (works as guest)
 Infinite Energy | energy \| infenergy |  | Keeps player's gear and held item charge/energy at maximum (host only)
@@ -73,6 +74,7 @@ Give Skill Experience to Player | givexp | {name/index} {skill alias} {XP value}
 Remove Skill Experience from Player | takexp | {name/index} {skill alias} | Remove All Skill XP from a player (host only)
 Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (works as guest)
 Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
+Instant Distant Shore | InstantDistantShore \| DistantShore \| instantshore \| instshore \| instashore \| instds \| dshore \| portalwc |  | Guarantees that player will be sent to Distant Shore instantly when using the related item. (host only)
 Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in front of you (up to 10 meters). Objects that are part of the map can't be permanently removed! (Aim carefully, the object will be gone for good) (host only)
 Fix Item Liquid Type | fixliquid \| fixliquidtype \| fixitemliquid |  | Fixes the liquid level and type of currently held object, if it doesn't match. (host only)
 
