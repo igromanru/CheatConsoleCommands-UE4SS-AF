@@ -1001,10 +1001,9 @@ local function InitBuffHooks()
             -- local skipDialog = bSkipDialog:get() ---@type boolean
 
             if Settings.GodMode or Settings.NoDebuffs then
-                -- local context = Context:get() ---@type UCharacterBuffComponent
-                -- local componentOwner = context:GetOwner()
-                -- Looks like the component owner is not my player...
-                -- if IsValid(componentOwner) and componentOwner == AFUtils.GetMyPlayer() then
+                local context = Context:get() ---@type UCharacterBuffComponent
+                local componentOwner = context:GetOwner()
+                if IsSameObject(componentOwner, AFUtils.GetMyPlayer()) then
                     local buffRow = BuffRow:get() ---@type FBuffDebuffRowHandle
                     
                     local buffRowName = buffRow.RowName:ToString()
@@ -1014,7 +1013,7 @@ local function InitBuffHooks()
                         bSkipDialog:set(true)
                         LogDebug("Server_ApplyBuff: Debuff detected:", buffRowName)
                     end
-                -- end
+                end
             end
         end)
         LogDebug("ServerApplyBuffPreId:", ServerApplyBuffPreId)
