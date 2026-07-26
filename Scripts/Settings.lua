@@ -58,6 +58,7 @@ local SettingsData = {
     LeyakCooldown = 0, -- 0 disable command
     KrasueCooldown = 0, -- 0 disable command
     SpeedhackMultiplier = 1.0,
+    SwimhackMultiplier = 1.0,
     PlayerGravityScale = 1.0,
     InstantDistantShore = false,
     InfiniteCrouchRoll = false,

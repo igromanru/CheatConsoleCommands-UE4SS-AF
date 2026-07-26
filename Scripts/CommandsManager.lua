@@ -1829,6 +1829,27 @@ function(self, OutputDevice, Parameters)
 end,
 "SpeedhackMultiplier")
 
+-- Swim speedhack Command
+CreateCommand({ "swimhack", "swimspeed", "swimspeedhack", "swimscale" }, "Swim Speedhack", "Sets swim speed multiplier for your character. (Default speed: 1.0) (host only)",
+CreateCommandParam("multiplier/scale", "number", "Swim Speed scale/multiplier. A float value between 0.1 and 10.0"),
+function(self, OutputDevice, Parameters)
+    if not Parameters or #Parameters < 1 then
+        WriteToConsole(OutputDevice, "Current multiplier is set to: " .. Settings.SwimhackMultiplier)
+        WriteToConsole(OutputDevice, "The command requires a value by which the swim speed will be multiplied. e.g. 'swimspeed 1.5'")
+        return true
+    end
+    local multiplier = tonumber(Parameters[1])
+    if not multiplier or multiplier < 0.1 or multiplier > 10  then
+        WriteErrorToConsole(OutputDevice, "The required parameter must be a float value between 0.1 and 10")
+        WriteToConsole(OutputDevice, "The command requires a value by which the speed will be multiplied. e.g. 'swimspeed 1.5'")
+        return true
+    end
+    Settings.SwimhackMultiplier = multiplier
+    WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. multiplier)
+    return true
+end,
+"SwimhackMultiplier")
+
 -- Player Gravity Scale Command
 CreateCommand({ "playergravity", "playergrav", "pg", "setpg" }, "Player Gravity Scale", "Sets player's gravity scale. (Default scale: 1.0) (host only)",
 CreateCommandParam("scale", "number", "Gravity scale/multiplier. A float value between 0.1 and 2.0"),

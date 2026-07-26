@@ -1,4 +1,3 @@
-
 require("Settings")
 local AFUtils = require("AFUtils.AFUtils")
 local LinearColors = require("AFUtils.BaseUtils.LinearColors")
@@ -330,7 +329,7 @@ function LowContinence(myPlayer)
             LogDebug("LowContinence: CurrentContinence: " .. tostring(myPlayer.CurrentContinence))
             LogDebug("LowContinence: MaxContinence: " .. tostring(myPlayer.MaxContinence))
         end
-        
+
         if not LowContinenceWasEnabled then
             AFUtils.ClientDisplayWarningMessage("Low Continence activated", AFUtils.CriticalityLevels.Green)
             LowContinenceWasEnabled = true
@@ -371,7 +370,7 @@ local NoRadiationWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function NoRadiation(myPlayer)
     if Settings.GodMode or Settings.NoRadiation then
-        if  myPlayer.CanReceiveRadiation or myPlayer.CurrentRadiation > 0 then
+        if myPlayer.CanReceiveRadiation or myPlayer.CurrentRadiation > 0 then
             myPlayer.CanReceiveRadiation = false
             myPlayer.CurrentRadiation = 0.0
             myPlayer:OnRep_CurrentRadiation()
@@ -449,17 +448,17 @@ local UserConstructionScriptPreId, UserConstructionScriptPostId = nil, nil
 local function InitFreeCraftingHooks()
     if not UserConstructionScriptPreId then
         UserConstructionScriptPreId, UserConstructionScriptPostId = RegisterHook("/Game/Blueprints/DeployedObjects/Furniture/AbioticDeployed_Furniture_ParentBP.AbioticDeployed_Furniture_ParentBP_C:UserConstructionScript", function(Context)
-            local furnitureParentBP = Context:get()
+                local furnitureParentBP = Context:get()
 
-            if furnitureParentBP.RequiresConstruction == true then
-                local myPlayer = AFUtils.GetMyPlayer()
-                if myPlayer and myPlayer.Debug_FreeCrafting == true then
-                    furnitureParentBP.RequiresConstruction = false
+                if furnitureParentBP.RequiresConstruction == true then
+                    local myPlayer = AFUtils.GetMyPlayer()
+                    if myPlayer and myPlayer.Debug_FreeCrafting == true then
+                        furnitureParentBP.RequiresConstruction = false
+                    end
                 end
-            end
-        end)
-        LogDebug("UserConstructionScriptPreId:",UserConstructionScriptPreId)
-        LogDebug("UserConstructionScriptPostId:",UserConstructionScriptPostId)
+            end)
+        LogDebug("UserConstructionScriptPreId:", UserConstructionScriptPreId)
+        LogDebug("UserConstructionScriptPostId:", UserConstructionScriptPostId)
     end
 end
 
@@ -506,27 +505,27 @@ local function InitBuildAnywhereHooks()
     if not RunOverlapChecksPreId then
         LoadAsset("/Game/Blueprints/DeployedObjects/DeployCollisions/DeployProxy_ParentBP.DeployProxy_ParentBP_C")
         RunOverlapChecksPreId, RunOverlapChecksPostId = RegisterHook("/Game/Blueprints/DeployedObjects/DeployCollisions/DeployProxy_ParentBP.DeployProxy_ParentBP_C:RunOverlapChecks",
-        function(Context, ComponentsToOverlap, PlacementBlocked, OverlappedActors)
-            if Settings.BuildAnywhere then
-                PlacementBlocked:set(false)
-            end
-        end)
+            function(Context, ComponentsToOverlap, PlacementBlocked, OverlappedActors)
+                if Settings.BuildAnywhere then
+                    PlacementBlocked:set(false)
+                end
+            end)
         LogDebug("RunOverlapChecksPreId:", RunOverlapChecksPreId)
         LogDebug("RunOverlapChecksPostId:", RunOverlapChecksPostId)
         local CalculatePlacementOrientationPreId, CalculatePlacementOrientationPostId = RegisterHook("/Game/Blueprints/DeployedObjects/DeployCollisions/DeployProxy_ParentBP.DeployProxy_ParentBP_C:CalculatePlacementOrientation",
         function(Context, PlacementOrienationsAllowed, QueryComponent, TraceChannel, IsHit, Location, Rotation, TraceEnd, CanBePlaced, Normal)
-            if Settings.BuildAnywhere then
-                CanBePlaced:set(true)
-            end
-        end)
+                if Settings.BuildAnywhere then
+                    CanBePlaced:set(true)
+                end
+            end)
         LogDebug("CalculatePlacementOrientationPreId:", CalculatePlacementOrientationPreId)
         LogDebug("CalculatePlacementOrientationPostId:", CalculatePlacementOrientationPostId)
         local TryUpdateDeployableHologramPreId, TryUpdateDeployableHologramPostId = RegisterHook("/Game/Blueprints/DeployedObjects/DeployCollisions/DeployProxy_ParentBP.DeployProxy_ParentBP_C:TryUpdateDeployableHologram",
-        function(Context, Show, PlacementOrienationsAllowed, QueryComponent, HeldFire, CanPlaceDeployable)
-            if Settings.BuildAnywhere then
-                CanPlaceDeployable:set(true)
-            end
-        end)
+            function(Context, Show, PlacementOrienationsAllowed, QueryComponent, HeldFire, CanPlaceDeployable)
+                if Settings.BuildAnywhere then
+                    CanPlaceDeployable:set(true)
+                end
+            end)
         LogDebug("TryUpdateDeployableHologramPreId:", TryUpdateDeployableHologramPreId)
         LogDebug("TryUpdateDeployableHologramPostId:", TryUpdateDeployableHologramPostId)
     end
@@ -609,7 +608,7 @@ function NoClip(myPlayer, hasAuthority)
         end
     elseif NoClipWasEnabled then
         NoClipWasEnabled = false
-        NoClipMod.Disable() 
+        NoClipMod.Disable()
         AFUtils.ClientDisplayWarningMessage("No Clip deactivated", AFUtils.CriticalityLevels.Red)
     end
 end
@@ -706,12 +705,12 @@ function InfiniteTraitPoints(hasAuthority)
         if not PreInfiniteTraitPointsId and not PostInfiniteTraitPointsId then
             LoadAsset("/Game/Blueprints/Widgets/TraitSelect/W_Character_Trait_Selection.W_Character_Trait_Selection_C")
             _, PreInfiniteTraitPointsId, PostInfiniteTraitPointsId = pcall(RegisterHook, "/Game/Blueprints/Widgets/TraitSelect/W_Character_Trait_Selection.W_Character_Trait_Selection_C:CalculatePointsAvailable", function(Context)
-                local trait_Selection = Context:get() ---@type UW_Character_Trait_Selection_C
-                LogDebug("TraitsAndPoints.Num:", #trait_Selection.TraitsAndPoints)
-                trait_Selection.TraitsAndPoints:ForEach(function (key, value)
-                    value:set(20)
+                    local trait_Selection = Context:get() ---@type UW_Character_Trait_Selection_C
+                    LogDebug("TraitsAndPoints.Num:", #trait_Selection.TraitsAndPoints)
+                    trait_Selection.TraitsAndPoints:ForEach(function(key, value)
+                        value:set(20)
+                    end)
                 end)
-            end)
             LogDebug("PreInfiniteTraitPointsId:", PreInfiniteTraitPointsId)
             LogDebug("PostInfiniteTraitPointsId:", PostInfiniteTraitPointsId)
         end
@@ -736,14 +735,14 @@ function InstantFishing()
         if not PreInstantFishingId and not PostInstantFishingId then
             LoadAsset("/Game/Blueprints/Items/Weapons/Guns/Weapon_FishingRod.Weapon_FishingRod_C")
             _, PreInstantFishingId, PostInstantFishingId = pcall(RegisterHook, "/Game/Blueprints/Items/Weapons/Guns/Weapon_FishingRod.Weapon_FishingRod_C:Start Fishing Minigame", function(Context)
-                ExecuteInGameThread(function()
-                    local fishingRod = AFUtils.GetCurrentFishingRod()
-                    if fishingRod then
-                        fishingRod:Request_TriggerBaitUsage()
-                        fishingRod:FishingSuccess()
-                    end
+                    ExecuteInGameThread(function()
+                        local fishingRod = AFUtils.GetCurrentFishingRod()
+                        if fishingRod then
+                            fishingRod:Request_TriggerBaitUsage()
+                            fishingRod:FishingSuccess()
+                        end
+                    end)
                 end)
-            end)
             LogDebug("PreInstantFishingId:", PreInstantFishingId)
             LogDebug("PostInstantFishingId:", PostInstantFishingId)
         end
@@ -782,7 +781,7 @@ function MasterKey(myPlayer)
 end
 
 local BaseWalkSpeedBackUp = 500.0
-local BaseSprintSpeedBackUp =  685.0
+local BaseSprintSpeedBackUp = 685.0
 local LastSpeedhackMultiplier = 1.0
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 ---@param hasAuthority boolean?
@@ -790,7 +789,6 @@ function Speedhack(myPlayer, hasAuthority)
     local newBaseWalkSpeed = BaseWalkSpeedBackUp * Settings.SpeedhackMultiplier
     local newBaseSprintSpeed = BaseSprintSpeedBackUp * Settings.SpeedhackMultiplier
     if hasAuthority then
-        myPlayer.GlobalSwimSpeedModifier = Settings.SpeedhackMultiplier
         if myPlayer.BaseWalkSpeed == newBaseWalkSpeed and myPlayer.BaseSprintSpeed == newBaseSprintSpeed then
             return
         end
@@ -805,7 +803,7 @@ function Speedhack(myPlayer, hasAuthority)
         LogDebug("Speedhack: BaseWalkSpeedBackUp: ", BaseWalkSpeedBackUp)
         LogDebug("Speedhack: BaseSprintSpeedBackUp: ", BaseSprintSpeedBackUp)
     end
-    
+
     if hasAuthority then
         myPlayer.BaseWalkSpeed = newBaseWalkSpeed
         myPlayer.BaseSprintSpeed = newBaseSprintSpeed
@@ -818,8 +816,20 @@ function Speedhack(myPlayer, hasAuthority)
     if Settings.SpeedhackMultiplier ~= LastSpeedhackMultiplier then
         LastSpeedhackMultiplier = Settings.SpeedhackMultiplier
         LogDebug("Speedhack multiplier:", LastSpeedhackMultiplier)
-        LogDebug("GlobalSwimSpeedModifier:", myPlayer.GlobalSwimSpeedModifier)
         AFUtils.ClientDisplayWarningMessage("Speed x" .. LastSpeedhackMultiplier, AFUtils.CriticalityLevels.Green)
+    end
+end
+
+local LastSwimSpeedMultiplier = 1.0
+---@param myPlayer AAbiotic_PlayerCharacter_C
+function SwimSpeedhack(myPlayer)
+    myPlayer.GlobalSwimSpeedModifier = Settings.SwimhackMultiplier
+
+    if Settings.SwimhackMultiplier ~= LastSwimSpeedMultiplier then
+        LastSwimSpeedMultiplier = Settings.SwimhackMultiplier
+        LogDebug("Swim Speedhack multiplier:", LastSwimSpeedMultiplier)
+        LogDebug("GlobalSwimSpeedModifier:", myPlayer.GlobalSwimSpeedModifier)
+        AFUtils.ClientDisplayWarningMessage("Swim Speed x" .. LastSwimSpeedMultiplier, AFUtils.CriticalityLevels.Green)
     end
 end
 
@@ -895,7 +905,7 @@ end
 --     if hasAuthority and Settings.AutoSaveInterval and Settings.AutoSaveInterval ~= PreviousAutoSaveInterval then
 --         local gameInstance = AFUtils.GetGameInstance()
 --         if gameInstance and gameInstance.AutosaveInterval ~= Settings.AutosaveInterval then
-            
+
 --         end
 --     end
 -- end
@@ -904,10 +914,10 @@ local CanCrouchRollPreId, CanCrouchRollPostId = nil, nil
 local function InitCanCrouchRollHooks()
     if not CanCrouchRollPreId then
         CanCrouchRollPreId, CanCrouchRollPostId = RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:CanCrouchRoll?", function(Context, CanRoll)
-            if Settings.InfiniteCrouchRoll then
-                CanRoll:set(true)
-            end
-        end)
+                if Settings.InfiniteCrouchRoll then
+                    CanRoll:set(true)
+                end
+            end)
         LogDebug("CanCrouchRollPreId:", CanCrouchRollPreId)
         LogDebug("CanCrouchRollPostId:", CanCrouchRollPostId)
     end
@@ -932,18 +942,18 @@ local function InitSetLockedContentTextHooks()
     if not SetLockedContentTextPreId then
         LoadAsset("/Game/Blueprints/Widgets/Journal/W_Compendium_Section.W_Compendium_Section_C")
         SetLockedContentTextPreId, SetLockedContentTextPostId = RegisterHook("/Game/Blueprints/Widgets/Journal/W_Compendium_Section.W_Compendium_Section_C:SetLockedContentText", function(Context)
-            local context = Context:get() ---@type UW_Compendium_Section_C
-            if Settings.JournalEntryUnlocker and not context.Unlocked then
-                local progressComponent = AFUtils.GetMyCharacterProgressionComponent()
-                if IsValid(progressComponent) then
-                    if DebugMode then
-                        LogInfo("Unlocking:", context.CompendiumRow.RowName:ToString())
-                        LogInfo("SectionType:", context.SectionType)
-                    end
+                local context = Context:get() ---@type UW_Compendium_Section_C
+                if Settings.JournalEntryUnlocker and not context.Unlocked then
+                    local progressComponent = AFUtils.GetMyCharacterProgressionComponent()
+                    if IsValid(progressComponent) then
+                        if DebugMode then
+                            LogInfo("Unlocking:", context.CompendiumRow.RowName:ToString())
+                            LogInfo("SectionType:", context.SectionType)
+                        end
                     progressComponent:Request_UnlockCompendiumSection(context.CompendiumRow.RowName, context.SectionType)
+                    end
                 end
-            end
-        end)
+            end)
         LogDebug("SetLockedContentTextPreId:", SetLockedContentTextPreId)
         LogDebug("SetLockedContentTextPostId:", SetLockedContentTextPostId)
     end
@@ -963,16 +973,15 @@ function JournalEntryUnlocker()
     end
 end
 
-
 local InstantDistantShorePreId, InstantDistantShorePostId = nil, nil
 local function InitInstantDistantShoreHooks()
     if not InstantDistantShorePreId then
         LoadAsset("/Game/Blueprints/DeployedObjects/Furniture/Deployed_Toilet_Portal.Deployed_Toilet_Portal_C")
         InstantDistantShorePreId, InstantDistantShorePostId = RegisterHook("/Game/Blueprints/DeployedObjects/Furniture/Deployed_Toilet_Portal.Deployed_Toilet_Portal_C:DistantShoreCheck", function(Context, Character, DistantShore)
-            if Settings.InstantDistantShore then
-                DistantShore:set(true)
-            end
-        end)
+                if Settings.InstantDistantShore then
+                    DistantShore:set(true)
+                end
+            end)
         LogDebug("InstantDistantShorePreId:", InstantDistantShorePreId)
         LogDebug("InstantDistantShorePostId:", InstantDistantShorePostId)
     end
@@ -996,28 +1005,28 @@ local ServerApplyBuffPreId, ServerApplyBuffPostId = nil, nil
 local function InitBuffHooks()
     if not ServerApplyBuffPreId then
         ServerApplyBuffPreId, ServerApplyBuffPostId = RegisterHook("/Script/AbioticFactor.CharacterBuffComponent:Server_ApplyBuff", function(Context, BuffRow, bOverrideDefaultDuration, NewDuration, Limb, LinkedActor, bSkipDialog)
-            -- local overrideDefaultDuration = bOverrideDefaultDuration:get() ---@type boolean
-            -- local newDuration = NewDuration:get() ---@type float
-            -- local limb = Limb:get() ---@type EBodyLimbs
-            -- local linkedActor = LinkedActor:get() ---@type AActor
-            -- local skipDialog = bSkipDialog:get() ---@type boolean
+                -- local overrideDefaultDuration = bOverrideDefaultDuration:get() ---@type boolean
+                -- local newDuration = NewDuration:get() ---@type float
+                -- local limb = Limb:get() ---@type EBodyLimbs
+                -- local linkedActor = LinkedActor:get() ---@type AActor
+                -- local skipDialog = bSkipDialog:get() ---@type boolean
 
-            if Settings.GodMode or Settings.NoDebuffs then
-                local context = Context:get() ---@type UCharacterBuffComponent
-                local componentOwner = context:GetOwner()
-                if IsSameObject(componentOwner, AFUtils.GetMyPlayer()) then
-                    local buffRow = BuffRow:get() ---@type FBuffDebuffRowHandle
-                    
-                    local buffRowName = buffRow.RowName:ToString()
-                    if #buffRowName > 5 and buffRowName:sub(1, 6) == "Debuff" then
-                        NewDuration:set(0.001)
-                        bOverrideDefaultDuration:set(true)
-                        bSkipDialog:set(true)
-                        LogDebug("Server_ApplyBuff: Debuff detected:", buffRowName)
+                if Settings.GodMode or Settings.NoDebuffs then
+                    local context = Context:get() ---@type UCharacterBuffComponent
+                    local componentOwner = context:GetOwner()
+                    if IsSameObject(componentOwner, AFUtils.GetMyPlayer()) then
+                        local buffRow = BuffRow:get() ---@type FBuffDebuffRowHandle
+
+                        local buffRowName = buffRow.RowName:ToString()
+                        if #buffRowName > 5 and buffRowName:sub(1, 6) == "Debuff" then
+                            NewDuration:set(0.001)
+                            bOverrideDefaultDuration:set(true)
+                            bSkipDialog:set(true)
+                            LogDebug("Server_ApplyBuff: Debuff detected:", buffRowName)
+                        end
                     end
                 end
-            end
-        end)
+            end)
         LogDebug("ServerApplyBuffPreId:", ServerApplyBuffPreId)
         LogDebug("ServerApplyBuffPostId:", ServerApplyBuffPostId)
     end
