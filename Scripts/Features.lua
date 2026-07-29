@@ -1016,13 +1016,16 @@ local function InitBuffHooks()
                     local componentOwner = context:GetOwner()
                     if IsSameObject(componentOwner, AFUtils.GetMyPlayer()) then
                         local buffRow = BuffRow:get() ---@type FBuffDebuffRowHandle
+                        local rowName = buffRow.RowName
 
-                        local buffRowName = buffRow.RowName:ToString()
-                        if #buffRowName > 5 and buffRowName:sub(1, 6) == "Debuff" then
-                            NewDuration:set(0.001)
-                            bOverrideDefaultDuration:set(true)
-                            bSkipDialog:set(true)
-                            LogDebug("Server_ApplyBuff: Debuff detected:", buffRowName)
+                        if rowName ~= AFUtils.DebuffUnderwater then
+                            local buffRowName = rowName:ToString()
+                            if #buffRowName > 5 and buffRowName:sub(1, 6) == "Debuff" then
+                                NewDuration:set(0.001)
+                                bOverrideDefaultDuration:set(true)
+                                bSkipDialog:set(true)
+                                LogDebug("Server_ApplyBuff: Debuff detected:", buffRowName)
+                            end
                         end
                     end
                 end
