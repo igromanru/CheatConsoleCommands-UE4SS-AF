@@ -1019,6 +1019,7 @@ local function InitBuffHooks()
                         local rowName = buffRow.RowName
 
                         if rowName ~= AFUtils.DebuffUnderwater then
+                            -- LogDebug("DebuffUnderwater:", AFUtils.DebuffUnderwater:ToString())
                             local buffRowName = rowName:ToString()
                             if #buffRowName > 5 and buffRowName:sub(1, 6) == "Debuff" then
                                 NewDuration:set(0.001)
