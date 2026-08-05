@@ -786,33 +786,36 @@ local LastSpeedhackMultiplier = 1.0
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 ---@param hasAuthority boolean?
 function Speedhack(myPlayer, hasAuthority)
-    local newBaseWalkSpeed = BaseWalkSpeedBackUp * Settings.SpeedhackMultiplier
-    local newBaseSprintSpeed = BaseSprintSpeedBackUp * Settings.SpeedhackMultiplier
-    if hasAuthority then
-        if myPlayer.BaseWalkSpeed == newBaseWalkSpeed and myPlayer.BaseSprintSpeed == newBaseSprintSpeed then
+    if Settings.SpeedhackMultiplier ~= 1.0 or LastSpeedhackMultiplier ~= Settings.SpeedhackMultiplier then
+        local newBaseWalkSpeed = BaseWalkSpeedBackUp * Settings.SpeedhackMultiplier
+        local newBaseSprintSpeed = BaseSprintSpeedBackUp * Settings.SpeedhackMultiplier
+        if hasAuthority then
+            if myPlayer.BaseWalkSpeed == newBaseWalkSpeed and myPlayer.BaseSprintSpeed == newBaseSprintSpeed then
+                return
+            end
+        elseif myPlayer.CustomTimeDilation == Settings.SpeedhackMultiplier then
             return
         end
-    elseif myPlayer.CustomTimeDilation == Settings.SpeedhackMultiplier then
-        return
+    
+        if LastSpeedhackMultiplier == 1.0 then
+            BaseWalkSpeedBackUp = myPlayer.BaseWalkSpeed
+            BaseSprintSpeedBackUp = myPlayer.BaseSprintSpeed
+            LogDebug("Speedhack: Back up original values: ")
+            LogDebug("Speedhack: BaseWalkSpeedBackUp: ", BaseWalkSpeedBackUp)
+            LogDebug("Speedhack: BaseSprintSpeedBackUp: ", BaseSprintSpeedBackUp)
+        end
+    
+        if hasAuthority then
+            myPlayer.BaseWalkSpeed = newBaseWalkSpeed
+            myPlayer.BaseSprintSpeed = newBaseSprintSpeed
+            myPlayer.CustomTimeDilation = 1.0
+        else
+            myPlayer.BaseWalkSpeed = BaseWalkSpeedBackUp
+            myPlayer.BaseSprintSpeed = BaseSprintSpeedBackUp
+            myPlayer.CustomTimeDilation = Settings.SpeedhackMultiplier
+        end
     end
 
-    if LastSpeedhackMultiplier == 1.0 then
-        BaseWalkSpeedBackUp = myPlayer.BaseWalkSpeed
-        BaseSprintSpeedBackUp = myPlayer.BaseSprintSpeed
-        LogDebug("Speedhack: Back up original values: ")
-        LogDebug("Speedhack: BaseWalkSpeedBackUp: ", BaseWalkSpeedBackUp)
-        LogDebug("Speedhack: BaseSprintSpeedBackUp: ", BaseSprintSpeedBackUp)
-    end
-
-    if hasAuthority then
-        myPlayer.BaseWalkSpeed = newBaseWalkSpeed
-        myPlayer.BaseSprintSpeed = newBaseSprintSpeed
-        myPlayer.CustomTimeDilation = 1.0
-    else
-        myPlayer.BaseWalkSpeed = BaseWalkSpeedBackUp
-        myPlayer.BaseSprintSpeed = BaseSprintSpeedBackUp
-        myPlayer.CustomTimeDilation = Settings.SpeedhackMultiplier
-    end
     if Settings.SpeedhackMultiplier ~= LastSpeedhackMultiplier then
         LastSpeedhackMultiplier = Settings.SpeedhackMultiplier
         LogDebug("Speedhack multiplier:", LastSpeedhackMultiplier)
@@ -823,7 +826,9 @@ end
 local LastSwimSpeedMultiplier = 1.0
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function SwimSpeedhack(myPlayer)
-    myPlayer.GlobalSwimSpeedModifier = Settings.SwimhackMultiplier
+    if Settings.SwimhackMultiplier ~= 1.0 or LastSwimSpeedMultiplier ~= Settings.SwimhackMultiplier then
+        myPlayer.GlobalSwimSpeedModifier = math.max(Settings.SwimhackMultiplier, myPlayer.GlobalSwimSpeedModifier) 
+    end
 
     if Settings.SwimhackMultiplier ~= LastSwimSpeedMultiplier then
         LastSwimSpeedMultiplier = Settings.SwimhackMultiplier

@@ -1831,7 +1831,7 @@ end,
 
 -- Swim speedhack Command
 CreateCommand({ "swimhack", "swimspeed", "swimspeedhack", "swimscale" }, "Swim Speedhack", "Sets swim speed multiplier for your character. (Default speed: 1.0) (host only)",
-CreateCommandParam("multiplier/scale", "number", "Swim Speed scale/multiplier. A float value between 0.1 and 10.0"),
+CreateCommandParam("multiplier/scale", "number", "Swim Speed scale/multiplier. A float value between 1.0 and 10.0"),
 function(self, OutputDevice, Parameters)
     if not Parameters or #Parameters < 1 then
         WriteToConsole(OutputDevice, "Current multiplier is set to: " .. Settings.SwimhackMultiplier)
@@ -1839,8 +1839,8 @@ function(self, OutputDevice, Parameters)
         return true
     end
     local multiplier = tonumber(Parameters[1])
-    if not multiplier or multiplier < 0.1 or multiplier > 10  then
-        WriteErrorToConsole(OutputDevice, "The required parameter must be a float value between 0.1 and 10")
+    if not multiplier or multiplier < 1.0 or multiplier > 10  then
+        WriteErrorToConsole(OutputDevice, "The required parameter must be a float value between 1.0 and 10.0")
         WriteToConsole(OutputDevice, "The command requires a value by which the speed will be multiplied. e.g. 'swimspeed 1.5'")
         return true
     end
