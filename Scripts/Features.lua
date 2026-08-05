@@ -827,7 +827,7 @@ local LastSwimSpeedMultiplier = 1.0
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function SwimSpeedhack(myPlayer)
     if Settings.SwimhackMultiplier ~= 1.0 or LastSwimSpeedMultiplier ~= Settings.SwimhackMultiplier then
-        myPlayer.GlobalSwimSpeedModifier = math.max(Settings.SwimhackMultiplier, myPlayer.GlobalSwimSpeedModifier) 
+        myPlayer.GlobalSwimSpeedModifier = Settings.SwimhackMultiplier
     end
 
     if Settings.SwimhackMultiplier ~= LastSwimSpeedMultiplier then
