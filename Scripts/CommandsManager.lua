@@ -1809,7 +1809,7 @@ CreateCommand({ "takexp" }, "Remove Skill Experience from Player", "Remove All S
     end)
 
 -- Speedhack Command
-CreateCommand({ "speedhack", "speedmulti", "speedscale" }, "Speedhack", "Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (works as guest)",
+CreateCommand({ "speedhack", "speedmulti", "speedscale" }, "Speedhack", "Sets a speed multiplier for your character's Walk and Sprint speed (between 0.1 and 10)). (Default speed: 1.0) (works as guest)",
 CreateCommandParam("multiplier/scale", "number", "Speed scale/multiplier. A float value between 0.1 and 10.0"),
 function(self, OutputDevice, Parameters)
     if not Parameters or #Parameters < 1 then
@@ -1830,7 +1830,7 @@ end,
 "SpeedhackMultiplier")
 
 -- Swim speedhack Command
-CreateCommand({ "swimhack", "swimspeed", "swimspeedhack", "swimscale" }, "Swim Speedhack", "Sets swim speed multiplier for your character. (Default speed: 1.0) (host only)",
+CreateCommand({ "swimhack", "swimspeed", "swimspeedhack", "swimscale" }, "Swim Speedhack", "Sets your character's swim speed multiplier (a value between 1 and 10). (Default speed: 1.0) (host only)",
 CreateCommandParam("multiplier/scale", "number", "Swim Speed scale/multiplier. A float value between 1.0 and 10.0"),
 function(self, OutputDevice, Parameters)
     if not Parameters or #Parameters < 1 then
