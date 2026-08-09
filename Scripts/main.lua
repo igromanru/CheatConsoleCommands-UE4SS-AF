@@ -11,7 +11,7 @@ local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
-ModVersion = "1.30.4"
+ModVersion = "1.31.0"
 DebugMode = true
 IsModEnabled = true
 
@@ -19,7 +19,6 @@ IsModEnabled = true
 -- Command to disable all power sockets
 -- Check why Reset Portals doesn't reset the latest one
 -- Re-Spawn all items command, to trigger all spawn points
--- Item vacuum command
 
 LogInfo("Starting mod initialization")
 require("Features")

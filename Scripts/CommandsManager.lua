@@ -1495,6 +1495,48 @@ CreateCommand({ "killdropped", "killalldrop", "killalldropped", "killdropped", "
         return true
     end)
 
+-- Items Vacuum Command
+CreateCommand({ "vac", "vacitem", "vacitems", "itemsvac", "itemsvacuum" }, "Items Vacuum",
+    "Automatically picks up all dropped items within a defined radius. (Default radius: 5m) (as guest you can only pick up items within line of sight)",
+    CreateCommandParam("radius", "number", "Pick-up radius in meters. (Default: 5)"),
+    function(self, OutputDevice, Parameters)
+        local myPlayer = AFUtils.GetMyPlayer()
+        if IsNotValid(myPlayer) then
+            WriteErrorToConsole(OutputDevice, "Failed to find local player.")
+        end
+
+        local radius = 5
+        if Parameters and #Parameters > 0 then
+            local firstArg = tonumber(Parameters[1])
+            if type(firstArg) == "number" and firstArg > 0 then
+                radius = firstArg
+            end
+        end
+        LogDebug("Items Vacuum radius:", radius)
+
+        local myPlayerLocation = myPlayer:K2_GetActorLocation()
+
+        local items = FindAllOf("Abiotic_Item_Dropped_C") ---@type AAbiotic_Item_Dropped_C[]?
+        if items and #items > 0 then
+            local pickUpCount = 0
+            for _, item in ipairs(items) do
+                local distance = UnitsToM(GetVectorToActorDistance(myPlayerLocation, item))
+                if distance >= 0 and distance <= radius then
+                    if AFUtils.PickUpItem(myPlayer, item) then
+                        pickUpCount = pickUpCount + 1
+                    end
+                else
+                    LogDebug("Items Vacuum: Filtered out item with distance:", distance)
+                end
+            end
+            WriteToConsole(OutputDevice, "Picked up " .. tostring(pickUpCount) .. " items.")
+        else
+            WriteToConsole(OutputDevice, "No dropped items found.")
+        end
+
+        return true
+    end)
+
 -- Set Inventory Size Command
 -- CreateCommand({ "invsize", "inventorysize", "invslotcount", "backpacksize", "bpsize", "bpslotcount" }, "Set Inventory Size", "Changes inventory size / slots count.\nWarning! Each time you load into the game the game restores the slot count and all items in extra slots will be dropped on the ground.", 
 --     CreateCommandParam("slot count", "number", "Size / Slot count", false, "Between -1 and 100 (-1 will disable the feature)"),

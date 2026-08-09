@@ -64,13 +64,15 @@ CreateSkill(AFUtils.CharacterSkills.Cooking, "Cooking", { "cooking", "cook", "he
 CreateSkill(AFUtils.CharacterSkills.Agriculture, "Agriculture", { "agriculture", "agr", "grow", "plant", "plants" })
 CreateSkill(AFUtils.CharacterSkills.Fishing, "Fishing", { "fishing", "fish" })
 
-
+---@param Alias string
+---@return SkillStruct|nil
 function Skills.GetSkillByAlias(Alias)
     if type(Alias) ~= "string" then return nil end
 
     return Skills.SkillsMap[Alias]
 end
 
+---@return string[]
 function Skills.GetSkillsAsStrings()
     local skills = {}
     for _, v in ipairs(Skills.SkillsArray) do
