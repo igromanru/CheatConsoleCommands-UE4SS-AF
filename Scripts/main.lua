@@ -56,8 +56,8 @@ RemapConsoleKeys()
 -- Main loop
 LoopAsync(250, function()
     ExecuteInGameThread(function() 
-        local myPlayer = AFUtils.GetMyPlayer()
         local isHost = IsHost()
+        local myPlayer = AFUtils.GetMyPlayer()
         if IsValid(myPlayer) then
             local hasAuthority = myPlayer:HasAuthority()
             InfiniteHealth(myPlayer)
