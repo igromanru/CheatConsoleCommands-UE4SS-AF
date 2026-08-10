@@ -19,7 +19,7 @@ local function WriteToConsole(OutputDevice, Message)
     end
 end
 
----Calls WriteToConsole with orefix "[Error] "
+---Calls WriteToConsole with prefix "[Error] "
 ---@param OutputDevice FOutputDevice
 ---@param Message string
 local function WriteErrorToConsole(OutputDevice, Message)
@@ -1496,7 +1496,7 @@ CreateCommand({ "killdropped", "killalldrop", "killalldropped", "killdropped", "
 
 -- Items Vacuum Command
 CreateCommand({ "vac", "vacitem", "vacitems", "itemsvac", "itemsvacuum" }, "Items Vacuum",
-    "Automatically picks up all dropped items within a defined radius. (Default radius: 5m) (as guest you can only pick up items within line of sight)",
+    "Automatically picks up all dropped items within a defined radius. (Default radius: 5m) (as host requires UE4SS release 1.22 (gc838a8ac) or higher) (as guest you can only pick up items within line of sight)",
     CreateCommandParam("radius", "number", "Pick-up radius in meters. (Default: 5)"),
     function(self, OutputDevice, Parameters)
         local myPlayer = AFUtils.GetMyPlayer()
@@ -1922,7 +1922,7 @@ CreateCommand({ "InstantDistantShore", "DistantShore", "instantshore", "instshor
     "InstantDistantShore")
 
 -- Disable Power Sockets Command
-CreateCommand({ "DisablePowerSockets", "disablepower", "disablesocket", "disablesockets", "poweroff" }, "Disable Power Sockets", "Disables all Power Sockets. (experimental command) (host only)", nil,
+CreateCommand({ "DisablePowerSockets", "disablepower", "disablesocket", "disablesockets", "poweroff" }, "Disable Power Sockets", "Disables all Power Sockets. (experimental feature) (host only)", nil,
     function(self, OutputDevice, Parameters)
         Settings.DisablePowerSockets = not Settings.DisablePowerSockets
         PrintCommandState(Settings.DisablePowerSockets, self.Name, OutputDevice)
