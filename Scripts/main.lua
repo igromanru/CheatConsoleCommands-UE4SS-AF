@@ -7,8 +7,8 @@
 ------------------------------
 -- Don't change code below --
 ------------------------------
-local AFUtils = require("AFUtils.AFUtils")
 local UEHelpers = require("UEHelpers")
+local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "CheatConsoleCommands"
 ModVersion = "1.31.0"
@@ -21,6 +21,9 @@ IsModEnabled = true
 -- Re-Spawn all items command, to trigger all spawn points
 
 LogInfo("Starting mod initialization")
+
+WaitForTheGameToBeFullyLoaded()
+
 require("Features")
 require("CommandsManager") -- Executes CommandsManager functions
 local SettingsManager = require("SettingsManager")
