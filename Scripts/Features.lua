@@ -1,7 +1,7 @@
 require("Settings")
 local AFUtils = require("AFUtils.AFUtils")
-local LinearColors = require("AFUtils.BaseUtils.LinearColors")
 local NoClipMod = require("AFUtils.BaseUtils.NoClip")
+local HooksManager = require("AFUtils.BaseUtils.HooksManager")
 
 local InfiniteHealthWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
@@ -1051,5 +1051,44 @@ function NoDebuffs()
     elseif NoDebuffsWasEnabled then
         NoDebuffsWasEnabled = false
         AFUtils.ClientDisplayWarningMessage("No Debuffs deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
+local IsPoweredHookInfo = nil
+local function InitIsPoweredHook()
+    if not HooksManager:IsHookActive(IsPoweredHookInfo) then
+        LogDebug("Execute HookAutoLoadAssetAsync")
+        IsPoweredHookInfo = HooksManager:HookAutoLoadAssetAsync("/Game/Blueprints/Environment/Electrical/PowerSocket_ParentBP.PowerSocket_ParentBP_C:IsPowered", function(Context, PowerOn)
+            local context = Context:get() ---@type APowerSocket_ParentBP_C
+            -- local powerOn = PowerOn:get() ---@type boolean
+
+            if Settings.DisablePowerSockets and IsHost() then
+                PowerOn:set(false)
+                context.SocketAlwaysPowered = false
+                context.BindDayNightChanges = false
+                context.HasCachedPowerOnce = true
+                context.CachedPowerState = false
+                if not context.PowerInterrupted then
+                    context:InterruptPower()
+                    context:Broadcast_PowerInterruptContinued()
+                    context:OnRep_PowerInterrupted()
+                end
+            end
+        end)
+    end
+end
+
+local DisablePowerSocketsWasEnabled = false
+---@param hasAuthority boolean?
+function DisablePowerSockets(hasAuthority)
+    if Settings.DisablePowerSockets and hasAuthority then
+        InitIsPoweredHook()
+        if not DisablePowerSocketsWasEnabled then
+            AFUtils.ClientDisplayWarningMessage("Disable Power Sockets activated", AFUtils.CriticalityLevels.Green)
+            DisablePowerSocketsWasEnabled = true
+        end
+    elseif DisablePowerSocketsWasEnabled then
+        DisablePowerSocketsWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Disable Power Sockets deactivated", AFUtils.CriticalityLevels.Red)
     end
 end

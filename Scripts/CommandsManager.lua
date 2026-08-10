@@ -1,5 +1,4 @@
 local AFUtils = require("AFUtils.AFUtils")
-local LinearColors = require("AFUtils.BaseUtils.LinearColors")
 require("Settings")
 local SettingsManager = require("SettingsManager")
 local Skills = require("Skills")
@@ -1921,6 +1920,15 @@ CreateCommand({ "InstantDistantShore", "DistantShore", "instantshore", "instshor
         return true
     end,
     "InstantDistantShore")
+
+-- Disable Power Sockets Command
+CreateCommand({ "DisablePowerSockets", "disablepower", "disablesocket", "disablesockets", "poweroff" }, "Disable Power Sockets", "Disables all Power Sockets. (experimental command) (host only)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.DisablePowerSockets = not Settings.DisablePowerSockets
+        PrintCommandState(Settings.DisablePowerSockets, self.Name, OutputDevice)
+        return true
+    end,
+    "DisablePowerSockets")
 
 -- Delete Object Trace Command
 CreateCommand({ "deleteobject", "removeobject" }, "Delete Object Trace", "Deletes an object in front of you (up to 10 meters). Objects that are part of the map can't be permanently removed! (Aim carefully, the object will be gone for good) (host only)", nil,

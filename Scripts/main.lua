@@ -7,8 +7,8 @@
 ------------------------------
 -- Don't change code below --
 ------------------------------
-local UEHelpers = require("UEHelpers")
 local AFUtils = require("AFUtils.AFUtils")
+local UEHelpers = require("UEHelpers")
 
 ModName = "CheatConsoleCommands"
 ModVersion = "1.31.0"
@@ -102,6 +102,7 @@ LoopAsync(250, function()
         InstantPlantGrowth(isHost)
         InfiniteTraitPoints(isHost)
         BuildAnywhere()
+        DisablePowerSockets(isHost)
     end)
     SettingsManager.AutoSaveOnChange()
     return false
