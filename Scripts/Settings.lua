@@ -72,13 +72,14 @@ local SettingsData = {
     DisablePowerSockets = false,
     Locations = {
         LocationStruct("Cafeteria", "Facility_Office1", FVector(-15314, 12532, 128), FRotator(0, 359, 0)),
-        LocationStruct("Manufacturing", "Facility_MFWest", FVector(-10393, 35181, 128), FRotator(356, 46, 0)),
-        LocationStruct("Far Garden", "V_Anteverse_A", FVector(119042, 330694, 2385), FRotator(348, 109, 0)),
-        LocationStruct("Flathill", "V_FOG", FVector(6275, 337158, 1294), FRotator(358, 268, 0)),
-        LocationStruct("Train", "V_Train", FVector(333744, 12772, 988), FRotator(353, 90, 0)),
-        LocationStruct("Store", "Vignette_FurnitureWarehouse", FVector(343302, -119069, 118), FRotator(359, 90, 0)),
-        LocationStruct("Mycofields", "V_Anteverse_B", FVector(324726, 329753, 2162), FRotator(2, 189, 0)),
-        LocationStruct("Night Realm", "V_NIGHT", FVector(30442, -238074, 5462), FRotator(345, 84, 0)),
+        LocationStruct("Manufacturing", "Facility_MFWest", FVector(-10393, 35181, 128), FRotator(0, 46, 0)),
+        LocationStruct("Far Garden", "V_Anteverse_A", FVector(119042, 330694, 2385), FRotator(0, 109, 0)),
+        LocationStruct("Flathill", "V_FOG", FVector(6275, 337158, 1294), FRotator(0, 268, 0)),
+        LocationStruct("Train", "V_Train", FVector(333744, 12772, 988), FRotator(0, 90, 0)),
+        LocationStruct("Store", "Vignette_FurnitureWarehouse", FVector(343302, -119069, 118), FRotator(0, 90, 0)),
+        LocationStruct("Mycofields", "V_Anteverse_B", FVector(324726, 329753, 2162), FRotator(0, 189, 0)),
+        LocationStruct("Night Realm", "V_NIGHT", FVector(30442, -238074, 5462), FRotator(0, 84, 0)),
+        LocationStruct("Royal Range", "V_Winter", FVector(148300, -89985, 54800), FRotator(0, 205, 0)),
         LocationStruct("Distant Shore", "V_DistantShore", FVector(331480, -334311, 920), FRotator(0, 0, 0)),
     }, ---@type LocationStruct[]
 }
