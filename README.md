@@ -61,6 +61,7 @@ Set Time | settime |  | Set game's time in 24-hour format (0-23:0-59). (host onl
 Kill All Enemies | killall \| killnpc \| killnpcs \| killallnpc \| killallnpcs \| killallenemies \| killenemies | {drop loot} | Kill all enemy NPCs in your vicinity. (host only)
 Spawn All Enemies | spawnall \| spawnnpc \| spawnnpcs \| spawnallnpc \| spawnallnpcs \| spawnallenemies \| spawnenemies |  | Respawn all enemy NPCs in your vicinity. (host only)
 Destroy All Dropped Items | killdropped \| killalldrop \| killalldropped \| killdropped \| destroydropped \| destroyallitems \| destroyalldroppeds |  | Destroy all dropped items in your vicinity. Caution! It will destroy ALL items dropped on the ground, by you, by NPCs or by destroyed items! (not item spawns) (host only)
+Items Vacuum | vac \| vacitem \| vacitems \| itemsvac \| itemsvacuum | {radius} | Automatically picks up all dropped items within a defined radius. (Default radius: 5m) (as guest you can only pick up items within line of sight)
 List Locations | locations \| showloc \| showlocations \| loc \| locs |  | Shows all saved locations
 Save Location | savelocation \| saveloc \| setloc \| wp \| savewp \| setwp \| waypoint \| setwaypoint \| savewaypoint | {name} | Saves your current position and rotation under an assigned name
 Load Location | loadlocation \| loadloc \| loadwp \| tp \| goto \| loadwaypoint \| teleport | {name} | Teleports you to a named location that was previously saved (host only)
@@ -72,10 +73,11 @@ Kill Player | smite \| kill \| execute | {name/index} | Kills a player based on 
 Revive Player | revive \| res \| resurrect | {name/index} | Revive a dead palyer (host only)
 Give Skill Experience to Player | givexp | {name/index} {skill alias} {XP value} | Gives Skill XP to a player (host only)
 Remove Skill Experience from Player | takexp | {name/index} {skill alias} | Remove All Skill XP from a player (host only)
-Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a speed multiplier for your character's Walk and Sprint speed. (Default speed: 1.0) (works as guest)
-Swim Speedhack | swimhack \| swimspeed \| swimspeedhack \| swimscale | {multiplier/scale} | Sets swim speed multiplier for your character. (Default speed: 1.0) (host only)
+Speedhack | speedhack \| speedmulti \| speedscale | {multiplier/scale} | Sets a speed multiplier for your character's Walk and Sprint speed (between 0.1 and 10)). (Default speed: 1.0) (works as guest)
+Swim Speedhack | swimhack \| swimspeed \| swimspeedhack \| swimscale | {multiplier/scale} | Sets your character's swim speed multiplier (a value between 1 and 10). (Default speed: 1.0) (host only)
 Player Gravity Scale | playergravity \| playergrav \| pg \| setpg | {scale} | Sets player's gravity scale. (Default scale: 1.0) (host only)
 Instant Distant Shore | InstantDistantShore \| DistantShore \| instantshore \| instshore \| instashore \| instds \| dshore \| portalwc |  | Guarantees that player will be sent to Distant Shore instantly when using the related item. (host only)
+Disable Power Sockets | DisablePowerSockets \| disablepower \| disablesocket \| disablesockets \| poweroff |  | Disables all Power Sockets. (experimental command) (host only)
 Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in front of you (up to 10 meters). Objects that are part of the map can't be permanently removed! (Aim carefully, the object will be gone for good) (host only)
 Fix Item Liquid Type | fixliquid \| fixliquidtype \| fixitemliquid |  | Fixes the liquid level and type of currently held object, if it doesn't match. (host only)
 
