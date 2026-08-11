@@ -448,15 +448,15 @@ local UserConstructionScriptPreId, UserConstructionScriptPostId = nil, nil
 local function InitFreeCraftingHooks()
     if not UserConstructionScriptPreId then
         UserConstructionScriptPreId, UserConstructionScriptPostId = RegisterHook("/Game/Blueprints/DeployedObjects/Furniture/AbioticDeployed_Furniture_ParentBP.AbioticDeployed_Furniture_ParentBP_C:UserConstructionScript", function(Context)
-                local furnitureParentBP = Context:get()
+            local furnitureParentBP = Context:get()
 
-                if furnitureParentBP.RequiresConstruction == true then
-                    local myPlayer = AFUtils.GetMyPlayer()
-                    if myPlayer and myPlayer.Debug_FreeCrafting == true then
-                        furnitureParentBP.RequiresConstruction = false
-                    end
+            if furnitureParentBP.RequiresConstruction == true then
+                local myPlayer = AFUtils.GetMyPlayer()
+                if myPlayer and myPlayer.Debug_FreeCrafting == true then
+                    furnitureParentBP.RequiresConstruction = false
                 end
-            end)
+            end
+        end)
         LogDebug("UserConstructionScriptPreId:", UserConstructionScriptPreId)
         LogDebug("UserConstructionScriptPostId:", UserConstructionScriptPostId)
     end
@@ -513,7 +513,7 @@ local function InitBuildAnywhereHooks()
         LogDebug("RunOverlapChecksPreId:", RunOverlapChecksPreId)
         LogDebug("RunOverlapChecksPostId:", RunOverlapChecksPostId)
         local CalculatePlacementOrientationPreId, CalculatePlacementOrientationPostId = RegisterHook("/Game/Blueprints/DeployedObjects/DeployCollisions/DeployProxy_ParentBP.DeployProxy_ParentBP_C:CalculatePlacementOrientation",
-        function(Context, PlacementOrienationsAllowed, QueryComponent, TraceChannel, IsHit, Location, Rotation, TraceEnd, CanBePlaced, Normal)
+            function(Context, PlacementOrienationsAllowed, QueryComponent, TraceChannel, IsHit, Location, Rotation, TraceEnd, CanBePlaced, Normal)
                 if Settings.BuildAnywhere then
                     CanBePlaced:set(true)
                 end
@@ -705,12 +705,12 @@ function InfiniteTraitPoints(hasAuthority)
         if not PreInfiniteTraitPointsId and not PostInfiniteTraitPointsId then
             LoadAsset("/Game/Blueprints/Widgets/TraitSelect/W_Character_Trait_Selection.W_Character_Trait_Selection_C")
             _, PreInfiniteTraitPointsId, PostInfiniteTraitPointsId = pcall(RegisterHook, "/Game/Blueprints/Widgets/TraitSelect/W_Character_Trait_Selection.W_Character_Trait_Selection_C:CalculatePointsAvailable", function(Context)
-                    local trait_Selection = Context:get() ---@type UW_Character_Trait_Selection_C
-                    LogDebug("TraitsAndPoints.Num:", #trait_Selection.TraitsAndPoints)
-                    trait_Selection.TraitsAndPoints:ForEach(function(key, value)
-                        value:set(20)
-                    end)
+                local trait_Selection = Context:get() ---@type UW_Character_Trait_Selection_C
+                LogDebug("TraitsAndPoints.Num:", #trait_Selection.TraitsAndPoints)
+                trait_Selection.TraitsAndPoints:ForEach(function(key, value)
+                    value:set(20)
                 end)
+            end)
             LogDebug("PreInfiniteTraitPointsId:", PreInfiniteTraitPointsId)
             LogDebug("PostInfiniteTraitPointsId:", PostInfiniteTraitPointsId)
         end
@@ -735,14 +735,14 @@ function InstantFishing()
         if not PreInstantFishingId and not PostInstantFishingId then
             LoadAsset("/Game/Blueprints/Items/Weapons/Guns/Weapon_FishingRod.Weapon_FishingRod_C")
             _, PreInstantFishingId, PostInstantFishingId = pcall(RegisterHook, "/Game/Blueprints/Items/Weapons/Guns/Weapon_FishingRod.Weapon_FishingRod_C:Start Fishing Minigame", function(Context)
-                    ExecuteInGameThread(function()
-                        local fishingRod = AFUtils.GetCurrentFishingRod()
-                        if fishingRod then
-                            fishingRod:Request_TriggerBaitUsage()
-                            fishingRod:FishingSuccess()
-                        end
-                    end)
+                ExecuteInGameThread(function()
+                    local fishingRod = AFUtils.GetCurrentFishingRod()
+                    if fishingRod then
+                        fishingRod:Request_TriggerBaitUsage()
+                        fishingRod:FishingSuccess()
+                    end
                 end)
+            end)
             LogDebug("PreInstantFishingId:", PreInstantFishingId)
             LogDebug("PostInstantFishingId:", PostInstantFishingId)
         end
@@ -796,7 +796,7 @@ function Speedhack(myPlayer, hasAuthority)
         elseif myPlayer.CustomTimeDilation == Settings.SpeedhackMultiplier then
             return
         end
-    
+
         if LastSpeedhackMultiplier == 1.0 then
             BaseWalkSpeedBackUp = myPlayer.BaseWalkSpeed
             BaseSprintSpeedBackUp = myPlayer.BaseSprintSpeed
@@ -804,7 +804,7 @@ function Speedhack(myPlayer, hasAuthority)
             LogDebug("Speedhack: BaseWalkSpeedBackUp: ", BaseWalkSpeedBackUp)
             LogDebug("Speedhack: BaseSprintSpeedBackUp: ", BaseSprintSpeedBackUp)
         end
-    
+
         if hasAuthority then
             myPlayer.BaseWalkSpeed = newBaseWalkSpeed
             myPlayer.BaseSprintSpeed = newBaseSprintSpeed
@@ -919,10 +919,10 @@ local CanCrouchRollPreId, CanCrouchRollPostId = nil, nil
 local function InitCanCrouchRollHooks()
     if not CanCrouchRollPreId then
         CanCrouchRollPreId, CanCrouchRollPostId = RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:CanCrouchRoll?", function(Context, CanRoll)
-                if Settings.InfiniteCrouchRoll then
-                    CanRoll:set(true)
-                end
-            end)
+            if Settings.InfiniteCrouchRoll then
+                CanRoll:set(true)
+            end
+        end)
         LogDebug("CanCrouchRollPreId:", CanCrouchRollPreId)
         LogDebug("CanCrouchRollPostId:", CanCrouchRollPostId)
     end
@@ -947,18 +947,18 @@ local function InitSetLockedContentTextHooks()
     if not SetLockedContentTextPreId then
         LoadAsset("/Game/Blueprints/Widgets/Journal/W_Compendium_Section.W_Compendium_Section_C")
         SetLockedContentTextPreId, SetLockedContentTextPostId = RegisterHook("/Game/Blueprints/Widgets/Journal/W_Compendium_Section.W_Compendium_Section_C:SetLockedContentText", function(Context)
-                local context = Context:get() ---@type UW_Compendium_Section_C
-                if Settings.JournalEntryUnlocker and not context.Unlocked then
-                    local progressComponent = AFUtils.GetMyCharacterProgressionComponent()
-                    if IsValid(progressComponent) then
-                        if DebugMode then
-                            LogInfo("Unlocking:", context.CompendiumRow.RowName:ToString())
-                            LogInfo("SectionType:", context.SectionType)
-                        end
-                    progressComponent:Request_UnlockCompendiumSection(context.CompendiumRow.RowName, context.SectionType)
+            local context = Context:get() ---@type UW_Compendium_Section_C
+            if Settings.JournalEntryUnlocker and not context.Unlocked then
+                local progressComponent = AFUtils.GetMyCharacterProgressionComponent()
+                if IsValid(progressComponent) then
+                    if DebugMode then
+                        LogInfo("Unlocking:", context.CompendiumRow.RowName:ToString())
+                        LogInfo("SectionType:", context.SectionType)
                     end
+                    progressComponent:Request_UnlockCompendiumSection(context.CompendiumRow.RowName, context.SectionType)
                 end
-            end)
+            end
+        end)
         LogDebug("SetLockedContentTextPreId:", SetLockedContentTextPreId)
         LogDebug("SetLockedContentTextPostId:", SetLockedContentTextPostId)
     end
@@ -1006,10 +1006,11 @@ function InstantDistantShore()
     end
 end
 
-local ServerApplyBuffPreId, ServerApplyBuffPostId = nil, nil
+local Server_ApplyBuffHook = nil
 local function InitBuffHooks()
-    if not ServerApplyBuffPreId then
-        ServerApplyBuffPreId, ServerApplyBuffPostId = RegisterHook("/Script/AbioticFactor.CharacterBuffComponent:Server_ApplyBuff", function(Context, BuffRow, bOverrideDefaultDuration, NewDuration, Limb, LinkedActor, bSkipDialog)
+    if not Server_ApplyBuffHook then
+        Server_ApplyBuffHook = HooksManager:Hook("/Script/AbioticFactor.CharacterBuffComponent:Server_ApplyBuff",
+            function(Context, BuffRow, bOverrideDefaultDuration, NewDuration, Limb, LinkedActor, bSkipDialog)
                 -- local overrideDefaultDuration = bOverrideDefaultDuration:get() ---@type boolean
                 -- local newDuration = NewDuration:get() ---@type float
                 -- local limb = Limb:get() ---@type EBodyLimbs
@@ -1035,8 +1036,9 @@ local function InitBuffHooks()
                     end
                 end
             end)
-        LogDebug("ServerApplyBuffPreId:", ServerApplyBuffPreId)
-        LogDebug("ServerApplyBuffPostId:", ServerApplyBuffPostId)
+        if Server_ApplyBuffHook then
+            LogDebug("Server_ApplyBuffHook:", Server_ApplyBuffHook:ToString())
+        end
     end
 end
 
