@@ -1007,52 +1007,52 @@ function InstantDistantShore()
 end
 
 local Server_ApplyBuffHook = nil
+local LastBuffRow = nil; ---@type FBuffDebuffRowHandle
 local function InitBuffHooks()
     if not Server_ApplyBuffHook then
         Server_ApplyBuffHook = HooksManager:Hook("/Script/AbioticFactor.CharacterBuffComponent:Server_ApplyBuff",
             function(Context, BuffRow, bOverrideDefaultDuration, NewDuration, Limb, LinkedActor, bSkipDialog)
+                local buffRow = BuffRow:get() ---@type FBuffDebuffRowHandle
                 -- local overrideDefaultDuration = bOverrideDefaultDuration:get() ---@type boolean
                 -- local newDuration = NewDuration:get() ---@type float
                 -- local limb = Limb:get() ---@type EBodyLimbs
                 -- local linkedActor = LinkedActor:get() ---@type AActor
                 -- local skipDialog = bSkipDialog:get() ---@type boolean
 
-                if Settings.GodMode or Settings.NoDebuffs or Settings.BuffsDurationMultiplier ~= 1.0 then
+                LastBuffRow = buffRow
+
+                if Settings.GodMode or Settings.NoDebuffs then
                     local context = Context:get() ---@type UCharacterBuffComponent
                     local componentOwner = context:GetOwner()
                     if IsSameObject(componentOwner, AFUtils.GetMyPlayer()) then
-                        local buffRow = BuffRow:get() ---@type FBuffDebuffRowHandle
                         local rowName = buffRow.RowName
-
                         if rowName:GetComparisonIndex() ~= AFUtils.DebuffUnderwater:GetComparisonIndex() then
                             local buffRowName = rowName:ToString()
-                            if #buffRowName > 5 then
-                                if (Settings.GodMode or Settings.NoDebuffs) and buffRowName:sub(1, 6) == "Debuff" then
-                                    NewDuration:set(0.001)
-                                    bOverrideDefaultDuration:set(true)
-                                    bSkipDialog:set(true)
-                                    LogDebug("Server_ApplyBuff: Debuff shortened:", buffRowName)
-                                elseif Settings.BuffsDurationMultiplier ~= 1.0 and buffRowName:sub(1, 5) == "Buff_" then
-                                    LogDebug("Buff found:", buffRowName)
-                                    -- if IsValid(BuffDebuffHandleFunctionLibrary) then
-                                    --     local outBuffDebuff = {
-                                    --         -- Data = nil ---@type FBuffDebuff
-                                    --     }
-                                    --     local outRowValid = {
-                                    --         -- ReturnPath = nil ---@type ERowValid
-                                    --     }
-                                    --     LogDebug("call GetBuffDebuffRow:")
-                                    --     BuffDebuffHandleFunctionLibrary:GetBuffDebuffRow(buffRow, outBuffDebuff, outRowValid)
-                                    --     LogDebug("outBuffDebuff:", outBuffDebuff, "type:", type(outBuffDebuff))
-                                    --     LogDebug("outRowValid:", outRowValid, "type:", type(outRowValid))
-                                    --     if outBuffDebuff.Data ~= nil and type(outBuffDebuff.Data.DefaultDuration) == "number" then
-                                    --         local defaultDuration = outBuffDebuff.Data.DefaultDuration
-                                    --         local newDuration = defaultDuration * Settings.BuffsDurationMultiplier
-                                    --         NewDuration:set(newDuration)
-                                    --         bOverrideDefaultDuration:set(true)
-                                    --         LogDebug("Server_ApplyBuff: Buff:", buffRowName, "DefaultDuration:", defaultDuration, "NewDuration:", newDuration)
-                                    --     end
-                                    -- end
+                            if #buffRowName > 6 and buffRowName:sub(1, 6) == "Debuff" then
+                                NewDuration:set(0.001)
+                                bOverrideDefaultDuration:set(true)
+                                bSkipDialog:set(true)
+                                LogDebug("Server_ApplyBuff: Debuff shortened:", buffRowName)
+                            end
+                        end
+                    end
+                end
+            end, function (Context)
+                if Settings.BuffsDurationMultiplier ~= 1.0 and LastBuffRow then
+                    local context = Context:get() ---@type UCharacterBuffComponent
+                    local componentOwner = context:GetOwner()
+                    if IsSameObject(componentOwner, AFUtils.GetMyPlayer()) then
+                        local buffRowName = LastBuffRow.RowName
+                        local buffRowNameStr = LastBuffRow.RowName:ToString()
+
+                        if buffRowNameStr:sub(1, 5) == "Buff_" then
+                            for i = 1, #context.CurrentBuffs do
+                                local buff = context.CurrentBuffs[i]
+                                if buff.BuffExpireTime > 0 and buff.BuffRow.RowName:GetComparisonIndex() == buffRowName:GetComparisonIndex() then
+                                    local buffExpireTime = buff.BuffExpireTime
+                                    buff.BuffExpireTime = buffExpireTime * Settings.BuffsDurationMultiplier
+                                    LogDebug("Post Server_ApplyBuff: Buff:", buffRowNameStr, "BuffExpireTime:", buffExpireTime, ", new BuffExpireTime:", buff.BuffExpireTime)
+                                    break
                                 end
                             end
                         end
