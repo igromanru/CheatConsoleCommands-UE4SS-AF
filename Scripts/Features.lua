@@ -1057,8 +1057,7 @@ end
 local IsPoweredHookInfo = nil
 local function InitIsPoweredHook()
     if not HooksManager:IsHookActive(IsPoweredHookInfo) then
-        LogDebug("Execute HookAutoLoadAssetAsync")
-        IsPoweredHookInfo = HooksManager:HookAutoLoadAssetAsync("/Game/Blueprints/Environment/Electrical/PowerSocket_ParentBP.PowerSocket_ParentBP_C:IsPowered", function(Context, PowerOn)
+        IsPoweredHookInfo = HooksManager:LoadAssetAndHookAsync("/Game/Blueprints/Environment/Electrical/PowerSocket_ParentBP.PowerSocket_ParentBP_C:IsPowered", function(Context, PowerOn)
             local context = Context:get() ---@type APowerSocket_ParentBP_C
             -- local powerOn = PowerOn:get() ---@type boolean
 
