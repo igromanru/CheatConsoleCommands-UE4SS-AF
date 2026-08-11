@@ -34,6 +34,7 @@ local SettingsData = {
     HealthRegeneration = 0.0,
     InfiniteStamina = false,
     NoDebuffs = false,
+    BuffsDurationMultiplier = 1.0,
     InfiniteDurability = false,
     InfiniteEnergy = false,
     NoOverheat = false,

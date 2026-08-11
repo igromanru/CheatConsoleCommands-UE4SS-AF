@@ -1017,7 +1017,7 @@ local function InitBuffHooks()
                 -- local linkedActor = LinkedActor:get() ---@type AActor
                 -- local skipDialog = bSkipDialog:get() ---@type boolean
 
-                if Settings.GodMode or Settings.NoDebuffs then
+                if Settings.GodMode or Settings.NoDebuffs or Settings.BuffsDurationMultiplier ~= 1.0 then
                     local context = Context:get() ---@type UCharacterBuffComponent
                     local componentOwner = context:GetOwner()
                     if IsSameObject(componentOwner, AFUtils.GetMyPlayer()) then
@@ -1026,11 +1026,19 @@ local function InitBuffHooks()
 
                         if rowName:GetComparisonIndex() ~= AFUtils.DebuffUnderwater:GetComparisonIndex() then
                             local buffRowName = rowName:ToString()
-                            if #buffRowName > 5 and buffRowName:sub(1, 6) == "Debuff" then
-                                NewDuration:set(0.001)
-                                bOverrideDefaultDuration:set(true)
-                                bSkipDialog:set(true)
-                                LogDebug("Server_ApplyBuff: Debuff detected:", buffRowName)
+                            if #buffRowName > 5 then
+                                if (Settings.GodMode or Settings.NoDebuffs) and buffRowName:sub(1, 6) == "Debuff" then
+                                    NewDuration:set(0.001)
+                                    bOverrideDefaultDuration:set(true)
+                                    bSkipDialog:set(true)
+                                    LogDebug("Server_ApplyBuff: Debuff shortened:", buffRowName)
+                                elseif Settings.BuffsDurationMultiplier ~= 1.0 and buffRowName:sub(1, 5) == "Buff_" then
+                                    local duration = NewDuration:get() ---@type float
+                                    local newDuration = duration * Settings.BuffsDurationMultiplier
+                                    NewDuration:set(newDuration)
+                                    bOverrideDefaultDuration:set(true)
+                                    LogDebug("Server_ApplyBuff: Buff:", buffRowName, "Duration:", duration, "NewDuration:", newDuration)
+                                end
                             end
                         end
                     end
@@ -1053,6 +1061,16 @@ function NoDebuffs()
     elseif NoDebuffsWasEnabled then
         NoDebuffsWasEnabled = false
         AFUtils.ClientDisplayWarningMessage("No Debuffs deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
+local LastBuffsDurationMultiplier = 1.0
+function BuffsDurationMultiplier()
+    if Settings.BuffsDurationMultiplier ~= LastBuffsDurationMultiplier then
+        InitBuffHooks()
+        LastBuffsDurationMultiplier = Settings.BuffsDurationMultiplier
+        LogDebug("Buffs Duration Multiplier:", LastBuffsDurationMultiplier)
+        AFUtils.ClientDisplayWarningMessage("Buffs Duration x" .. LastBuffsDurationMultiplier, AFUtils.CriticalityLevels.Green)
     end
 end
 

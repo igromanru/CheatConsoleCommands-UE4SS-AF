@@ -601,7 +601,7 @@ CreateCommand({ "stamina", "sp", "infsp", "infstamina" }, "Infinite Stamina",
     end,
     "InfiniteStamina")
 
--- No Debuffs
+-- No Debuffs Command
 CreateCommand({ "nodebuffs", "disabledebuffs", "nodebuff" }, "No Debuffs",
     "All debuffs applied to the player will expire instantly. (Bleeding, Injured Legs etc.) (Doesn't remove existing debuffs! Reload the save to remove them.) (host only)", nil,
     function(self, OutputDevice, Parameters)
@@ -615,7 +615,29 @@ CreateCommand({ "nodebuffs", "disabledebuffs", "nodebuff" }, "No Debuffs",
     end,
     "NoDebuffs")
 
--- Infinite Crouch Roll
+-- Buffs Duration Multiplier Command
+CreateCommand({ "buffduration", "buffsduration", "buffdur", "buffsdur" }, "Buffs Duration Multiplier",
+"Sets the multiplier by which the duration of buffs will be multiplied when they are applied to the player (a value between 0.1 and 100). (Default: 1.0) (host only)",
+CreateCommandParam("multiplier/scale", "number", "Buffs Duration scale/multiplier. A decimal value between 0.1 and 100.0"),
+    function(self, OutputDevice, Parameters)
+        if not Parameters or #Parameters < 1 then
+            WriteToConsole(OutputDevice, "Current multiplier is set to: " .. Settings.BuffsDurationMultiplier)
+            WriteToConsole(OutputDevice, "The command requires a value by which the buff duration will be multiplied. e.g. 'buffsduration 1.5'")
+            return true
+        end
+        local multiplier = tonumber(Parameters[1])
+        if not multiplier or multiplier < 0.1 or multiplier > 100  then
+            WriteErrorToConsole(OutputDevice, "The required parameter must be a decimal value between 1.0 and 100.0")
+            WriteToConsole(OutputDevice, "The command requires a value by which the buff duration will be multiplied. e.g. 'buffsduration 2.5'")
+            return true
+        end
+        Settings.BuffsDurationMultiplier = multiplier
+        WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. multiplier)
+        return true
+    end,
+    "BuffsDurationMultiplier")
+
+-- Infinite Crouch Roll Command
 CreateCommand({ "infroll", "crouchroll", "stealthroll" }, "Infinite Crouch Roll",
     "Allows player to use the crouch roll ability from Sneaking LvL 5 without a cooldown.", nil,
     function(self, OutputDevice, Parameters)
@@ -1851,7 +1873,7 @@ CreateCommand({ "takexp" }, "Remove Skill Experience from Player", "Remove All S
 
 -- Speedhack Command
 CreateCommand({ "speedhack", "speedmulti", "speedscale" }, "Speedhack", "Sets a speed multiplier for your character's Walk and Sprint speed (between 0.1 and 10)). (Default speed: 1.0) (works as guest)",
-CreateCommandParam("multiplier/scale", "number", "Speed scale/multiplier. A float value between 0.1 and 10.0"),
+CreateCommandParam("multiplier/scale", "number", "Speed scale/multiplier. A decimal value between 0.1 and 10.0"),
 function(self, OutputDevice, Parameters)
     if not Parameters or #Parameters < 1 then
         WriteToConsole(OutputDevice, "Current multiplier is set to: " .. Settings.SpeedhackMultiplier)
@@ -1860,7 +1882,7 @@ function(self, OutputDevice, Parameters)
     end
     local multiplier = tonumber(Parameters[1])
     if not multiplier or multiplier < 0.1 or multiplier > 10  then
-        WriteErrorToConsole(OutputDevice, "The required parameter must be a float value between 0.1 and 10")
+        WriteErrorToConsole(OutputDevice, "The required parameter must be a decimal value between 0.1 and 10")
         WriteToConsole(OutputDevice, "The command requires a value by which the speed will be multiplied. e.g. 'speedhack 1.5'")
         return true
     end
@@ -1872,7 +1894,7 @@ end,
 
 -- Swim speedhack Command
 CreateCommand({ "swimhack", "swimspeed", "swimspeedhack", "swimscale" }, "Swim Speedhack", "Sets your character's swim speed multiplier (a value between 1 and 10). (Default speed: 1.0) (host only)",
-CreateCommandParam("multiplier/scale", "number", "Swim Speed scale/multiplier. A float value between 1.0 and 10.0"),
+CreateCommandParam("multiplier/scale", "number", "Swim Speed scale/multiplier. A decimal value between 1.0 and 10.0"),
 function(self, OutputDevice, Parameters)
     if not Parameters or #Parameters < 1 then
         WriteToConsole(OutputDevice, "Current multiplier is set to: " .. Settings.SwimhackMultiplier)
@@ -1881,7 +1903,7 @@ function(self, OutputDevice, Parameters)
     end
     local multiplier = tonumber(Parameters[1])
     if not multiplier or multiplier < 1.0 or multiplier > 10  then
-        WriteErrorToConsole(OutputDevice, "The required parameter must be a float value between 1.0 and 10.0")
+        WriteErrorToConsole(OutputDevice, "The required parameter must be a decimal value between 1.0 and 10.0")
         WriteToConsole(OutputDevice, "The command requires a value by which the speed will be multiplied. e.g. 'swimspeed 1.5'")
         return true
     end
@@ -1893,7 +1915,7 @@ end,
 
 -- Player Gravity Scale Command
 CreateCommand({ "playergravity", "playergrav", "pg", "setpg" }, "Player Gravity Scale", "Sets player's gravity scale. (Default scale: 1.0) (host only)",
-CreateCommandParam("scale", "number", "Gravity scale/multiplier. A float value between 0.1 and 2.0"),
+CreateCommandParam("scale", "number", "Gravity scale/multiplier. A decimal value between 0.1 and 2.0"),
 function(self, OutputDevice, Parameters)
     if not Parameters or #Parameters < 1 then
         WriteToConsole(OutputDevice, "Current scale is set to: " .. Settings.PlayerGravityScale)
@@ -1902,7 +1924,7 @@ function(self, OutputDevice, Parameters)
     end
     local multiplier = tonumber(Parameters[1])
     if not multiplier or multiplier < 0.1 or multiplier > 2  then
-        WriteErrorToConsole(OutputDevice, "The required parameter must be a float value between 0.1 and 2")
+        WriteErrorToConsole(OutputDevice, "The required parameter must be a decimal value between 0.1 and 2")
         WriteToConsole(OutputDevice, "The command requires a value by which the gravity will be multiplied. e.g. 'pg 0.5'")
         return true
     end
