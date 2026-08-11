@@ -1033,11 +1033,26 @@ local function InitBuffHooks()
                                     bSkipDialog:set(true)
                                     LogDebug("Server_ApplyBuff: Debuff shortened:", buffRowName)
                                 elseif Settings.BuffsDurationMultiplier ~= 1.0 and buffRowName:sub(1, 5) == "Buff_" then
-                                    local duration = NewDuration:get() ---@type float
-                                    local newDuration = duration * Settings.BuffsDurationMultiplier
-                                    NewDuration:set(newDuration)
-                                    bOverrideDefaultDuration:set(true)
-                                    LogDebug("Server_ApplyBuff: Buff:", buffRowName, "Duration:", duration, "NewDuration:", newDuration)
+                                    LogDebug("Buff found:", buffRowName)
+                                    -- if IsValid(BuffDebuffHandleFunctionLibrary) then
+                                    --     local outBuffDebuff = {
+                                    --         -- Data = nil ---@type FBuffDebuff
+                                    --     }
+                                    --     local outRowValid = {
+                                    --         -- ReturnPath = nil ---@type ERowValid
+                                    --     }
+                                    --     LogDebug("call GetBuffDebuffRow:")
+                                    --     BuffDebuffHandleFunctionLibrary:GetBuffDebuffRow(buffRow, outBuffDebuff, outRowValid)
+                                    --     LogDebug("outBuffDebuff:", outBuffDebuff, "type:", type(outBuffDebuff))
+                                    --     LogDebug("outRowValid:", outRowValid, "type:", type(outRowValid))
+                                    --     if outBuffDebuff.Data ~= nil and type(outBuffDebuff.Data.DefaultDuration) == "number" then
+                                    --         local defaultDuration = outBuffDebuff.Data.DefaultDuration
+                                    --         local newDuration = defaultDuration * Settings.BuffsDurationMultiplier
+                                    --         NewDuration:set(newDuration)
+                                    --         bOverrideDefaultDuration:set(true)
+                                    --         LogDebug("Server_ApplyBuff: Buff:", buffRowName, "DefaultDuration:", defaultDuration, "NewDuration:", newDuration)
+                                    --     end
+                                    -- end
                                 end
                             end
                         end
