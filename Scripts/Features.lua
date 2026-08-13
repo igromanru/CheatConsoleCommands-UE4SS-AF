@@ -1037,28 +1037,30 @@ local function InitBuffHooks()
                         end
                     end
                 end
-            end, function (Context)
-                if Settings.BuffsDurationMultiplier ~= 1.0 and LastBuffRow then
-                    local context = Context:get() ---@type UCharacterBuffComponent
-                    local componentOwner = context:GetOwner()
-                    if IsSameObject(componentOwner, AFUtils.GetMyPlayer()) then
-                        local buffRowName = LastBuffRow.RowName
-                        local buffRowNameStr = LastBuffRow.RowName:ToString()
+            end
+            -- , function (Context)
+            --     if Settings.BuffsDurationMultiplier ~= 1.0 and LastBuffRow then
+            --         local context = Context:get() ---@type UCharacterBuffComponent
+            --         local componentOwner = context:GetOwner()
+            --         if IsSameObject(componentOwner, AFUtils.GetMyPlayer()) then
+            --             local buffRowName = LastBuffRow.RowName
+            --             local buffRowNameStr = LastBuffRow.RowName:ToString()
 
-                        if buffRowNameStr:sub(1, 5) == "Buff_" then
-                            for i = 1, #context.CurrentBuffs do
-                                local buff = context.CurrentBuffs[i]
-                                if buff.BuffExpireTime > 0 and buff.BuffRow.RowName:GetComparisonIndex() == buffRowName:GetComparisonIndex() then
-                                    local buffExpireTime = buff.BuffExpireTime
-                                    buff.BuffExpireTime = buffExpireTime * Settings.BuffsDurationMultiplier
-                                    LogDebug("Post Server_ApplyBuff: Buff:", buffRowNameStr, "BuffExpireTime:", buffExpireTime, ", new BuffExpireTime:", buff.BuffExpireTime)
-                                    break
-                                end
-                            end
-                        end
-                    end
-                end
-            end)
+            --             if buffRowNameStr:sub(1, 5) == "Buff_" then
+            --                 for i = 1, #context.CurrentBuffs do
+            --                     local buff = context.CurrentBuffs[i]
+            --                     if buff.BuffExpireTime > 0 and buff.BuffRow.RowName:GetComparisonIndex() == buffRowName:GetComparisonIndex() then
+            --                         local buffExpireTime = buff.BuffExpireTime
+            --                         buff.BuffExpireTime = buffExpireTime * Settings.BuffsDurationMultiplier
+            --                         LogDebug("Post Server_ApplyBuff: Buff:", buffRowNameStr, "BuffExpireTime:", buffExpireTime, ", new BuffExpireTime:", buff.BuffExpireTime)
+            --                         break
+            --                     end
+            --                 end
+            --             end
+            --         end
+            --     end
+            -- end
+        )
         if Server_ApplyBuffHook then
             LogDebug("Server_ApplyBuffHook:", Server_ApplyBuffHook:ToString())
         end
@@ -1079,15 +1081,15 @@ function NoDebuffs()
     end
 end
 
-local LastBuffsDurationMultiplier = 1.0
-function BuffsDurationMultiplier()
-    if Settings.BuffsDurationMultiplier ~= LastBuffsDurationMultiplier then
-        InitBuffHooks()
-        LastBuffsDurationMultiplier = Settings.BuffsDurationMultiplier
-        LogDebug("Buffs Duration Multiplier:", LastBuffsDurationMultiplier)
-        AFUtils.ClientDisplayWarningMessage("Buffs Duration x" .. LastBuffsDurationMultiplier, AFUtils.CriticalityLevels.Green)
-    end
-end
+-- local LastBuffsDurationMultiplier = 1.0
+-- function BuffsDurationMultiplier()
+--     if Settings.BuffsDurationMultiplier ~= LastBuffsDurationMultiplier then
+--         InitBuffHooks()
+--         LastBuffsDurationMultiplier = Settings.BuffsDurationMultiplier
+--         LogDebug("Buffs Duration Multiplier:", LastBuffsDurationMultiplier)
+--         AFUtils.ClientDisplayWarningMessage("Buffs Duration x" .. LastBuffsDurationMultiplier, AFUtils.CriticalityLevels.Green)
+--     end
+-- end
 
 local IsPoweredHookInfo = nil
 local function InitIsPoweredHook()

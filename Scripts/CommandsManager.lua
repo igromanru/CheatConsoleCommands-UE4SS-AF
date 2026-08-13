@@ -616,26 +616,26 @@ CreateCommand({ "nodebuffs", "disabledebuffs", "nodebuff" }, "No Debuffs",
     "NoDebuffs")
 
 -- Buffs Duration Multiplier Command
-CreateCommand({ "buffduration", "buffsduration", "buffdur", "buffsdur" }, "Buffs Duration Multiplier",
-"Sets the multiplier by which the duration of buffs will be multiplied when they are applied to the player (a value between 0.1 and 100). (Default: 1.0) (host only)",
-CreateCommandParam("multiplier/scale", "number", "Buffs Duration scale/multiplier. A decimal value between 0.1 and 100.0"),
-    function(self, OutputDevice, Parameters)
-        if not Parameters or #Parameters < 1 then
-            WriteToConsole(OutputDevice, "Current multiplier is set to: " .. Settings.BuffsDurationMultiplier)
-            WriteToConsole(OutputDevice, "The command requires a value by which the buff duration will be multiplied. e.g. 'buffsduration 1.5'")
-            return true
-        end
-        local multiplier = tonumber(Parameters[1])
-        if not multiplier or multiplier < 0.1 or multiplier > 100  then
-            WriteErrorToConsole(OutputDevice, "The required parameter must be a decimal value between 1.0 and 100.0")
-            WriteToConsole(OutputDevice, "The command requires a value by which the buff duration will be multiplied. e.g. 'buffsduration 2.5'")
-            return true
-        end
-        Settings.BuffsDurationMultiplier = multiplier
-        WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. multiplier)
-        return true
-    end,
-    "BuffsDurationMultiplier")
+-- CreateCommand({ "buffduration", "buffsduration", "buffdur", "buffsdur" }, "Buffs Duration Multiplier",
+-- "Sets the multiplier by which the duration of buffs will be multiplied when they are applied to the player (a value between 0.1 and 100). (Default: 1.0) (host only)",
+-- CreateCommandParam("multiplier/scale", "number", "Buffs Duration scale/multiplier. A decimal value between 0.1 and 100.0"),
+--     function(self, OutputDevice, Parameters)
+--         if not Parameters or #Parameters < 1 then
+--             WriteToConsole(OutputDevice, "Current multiplier is set to: " .. Settings.BuffsDurationMultiplier)
+--             WriteToConsole(OutputDevice, "The command requires a value by which the buff duration will be multiplied. e.g. 'buffsduration 1.5'")
+--             return true
+--         end
+--         local multiplier = tonumber(Parameters[1])
+--         if not multiplier or multiplier < 0.1 or multiplier > 100  then
+--             WriteErrorToConsole(OutputDevice, "The required parameter must be a decimal value between 1.0 and 100.0")
+--             WriteToConsole(OutputDevice, "The command requires a value by which the buff duration will be multiplied. e.g. 'buffsduration 2.5'")
+--             return true
+--         end
+--         Settings.BuffsDurationMultiplier = multiplier
+--         WriteToConsole(OutputDevice, "Execute " .. self.Name .. " command with value: " .. multiplier)
+--         return true
+--     end,
+--     "BuffsDurationMultiplier")
 
 -- Infinite Crouch Roll Command
 CreateCommand({ "infroll", "crouchroll", "stealthroll" }, "Infinite Crouch Roll",
