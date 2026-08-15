@@ -81,6 +81,7 @@ local SettingsData = {
         LocationStruct("Mycofields", "V_Anteverse_B", FVector(324726, 329753, 2162), FRotator(0, 189, 0)),
         LocationStruct("Night Realm", "V_NIGHT", FVector(30442, -238074, 5462), FRotator(0, 84, 0)),
         LocationStruct("Royal Range", "V_Winter", FVector(148300, -89985, 54800), FRotator(0, 205, 0)),
+        LocationStruct("Anteverse 2-C", "V_Anteverse_C", FVector(35978, -335618, 360), FRotator(0, 165, 0)),
         LocationStruct("Distant Shore", "V_DistantShore", FVector(331480, -334311, 920), FRotator(0, 0, 0)),
     }, ---@type LocationStruct[]
 }
