@@ -1007,7 +1007,7 @@ function InstantDistantShore()
 end
 
 local Server_ApplyBuffHook = nil
-local LastBuffRow = nil; ---@type FBuffDebuffRowHandle
+-- local LastBuffRow = nil; ---@type FBuffDebuffRowHandle
 local function InitBuffHooks()
     if not Server_ApplyBuffHook then
         Server_ApplyBuffHook = HooksManager:Hook("/Script/AbioticFactor.CharacterBuffComponent:Server_ApplyBuff",
@@ -1019,14 +1019,14 @@ local function InitBuffHooks()
                 -- local linkedActor = LinkedActor:get() ---@type AActor
                 -- local skipDialog = bSkipDialog:get() ---@type boolean
 
-                LastBuffRow = buffRow
+                -- LastBuffRow = buffRow
 
                 if Settings.GodMode or Settings.NoDebuffs then
                     local context = Context:get() ---@type UCharacterBuffComponent
                     local componentOwner = context:GetOwner()
                     if IsSameObject(componentOwner, AFUtils.GetMyPlayer()) then
                         local rowName = buffRow.RowName
-                        if rowName:GetComparisonIndex() ~= AFUtils.DebuffUnderwater:GetComparisonIndex() then
+                        if not IsSameName(rowName, AFUtils.DebuffUnderwater) then
                             local buffRowName = rowName:ToString()
                             if #buffRowName > 6 and buffRowName:sub(1, 6) == "Debuff" then
                                 NewDuration:set(0.001)

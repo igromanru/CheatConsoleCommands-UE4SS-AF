@@ -983,7 +983,7 @@ CreateCommand({ "trapleyak", "containleyak" }, "Trap Leyak", "Trap's Leyak in th
             LogDebug("Trap Leyak Command: leyakContainments:", #leyakContainments)
             -- Check if Leyak is already trapped
             for _, leyakContainment in ipairs(leyakContainments) do
-                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() == AFUtils.LeyakRowName:GetComparisonIndex() then
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and IsSameName(leyakContainment.ContainsLeyak, AFUtils.LeyakRowName) then
                     WriteErrorToConsole(OutputDevice, "Leyak is already trapped")
                     return false
                 end
@@ -1012,7 +1012,7 @@ CreateCommand({ "freeleyak" }, "Free Leyak", "Free Leyak from a Containment Unit
             LogDebug("Free Leyak Command: leyakContainments:", #leyakContainments)
             -- Check if Leyak is already trapped
             for _, leyakContainment in ipairs(leyakContainments) do
-                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() == AFUtils.LeyakRowName:GetComparisonIndex() then
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and IsSameName(leyakContainment.ContainsLeyak, AFUtils.LeyakRowName) then
                     if AFUtils.FreeLeyak(leyakContainment) then
                         WriteToConsole(OutputDevice, "Leyak was freed successfully")
                         return true
@@ -1072,13 +1072,13 @@ CreateCommand({ "trapkrasue", "containkrasue" }, "Trap Krasue", "Trap's Krasue i
             LogDebug("Trap Krasue Command: leyakContainments:",#leyakContainments)
             -- Check if Leyak is already trapped
             for _, leyakContainment in ipairs(leyakContainments) do
-                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() == AFUtils.KrasueRowName:GetComparisonIndex() then
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and IsSameName(leyakContainment.ContainsLeyak, AFUtils.KrasueRowName) then
                     WriteErrorToConsole(OutputDevice, "Krasue is already trapped")
                     return false
                 end
             end
             for _, leyakContainment in ipairs(leyakContainments) do
-                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() == 0 then
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and IsNameNone(leyakContainment.ContainsLeyak) then
                     if AFUtils.TrapKrasue(leyakContainment) then
                         WriteToConsole(OutputDevice, "Krasue was trapped successfully.")
                         return true
@@ -1101,7 +1101,7 @@ CreateCommand({ "freekrasue" }, "Free Krasue", "Free Krasue from a Containment U
             LogDebug("Free Krasue Command: leyakContainments:", #leyakContainments)
             -- Check if Krasue is already trapped
             for _, leyakContainment in ipairs(leyakContainments) do
-                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and leyakContainment.ContainsLeyak:GetComparisonIndex() == AFUtils.KrasueRowName:GetComparisonIndex() then
+                if IsValid(leyakContainment) and not leyakContainment.DeployableDestroyed and IsSameName(leyakContainment.ContainsLeyak, AFUtils.KrasueRowName) then
                     if AFUtils.FreeKrasue(leyakContainment) then
                         WriteToConsole(OutputDevice, "Krasue was freed successfully")
                         return true
