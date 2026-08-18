@@ -767,13 +767,15 @@ local function InitTickPropelObstaclesForwardHook()
         function(Context)
             local context = Context:get() ---@type AMinigame_SleepRunner_BP_C
 
-            if Settings.DreamAutoJump and context.Obstacles then
+            if Settings.DreamAutoJump and context.Obstacles and not context.StartJump and not context.FallingDown then
                 for i = 1, #context.Obstacles do
                     local obstacle = context.Obstacles[i]
                     if IsValid(obstacle.Box) then
                         local distance = GetVectorDistance(context.CharacterGroundLocation, obstacle.Box:K2_GetComponentLocation())
+                        LogDebug(i .. ": Obstacle distance:", distance)
                         if distance <= 30 then
                             context:Jump()
+                            LogDebug(i .. ": Jump!")
                         end
                     end
                 end
