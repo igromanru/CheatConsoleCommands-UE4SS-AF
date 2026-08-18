@@ -96,6 +96,7 @@ LoopAsync(250, function()
             JournalEntryUnlocker()
             InstantFishing()
             InstantDistantShore()
+            DreamAutoJump()
         end
         SetLeyakCooldown(isHost)
         SetKrasueCooldown(isHost)

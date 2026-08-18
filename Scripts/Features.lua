@@ -760,6 +760,42 @@ function InstantFishing()
     end
 end
 
+local TickPropelObstaclesForwardHookInfo = nil
+local function InitTickPropelObstaclesForwardHook()
+    if not HooksManager:IsHookActive(TickPropelObstaclesForwardHookInfo) then
+        TickPropelObstaclesForwardHookInfo = HooksManager:LoadAssetAndHookAsync("/Game/Blueprints/Minigames/Minigame_SleepRunner_BP.Minigame_SleepRunner_BP_C:Tick_PropelObstaclesForward",
+        function(Context)
+            local context = Context:get() ---@type AMinigame_SleepRunner_BP_C
+
+            if Settings.DreamAutoJump and context.Obstacles then
+                for i = 1, #context.Obstacles do
+                    local obstacle = context.Obstacles[i]
+                    if IsValid(obstacle.Box) then
+                        local distance = GetVectorDistance(context.CharacterGroundLocation, obstacle.Box:K2_GetComponentLocation())
+                        if distance <= 30 then
+                            context:Jump()
+                        end
+                    end
+                end
+            end
+        end)
+    end
+end
+
+local DreamAutoJumpWasEnabled = false
+function DreamAutoJump()
+    if Settings.DreamAutoJump then
+        if not DreamAutoJumpWasEnabled then
+            InitTickPropelObstaclesForwardHook()
+            AFUtils.ClientDisplayWarningMessage("Dream Auto Jump activated", AFUtils.CriticalityLevels.Green)
+            DreamAutoJumpWasEnabled = true
+        end
+    elseif DreamAutoJumpWasEnabled then
+        DreamAutoJumpWasEnabled = false
+        AFUtils.ClientDisplayWarningMessage("Dream Auto Jump deactivated", AFUtils.CriticalityLevels.Red)
+    end
+end
+
 local MasterKeyWasEnabled = false
 ---@param myPlayer AAbiotic_PlayerCharacter_C
 function MasterKey(myPlayer)
@@ -1118,8 +1154,8 @@ local DisablePowerSocketsWasEnabled = false
 ---@param hasAuthority boolean?
 function DisablePowerSockets(hasAuthority)
     if Settings.DisablePowerSockets and hasAuthority then
-        InitIsPoweredHook()
         if not DisablePowerSocketsWasEnabled then
+            InitIsPoweredHook()
             AFUtils.ClientDisplayWarningMessage("Disable Power Sockets activated", AFUtils.CriticalityLevels.Green)
             DisablePowerSocketsWasEnabled = true
         end

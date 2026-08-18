@@ -940,6 +940,16 @@ CreateCommand({ "instantfishing", "instfish", "instantfish" }, "Instant Fishing"
     end,
     "InstantFishing")
 
+-- Dream Auto Jump Command
+CreateCommand({ "dreamjump", "dreamauto", "dreamautojump", "autojumpdream", "jumpindream" }, "Dream Auto Jump",
+    "Automatically jumps over obstacles in the sleeping minigame. (works as guest)", nil,
+    function(self, OutputDevice, Parameters)
+        Settings.DreamAutoJump = not Settings.DreamAutoJump
+        PrintCommandState(Settings.DreamAutoJump, self.Name, OutputDevice)
+        return true
+    end,
+    "DreamAutoJump")
+
 -- Set Leyak Cooldown Command
 CreateCommand({ "leyakcd", "leyakcooldown", "cdleyak" }, "Leyak Cooldown",
     "Changes Leyak's spawn cooldown in minutes (Default: 15min). The cooldown will be reapplied by the mod automatically each time you start the game. (To disable the command set value to 0 or 15) (host only)",
