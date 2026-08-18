@@ -772,10 +772,10 @@ local function InitTickPropelObstaclesForwardHook()
                     local obstacle = context.Obstacles[i]
                     if IsValid(obstacle.Box) then
                         local distance = GetVectorDistance(context.CharacterGroundLocation, obstacle.Box:K2_GetComponentLocation())
-                        LogDebug(i .. ": Obstacle distance:", distance)
-                        if distance <= 30 then
+                        -- LogDebug(i .. ": Obstacle distance:", distance)
+                        if distance <= 25 then
                             context:Jump()
-                            LogDebug(i .. ": Jump!")
+                            -- LogDebug(i .. ": Jump!")
                         end
                     end
                 end
