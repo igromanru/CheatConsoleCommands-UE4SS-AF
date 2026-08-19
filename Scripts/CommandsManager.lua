@@ -567,7 +567,7 @@ CreateCommand({ "health", "hp", "infhp", "infhealth" }, "Infinite Health",
     "InfiniteHealth")
 
 -- Health Regeneration Command
-CreateCommand({ "hpreg", "hpregen", "regenhp", "healthregeneration" }, "Health Regeneration", "Sets automatic health regeneration in health points per second. (To disable set to: 0) (host only)",
+CreateCommand({ "hpreg", "hpregen", "regenhp", "healthregeneration" }, "Health Regeneration", "Sets the amount of health the mod automatically regenerates for the player each second. (Set to 0 to disable the feature) (host only)",
 CreateCommandParam("hp/s", "number", "Health points per seconds (hp/s)"),
 function(self, OutputDevice, Parameters)
     if not Parameters or #Parameters < 1 then
@@ -576,8 +576,8 @@ function(self, OutputDevice, Parameters)
         return true
     end
     local healthPerSecond = tonumber(Parameters[1])
-    if not healthPerSecond then
-        WriteErrorToConsole(OutputDevice, "The required parameter must be a numeric value.")
+    if not healthPerSecond and healthPerSecond >= 0 then
+        WriteErrorToConsole(OutputDevice, "The required parameter must be a positive numeric value.")
         WriteToConsole(OutputDevice, "The command requires a value by which the health will be regenerated each second. e.g. 'hpreg 1.5'")
         return true
     end
