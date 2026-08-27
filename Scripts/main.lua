@@ -16,6 +16,8 @@ DebugMode = true
 IsModEnabled = true
 
 -- ToDo
+-- Command to change fly speed of NoClip
+-- Item Vacuum loop
 -- Command to increase Buffs duration
 -- Check why Reset Portals doesn't reset the latest one
 -- Re-Spawn all items command, to trigger all spawn points
