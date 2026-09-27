@@ -11,7 +11,7 @@ Disable All | disableall \| alloff |  | Disables all commands
 God Mode | god \| godmode |  | Activates all health, stamina and status related features at once. (You will have to disable god mode to be able to toggle them seperatly)
 Heal | heal |  | Player gets fully healed once (host only)
 Infinite Health | health \| hp \| infhp \| infhealth |  | Player gets fully healed and becomes invincible (host only)
-Health Regeneration | hpreg \| hpregen \| regenhp \| healthregeneration | {hp/s} | Sets automatic health regeneration in health points per second. (To disable set to: 0) (host only)
+Health Regeneration | hpreg \| hpregen \| regenhp \| healthregeneration | {hp/s} | Sets the amount of health the mod automatically regenerates for the player each second. (Set to 0 to disable the feature) (host only)
 Infinite Stamina | stamina \| sp \| infsp \| infstamina |  | Player won't consume stamina (works partial as guest)
 No Debuffs | nodebuffs \| disabledebuffs \| nodebuff |  | All debuffs applied to the player will expire instantly. (Bleeding, Injured Legs etc.) (Doesn't remove existing debuffs! Reload the save to remove them.) (host only)
 Infinite Crouch Roll | infroll \| crouchroll \| stealthroll |  | Allows player to use the crouch roll ability from Sneaking LvL 5 without a cooldown.
@@ -81,6 +81,7 @@ Instant Distant Shore | InstantDistantShore \| DistantShore \| instantshore \| i
 Disable Power Sockets | DisablePowerSockets \| disablepower \| disablesocket \| disablesockets \| poweroff |  | Disables all Power Sockets. (experimental feature) (host only)
 Delete Object Trace | deleteobject \| removeobject |  | Deletes an object in front of you (up to 10 meters). Objects that are part of the map can't be permanently removed! (Aim carefully, the object will be gone for good) (host only)
 Fix Item Liquid Type | fixliquid \| fixliquidtype \| fixitemliquid |  | Fixes the liquid level and type of currently held object, if it doesn't match. (host only)
+
 
 ## Highest form of appreciation
 If you like my work and feel generous, you can support me.  
