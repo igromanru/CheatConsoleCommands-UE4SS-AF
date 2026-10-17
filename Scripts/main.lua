@@ -21,6 +21,8 @@ IsModEnabled = true
 -- Command to increase Buffs duration
 -- Check why Reset Portals doesn't reset the latest one
 -- Re-Spawn all items command, to trigger all spawn points
+-- Command clean splatters, vomit etc.
+
 
 LogInfo("Starting mod initialization")
 
