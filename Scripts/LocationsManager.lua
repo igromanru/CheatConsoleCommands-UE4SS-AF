@@ -80,10 +80,10 @@ function LocationsManager.SaveCurrentLocation(Name)
     local myPlayer = AFUtils.GetMyPlayer()
     local myPlayerController = AFUtils.GetMyPlayerController()
     if IsValid(myPlayer) and IsValid(myPlayerController) then
-        local acotrLocation = myPlayer:K2_GetActorLocation()
-        acotrLocation.Z = acotrLocation.Z + 20 -- Increase Z to not get stuck
+        local actorLocation = myPlayer:K2_GetActorLocation()
+        actorLocation.Z = actorLocation.Z + 20 -- Increase Z to not get stuck
         
-        return UpdateOrCreateLocation(Name, myPlayerController.ActiveLevelName:ToString(), acotrLocation, AFUtils.GetControlRotation())
+        return UpdateOrCreateLocation(Name, myPlayerController.ActiveLevelName:ToString(), actorLocation, AFUtils.GetControlRotation())
     end
     return nil
 end

@@ -109,7 +109,7 @@ end
 
 ---@param Player AAbiotic_PlayerCharacter_C?
 ---@param CharacterSkillId CharacterSkills|integer
----@return FAbiotic_CharacterSkill_Struct?
+---@return FAbioticCharacterSkill?
 function Skills.GetCharacterSkillStructById(Player, CharacterSkillId)
     if not Player or not Player:IsValid() or not Player.CharacterProgressionComponent:IsValid() then return nil end
 
@@ -123,7 +123,7 @@ function Skills.GetCharacterSkillStructById(Player, CharacterSkillId)
 end
 
 ---@param CharacterSkillId CharacterSkills|integer
----@return FAbiotic_CharacterSkill_Struct?
+---@return FAbioticCharacterSkill?
 function Skills.GetMyCharacterSkillStructById(CharacterSkillId)
     return Skills.GetCharacterSkillStructById(AFUtils.GetMyPlayer(), CharacterSkillId)
 end

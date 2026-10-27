@@ -1250,7 +1250,7 @@ CreateCommand({ "traits" }, "Show Traits", "Show player's Traits.", nil,
             WriteToConsole(OutputDevice, "Your Traits (" .. #progressionComponen.Traits .. "):")
             for i = 1, #progressionComponen.Traits do
                 local trait = progressionComponen.Traits[i]
-                local traitName = trait:ToString()
+                local traitName = trait.RowName:ToString()
                 local traitDesc = AFUtils.Traits[traitName]
                 local output = "  " .. traitName .. " -> "
                 if traitDesc then

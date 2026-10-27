@@ -488,7 +488,7 @@ function InstantCrafting()
     if Settings.InstantCrafting then
         local craftingArea = AFUtils.GetMyInventoryCraftingArea()
         if craftingArea and craftingArea.SelectedRecipe then
-            craftingArea.SelectedRecipe.CraftDuration_13_BFC1ED4A429775D36D12E683816868D6 = 0.01
+            craftingArea.SelectedRecipe.CraftDuration = 0.01
         end
         if not InstantCraftingWasEnabled then
             InstantCraftingWasEnabled = true
